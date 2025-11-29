@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Dergi Yöneticisi Tüm Makaleler</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Filtreleme ve gruplandırma paneli için özel stiller */
+        .filter-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-section {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            color: #495057;
+        }
+        
+        .filter-badge {
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-badge:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-badge.active {
+            border: 2px solid #0d6efd;
+        }
+        
+        .selected-filters {
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .selected-filter-item {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 0.3rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .selected-filter-item .close {
+            margin-left: 0.4rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .table-action-btn {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.25rem;
+        }
+        
+        .quick-stats-card {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quick-stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quick-stats-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .quick-stats-info {
+            flex-grow: 1;
+        }
+        
+        .quick-stats-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .quick-stats-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .group-header {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            padding: 0.6rem 0.75rem;
+            border-top: 2px solid #dee2e6;
+        }
+        
+        .table tr.group-header td {
+            border-bottom: none;
+        }
+        
+        .group-counter {
+            background-color: #e9ecef;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+        
+        .sticky-thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sortable-header {
+            cursor: pointer;
+        }
+        
+        .sortable-header:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .sortable-header i {
+            margin-left: 0.25rem;
+            font-size: 0.8rem;
+        }
+        
+        .pagination-info {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        /* Başlık çubuğunun daha çekici olması için stil */
+        .content-header {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-header .page-title {
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="dergi-yonetici-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Dergi Yöneticisi olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal-check me-2"></i>
+                        <span>Dergi Yöneticisi</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-journal-check me-2"></i> Dergi Yöneticisi</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="dergi-yonetici-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="dergi-yonetici-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container-fluid">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Yönetim Menüsü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Ana Gösterge Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-istatistikler.html" class="nav-link">
+                                    <i class="bi bi-graph-up me-2"></i> İstatistikler & Raporlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-tum-makaleler.html" class="nav-link active">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Tüm Makaleler
+                                    <span class="badge bg-primary rounded-pill float-end">25</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-kullanicilar.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Kullanıcı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-roller.html" class="nav-link">
+                                    <i class="bi bi-person-badge me-2"></i> Rol Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-is-akislari.html" class="nav-link">
+                                    <i class="bi bi-diagram-3 me-2"></i> İş Akışı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-email-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> E-posta Şablonları
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-dergiler.html" class="nav-link">
+                                    <i class="bi bi-journal-richtext me-2"></i> Dergi Yapılandırması
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-sistem-ayarlari.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Sistem Ayarları
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- İçerik Başlığı ve Butonlar -->
+                <div class="content-header d-flex justify-content-between align-items-center">
+                    <h3 class="page-title">
+                        <i class="bi bi-file-earmark-text"></i> Tüm Makaleler
+                        <span class="badge bg-primary rounded-pill align-middle">25</span>
+                    </h3>
+                    <div class="d-flex">
+                        <a href="#" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-download"></i> Dışa Aktar
+                        </a>
+                        <a href="#" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-printer"></i> Yazdır
+                        </a>
+                        <a href="#" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Yeni Makale
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hızlı İstatistikler -->
+                <div class="row mb-4">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="quick-stats-card bg-white">
+                            <div class="quick-stats-icon bg-primary-light text-primary">
+                                <i class="bi bi-file-earmark-text"></i>
+                            </div>
+                            <div class="quick-stats-info">
+                                <div class="quick-stats-value">25</div>
+                                <div class="quick-stats-label">Toplam Makale</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="quick-stats-card bg-white">
+                            <div class="quick-stats-icon bg-warning-light text-warning">
+                                <i class="bi bi-hourglass-split"></i>
+                            </div>
+                            <div class="quick-stats-info">
+                                <div class="quick-stats-value">8</div>
+                                <div class="quick-stats-label">Değerlendirmede</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="quick-stats-card bg-white">
+                            <div class="quick-stats-icon bg-success-light text-success">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="quick-stats-info">
+                                <div class="quick-stats-value">12</div>
+                                <div class="quick-stats-label">Kabul Edildi</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="quick-stats-card bg-white">
+                            <div class="quick-stats-icon bg-danger-light text-danger">
+                                <i class="bi bi-x-circle"></i>
+                            </div>
+                            <div class="quick-stats-info">
+                                <div class="quick-stats-value">5</div>
+                                <div class="quick-stats-label">Reddedildi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <!-- Filtreleme Yan Paneli -->
+                    <div class="col-lg-3 mb-4 mb-lg-0">
+                        <div class="card filter-card">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-funnel"></i> Filtreleme ve Gruplandırma
+                                </h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <!-- Seçili Filtreler -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Seçili Filtreler</div>
+                                    <div class="selected-filters" id="selectedFilters">
+                                        <div class="selected-filter-item">
+                                            Değerlendirmede <i class="bi bi-x-circle close"></i>
+                                        </div>
+                                        <div class="selected-filter-item">
+                                            Özgün Araştırma <i class="bi bi-x-circle close"></i>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-secondary w-100" id="clearAllFilters">
+                                        <i class="bi bi-trash"></i> Tüm Filtreleri Temizle
+                                    </button>
+                                </div>
+                                
+                                <!-- Durum Filtreleri -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Makale Durumu</div>
+                                    <div>
+                                        <span class="badge bg-secondary filter-badge" data-filter="submitted">Gönderildi</span>
+                                        <span class="badge bg-warning text-dark filter-badge active" data-filter="under_review">Değerlendirmede</span>
+                                        <span class="badge bg-info filter-badge" data-filter="revision_required">Revizyon Gerekli</span>
+                                        <span class="badge bg-success filter-badge" data-filter="accepted">Kabul Edildi</span>
+                                        <span class="badge bg-danger filter-badge" data-filter="rejected">Reddedildi</span>
+                                        <span class="badge bg-primary filter-badge" data-filter="published">Yayınlandı</span>
+                                        <span class="badge bg-dark filter-badge" data-filter="withdrawn">Geri Çekildi</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Makale Türleri Filtreleri -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Makale Türü</div>
+                                    <div>
+                                        <span class="badge bg-secondary filter-badge active" data-filter="original_research">Özgün Araştırma</span>
+                                        <span class="badge bg-secondary filter-badge" data-filter="review">Derleme</span>
+                                        <span class="badge bg-secondary filter-badge" data-filter="case_study">Vaka Çalışması</span>
+                                        <span class="badge bg-secondary filter-badge" data-filter="short_communication">Kısa Bildiri</span>
+                                        <span class="badge bg-secondary filter-badge" data-filter="technical_note">Teknik Not</span>
+                                        <span class="badge bg-secondary filter-badge" data-filter="letter">Editöre Mektup</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Kategoriler Filtreleri -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Kategoriler</div>
+                                    <select class="form-select form-select-sm mb-2" multiple size="4">
+                                        <option value="education_science">Eğitim Bilimleri</option>
+                                        <option value="computer_science">Bilgisayar Bilimleri</option>
+                                        <option value="health_science">Sağlık Bilimleri</option>
+                                        <option value="social_science">Sosyal Bilimler</option>
+                                        <option value="engineering">Mühendislik</option>
+                                        <option value="psychology">Psikoloji</option>
+                                        <option value="economics">Ekonomi</option>
+                                        <option value="art_humanities">Sanat ve İnsan Bilimleri</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Atanan Editör Filtreleri -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Atanan Editör</div>
+                                    <select class="form-select form-select-sm">
+                                        <option value="">Seçiniz...</option>
+                                        <option value="editor1">Prof. Dr. Mehmet Aydın</option>
+                                        <option value="editor2">Doç. Dr. Kemal Öztürk</option>
+                                        <option value="editor3">Prof. Dr. Canan Yücel</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Makale Gönderim Tarihi Filtreleri -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Gönderim Tarihi</div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="form-label small text-muted">Başlangıç</label>
+                                                <input type="date" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="form-label small text-muted">Bitiş</label>
+                                                <input type="date" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Gruplandırma Seçenekleri -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Gruplandırma</div>
+                                    <select class="form-select form-select-sm" id="groupBySelect">
+                                        <option value="">Gruplandırma yok</option>
+                                        <option value="status" selected>Duruma Göre</option>
+                                        <option value="article_type">Makale Türüne Göre</option>
+                                        <option value="category">Kategoriye Göre</option>
+                                        <option value="editor">Editöre Göre</option>
+                                        <option value="month">Aya Göre</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Arama ve Filtre Uygulama -->
+                                <div class="filter-section">
+                                    <div class="filter-title">Makale Ara</div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Makale ID, Başlık veya Yazar">
+                                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                    <button class="btn btn-primary w-100" id="applyFilters">
+                                        <i class="bi bi-funnel"></i> Filtreleri Uygula
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Makale Listesi -->
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0">Makale Listesi</h5>
+                                    <p class="text-muted mb-0 mt-1">
+                                        <small>Toplam 25 makale gösteriliyor (8 Değerlendirmede, 12 Kabul Edildi, 5 Reddedildi)</small>
+                                    </p>
+                                </div>
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <input type="text" class="form-control" placeholder="Tablo içinde ara...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped mb-0">
+                                        <thead class="sticky-thead">
+                                            <tr>
+                                                <th class="sortable-header" width="100">ID <i class="bi bi-arrow-down-short"></i></th>
+                                                <th class="sortable-header">Başlık</th>
+                                                <th class="sortable-header" width="150">Yazar(lar)</th>
+                                                <th class="sortable-header" width="130">Durum</th>
+                                                <th class="sortable-header" width="120">Gönderim Tarihi</th>
+                                                <th class="sortable-header" width="120">Son İşlem Tarihi</th>
+                                                <th width="140">İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Yeni Gönderilmiş Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-file-earmark-plus text-primary me-2"></i>
+                                                    Yeni Gönderildi
+                                                    <span class="group-counter">3 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0112</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Yapay Sinir Ağları Kullanarak Deprem Tahmini</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Mühendislik</span>
+                                                    </div>
+                                                </td>
+                                                <td>Canan Güneş</td>
+                                                <td><span class="badge bg-primary">Yeni Gönderildi</span></td>
+                                                <td>05.03.2025</td>
+                                                <td>05.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="modal" data-bs-target="#assignEditorModal" title="Editöre Ata">
+                                                        <i class="bi bi-person-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#initialCheckModal" title="Ön Kontrol">
+                                                        <i class="bi bi-check2-square"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sendMessageModal"><i class="bi bi-envelope me-2"></i> Mesaj Gönder</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i> Durum Değiştir</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0111</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Dijital Dönüşümün İşletmelerde Kurum Kültürüne Etkileri</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Derleme</span>
+                                                        <span class="badge bg-secondary">İşletme</span>
+                                                    </div>
+                                                </td>
+                                                <td>Emre Kaya, Hande Şahin</td>
+                                                <td><span class="badge bg-primary">Yeni Gönderildi</span></td>
+                                                <td>04.03.2025</td>
+                                                <td>04.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="modal" data-bs-target="#assignEditorModal" title="Editöre Ata">
+                                                        <i class="bi bi-person-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#initialCheckModal" title="Ön Kontrol">
+                                                        <i class="bi bi-check2-square"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sendMessageModal"><i class="bi bi-envelope me-2"></i> Mesaj Gönder</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i> Durum Değiştir</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            
+                                            <!-- Değerlendirmede Olan Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-hourglass-split text-warning me-2"></i>
+                                                    Değerlendirmede
+                                                    <span class="group-counter">8 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0103</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html?id=ART-2025-0103" class="text-decoration-none">Yapay Zeka ve Eğitim</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Eğitim Bilimleri</span>
+                                                    </div>
+                                                </td>
+                                                <td>Ahmet Yılmaz, Mehmet Can, Ayşe Demir</td>
+                                                <td><span class="badge bg-warning text-dark">Değerlendirmede</span></td>
+                                                <td>12.02.2025</td>
+                                                <td>05.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html?id=ART-2025-0103" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-warning table-action-btn" data-bs-toggle="modal" data-bs-target="#sendReminderModal" title="Hatırlatma Gönder">
+                                                        <i class="bi bi-bell"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reviewStatusModal"><i class="bi bi-eye-fill me-2"></i> Değerlendirme Durumu</a></li>
+                                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addReviewerModal"><i class="bi bi-person-plus me-2"></i> Hakem Ekle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i> Durum Değiştir</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0110</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">İklim Değişikliğinin Tarım Üzerindeki Etkileri</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Çevre Bilimleri</span>
+                                                    </div>
+                                                </td>
+                                                <td>Kemal Demir, Leyla Şahin</td>
+                                                <td><span class="badge bg-warning text-dark">Değerlendirmede</span></td>
+                                                <td>25.02.2025</td>
+                                                <td>04.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="tooltip" title="Editöre Ata">
+                                                        <i class="bi bi-person-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="tooltip" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i> Yazdır</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Daha fazla değerlendirmedeki makale buraya eklenebilir -->
+                                            
+                                            <!-- Revizyon Durumundaki Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-pencil-square text-info me-2"></i>
+                                                    Revizyon İşlemleri
+                                                    <span class="group-counter">4 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0105</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Pandemi Sonrası Uzaktan Eğitim Modelleri</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Eğitim Bilimleri</span>
+                                                    </div>
+                                                </td>
+                                                <td>Melis Yılmaz</td>
+                                                <td><span class="badge bg-info">Revizyon Gerekli</span></td>
+                                                <td>15.02.2025</td>
+                                                <td>01.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="modal" data-bs-target="#revisionStatusModal" title="Revizyon Durumu">
+                                                        <i class="bi bi-clock-history"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i> Durum Değiştir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0104</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Blockchain Teknolojisinin Finans Sektöründe Uygulamaları</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Derleme</span>
+                                                        <span class="badge bg-secondary">Ekonomi</span>
+                                                    </div>
+                                                </td>
+                                                <td>Arda Koç</td>
+                                                <td><span class="badge bg-purple text-white">Revizyon Bekleniyor</span></td>
+                                                <td>13.02.2025</td>
+                                                <td>28.02.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-warning table-action-btn" data-bs-toggle="modal" data-bs-target="#sendReminderModal" title="Hatırlatma Gönder">
+                                                        <i class="bi bi-bell"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i> Durum Değiştir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            
+                                            <!-- Kabul Edilen Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                                    Kabul Edildi
+                                                    <span class="group-counter">12 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0102</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Meme Kanseri Teşhisinde Derin Öğrenme Yöntemleri</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Sağlık Bilimleri</span>
+                                                    </div>
+                                                </td>
+                                                <td>Zeynep Kaya</td>
+                                                <td><span class="badge bg-success">Kabul Edildi</span></td>
+                                                <td>10.02.2025</td>
+                                                <td>05.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="tooltip" title="Sayıya Ekle">
+                                                        <i class="bi bi-journal-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="tooltip" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i> Yazdır</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0099</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Türkiye'de Yenilenebilir Enerji Kaynakları ve Ekonomik Etkileri</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Derleme</span>
+                                                        <span class="badge bg-secondary">Ekonomi</span>
+                                                    </div>
+                                                </td>
+                                                <td>Osman Yıldız</td>
+                                                <td><span class="badge bg-success">Kabul Edildi</span></td>
+                                                <td>05.02.2025</td>
+                                                <td>28.02.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="tooltip" title="Sayıya Ekle">
+                                                        <i class="bi bi-journal-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="tooltip" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i> Yazdır</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Daha fazla kabul edilen makale buraya eklenebilir -->
+                                            
+                                            <!-- Yayına Hazırlanan Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-journal-check text-primary me-2"></i>
+                                                    Yayına Hazırlanıyor
+                                                    <span class="group-counter">2 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0097</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Akıllı Şehir Uygulamalarında Veri Güvenliği</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Bilgisayar Bilimleri</span>
+                                                    </div>
+                                                </td>
+                                                <td>Hakan Tekin</td>
+                                                <td><span class="badge bg-indigo text-white">Yayına Hazırlanıyor</span></td>
+                                                <td>25.01.2025</td>
+                                                <td>02.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-info table-action-btn" data-bs-toggle="modal" data-bs-target="#publishingStatusModal" title="Yayın Durumu">
+                                                        <i class="bi bi-journal-text"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addToIssueModal"><i class="bi bi-journal-plus me-2"></i> Sayıya Ekle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i> Durum Değiştir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            
+                                            <!-- Yayınlanan Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-journal-richtext text-success me-2"></i>
+                                                    Yayınlandı
+                                                    <span class="group-counter">2 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0090</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Türkiye'de E-Ticaret Pazarının Gelişimi ve Geleceği</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Derleme</span>
+                                                        <span class="badge bg-secondary">Ekonomi</span>
+                                                    </div>
+                                                </td>
+                                                <td>Yusuf Öztürk</td>
+                                                <td><span class="badge bg-success">Yayınlandı</span></td>
+                                                <td>10.01.2025</td>
+                                                <td>01.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="modal" data-bs-target="#issueDetailsModal" title="Sayı Bilgileri">
+                                                        <i class="bi bi-journal-album"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-share me-2"></i> Makalede Paylaş</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i> DOI Bilgilerini Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-warning" href="#" data-bs-toggle="modal" data-bs-target="#publishCorrectionModal"><i class="bi bi-pencil-square me-2"></i> Düzeltme Yayınla</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            
+                                            <!-- Reddedilen Makaleler Grubu -->
+                                            <tr class="group-header">
+                                                <td colspan="7">
+                                                    <i class="bi bi-x-circle text-danger me-2"></i>
+                                                    Reddedildi
+                                                    <span class="group-counter">5 makale</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0098</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Çocuklarda Sosyal Medya Kullanımının Psikolojik Etkileri</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Özgün Araştırma</span>
+                                                        <span class="badge bg-secondary">Psikoloji</span>
+                                                    </div>
+                                                </td>
+                                                <td>Elif Yılmaz</td>
+                                                <td><span class="badge bg-danger">Reddedildi</span></td>
+                                                <td>01.02.2025</td>
+                                                <td>04.03.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="tooltip" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-warning table-action-btn" data-bs-toggle="tooltip" title="Durum Değiştir">
+                                                        <i class="bi bi-arrow-repeat"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i> Yazdır</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0095</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="text-decoration-none">Modern Sanat Akımlarının Dijital Çağda Değişimi</a>
+                                                    <div>
+                                                        <span class="badge bg-secondary">Derleme</span>
+                                                        <span class="badge bg-secondary">Sanat</span>
+                                                    </div>
+                                                </td>
+                                                <td>Selim Kara</td>
+                                                <td><span class="badge bg-danger">Reddedildi</span></td>
+                                                <td>28.01.2025</td>
+                                                <td>25.02.2025</td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.html" class="btn btn-sm btn-outline-primary table-action-btn" data-bs-toggle="tooltip" title="Görüntüle">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-outline-success table-action-btn" data-bs-toggle="tooltip" title="Mesaj Gönder">
+                                                        <i class="bi bi-envelope"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-warning table-action-btn" data-bs-toggle="tooltip" title="Durum Değiştir">
+                                                        <i class="bi bi-arrow-repeat"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary table-action-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Diğer İşlemler">
+                                                        <i class="bi bi-three-dots"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i> PDF İndir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i> Geçmişi Görüntüle</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i> Yazdır</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Sil</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- Daha fazla reddedilen makale buraya eklenebilir -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Sayfalama -->
+                            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                                <div class="pagination-info">
+                                    Toplam 25 makaleden 1-10 arası gösteriliyor
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Modal'lar -->
+<!-- Editör Atama Modalı -->
+<div class="modal fade" id="assignEditorModal" tabindex="-1" aria-labelledby="assignEditorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignEditorModalLabel">
+                    <i class="bi bi-person-plus"></i> Editör Ata
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="articleIdAssign" class="form-label">Makale ID:</label>
+                        <input type="text" class="form-control" id="articleIdAssign" value="ART-2025-0112" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editorType" class="form-label">Editör Tipi:</label>
+                        <select class="form-select" id="editorType">
+                            <option value="chief_editor">Baş Editör</option>
+                            <option value="section_editor">Alan Editörü</option>
+                            <option value="assistant_editor">Yardımcı Editör</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editorSelect" class="form-label">Editör Seçin:</label>
+                        <select class="form-select" id="editorSelect">
+                            <option value="">Seçiniz...</option>
+                            <option value="editor1">Prof. Dr. Mehmet Aydın</option>
+                            <option value="editor2">Doç. Dr. Kemal Öztürk</option>
+                            <option value="editor3">Prof. Dr. Canan Yücel</option>
+                            <option value="editor4">Dr. Öğr. Üyesi Ali Demir</option>
+                            <option value="editor5">Doç. Dr. Ayşe Güneş</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="assignmentNote" class="form-label">Not (İsteğe Bağlı):</label>
+                        <textarea class="form-control" id="assignmentNote" rows="3" placeholder="Bu atama ile ilgili notunuz..."></textarea>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="notifyEditor" checked>
+                        <label class="form-check-label" for="notifyEditor">
+                            Editöre e-posta bildirimi gönder
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i> Editör Ata
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mesaj Gönderme Modalı -->
+<div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sendMessageModalLabel">
+                    <i class="bi bi-envelope"></i> Mesaj Gönder
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="messageArticleId" class="form-label">Makale ID:</label>
+                        <input type="text" class="form-control" id="messageArticleId" value="ART-2025-0112" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageRecipient" class="form-label">Alıcı:</label>
+                        <select class="form-select" id="messageRecipient">
+                            <option value="all_team">Tüm Ekip</option>
+                            <option value="authors">Tüm Yazarlar</option>
+                            <option value="corresponding_author">Sorumlu Yazar</option>
+                            <option value="reviewers">Tüm Hakemler</option>
+                            <option value="editor">Editör</option>
+                            <option value="custom">Özel Seçim...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="customRecipientsContainer" style="display: none;">
+                        <label for="customRecipients" class="form-label">Kişileri Seçin:</label>
+                        <select class="form-select" id="customRecipients" multiple>
+                            <option value="author1">Canan Güneş (Yazar)</option>
+                            <option value="editor1">Prof. Dr. Mehmet Aydın (Editör)</option>
+                            <option value="reviewer1">Prof. Dr. Ali Kaya (Hakem)</option>
+                            <option value="reviewer2">Doç. Dr. Zeynep Kartal (Hakem)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageTemplate" class="form-label">Şablon:</label>
+                        <select class="form-select" id="messageTemplate">
+                            <option value="none">Şablon Seçin (İsteğe Bağlı)</option>
+                            <option value="initial_check">Ön Kontrol Bildirimi</option>
+                            <option value="review_request">Hakem Değerlendirme Talebi</option>
+                            <option value="review_reminder">Hakem Değerlendirme Hatırlatması</option>
+                            <option value="revision_request">Revizyon Talebi</option>
+                            <option value="accept_notification">Kabul Bildirimi</option>
+                            <option value="reject_notification">Ret Bildirimi</option>
+                            <option value="status_update">Durum Güncellemesi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageSubject" class="form-label">Konu:</label>
+                        <input type="text" class="form-control" id="messageSubject" placeholder="Mesaj konusu">
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageContent" class="form-label">Mesaj İçeriği:</label>
+                        <textarea class="form-control" id="messageContent" rows="8" placeholder="Mesaj içeriğini yazın..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageAttachment" class="form-label">Ek Dosya (İsteğe Bağlı):</label>
+                        <input type="file" class="form-control" id="messageAttachment">
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="saveToCommunication" checked>
+                        <label class="form-check-label" for="saveToCommunication">
+                            Bu iletişimi makale kayıtlarına ekle
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-send"></i> Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hakem Ekleme Modalı -->
+<div class="modal fade" id="addReviewerModal" tabindex="-1" aria-labelledby="addReviewerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addReviewerModalLabel">
+                    <i class="bi bi-person-plus"></i> Hakem Ekle
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="articleIdReviewer" class="form-label">Makale ID:</label>
+                        <input type="text" class="form-control" id="articleIdReviewer" value="ART-2025-0103" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reviewerSelect" class="form-label">Hakem Seçin:</label>
+                        <select class="form-select" id="reviewerSelect">
+                            <option value="">Seçiniz...</option>
+                            <option value="reviewer1">Prof. Dr. Ali Kaya</option>
+                            <option value="reviewer2">Doç. Dr. Zeynep Kartal</option>
+                            <option value="reviewer3">Dr. Öğr. Üyesi Murat Demir</option>
+                            <option value="reviewer4">Prof. Dr. Hande Yıldız</option>
+                            <option value="reviewer5">Doç. Dr. Serkan Öz</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reviewDeadline" class="form-label">Değerlendirme Son Tarihi:</label>
+                        <input type="date" class="form-control" id="reviewDeadline">
+                    </div>
+                    <div class="mb-3">
+                        <label for="reviewerNote" class="form-label">Not (İsteğe Bağlı):</label>
+                        <textarea class="form-control" id="reviewerNote" rows="3" placeholder="Bu atama ile ilgili notunuz..."></textarea>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="notifyReviewer" checked>
+                        <label class="form-check-label" for="notifyReviewer">
+                            Hakeme e-posta bildirimi gönder
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i> Hakem Ekle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ön Kontrol Modalı -->
+<div class="modal fade" id="initialCheckModal" tabindex="-1" aria-labelledby="initialCheckModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="initialCheckModalLabel">
+                    <i class="bi bi-check2-circle"></i> Ön Kontrol
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Bu makale için ön değerlendirme yapılıyor.
+                </div>
+                
+                <form>
+                    <div class="mb-3">
+                        <label for="articleIdCheck" class="form-label">Makale ID:</label>
+                        <input type="text" class="form-control" id="articleIdCheck" value="ART-2025-0112" readonly>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Kontrol Listesi</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="formatCheck">
+                                <label class="form-check-label" for="formatCheck">
+                                    Makale formatı dergi kurallarına uygun
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="filesCheck">
+                                <label class="form-check-label" for="filesCheck">
+                                    Tüm gerekli dosyalar mevcut
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="referenceCheck">
+                                <label class="form-check-label" for="referenceCheck">
+                                    Kaynakça formatı uygun
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="figuresCheck">
+                                <label class="form-check-label" for="figuresCheck">
+                                    Şekiller ve tablolar uygun formatta
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="ethicsCheck">
+                                <label class="form-check-label" for="ethicsCheck">
+                                    Etik kurul izni (gerekli ise) mevcut
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="copyrightCheck">
+                                <label class="form-check-label" for="copyrightCheck">
+                                    Telif hakkı formu imzalanmış
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="plagiarismCheck">
+                                <label class="form-check-label" for="plagiarismCheck">
+                                    İntihal kontrolü yapıldı
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="initialReview" class="form-label">Ön Değerlendirme Notu:</label>
+                        <textarea class="form-control" id="initialReview" rows="4" placeholder="Makalenin ön kontrol değerlendirmesi..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="initialDecision" class="form-label">Karar:</label>
+                        <select class="form-select" id="initialDecision">
+                            <option value="">Seçiniz...</option>
+                            <option value="proceed">Değerlendirmeye Devam</option>
+                            <option value="minor_revision">Küçük Düzeltme Gerekli</option>
+                            <option value="reject">Reddet</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i> Kaydet ve Bildir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hatırlatma Gönderme Modalı -->
+<div class="modal fade" id="sendReminderModal" tabindex="-1" aria-labelledby="sendReminderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sendReminderModalLabel">
+                    <i class="bi bi-bell"></i> Hatırlatma Gönder
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="articleIdReminder" class="form-label">Makale ID:</label>
+                        <input type="text" class="form-control" id="articleIdReminder" value="ART-2025-0103" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reminderType" class="form-label">Hatırlatma Tipi:</label>
+                        <select class="form-select" id="reminderType">
+                            <option value="review_reminder">Hakem Değerlendirme Hatırlatması</option>
+                            <option value="revision_reminder">Revizyon Hatırlatması</option>
+                            <option value="decision_reminder">Editör Kararı Hatırlatması</option>
+                            <option value="custom_reminder">Özel Hatırlatma</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reminderRecipient" class="form-label">Alıcı:</label>
+                        <select class="form-select" id="reminderRecipient">
+                            <option value="">Seçiniz...</option>
+                            <option value="reviewer1">Prof. Dr. Ali Kaya (Hakem)</option>
+                            <option value="reviewer2">Doç. Dr. Zeynep Kartal (Hakem)</option>
+                            <option value="author1">Ahmet Yılmaz (Yazar)</option>
+                            <option value="editor1">Prof. Dr. Mehmet Aydın (Editör)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reminderMessage" class="form-label">Mesaj (Varsayılan şablon):</label>
+                        <textarea class="form-control" id="reminderMessage" rows="5">Sayın Doç. Dr. Zeynep Kartal,
+
+Bu mesaj, "Yapay Zeka ve Eğitim" başlıklı makale (ID: ART-2025-0103) için değerlendirmenizin 18.03.2025 tarihine kadar tamamlanması gerektiğini hatırlatmak amacıyla gönderilmiştir.
+
+Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz.
+
+Saygılarımızla,
+Dergi Editörlüğü</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-send"></i> Hatırlatma Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Revizyon Durumu Modalı -->
+<div class="modal fade" id="revisionStatusModal" tabindex="-1" aria-labelledby="revisionStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="revisionStatusModalLabel">
+                    <i class="bi bi-pencil-square"></i> Revizyon Durumu
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Bu makale için revizyon istenmiş durumda.
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Makale ID:</label>
+                            <div class="form-control bg-light">ART-2025-0105</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Mevcut Durum:</label>
+                            <div class="form-control bg-light text-info">Revizyon Gerekli</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0">Revizyon Bilgileri</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th width="200">Revizyon Talebi Tarihi:</th>
+                                        <td>01.03.2025</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Revizyon Son Tarihi:</th>
+                                        <td>15.03.2025 (10 gün kaldı)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Yazara Gönderilen:</th>
+                                        <td><span class="badge bg-success">Evet</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Hakem Değerlendirmeleri:</th>
+                                        <td>2/3 Tamamlandı</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0">Revizyon Talep Detayları</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="border rounded p-3 mb-3">
+                            <p><strong>Editör Notu:</strong> Makale genel olarak ilgi çekici ancak birkaç noktada iyileştirme gerekli. Hakemlerden gelen öneriler doğrultusunda aşağıdaki revizyonlar talep edilmiştir:</p>
+                            <ol>
+                                <li>Literatür taraması genişletilmeli, son 2 yıldaki çalışmalar dahil edilmeli</li>
+                                <li>Metodoloji bölümünde örneklem seçimi daha detaylı açıklanmalı</li>
+                                <li>Sonuç bölümünde çalışmanın kısıtları ele alınmalı</li>
+                                <li>Grafikler daha anlaşılır hale getirilmeli, etiketler ve başlıklar eksiksiz olmalı</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#sendReminderModal">
+                        <i class="bi bi-bell"></i> Hatırlatma Gönder
+                    </button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#extendDeadlineModal">
+                        <i class="bi bi-calendar-plus"></i> Süre Uzat
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sayıya Ekleme Modalı -->
+<div class="modal fade" id="addToIssueModal" tabindex="-1" aria-labelledby="addToIssueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToIssueModalLabel">
+                    <i class="bi bi-journal-plus"></i> Sayıya Ekle
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="articleIdIssue" class="form-label">Makale ID:</label>
+                        <input type="text" class="form-control" id="articleIdIssue" value="ART-2025-0097" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="issueSelect" class="form-label">Dergi Sayısı:</label>
+                        <select class="form-select" id="issueSelect">
+                            <option value="">Seçiniz...</option>
+                            <option value="issue1">2025 Cilt 10, Sayı 1 (Ocak)</option>
+                            <option value="issue2">2025 Cilt 10, Sayı 2 (Nisan)</option>
+                            <option value="issue3">2025 Cilt 10, Sayı 3 (Temmuz) [Planlanan]</option>
+                            <option value="special1">2025 Özel Sayı: Yapay Zeka ve Eğitim</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="issueSection" class="form-label">Sayı Bölümü:</label>
+                        <select class="form-select" id="issueSection">
+                            <option value="">Seçiniz...</option>
+                            <option value="section1">Araştırma Makaleleri</option>
+                            <option value="section2">Derleme Makaleleri</option>
+                            <option value="section3">Kısa Bildirimler</option>
+                            <option value="section4">Vaka Çalışmaları</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="articleOrder" class="form-label">Sıralama:</label>
+                        <input type="number" class="form-control" id="articleOrder" min="1" value="1">
+                        <small class="form-text text-muted">Makalenin sayı içindeki gösterim sırası</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pageNumbers" class="form-label">Sayfa Numaraları:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="startPage" placeholder="Başlangıç">
+                            <span class="input-group-text">-</span>
+                            <input type="number" class="form-control" id="endPage" placeholder="Bitiş">
+                        </div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="notifyAuthor" checked>
+                        <label class="form-check-label" for="notifyAuthor">
+                            Yazara e-posta bildirimi gönder
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-journal-plus"></i> Sayıya Ekle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Silme Onayı Modalı -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="confirmDeleteModalLabel">
+                    <i class="bi bi-exclamation-triangle"></i> Dikkat: Makale Silme
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i> Bu işlem geri alınamaz!
+                </div>
+                <p>Aşağıdaki makaleyi ve tüm ilişkili verileri silmek istediğinizden emin misiniz?</p>
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <p class="mb-1"><strong>Makale ID:</strong> <span id="deleteArticleId">ART-2025-0112</span></p>
+                        <p class="mb-1"><strong>Başlık:</strong> <span id="deleteArticleTitle">Yapay Sinir Ağları Kullanarak Deprem Tahmini</span></p>
+                        <p class="mb-0"><strong>Yazar:</strong> <span id="deleteArticleAuthor">Canan Güneş</span></p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="deleteReason" class="form-label">Silme Nedeni:</label>
+                    <select class="form-select" id="deleteReason">
+                        <option value="">Seçiniz...</option>
+                        <option value="duplicate">Çift başvuru</option>
+                        <option value="author_request">Yazar isteği</option>
+                        <option value="policy_violation">Politika ihlali</option>
+                        <option value="incorrect_submission">Yanlış başvuru</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="deleteNote" class="form-label">Ek Not (İsteğe Bağlı):</label>
+                    <textarea class="form-control" id="deleteNote" rows="2"></textarea>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="confirmDelete">
+                    <label class="form-check-label" for="confirmDelete">
+                        Bu makaleyi kalıcı olarak silmek istediğimi onaylıyorum
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" disabled id="deleteButton">
+                    <i class="bi bi-trash"></i> Makaleyi Sil
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3 bg-light border-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <span class="text-muted small">Versiyon 2.5.3 | Son Güncelleme: 05.03.2025</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Silme onayı mekanizması
+        const confirmDeleteCheckbox = document.getElementById('confirmDelete');
+        const deleteButton = document.getElementById('deleteButton');
+        
+        if(confirmDeleteCheckbox && deleteButton) {
+            confirmDeleteCheckbox.addEventListener('change', function() {
+                deleteButton.disabled = !this.checked;
+            });
+            
+            deleteButton.addEventListener('click', function() {
+                if(confirmDeleteCheckbox.checked) {
+                    // Silme işlemi burada gerçekleşecek
+                    // Örneğin AJAX çağrısı yapılabilir
+                    alert('Makale silme işlemi tamamlandı.');
+                    
+                    // Modal'ı kapat
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+                    modal.hide();
+                }
+            });
+        }
+        
+        // Mesaj gönderme modal değişiklikleri
+        const messageRecipient = document.getElementById('messageRecipient');
+        const customRecipientsContainer = document.getElementById('customRecipientsContainer');
+        
+        if(messageRecipient && customRecipientsContainer) {
+            messageRecipient.addEventListener('change', function() {
+                if(this.value === 'custom') {
+                    customRecipientsContainer.style.display = 'block';
+                } else {
+                    customRecipientsContainer.style.display = 'none';
+                }
+            });
+        }
+        
+        // Şablon seçildiğinde mesaj içeriğini doldur
+        const messageTemplate = document.getElementById('messageTemplate');
+        const messageSubject = document.getElementById('messageSubject');
+        const messageContent = document.getElementById('messageContent');
+        
+        if(messageTemplate && messageSubject && messageContent) {
+            messageTemplate.addEventListener('change', function() {
+                if(this.value === 'initial_check') {
+                    messageSubject.value = 'Makaleniz için Ön Kontrol Tamamlandı';
+                    messageContent.value = 'Sayın Yazar,\n\nMakaleniz için ön kontrol süreci tamamlanmıştır. Makaleniz dergi politikaları ve formatına uygun bulunmuş olup, değerlendirme sürecine alınmıştır.\n\nMakalenizin durumunu sistem üzerinden takip edebilirsiniz.\n\nSaygılarımızla,\nDergi Editörlüğü';
+                } 
+                else if(this.value === 'review_request') {
+                    messageSubject.value = 'Makale Değerlendirme Daveti';
+                    messageContent.value = 'Sayın Hakem,\n\nDergimize gönderilen bir makaleyi değerlendirmeniz için sizi davet etmek istiyoruz. Değerlendirmenizi 30 gün içinde tamamlamanızı rica ederiz.\n\nDaveti kabul etmek veya reddetmek için lütfen sisteme giriş yapınız.\n\nSaygılarımızla,\nDergi Editörlüğü';
+                }
+                else if(this.value === 'accept_notification') {
+                    messageSubject.value = 'Makaleniz Kabul Edildi';
+                    messageContent.value = 'Sayın Yazar,\n\nMakaleniz değerlendirme süreci sonucunda kabul edilmiştir. Yayın süreciyle ilgili detaylar tarafınıza iletilecektir.\n\nTebrik eder, çalışmalarınızda başarılar dileriz.\n\nSaygılarımızla,\nDergi Editörlüğü';
+                }
+                else if(this.value === 'reject_notification') {
+                    messageSubject.value = 'Makaleniz Hakkında Bilgilendirme';
+                    messageContent.value = 'Sayın Yazar,\n\nMakaleniz değerlendirme süreci sonucunda kabul edilmemiştir. Değerlendirme raporlarına sistem üzerinden erişebilirsiniz.\n\nGelecekteki çalışmalarınızda başarılar dileriz.\n\nSaygılarımızla,\nDergi Editörlüğü';
+                }
+                else if(this.value === 'revision_request') {
+                    messageSubject.value = 'Makaleniz için Revizyon Talebi';
+                    messageContent.value = 'Sayın Yazar,\n\nMakaleniz için revizyon talep edilmektedir. Hakem değerlendirmeleri doğrultusunda makalenizde belirtilen düzeltmeleri yaparak 30 gün içinde sisteme yüklemenizi rica ederiz.\n\nDetaylı değerlendirme raporlarına sistem üzerinden erişebilirsiniz.\n\nSaygılarımızla,\nDergi Editörlüğü';
+                }
+            });
+        }
+        
+        // Filtre butonlarının aktif/pasif durumları
+        const filterBadges = document.querySelectorAll('.filter-badge');
+        filterBadges.forEach(badge => {
+            badge.addEventListener('click', function() {
+                this.classList.toggle('active');
+                // Filtre uygulandığında seçili filtreler bölümüne eklemek için
+                updateSelectedFilters();
+            });
+        });
+        
+        // Seçili filtreleri güncelle
+        function updateSelectedFilters() {
+            const selectedFiltersContainer = document.getElementById('selectedFilters');
+            selectedFiltersContainer.innerHTML = '';
+            
+            document.querySelectorAll('.filter-badge.active').forEach(badge => {
+                const filterItem = document.createElement('div');
+                filterItem.className = 'selected-filter-item';
+                filterItem.innerHTML = badge.textContent + ' <i class="bi bi-x-circle close"></i>';
+                
+                // Kaldırma butonuna tıklandığında
+                filterItem.querySelector('.close').addEventListener('click', function() {
+                    // İlgili badge'i bul ve deaktif et
+                    document.querySelectorAll('.filter-badge').forEach(b => {
+                        if(b.textContent.trim() === badge.textContent.trim()) {
+                            b.classList.remove('active');
+                        }
+                    });
+                    
+                    // Filtre öğesini kaldır
+                    this.parentElement.remove();
+                });
+                
+                selectedFiltersContainer.appendChild(filterItem);
+            });
+        }
+        
+        // Tüm filtreleri temizle
+        const clearAllBtn = document.getElementById('clearAllFilters');
+        if(clearAllBtn) {
+            clearAllBtn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-badge').forEach(badge => {
+                    badge.classList.remove('active');
+                });
+                document.getElementById('selectedFilters').innerHTML = '';
+                
+                // Tablodaki tüm satırları göster
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    if(!row.classList.contains('group-header')) {
+                        row.style.display = '';
+                    }
+                });
+            });
+        }
+        
+        // Filtreleri uygula butonu
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        if(applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', function() {
+                alert('Filtreler uygulandı.');
+                
+                // Burada gerçek bir uygulama yapılabilir
+                // Örneğin seçili durumlara göre tablodaki satırları filtrele
+                
+                // Gruplandırma seçeneğine göre grupları güncelle
+                const groupBySelect = document.getElementById('groupBySelect');
+                if(groupBySelect && groupBySelect.value) {
+                    alert('Gruplandırma uygulandı: ' + groupBySelect.options[groupBySelect.selectedIndex].text);
+                }
+            });
+        }
+        
+        // Tablodaki sıralama başlıkları
+        const sortableHeaders = document.querySelectorAll('.sortable-header');
+        sortableHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                // Mevcut sıralama durumunu kontrol et
+                const icon = this.querySelector('i');
+                let direction = 'asc';
+                
+                if(icon) {
+                    if(icon.classList.contains('bi-arrow-down-short')) {
+                        icon.classList.remove('bi-arrow-down-short');
+                        icon.classList.add('bi-arrow-up-short');
+                        direction = 'desc';
+                    } else {
+                        icon.classList.remove('bi-arrow-up-short');
+                        icon.classList.add('bi-arrow-down-short');
+                        direction = 'asc';
+                    }
+                } else {
+                    // İkon yoksa ekle
+                    const newIcon = document.createElement('i');
+                    newIcon.className = 'bi bi-arrow-down-short';
+                    this.appendChild(newIcon);
+                }
+                
+                // Diğer başlıklardaki ikonları temizle
+                sortableHeaders.forEach(h => {
+                    if(h !== this && h.querySelector('i')) {
+                        h.querySelector('i').remove();
+                    }
+                });
+                
+                // Tablo sıralama işlemi burada yapılabilir
+                console.log('Tablo sıralanıyor: ' + this.textContent.trim() + ' (' + direction + ')');
+            });
+        });
+        
+        // Mobil menü toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+    });
+</script>
+<style>
+    /* Yeni eklenen durum renkleri için stil tanımlamaları */
+    .bg-purple {
+        background-color: #6f42c1;
+    }
+    
+    .bg-indigo {
+        background-color: #6610f2;
+    }
+    
+    /* Mobile görünüm için ek stillendirme */
+    @media (max-width: 768px) {
+        .table-action-btn {
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
+        }
+        
+        .quick-stats-card {
+            padding: 0.75rem;
+        }
+        
+        .quick-stats-icon {
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+        }
+        
+        .quick-stats-value {
+            font-size: 1.2rem;
+        }
+    }
+    
+    /* Sayfalama için hover efekti */
+    .pagination .page-item .page-link:hover {
+        background-color: #f8f9fa;
+    }
+    
+    /* Modal animasyonları */
+    .modal.fade .modal-dialog {
+        transition: transform 0.3s ease-out;
+    }
+    
+    .modal.show .modal-dialog {
+        transform: translate(0, 0);
+    }
+    
+    /* Tooltip stillendirmeleri */
+    .tooltip {
+        font-size: 0.8rem;
+    }
+    
+    .tooltip .tooltip-inner {
+        padding: 0.25rem 0.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+</style>
+</body>
+</html>

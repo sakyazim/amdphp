@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hakem Rehberi - Akademik Dergi Yönetim Sistemi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSI+PC9yZWN0Pgo8L3N2Zz4=');
+            opacity: 0.3;
+        }
+        
+        .page-header .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background-color: var(--light-bg);
+            border-bottom: none;
+            font-weight: 600;
+        }
+        
+        .criteria-icon, .process-icon, .tips-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+        
+        .process-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15px;
+            height: 100%;
+            width: 2px;
+            background-color: #dee2e6;
+        }
+        
+        .process-step {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .process-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .process-step-icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+            position: absolute;
+            left: -30px;
+            z-index: 1;
+        }
+        
+        .process-step-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+        }
+        
+        .faq-question {
+            cursor: pointer;
+            padding: 1rem;
+            background-color: var(--light-bg);
+            border-radius: 0.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0 0 0.5rem 0.5rem;
+            display: none;
+        }
+        
+        .faq-question.active {
+            border-radius: 0.5rem 0.5rem 0 0;
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .faq-question.active + .faq-answer {
+            display: block;
+            border: 1px solid #dee2e6;
+            border-top: none;
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--primary-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .nav-pills .nav-link:hover:not(.active) {
+            background-color: var(--light-bg);
+        }
+        
+        .tip-card {
+            height: 100%;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .criteria-card {
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .criteria-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-outline-primary {
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive düzenlemeler */
+        @media (max-width: 767.98px) {
+            .page-header {
+                padding: 2rem 0;
+            }
+            
+            .process-step-content {
+                padding: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Tüm içeriğin taşmasını önlemek için */
+        .container, .row, .col, [class*="col-"] {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        img, table, iframe, video {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        p, h1, h2, h3, h4, h5, h6, li, td, th, div {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+		    /* Sol kenar çubuğunun sabit kalması için */
+    .sidebar-sticky {
+        position: sticky;
+        top: 2rem;
+        height: calc(100vh - 4rem);
+        overflow-y: auto;
+        z-index: 1000;
+    }
+    
+    /* İkonların düzgün görüntülenmesi için */
+    .criteria-icon, .process-icon, .tips-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        margin-right: 1rem;
+        overflow: hidden; /* İkonların taşmasını önler */
+    }
+    
+    .bi {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+    }
+    
+    .rounded-circle {
+        border-radius: 50% !important;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* İkon içeren div'lerin düzgün hizalanması için */
+    .d-flex .me-2, .d-flex .me-3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    </style>
+</head>
+<body>
+    <!-- Üst Menü -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Akademik Dergi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="issues.html">Sayılar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="submission.html">Makale Gönderimi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="reviewer-guide.html">Hakem Rehberi</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="login.html" class="btn btn-outline-light me-2">Giriş</a>
+                    <a href="register.html" class="btn btn-primary">Kayıt</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sayfa Başlığı -->
+    <header class="page-header">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">Hakem Rehberi</h1>
+            <p class="lead">Hakemlik sürecinde size yardımcı olacak kapsamlı rehberimiz</p>
+        </div>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main class="container">
+	<div class="row"> <!-- Bu satırı eklemeniz gerekiyor -->
+        <!-- Sol kenar çubuğu için HTML değişikliği -->
+<div class="col-lg-3 mb-4 mb-lg-0">
+    <div class="card sidebar-sticky">
+        <div class="card-header">
+            <h5 class="mb-0">İçindekiler</h5>
+        </div>
+        <div class="card-body p-0">
+            <nav class="nav flex-column nav-pills p-3">
+                <a class="nav-link active" href="#giris">Giriş</a>
+                <a class="nav-link" href="#kriterler">Değerlendirme Kriterleri</a>
+                <a class="nav-link" href="#surec">Değerlendirme Süreci</a>
+                <a class="nav-link" href="#ipuclari">Yararlı İpuçları</a>
+                <a class="nav-link" href="#etik">Etik İlkeler</a>
+                <a class="nav-link" href="#sss">Sıkça Sorulan Sorular</a>
+                <a class="nav-link" href="#kaynaklar">Ek Kaynaklar</a>
+            </nav>
+        </div>
+    </div>
+</div>
+            
+            <div class="col-lg-9">
+                <!-- Giriş Bölümü -->
+                <section id="giris" class="mb-5">
+                    <h2 class="section-title">Hakemlik Süreci Hakkında</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="lead">Değerli Hakemlerimiz,</p>
+                            <p>Akademik Dergi'mizin hakemlik sürecine hoş geldiniz. Bu rehber, değerlendirme sürecinizde size yardımcı olmak ve dergimizin yayın kalitesini yüksek tutmak amacıyla hazırlanmıştır.</p>
+                            <p>Hakemlik, akademik yayıncılığın en önemli unsurlarından biridir. Sizin değerli katkılarınız sayesinde, dergimizde yayınlanan makalelerin bilimsel standartlara uygunluğunu ve kalitesini güvence altına alıyoruz.</p>
+                            <p>Bu rehberde, değerlendirme kriterleri, süreç adımları, yararlı ipuçları ve etik ilkeler hakkında detaylı bilgiler bulacaksınız. Ayrıca, sıkça sorulan sorular bölümünde hakemlik sürecinde karşılaşabileceğiniz durumlar için cevaplar yer almaktadır.</p>
+                            <div class="alert alert-info">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                                    <div>
+                                        <strong>Bilgi:</strong> Hakemlik süreciyle ilgili sorularınız için <a href="mailto:editor@akademikdergi.com" class="alert-link">editor@akademikdergi.com</a> adresinden bizimle iletişime geçebilirsiniz.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Değerlendirme Kriterleri -->
+                <section id="kriterler" class="mb-5">
+                    <h2 class="section-title">Değerlendirme Kriterleri</h2>
+                    <p class="mb-4">Makaleleri değerlendirirken aşağıdaki kriterleri göz önünde bulundurmanız, tutarlı ve kapsamlı bir değerlendirme yapmanıza yardımcı olacaktır:</p>
+                    
+                    <div class="row g-4">
+                        <!-- Özgünlük ve Yenilik -->
+                        <div class="col-md-6">
+                            <div class="criteria-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="criteria-icon bg-primary text-white">
+                                            <i class="bi bi-stars fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Özgünlük ve Yenilik</h4>
+                                    </div>
+                                    <p>Makalenin literatüre katkısını ve özgünlüğünü değerlendirin. Çalışmanın yeni bir bakış açısı sunup sunmadığını, literatürdeki bir boşluğu doldurup doldurmadığını ve mevcut bilgiye önemli bir katkı sağlayıp sağlamadığını inceleyin.</p>
+                                    <h5 class="mt-3 mb-2">Değerlendirme Soruları:</h5>
+                                    <ul>
+                                        <li>Çalışma, alanında yeni bir katkı sağlıyor mu?</li>
+                                        <li>Araştırma sorusu/hipotezi özgün müdür?</li>
+                                        <li>Sonuçlar literatüre anlamlı bir katkı sunuyor mu?</li>
+                                        <li>Çalışma, mevcut teorileri genişletiyor veya yeni teorik çerçeveler öneriyor mu?</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary text-white rounded-circle p-2 me-2">
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <small class="text-muted">Puanlama: 1-5 (5 en yüksek)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Metodoloji -->
+                        <div class="col-md-6">
+                            <div class="criteria-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="criteria-icon bg-success text-white">
+                                            <i class="bi bi-graph-up fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Metodoloji</h4>
+                                    </div>
+                                    <p>Araştırma yönteminin uygunluğunu ve doğru uygulanıp uygulanmadığını değerlendirin. Veri toplama ve analiz yöntemlerinin araştırma sorusuna uygun olup olmadığını ve bilimsel standartlara uygun şekilde uygulanıp uygulanmadığını inceleyin.</p>
+                                    <h5 class="mt-3 mb-2">Değerlendirme Soruları:</h5>
+                                    <ul>
+                                        <li>Seçilen metodoloji araştırma sorusuna uygun mu?</li>
+                                        <li>Örneklem seçimi ve büyüklüğü yeterli mi?</li>
+                                        <li>Veri toplama araçları geçerli ve güvenilir mi?</li>
+                                        <li>Analiz yöntemleri doğru seçilmiş ve uygulanmış mı?</li>
+                                        <li>Araştırma tasarımı, soruları yanıtlamak için uygun mu?</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-success text-white rounded-circle p-2 me-2">
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <small class="text-muted">Puanlama: 1-5 (5 en yüksek)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sonuçlar ve Tartışma -->
+                        <div class="col-md-6">
+                            <div class="criteria-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="criteria-icon bg-info text-white">
+                                            <i class="bi bi-chat-square-text fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Sonuçlar ve Tartışma</h4>
+                                    </div>
+                                    <p>Bulguların doğru yorumlanıp yorumlanmadığını ve tartışma bölümünün bulgularla tutarlı olup olmadığını değerlendirin. Sonuçların literatürle ilişkilendirilip ilişkilendirilmediğini ve çalışmanın sınırlılıklarının tartışılıp tartışılmadığını inceleyin.</p>
+                                    <h5 class="mt-3 mb-2">Değerlendirme Soruları:</h5>
+                                    <ul>
+                                        <li>Bulgular açık ve anlaşılır şekilde sunulmuş mu?</li>
+                                        <li>Tartışma bölümü bulgularla tutarlı mı?</li>
+                                        <li>Sonuçlar literatürle ilişkilendirilmiş mi?</li>
+                                        <li>Çalışmanın sınırlılıkları ve zayıf yönleri tartışılmış mı?</li>
+                                        <li>Gelecek araştırmalar için öneriler sunulmuş mu?</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-info text-white rounded-circle p-2 me-2">
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <small class="text-muted">Puanlama: 1-5 (5 en yüksek)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Literatür Taraması -->
+                        <div class="col-md-6">
+                            <div class="criteria-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="criteria-icon bg-warning text-dark">
+                                            <i class="bi bi-journal-text fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Literatür Taraması</h4>
+                                    </div>
+                                    <p>Literatür taramasının kapsamını ve güncelliğini değerlendirin. İlgili çalışmaların doğru şekilde sentezlenip sentezlenmediğini ve farklı görüş ve yaklaşımların dengeli şekilde sunulup sunulmadığını inceleyin.</p>
+                                    <h5 class="mt-3 mb-2">Değerlendirme Soruları:</h5>
+                                    <ul>
+                                        <li>Literatür taraması kapsamlı ve güncel mi?</li>
+                                        <li>Konuyla ilgili temel çalışmalar dahil edilmiş mi?</li>
+                                        <li>Farklı görüş ve yaklaşımlar dengeli şekilde sunulmuş mu?</li>
+                                        <li>Literatür sentezi, araştırma sorusuna zemin hazırlıyor mu?</li>
+                                        <li>Atıf yapılan kaynaklar uygun ve yeterli mi?</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-warning text-dark rounded-circle p-2 me-2">
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <small class="text-muted">Puanlama: 1-5 (5 en yüksek)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Yazım ve Sunuş -->
+                        <div class="col-md-6">
+                            <div class="criteria-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="criteria-icon bg-danger text-white">
+                                            <i class="bi bi-pencil-square fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Yazım ve Sunuş</h4>
+                                    </div>
+                                    <p>Makalenin yazım kalitesini, dilbilgisi ve yazım kurallarına uygunluğunu değerlendirin. Metnin akıcılığını, organizasyonunu ve şekil, tablo ve grafiklerin uygunluğunu inceleyin.</p>
+                                    <h5 class="mt-3 mb-2">Değerlendirme Soruları:</h5>
+                                    <ul>
+                                        <li>Makale açık, anlaşılır ve akıcı bir dille yazılmış mı?</li>
+                                        <li>Dilbilgisi ve yazım kurallarına uyulmuş mu?</li>
+                                        <li>Makale iyi organize edilmiş mi?</li>
+                                        <li>Şekil, tablo ve grafikler uygun ve anlaşılır mı?</li>
+                                        <li>Başlık ve özet içeriği doğru yansıtıyor mu?</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-danger text-white rounded-circle p-2 me-2">
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <small class="text-muted">Puanlama: 1-5 (5 en yüksek)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Etik Standartlar -->
+                        <div class="col-md-6">
+                            <div class="criteria-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="criteria-icon bg-secondary text-white">
+                                            <i class="bi bi-shield-check fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Etik Standartlar</h4>
+                                    </div>
+                                    <p>Makalenin etik standartlara uygunluğunu değerlendirin. Araştırma etiği ilkelerine uyulup uyulmadığını, etik kurul onayı gerekiyorsa alınıp alınmadığını ve katılımcı haklarının korunup korunmadığını inceleyin.</p>
+                                    <h5 class="mt-3 mb-2">Değerlendirme Soruları:</h5>
+                                    <ul>
+                                        <li>Araştırma etiği ilkelerine uyulmuş mu?</li>
+                                        <li>Gerekiyorsa etik kurul onayı alınmış mı?</li>
+                                        <li>Katılımcı hakları ve gizliliği korunmuş mu?</li>
+                                        <li>Çıkar çatışması beyanı var mı?</li>
+                                        <li>İntihal veya etik ihlal şüphesi uyandıran durumlar var mı?</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-secondary text-white rounded-circle p-2 me-2">
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <small class="text-muted">Puanlama: 1-5 (5 en yüksek)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-primary mt-4">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="bi bi-file-earmark-text fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="alert-heading">Değerlendirme Formu</h5>
+                                <p class="mb-0">Değerlendirme yaparken kullanabileceğiniz standart formumuza <a href="#" class="alert-link">buradan</a> erişebilirsiniz. Form, yukarıdaki kriterleri içeren kapsamlı bir değerlendirme yapmanıza olanak sağlar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Değerlendirme Süreci -->
+                <section id="surec" class="mb-5">
+                    <h2 class="section-title">Değerlendirme Süreci</h2>
+                    <p class="mb-4">Hakemlik süreci, aşağıdaki adımları içermektedir. Her adımı dikkatle takip etmeniz, sürecin verimli ilerlemesine katkı sağlayacaktır:</p>
+					                    <div class="process-timeline mt-4">
+                        <!-- Adım 1 -->
+                        <div class="process-step">
+                            <div class="process-step-icon">1</div>
+                            <div class="process-step-content">
+                                <h4>Davet ve Kabul</h4>
+                                <p>Editör tarafından size bir makale değerlendirme daveti gönderilir. Davet e-postasında makalenin başlığı, özeti ve anahtar kelimeleri yer alır. Uzmanlık alanınıza ve mevcut iş yüküne göre daveti kabul edebilir veya reddedebilirsiniz.</p>
+                                <div class="alert alert-light border-start border-primary border-3 py-2">
+                                    <i class="bi bi-lightbulb text-primary me-2"></i>
+                                    <span>Uzmanlık alanınıza girmeyen makaleler için daveti reddetmeniz, hem sizin hem de yazarların yararınadır.</span>
+                                </div>
+                                <div class="d-flex align-items-center mt-3">
+                                    <span class="badge bg-primary me-2">Süre</span>
+                                    <span>Davete yanıt için 5 gün</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adım 2 -->
+                        <div class="process-step">
+                            <div class="process-step-icon">2</div>
+                            <div class="process-step-content">
+                                <h4>Makaleyi İnceleme</h4>
+                                <p>Daveti kabul ettikten sonra, makaleye tam erişim sağlanır. Makaleyi detaylı bir şekilde okuyun ve notlar alın. Makalenin güçlü ve zayıf yönlerini belirleyin, değerlendirme kriterlerine göre analiz edin.</p>
+                                <div class="alert alert-light border-start border-primary border-3 py-2">
+                                    <i class="bi bi-lightbulb text-primary me-2"></i>
+                                    <span>İlk okumada genel bir izlenim edinip, ikinci okumada detaylara odaklanmanız önerilir.</span>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-success me-2">Önerilen</span>
+                                            <span>En az iki kez okuma</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-primary me-2">Süre</span>
+                                            <span>Değerlendirme için 14-21 gün</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adım 3 -->
+                        <div class="process-step">
+                            <div class="process-step-icon">3</div>
+                            <div class="process-step-content">
+                                <h4>Değerlendirme Formunu Doldurma</h4>
+                                <p>Değerlendirme formundaki kriterlere göre puanlama yapın ve her bölüm için detaylı yorumlarınızı yazın. Hem yazara hem de editöre yönelik yorumlar bölümlerini doldurun.</p>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-6">
+                                        <div class="card bg-light h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Yazara Yönelik Yorumlar</h5>
+                                                <p class="card-text">Bu bölümde, yazarın göreceği yorumları yazın. Eleştirilerinizi yapıcı bir dille ifade edin ve iyileştirme önerileri sunun.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card bg-light h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Editöre Yönelik Yorumlar</h5>
+                                                <p class="card-text">Bu bölümde, sadece editörün göreceği gizli yorumlarınızı yazın. Makalenin yayınlanması hakkındaki düşüncelerinizi açıkça belirtin.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-light border-start border-primary border-3 py-2 mt-3">
+                                    <i class="bi bi-lightbulb text-primary me-2"></i>
+                                    <span>Puanlamalarınızı yazılı yorumlarınızla destekleyin ve tutarlı olun.</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adım 4 -->
+                        <div class="process-step">
+                            <div class="process-step-icon">4</div>
+                            <div class="process-step-content">
+                                <h4>Karar ve Öneriler</h4>
+                                <p>Değerlendirmenizin sonunda, makale hakkında aşağıdaki kararlardan birini verebilirsiniz:</p>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-6">
+                                        <div class="card border-success h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-success">Kabul</h5>
+                                                <p class="card-text">Makale mevcut haliyle yayınlanabilir. Bu karar, çok az düzeltme gerektiren veya hiç düzeltme gerektirmeyen mükemmel makaleler için verilir.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card border-warning h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-warning">Küçük Düzeltmelerle Kabul</h5>
+                                                <p class="card-text">Makale küçük düzeltmelerle yayınlanabilir. Bu düzeltmeler genellikle yazım hataları, format düzeltmeleri veya küçük içerik eklemeleridir.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card border-primary h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-primary">Büyük Düzeltmelerle Kabul</h5>
+                                                <p class="card-text">Makale önemli düzeltmelerle yayınlanabilir. Bu düzeltmeler, metodoloji, analiz veya tartışma bölümlerinde önemli değişiklikler gerektirir.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card border-danger h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-danger">Ret</h5>
+                                                <p class="card-text">Makale yayınlanmaya uygun değildir. Bu karar, önemli metodolojik hatalar, etik sorunlar veya derginin kapsamına uymama durumlarında verilir.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-light border-start border-primary border-3 py-2 mt-3">
+                                    <i class="bi bi-lightbulb text-primary me-2"></i>
+                                    <span>Kararınızı verirken tutarlı olun ve değerlendirme kriterlerine göre nesnel bir değerlendirme yapın.</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adım 5 -->
+                        <div class="process-step">
+                            <div class="process-step-icon">5</div>
+                            <div class="process-step-content">
+                                <h4>Düzeltme Sonrası Değerlendirme</h4>
+                                <p>Yazarlar düzeltmeleri yaptıktan sonra, makale size tekrar gönderilebilir. Bu durumda, yazarların düzeltmeleri yeterli şekilde yapıp yapmadığını değerlendirin ve yeni bir karar verin.</p>
+                                <div class="alert alert-light border-start border-primary border-3 py-2">
+                                    <i class="bi bi-lightbulb text-primary me-2"></i>
+                                    <span>Düzeltme sonrası değerlendirmede, önceki yorumlarınızın ne ölçüde karşılandığına odaklanın.</span>
+                                </div>
+                                <div class="d-flex align-items-center mt-3">
+                                    <span class="badge bg-primary me-2">Süre</span>
+                                    <span>Düzeltme sonrası değerlendirme için 7-14 gün</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h4 class="card-title">Değerlendirme Zaman Çizelgesi</h4>
+                            <p>Hakemlik sürecinin zamanında tamamlanması, dergimizin yayın takvimini sürdürmesi açısından önemlidir. Aşağıdaki zaman çizelgesi, sürecin verimli ilerlemesi için önerilen sürelerdir:</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Aşama</th>
+                                            <th>Önerilen Süre</th>
+                                            <th>Açıklama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Davet Yanıtı</td>
+                                            <td>5 gün</td>
+                                            <td>Hakem davetini kabul etme veya reddetme</td>
+                                        </tr>
+                                        <tr>
+                                            <td>İlk Değerlendirme</td>
+                                            <td>14-21 gün</td>
+                                            <td>Makaleyi inceleme ve değerlendirme formunu doldurma</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Düzeltme Sonrası Değerlendirme</td>
+                                            <td>7-14 gün</td>
+                                            <td>Yazarın düzeltmelerini değerlendirme</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="alert alert-warning mt-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                                    <div>
+                                        <strong>Önemli:</strong> Değerlendirme süresini aşacağınızı düşünüyorsanız, lütfen en kısa sürede editörü bilgilendirin.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Yararlı İpuçları -->
+                <section id="ipuclari" class="mb-5">
+                    <h2 class="section-title">Yararlı İpuçları</h2>
+                    <p class="mb-4">Etkili bir hakemlik süreci için aşağıdaki ipuçlarını göz önünde bulundurmanızı öneririz:</p>
+                    
+                    <div class="row g-4">
+                        <!-- Yapıcı Geri Bildirim -->
+                        <div class="col-md-6">
+                            <div class="card h-100 tip-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="tips-icon bg-primary-subtle rounded-circle">
+                                            <i class="bi bi-chat-quote text-primary fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Yapıcı Geri Bildirim</h4>
+                                    </div>
+                                    <p class="card-text">Eleştirilerinizi yapıcı bir şekilde ifade edin. Sorunları belirtirken çözüm önerileri de sunun. Olumlu yönleri de vurgulamayı unutmayın.</p>
+                                    <div class="mt-3">
+                                        <h5 class="text-success mb-2"><i class="bi bi-check-circle me-2"></i>Yapılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Eleştirilerinizi somut örneklerle destekleyin</li>
+                                            <li>Sorunların nasıl çözülebileceğine dair öneriler sunun</li>
+                                            <li>Makalenin güçlü yönlerini de belirtin</li>
+                                            <li>Profesyonel ve saygılı bir dil kullanın</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h5 class="text-danger mb-2"><i class="bi bi-x-circle me-2"></i>Kaçınılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Kişiselleştirilmiş eleştiriler yapmak</li>
+                                            <li>Sadece olumsuz yönlere odaklanmak</li>
+                                            <li>Genel ve belirsiz yorumlar yapmak</li>
+                                            <li>Küçümseyici veya sert bir dil kullanmak</li>
+                                        </ul>
+                                    </div>
+                                    <div class="alert alert-success py-2 mt-3">
+                                        <div class="d-flex">
+                                            <div class="me-2"><i class="bi bi-quote"></i></div>
+                                            <div><strong>Örnek:</strong> "Metodoloji bölümü güçlendirilmeli. Örneklem seçim yönteminin detaylandırılması ve güç analizi eklenmesi önerilir."</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Zamanında Değerlendirme -->
+                        <div class="col-md-6">
+                            <div class="card h-100 tip-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="tips-icon bg-warning-subtle rounded-circle">
+                                            <i class="bi bi-clock-history text-warning fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Zamanında Değerlendirme</h4>
+                                    </div>
+                                    <p class="card-text">Değerlendirmelerinizi zamanında tamamlayın. Eğer ek süreye ihtiyacınız varsa, son tarihten önce editörü bilgilendirin.</p>
+                                    <div class="mt-3">
+                                        <h5 class="text-success mb-2"><i class="bi bi-check-circle me-2"></i>Yapılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Değerlendirme için zaman planı yapın</li>
+                                            <li>Süreyi aşacaksanız erken bilgilendirin</li>
+                                            <li>Değerlendirmeyi tamamlayamayacaksanız hemen bildirin</li>
+                                            <li>Hatırlatma e-postalarına hızlıca yanıt verin</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h5 class="text-danger mb-2"><i class="bi bi-x-circle me-2"></i>Kaçınılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Son dakikaya kadar beklemek</li>
+                                            <li>İletişimi kesmek</li>
+                                            <li>Gerçekçi olmayan taahhütlerde bulunmak</li>
+                                            <li>Aceleyle yapılmış yüzeysel değerlendirmeler</li>
+                                        </ul>
+                                    </div>
+                                    <div class="alert alert-warning py-2 mt-3">
+                                        <div class="d-flex">
+                                            <div class="me-2"><i class="bi bi-exclamation-triangle"></i></div>
+                                            <div><strong>Hatırlatma:</strong> Geciken değerlendirmeler yayın sürecini uzatır ve yazarlar için dezavantaj oluşturur.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Etik İlkelere Uyum -->
+                        <div class="col-md-6">
+                            <div class="card h-100 tip-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="tips-icon bg-info-subtle rounded-circle">
+                                            <i class="bi bi-shield-check text-info fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Etik İlkelere Uyum</h4>
+                                    </div>
+                                    <p class="card-text">Değerlendirme sürecinde gizlilik ve tarafsızlık ilkelerine uyun. Çıkar çatışması durumunda editörü bilgilendirin.</p>
+                                    <div class="mt-3">
+                                        <h5 class="text-success mb-2"><i class="bi bi-check-circle me-2"></i>Yapılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Gizlilik ilkesine uyun, makaleyi başkalarıyla paylaşmayın</li>
+                                            <li>Tarafsız ve objektif bir değerlendirme yapın</li>
+                                            <li>Çıkar çatışması durumunda editörü bilgilendirin</li>
+                                            <li>Etik ihlal şüphelerini editöre bildirin</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h5 class="text-danger mb-2"><i class="bi bi-x-circle me-2"></i>Kaçınılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Makale içeriğini değerlendirme süreci dışında kullanmak</li>
+                                            <li>Yazarların kimliğini tahmin etmeye çalışmak</li>
+                                            <li>Kişisel önyargılardan etkilenmek</li>
+                                            <li>Çıkar çatışmasını bildirmemek</li>
+                                        </ul>
+                                    </div>
+                                    <div class="alert alert-info py-2 mt-3">
+                                        <div class="d-flex">
+                                            <div class="me-2"><i class="bi bi-info-circle"></i></div>
+                                            <div><strong>Bilgi:</strong> Makale içeriğini değerlendirme süreci dışında paylaşmak etik ihlalidir.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Detaylı İnceleme -->
+                        <div class="col-md-6">
+                            <div class="card h-100 tip-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="tips-icon bg-success-subtle rounded-circle">
+                                            <i class="bi bi-journal-check text-success fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Detaylı İnceleme</h4>
+                                    </div>
+                                    <p class="card-text">Makalenin tüm bölümlerini detaylı şekilde inceleyin. Sadece öz veya giriş bölümüne odaklanmak yerine, tüm içeriği değerlendirin.</p>
+                                    <div class="mt-3">
+                                        <h5 class="text-success mb-2"><i class="bi bi-check-circle me-2"></i>Yapılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Makaleyi en az iki kez okuyun</li>
+                                            <li>Tüm bölümleri detaylı inceleyin</li>
+                                            <li>Şekil, tablo ve ekleri kontrol edin</li>
+                                            <li>Kaynakçayı ve atıfları kontrol edin</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h5 class="text-danger mb-2"><i class="bi bi-x-circle me-2"></i>Kaçınılması Gerekenler:</h5>
+                                        <ul>
+                                            <li>Sadece özet veya giriş bölümüne odaklanmak</li>
+                                            <li>Yüzeysel inceleme yapmak</li>
+                                            <li>Teknik detayları göz ardı etmek</li>
+                                            <li>Sadece kendi uzmanlık alanınıza odaklanmak</li>
+                                        </ul>
+                                    </div>
+                                    <div class="alert alert-success py-2 mt-3">
+                                        <div class="d-flex">
+                                            <div class="me-2"><i class="bi bi-check-circle"></i></div>
+                                            <div><strong>Öneri:</strong> Değerlendirme yaparken bir kontrol listesi kullanmak faydalı olabilir.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4 class="mb-0">Değerlendirme Şablonu</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Aşağıdaki şablonu, değerlendirme raporunuzu yapılandırmak için kullanabilirsiniz:</p>
+                            <div class="bg-light p-3 rounded">
+                                <h5>1. Genel Değerlendirme</h5>
+                                <p class="text-muted">Makalenin genel bir değerlendirmesini yapın. Çalışmanın güçlü ve zayıf yönlerini belirtin.</p>
+                                
+                                <h5>2. Özgünlük ve Katkı</h5>
+                                <p class="text-muted">Makalenin literatüre katkısını ve özgünlüğünü değerlendirin.</p>
+                                
+                                <h5>3. Metodoloji</h5>
+                                <p class="text-muted">Araştırma yönteminin uygunluğunu ve doğru uygulanıp uygulanmadığını değerlendirin.</p>
+                                
+                                <h5>4. Sonuçlar ve Tartışma</h5>
+                                <p class="text-muted">Bulguların doğru yorumlanıp yorumlanmadığını ve tartışma bölümünün bulgularla tutarlı olup olmadığını değerlendirin.</p>
+                                
+                                <h5>5. Yazım ve Sunuş</h5>
+                                <p class="text-muted">Makalenin yazım kalitesini, dilbilgisi ve yazım kurallarına uygunluğunu değerlendirin.</p>
+                                
+                                <h5>6. Öneriler</h5>
+                                <p class="text-muted">Makalenin iyileştirilmesi için öneriler sunun.</p>
+                                
+                                <h5>7. Karar</h5>
+                                <p class="text-muted">Makalenin kabul, düzeltme veya ret kararını belirtin ve gerekçelendirin.</p>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Değerlendirme Şablonunu İndir
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Etik İlkeler -->
+                <section id="etik" class="mb-5">
+                    <h2 class="section-title">Etik İlkeler</h2>
+                    <p class="mb-4">Hakemlik sürecinde uyulması gereken etik ilkeler, bilimsel yayıncılığın güvenilirliği ve kalitesi açısından büyük önem taşır. Aşağıdaki etik ilkelere uymanızı rica ederiz:</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="rounded-circle bg-primary text-white p-3 me-3">
+                                            <i class="bi bi-lock-fill fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Gizlilik</h4>
+                                    </div>
+                                    <p class="card-text">Değerlendirme için size gönderilen makaleler gizli belgelerdir. Bu makaleleri başkalarıyla paylaşmak, içeriğini kullanmak veya yazarlarla doğrudan iletişime geçmek etik ihlalidir.</p>
+                                    <ul class="mt-3">
+                                        <li>Makaleyi değerlendirme süreci dışında kullanmayın</li>
+                                        <li>Makaleyi başkalarıyla paylaşmayın</li>
+                                        <li>Değerlendirme sonrasında makale kopyalarını imha edin</li>
+                                        <li>Yazarlarla doğrudan iletişime geçmeyin</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="rounded-circle bg-success text-white p-3 me-3">
+                                            <i class="bi bi-balance-scale fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Tarafsızlık</h4>
+                                    </div>
+                                    <p class="card-text">Değerlendirme sürecinde tarafsız ve objektif olun. Kişisel önyargılardan, dostluk veya rekabet ilişkilerinden etkilenmeyin. Çıkar çatışması durumunda hakemlikten çekilin.</p>
+                                    <ul class="mt-3">
+                                        <li>Makaleleri nesnel kriterlere göre değerlendirin</li>
+                                                                                <li>Kişisel önyargılardan arınmış olun</li>
+                                        <li>Yazarın kimliğini tahmin etmeye çalışmayın</li>
+                                        <li>Çıkar çatışması durumunda hakemlikten çekilin</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="rounded-circle bg-warning text-dark p-3 me-3">
+                                            <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Çıkar Çatışması</h4>
+                                    </div>
+                                    <p class="card-text">Değerlendirdiğiniz makale ile ilgili herhangi bir çıkar çatışmanız varsa, bunu editöre bildirin ve gerekirse hakemlikten çekilin.</p>
+                                    <p>Aşağıdaki durumlarda çıkar çatışması söz konusu olabilir:</p>
+                                    <ul>
+                                        <li>Yazarlarla ortak çalışmalarınız varsa</li>
+                                        <li>Yazarlarla kişisel veya profesyonel bir ilişkiniz varsa</li>
+                                        <li>Makalenin konusu ile ilgili fikri mülkiyet hakkınız varsa</li>
+                                        <li>Makalenin konusu ile ilgili finansal çıkarlarınız varsa</li>
+                                        <li>Yazarlarla rekabet halinde iseniz</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="rounded-circle bg-danger text-white p-3 me-3">
+                                            <i class="bi bi-shield-fill-x fs-4"></i>
+                                        </div>
+                                        <h4 class="card-title mb-0">Etik İhlallerin Bildirimi</h4>
+                                    </div>
+                                    <p class="card-text">Değerlendirme sürecinde etik ihlal şüphesi uyandıran durumlarla karşılaşırsanız, bu durumu editöre bildirin.</p>
+                                    <p>Aşağıdaki durumlar etik ihlal olarak değerlendirilebilir:</p>
+                                    <ul>
+                                        <li>İntihal veya kendinden intihal</li>
+                                        <li>Veri manipülasyonu veya uydurma</li>
+                                        <li>Çoklu yayın (aynı çalışmanın farklı dergilerde yayınlanması)</li>
+                                        <li>Uygun olmayan yazarlık uygulamaları</li>
+                                        <li>Araştırma etiği ihlalleri</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-primary mt-4">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="bi bi-journal-richtext fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="alert-heading">COPE İlkeleri</h5>
+                                <p class="mb-0">Dergimiz, Yayın Etiği Komitesi (COPE - Committee on Publication Ethics) ilkelerini benimsemektedir. Hakemlik sürecinde bu ilkelere uygun davranmanızı rica ederiz. COPE ilkeleri hakkında daha fazla bilgi için <a href="https://publicationethics.org/" class="alert-link" target="_blank">COPE web sitesini</a> ziyaret edebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sıkça Sorulan Sorular -->
+                <section id="sss" class="mb-5">
+                    <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+                    <p class="mb-4">Hakemlik süreciyle ilgili sıkça sorulan sorular ve cevapları aşağıda bulabilirsiniz:</p>
+                    
+                    <div class="accordion" id="faqAccordion">
+                        <!-- Soru 1 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Hakemlik sürecinde ne kadar zaman ayırmalıyım?
+                                </button>
+                            </h3>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Bir makaleyi değerlendirmek için gereken süre, makalenin uzunluğuna, karmaşıklığına ve sizin deneyiminize bağlı olarak değişebilir. Genel olarak, kapsamlı bir değerlendirme için 4-8 saat ayırmanız önerilir. Bu süre içinde:</p>
+                                    <ul>
+                                        <li>Makaleyi en az iki kez okumak</li>
+                                        <li>Notlar almak</li>
+                                        <li>Gerekli araştırmaları yapmak</li>
+                                        <li>Değerlendirme formunu doldurmak</li>
+                                    </ul>
+                                    <p>Değerlendirmeyi tamamlamak için genellikle 2-3 haftalık bir süre verilir. Eğer bu süre içinde değerlendirmeyi tamamlayamayacaksanız, lütfen editörü bilgilendirin.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Soru 2 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Uzmanlık alanım dışındaki bir makale için davet aldım. Ne yapmalıyım?
+                                </button>
+                            </h3>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Uzmanlık alanınız dışındaki bir makale için davet aldıysanız, bu daveti reddetmeniz en doğru seçenektir. Editöre, konunun uzmanlık alanınızın dışında olduğunu nazikçe belirtin ve mümkünse alternatif hakem önerilerinde bulunun.</p>
+                                    <p>Eğer makalenin bazı yönleri uzmanlık alanınıza giriyorsa ve sadece belirli bölümleri değerlendirebilecekseniz, bu durumu editöre bildirin. Editör, kısmi bir değerlendirmeyi kabul edebilir veya başka bir hakem arayabilir.</p>
+                                    <div class="alert alert-warning">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        <span>Uzmanlık alanınız dışındaki bir makaleyi değerlendirmek, hem yazarlara hem de bilimsel literatüre zarar verebilir.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Soru 3 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Değerlendirdiğim makalenin yazarını tanıdığımı düşünüyorum. Ne yapmalıyım?
+                                </button>
+                            </h3>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Kör hakemlik sürecinde, yazarların kimliği gizli tutulur. Ancak bazen içerikten veya referanslardan yazarın kim olduğunu tahmin edebilirsiniz. Eğer yazarı tanıdığınızı düşünüyorsanız ve bu durum değerlendirmenizi etkileyebilecekse:</p>
+                                    <ol>
+                                        <li>Durumu editöre bildirin</li>
+                                        <li>Çıkar çatışması olup olmadığını değerlendirin</li>
+                                        <li>Tarafsız bir değerlendirme yapamayacağınızı düşünüyorsanız, hakemlikten çekilin</li>
+                                    </ol>
+                                    <p>Eğer yazarı tanımanıza rağmen tarafsız bir değerlendirme yapabileceğinizi düşünüyorsanız, değerlendirmeye devam edebilirsiniz. Ancak bu durumu editöre bildirmeniz önemlidir.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Soru 4 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Değerlendirdiğim makalede intihal şüphesi var. Ne yapmalıyım?
+                                </button>
+                            </h3>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Değerlendirdiğiniz makalede intihal şüphesi varsa, bu durumu hemen editöre bildirmelisiniz. İntihal şüphesi uyandıran bölümleri ve mümkünse orijinal kaynakları belirtin.</p>
+                                    <p>İntihal şüphesi uyandırabilecek durumlar:</p>
+                                    <ul>
+                                        <li>Başka kaynaklardan alıntılanan metinlerin uygun şekilde atıf yapılmadan kullanılması</li>
+                                        <li>Başka çalışmalardan alınan şekil, tablo veya verilerin kaynak gösterilmeden kullanılması</li>
+                                        <li>Yazarın kendi önceki çalışmalarından önemli bölümleri uygun atıf yapmadan kullanması (kendinden intihal)</li>
+                                    </ul>
+                                    <p>İntihal şüphesini bildirdikten sonra, editör gerekli incelemeleri yapacak ve uygun adımları atacaktır. Bu süreçte gizliliği korumak önemlidir.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Soru 5 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Değerlendirme sürecinde bir meslektaşımdan yardım alabilir miyim?
+                                </button>
+                            </h3>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Hakemlik süreci gizlilik gerektirir ve değerlendirdiğiniz makaleyi editörün izni olmadan başkalarıyla paylaşmamanız gerekir. Ancak bazı durumlarda, özellikle makalenin belirli yönleri için uzmanlık gerektiren konularda, bir meslektaşınızdan yardım almak isteyebilirsiniz.</p>
+                                    <p>Bu durumda yapmanız gerekenler:</p>
+                                    <ol>
+                                        <li>Öncelikle editörden izin isteyin</li>
+                                        <li>Yardım alacağınız kişinin adını ve uzmanlık alanını belirtin</li>
+                                        <li>Gizlilik anlaşmasının bu kişi için de geçerli olduğunu belirtin</li>
+                                        <li>Değerlendirme raporunda bu kişinin katkısını açıkça belirtin</li>
+                                    </ol>
+                                    <div class="alert alert-danger">
+                                        <i class="bi bi-shield-exclamation me-2"></i>
+                                        <span>Editörün izni olmadan makaleyi başkalarıyla paylaşmak, gizlilik ilkesinin ihlalidir ve etik dışı bir davranıştır.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Soru 6 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                    Yazarlar düzeltmeleri yaptıktan sonra tekrar değerlendirmem istenirse ne yapmalıyım?
+                                </button>
+                            </h3>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Yazarlar düzeltmeleri yaptıktan sonra makale size tekrar gönderilebilir. Bu durumda, düzeltilmiş makaleyi değerlendirirken şu adımları izlemeniz önerilir:</p>
+                                    <ol>
+                                        <li>Önceki değerlendirme raporunuzu ve önerilerinizi gözden geçirin</li>
+                                        <li>Yazarların yanıt mektubunu dikkatlice okuyun</li>
+                                        <li>Önerilerinizin ne ölçüde karşılandığını değerlendirin</li>
+                                        <li>Düzeltilmiş makalenin kalitesini yeniden değerlendirin</li>
+                                        <li>Yeni bir değerlendirme raporu hazırlayın</li>
+                                    </ol>
+                                    <p>Düzeltme sonrası değerlendirmede, yazarların tüm önerilerinizi kabul etmesi beklenmez. Önemli olan, yazarların önerilere nasıl yanıt verdiği ve makalenin kalitesinin artıp artmadığıdır.</p>
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        <span>Düzeltme sonrası değerlendirme genellikle ilk değerlendirmeden daha kısa sürer ve daha odaklıdır.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Ek Kaynaklar -->
+                <section id="kaynaklar" class="mb-5">
+                    <h2 class="section-title">Ek Kaynaklar</h2>
+                    <p class="mb-4">Hakemlik becerilerinizi geliştirmek için aşağıdaki kaynaklardan yararlanabilirsiniz:</p>
+                    
+                    <div class="row g-4">
+                        <!-- Kaynaklar -->
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h4 class="mb-0"><i class="bi bi-book me-2"></i>Önerilen Kaynaklar</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Etkili Hakemlik: Kapsamlı Rehber</span>
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Bilimsel Makaleleri Değerlendirme Teknikleri</span>
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Hakemlik Sürecinde Etik İlkeler</span>
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Yapıcı Geri Bildirim Verme Kılavuzu</span>
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Eğitimler -->
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h4 class="mb-0"><i class="bi bi-mortarboard me-2"></i>Çevrimiçi Eğitimler</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Hakemlik Temel Eğitimi</span>
+                                                    <span class="badge bg-success">Ücretsiz</span>
+                                                </div>
+                                                <small class="text-muted">Süre: 2 saat</small>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Bilimsel Makalelerde Metodoloji Değerlendirme</span>
+                                                    <span class="badge bg-success">Ücretsiz</span>
+                                                </div>
+                                                <small class="text-muted">Süre: 3 saat</small>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>İstatistiksel Analizleri Değerlendirme</span>
+                                                    <span class="badge bg-primary">Sertifikalı</span>
+                                                </div>
+                                                <small class="text-muted">Süre: 5 saat</small>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Etik İhlalleri Tespit Etme</span>
+                                                    <span class="badge bg-success">Ücretsiz</span>
+                                                </div>
+                                                <small class="text-muted">Süre: 2 saat</small>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Faydalı Bağlantılar -->
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h4 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Faydalı Bağlantılar</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-primary text-white rounded p-3 me-3">
+                                                    <i class="bi bi-journal-richtext fs-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h5>COPE (Committee on Publication Ethics)</h5>
+                                                    <p class="mb-0">Yayın etiği ilkeleri ve rehberler</p>
+                                                    <a href="https://publicationethics.org/" target="_blank" class="stretched-link">publicationethics.org</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-success text-white rounded p-3 me-3">
+                                                    <i class="bi bi-pencil-square fs-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h5>Publons</h5>
+                                                    <p class="mb-0">Hakemlik katkılarınızı kaydedin ve tanınma kazanın</p>
+                                                    <a href="https://publons.com/" target="_blank" class="stretched-link">publons.com</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-info text-white rounded p-3 me-3">
+                                                    <i class="bi bi-mortarboard fs-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h5>Researcher Academy</h5>
+                                                    <p class="mb-0">Hakemlik becerileri geliştirme eğitimleri</p>
+                                                    <a href="https://researcheracademy.elsevier.com/" target="_blank" class="stretched-link">researcheracademy.elsevier.com</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-warning text-dark rounded p-3 me-3">
+                                                    <i class="bi bi-search fs-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h5>Sense About Science</h5>
+                                                    <p class="mb-0">Hakemlik süreci hakkında kaynaklar</p>
+                                                    <a href="https://senseaboutscience.org/" target="_blank" class="stretched-link">senseaboutscience.org</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- İletişim Bölümü -->
+                <section id="iletisim" class="mb-5">
+                    <h2 class="section-title">İletişim</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>Hakemlik Süreciyle İlgili Sorularınız İçin</h4>
+                                    <p>Hakemlik süreciyle ilgili sorularınız veya yardım talepleriniz için editörlerimizle iletişime geçebilirsiniz.</p>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-primary text-white rounded-circle p-2 me-3">
+                                            <i class="bi bi-envelope-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">E-posta</h5>
+                                            <p class="mb-0">editor@akademikdergi.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary text-white rounded-circle p-2 me-3">
+                                            <i class="bi bi-telephone-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">Telefon</h5>
+                                            <p class="mb-0">+90 (212) 123 45 67</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mt-4 mt-lg-0">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Adınız Soyadınız</label>
+                                            <input type="text" class="form-control" id="name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">E-posta Adresiniz</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="subject" class="form-label">Konu</label>
+                                            <input type="text" class="form-control" id="subject" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="message" class="form-label">Mesajınız</label>
+                                            <textarea class="form-control" id="message" rows="4" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-send me-1"></i> Gönder
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Alt Bilgi -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Akademik Dergi</h5>
+                    <p>Bilimsel araştırmaları destekleyen ve yüksek kaliteli akademik yayıncılık hizmeti sunan hakemli bir dergidir.</p>
+                    <div class="d-flex mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Hızlı Bağlantılar</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Ana Sayfa</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-white text-decoration-none">Hakkımızda</a></li>
+                        <li class="mb-2"><a href="issues.html" class="text-white text-decoration-none">Sayılar</a></li>
+                        <li class="mb-2"><a href="submission.html" class="text-white text-decoration-none">Makale Gönderimi</a></li>
+                        <li class="mb-2"><a href="reviewer-guide.html" class="text-white text-decoration-none">Hakem Rehberi</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>İletişim</h5>
+                    <address class="mb-0">
+                        <p class="mb-2"><i class="bi bi-geo-alt me-2"></i> Üniversite Caddesi No:123, 34000 İstanbul</p>
+                        <p class="mb-2"><i class="bi bi-telephone me-2"></i> +90 (212) 123 45 67</p>
+                        <p class="mb-0"><i class="bi bi-envelope me-2"></i> info@akademikdergi.com</p>
+                    </address>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">&copy; 2025 Akademik Dergi. Tüm hakları saklıdır.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white text-decoration-none me-3">Gizlilik Politikası</a>
+                    <a href="#" class="text-white text-decoration-none">Kullanım Şartları</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sayfa Başına Dön Butonu -->
+    <a href="#" class="btn btn-primary btn-sm position-fixed bottom-0 end-0 m-4 rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" id="backToTop">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Sayfa başına dön butonu
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Aktif navigasyon bağlantısını vurgulama
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-pills .nav-link');
+            
+            // Sayfa kaydırıldığında aktif bölümü güncelleme
+            window.addEventListener('scroll', () => {
+                let current = '';
+                const sections = document.querySelectorAll('section');
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // İçindekiler bağlantılarına tıklandığında düzgün kaydırma
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+        
+        // SSS Accordion
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                
+                if (!isExpanded) {
+                    // Hedef bölüme kaydır
+                    const accordionItem = this.closest('.accordion-item');
+                    setTimeout(() => {
+                        accordionItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

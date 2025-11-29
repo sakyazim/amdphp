@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Şablonlar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --secondary: #6c757d;
+            --info: #0dcaf0;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .role-alert {
+            background-color: rgba(13, 110, 253, 0.1);
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .role-alert .alert-icon {
+            color: var(--primary);
+        }
+        
+        .content-wrapper {
+            margin-top: 2rem;
+        }
+        
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 1rem;
+        }
+        
+        .sidebar-heading {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-link {
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .nav-link.active {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .table {
+            font-size: 0.9rem;
+        }
+        
+        .template-card {
+            transition: transform 0.2s;
+            height: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .template-card .card-header {
+            font-weight: 500;
+        }
+        
+        .template-card .card-footer {
+            background-color: transparent;
+            border-top: none;
+        }
+
+        .template-preview {
+            max-height: 120px;
+            overflow: hidden;
+            position: relative;
+            font-size: 0.85rem;
+        }
+        
+        .template-preview::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(transparent, white);
+        }
+        
+        .custom-tab {
+            padding: 0.75rem 1rem;
+            border-radius: 0;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .custom-tab:hover {
+            border-bottom: 2px solid var(--gray-300);
+            color: var(--primary);
+        }
+        
+        .custom-tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            background-color: transparent;
+        }
+        
+        .notification-circle {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            line-height: 18px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .tags-container .badge {
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .filter-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .editor-container {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .toolbar-container {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem 0.25rem 0 0;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-bottom: none;
+        }
+
+        .editor-container {
+            border-radius: 0 0 0.25rem 0.25rem;
+        }
+
+        .template-item {
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .template-item:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar-container {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                height: 100vh;
+                width: 280px;
+                z-index: 1030;
+                transition: left 0.3s;
+                background-color: #fff;
+            }
+            
+            .sidebar-container.show {
+                left: 0;
+            }
+            
+            .sidebar-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1020;
+                display: none;
+            }
+            
+            .sidebar-backdrop.show {
+                display: block;
+            }
+            
+            .mobile-menu-toggle {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--primary);
+                padding: 0.25rem;
+            }
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Logo ve mobil menü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="sekreter-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Sekreter olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-badge me-2"></i>
+                        <span>Sekreter</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-badge me-2"></i> Sekreter</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Bildirimler -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary position-relative" type="button" id="notificationsDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-circle">5</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdownBtn" style="width: 300px;">
+                        <li><h6 class="dropdown-header">Bildirimler</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-file-earmark-plus me-2 text-success"></i>
+                            <div class="small">
+                                <div>Yeni makale gönderimi: "Yapay Zeka ve Etiği"</div>
+                                <div class="text-muted">10 dakika önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-clock me-2 text-warning"></i>
+                            <div class="small">
+                                <div>Değerlendirme süresi dolan makale: ART-2025-0097</div>
+                                <div class="text-muted">2 saat önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-envelope me-2 text-info"></i>
+                            <div class="small">
+                                <div>Yeni yazışma: Makale ART-2025-0103 için yanıt</div>
+                                <div class="text-muted">Dün</div>
+                            </div>
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center small text-primary" href="#">Tüm bildirimleri görüntüle</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Ayşe Yıldız</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="sekreter-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="sekreter-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yeni-gonderimler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Gönderimler
+                                    <span class="badge bg-danger rounded-pill float-end">7</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makaleler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yazisma.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Yazışmalar
+                                    <span class="badge bg-warning rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yayinlar.html" class="nav-link">
+                                    <i class="bi bi-journal-check me-2"></i> Yayın Programı
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-hakem-havuzu.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Hakem Havuzu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-sablonlar.html" class="nav-link active">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Şablonlar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Butonlar -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <h3>Şablonlar</h3>
+                        <p class="text-muted">Yazışma ve belge şablonlarını yönetin</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#newTemplateModal">
+                            <i class="bi bi-plus-circle"></i> Yeni Şablon
+                        </button>
+                        <div class="dropdown d-inline-block">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="templateActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="templateActionsDropdown">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-upload me-2"></i> İçe Aktar</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i> Dışa Aktar</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#organizeTemplatesModal"><i class="bi bi-folder me-2"></i> Kategorileri Düzenle</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Menüsü -->
+                <ul class="nav nav-tabs mb-4 border-0" id="templateTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link custom-tab active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-templates" type="button" role="tab" aria-controls="all-templates" aria-selected="true">
+                            Tüm Şablonlar
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link custom-tab" id="communication-tab" data-bs-toggle="tab" data-bs-target="#communication-templates" type="button" role="tab" aria-controls="communication-templates" aria-selected="false">
+                            İletişim Şablonları
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link custom-tab" id="document-tab" data-bs-toggle="tab" data-bs-target="#document-templates" type="button" role="tab" aria-controls="document-templates" aria-selected="false">
+                            Belge Şablonları
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link custom-tab" id="email-tab" data-bs-toggle="tab" data-bs-target="#email-templates" type="button" role="tab" aria-controls="email-templates" aria-selected="false">
+                            E-posta Şablonları
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link custom-tab" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification-templates" type="button" role="tab" aria-controls="notification-templates" aria-selected="false">
+                            Bildirim Şablonları
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Filtreleme Kartı -->
+                <div class="card filter-card mb-4">
+                    <div class="card-body">
+                        <form class="row g-3">
+                            <div class="col-md-5">
+                                <label for="searchTemplate" class="form-label">Arama</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="searchTemplate" placeholder="Şablon adı veya içerik ara...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="categoryFilter" class="form-label">Kategori</label>
+                                <select class="form-select" id="categoryFilter">
+                                    <option value="all" selected>Tüm Kategoriler</option>
+                                    <option value="reviewer">Hakem İletişimleri</option>
+                                    <option value="author">Yazar İletişimleri</option>
+                                    <option value="editor">Editör İletişimleri</option>
+                                    <option value="document">Belge Şablonları</option>
+                                    <option value="notification">Bildirimler</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="sortOrder" class="form-label">Sıralama</label>
+                                <select class="form-select" id="sortOrder">
+                                    <option value="nameAsc" selected>Ad (A-Z)</option>
+                                    <option value="nameDesc">Ad (Z-A)</option>
+                                    <option value="newest">En Yeni</option>
+                                    <option value="oldest">En Eski</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-funnel"></i> Filtrele
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Şablonlar İçeriği -->
+                <div class="tab-content" id="templateTabsContent">
+                    <!-- Tüm Şablonlar Sekmesi -->
+                    <div class="tab-pane fade show active" id="all-templates" role="tabpanel" aria-labelledby="all-tab">
+                        <div class="row g-4">
+                            <!-- Şablon 1: Hakem Değerlendirme Hatırlatması -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Hakem Değerlendirme Hatırlatması</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Hakem</span>
+                                            <span class="badge bg-secondary">Hatırlatma</span>
+                                            <span class="badge bg-secondary">Değerlendirme</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {HAKEM_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(1)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(1)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(1)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 2: Hakem Değerlendirmesi Tamamlandı -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Hakem Değerlendirmesi Tamamlandı</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Hakem</span>
+                                            <span class="badge bg-secondary">Editör</span>
+                                            <span class="badge bg-secondary">Değerlendirme</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {EDİTÖR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makale için {HAKEM_ADI} tarafından değerlendirme tamamlanmıştır. Değerlendirmeyi sistem üzerinden görüntüleyebilirsiniz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(2)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(2)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(2)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 3: Editör Kararı -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Editör Kararı Bildirimi</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Karar</span>
+                                            <span class="badge bg-secondary">Değerlendirme</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {YAZAR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makalenizin değerlendirme süreci tamamlanmıştır. Editör kararını sistem üzerinden görüntüleyebilirsiniz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(3)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(3)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(3)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 4: Eksik Belge Talebi -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Eksik Belge Talebi</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Belge</span>
+                                            <span class="badge bg-secondary">Talep</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {YAZAR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makalenizin değerlendirme sürecinin devam edebilmesi için aşağıdaki belgeleri göndermeniz gerekmektedir:</p>
+                                            <p>{EKSİK_BELGELER}</p>
+                                            <p>Belgeleri en kısa sürede sistem üzerinden yüklemenizi rica ederiz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(4)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(4)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(4)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 5: Revizyon Talebi -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Revizyon Talebi</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Revizyon</span>
+                                            <span class="badge bg-secondary">Değerlendirme</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {YAZAR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makaleniz için hakem değerlendirmeleri sonrası revizyonlar talep edilmiştir. Hakem değerlendirmelerini ve revizyon taleplerini sistem üzerinden görüntüleyebilirsiniz.</p>
+                                            <p>Revize edilmiş makalenizi 30 gün içinde sistem üzerinden yüklemenizi rica ederiz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(5)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(5)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(5)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 6: Makale Reddetme Bildirimi -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Makale Reddetme Bildirimi</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Reddetme</span>
+                                            <span class="badge bg-secondary">Değerlendirme</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {YAZAR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makaleniz editoryal değerlendirme sonucu dergimizde yayınlanmak üzere kabul edilmemiştir. Hakem değerlendirmelerini sistem üzerinden görüntüleyebilirsiniz.</p>
+                                            <p>Gelecekte dergimize yeni çalışmalarınızı göndermenizi bekleriz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(6)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(6)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(6)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 7: Makale Kabul Bildirimi -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Makale Kabul Bildirimi</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Kabul</span>
+                                            <span class="badge bg-secondary">Yayın</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {YAZAR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makaleniz değerlendirme sürecini başarıyla tamamlamış ve yayın için kabul edilmiştir. Makaleniz {CİLT} {SAYI} ({TARİH})'de yayınlanacaktır.</p>
+                                            <p>Teşekkür eder, çalışmalarınızda başarılar dileriz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(7)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(7)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(7)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 8: Hakem Daveti -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Hakem Daveti</span>
+                                        <span class="badge bg-info">İletişim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Hakem</span>
+                                            <span class="badge bg-secondary">Davet</span>
+                                            <span class="badge bg-secondary">Değerlendirme</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {HAKEM_ADI},</p>
+                                            <p>X Dergisi'ne gönderilen "{MAKALE_BAŞLIĞI}" başlıklı makaleyi değerlendirmeniz için davet ediyoruz. Uzmanlık alanınıza uygun olduğunu düşündüğümüz bu çalışmayı değerlendirmeyi kabul ederseniz memnun oluruz.</p>
+                                            <p>Değerlendirme için son tarih: {TARİH}</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(8)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(8)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(8)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 9: Yeni Sayı Duyurusu -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Yeni Sayı Duyurusu</span>
+                                        <span class="badge bg-warning text-dark">Bildirim</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Duyuru</span>
+                                            <span class="badge bg-secondary">Sayı</span>
+                                            <span class="badge bg-secondary">Yayın</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın İlgili,</p>
+                                            <p>X Dergisi'nin {CİLT} {SAYI} ({TARİH}) sayısı yayınlanmıştır. Bu sayıda yer alan makalelere web sitemizden erişebilirsiniz.</p>
+                                            <p>Yeni sayımızda aşağıdaki konular ele alınmıştır:</p>
+                                            <p>{İÇİNDEKİLER}</p>
+                                            <p>Dergimize gösterdiğiniz ilgi için teşekkür ederiz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editör Kurulu</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(9)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(9)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(9)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 10: Telif Hakkı Formu -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Telif Hakkı Formu</span>
+                                        <span class="badge bg-secondary">Belge</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Form</span>
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Telif</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>TELİF HAKKI DEVİR FORMU</p>
+                                            <p>Makale Başlığı: {MAKALE_BAŞLIĞI}</p>
+                                            <p>Yazarlar: {YAZARLAR}</p>
+                                            <p>Aşağıda imzası bulunan yazar(lar), yukarıda başlığı belirtilen makalenin tek ve orijinal sahibi olduğunu, başka bir dergiye yayımlanmak üzere gönderilmediğini ve telif haklarını X Dergisi'ne devrettiğini kabul ve beyan eder.</p>
+                                            <p>İmzalar:</p>
+                                            <p>{İMZA_ALANLARI}</p>
+                                            <p>Tarih: {TARİH}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(10)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(10)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(10)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 11: Makale Gönderimi Onayı -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Makale Gönderimi Onayı</span>
+                                        <span class="badge bg-primary">E-posta</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Yazar</span>
+                                            <span class="badge bg-secondary">Onay</span>
+                                            <span class="badge bg-secondary">Gönderim</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {YAZAR_ADI},</p>
+                                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makaleniz başarıyla sisteme yüklenmiştir. Makale ID: {MAKALE_ID}</p>
+                                            <p>Makaleniz ilk olarak teknik kontrol aşamasından geçecek ve ardından editör değerlendirmesine alınacaktır. Süreç hakkında bilgilendirme e-postaları alacaksınız.</p>
+                                            <p>İyi çalışmalar dileriz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(11)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(11)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(11)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Şablon 12: Süre Uzatım Onayı -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card template-card h-100">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">Süre Uzatım Onayı</span>
+                                        <span class="badge bg-primary">E-posta</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tags-container mb-2">
+                                            <span class="badge bg-secondary">Hakem</span>
+                                            <span class="badge bg-secondary">Süre</span>
+                                            <span class="badge bg-secondary">Uzatım</span>
+                                        </div>
+                                        <div class="template-preview">
+                                            <p>Sayın {HAKEM_ADI},</p>
+                                            <p>Değerlendirme süresi uzatım talebiniz onaylanmıştır. Yeni değerlendirme son tarihiniz {TARİH}'tir.</p>
+                                            <p>Anlayışınız ve katkılarınız için teşekkür ederiz.</p>
+                                            <p>Saygılarımızla,<br>X Dergisi Sekreterliği</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewTemplate(12)">
+                                                <i class="bi bi-eye"></i> Görüntüle
+                                            </button>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editTemplate(12)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTemplate(12)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sayfalama -->
+                        <div class="d-flex justify-content-center mt-4">
+                            <nav aria-label="Şablon sayfalama">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+                                    </li>
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Sonraki</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- İletişim Şablonları Sekmesi -->
+                    <div class="tab-pane fade" id="communication-templates" role="tabpanel" aria-labelledby="communication-tab">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            İletişim şablonları sekmesi seçildi. Bu sekmede hakem, yazar ve editörlerle iletişim için kullanılan şablonlar listelenir.
+                        </div>
+                    </div>
+
+                    <!-- Belge Şablonları Sekmesi -->
+                    <div class="tab-pane fade" id="document-templates" role="tabpanel" aria-labelledby="document-tab">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            Belge şablonları sekmesi seçildi. Bu sekmede telif hakkı formu, etik kurul beyanı gibi belge şablonları listelenir.
+                        </div>
+                    </div>
+
+                    <!-- E-posta Şablonları Sekmesi -->
+                    <div class="tab-pane fade" id="email-templates" role="tabpanel" aria-labelledby="email-tab">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            E-posta şablonları sekmesi seçildi. Bu sekmede sistem tarafından gönderilen e-posta şablonları listelenir.
+                        </div>
+                    </div>
+
+                    <!-- Bildirim Şablonları Sekmesi -->
+                    <div class="tab-pane fade" id="notification-templates" role="tabpanel" aria-labelledby="notification-tab">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            Bildirim şablonları sekmesi seçildi. Bu sekmede sistem bildirimleri ve duyuru şablonları listelenir.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal: Şablon Görüntüleme -->
+<div class="modal fade" id="viewTemplateModal" tabindex="-1" aria-labelledby="viewTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewTemplateModalLabel">Şablon: Hakem Değerlendirme Hatırlatması</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="badge bg-info">İletişim</span>
+                        <span class="text-muted small">Son güncelleme: 15.01.2025</span>
+                    </div>
+                    <div class="tags-container mb-3">
+                        <span class="badge bg-secondary">Hakem</span>
+                        <span class="badge bg-secondary">Hatırlatma</span>
+                        <span class="badge bg-secondary">Değerlendirme</span>
+                    </div>
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Şablonda Kullanılan Değişkenler:</h6>
+                        <ul class="mb-0">
+                            <li><code>{HAKEM_ADI}</code> - Hakemin adı</li>
+                            <li><code>{MAKALE_BAŞLIĞI}</code> - Değerlendirilen makalenin başlığı</li>
+                            <li><code>{TARİH}</code> - Değerlendirme son tarihi</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border rounded p-3">
+                    <h6 class="mb-3">Şablon İçeriği:</h6>
+                    <div id="templateContent">
+                        <p>Sayın {HAKEM_ADI},</p>
+                        <p>"{MAKALE_BAŞLIĞI}" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.</p>
+                        <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>Şablon Önizleme:</h6>
+                    <div class="border rounded p-3 bg-light">
+                        <p>Sayın Prof. Dr. Ali Kaya,</p>
+                        <p>"Tarihsel Semantik Analizler: Türkçe Edebi Metinlerde Anlam Dönüşümleri" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.</p>
+                        <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" onclick="editTemplate(1)">Düzenle</button>
+                <button type="button" class="btn btn-success" onclick="useTemplate(1)">Kullan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Şablon Düzenleme -->
+<div class="modal fade" id="editTemplateModal" tabindex="-1" aria-labelledby="editTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTemplateModalLabel">Şablon Düzenle: Hakem Değerlendirme Hatırlatması</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="templateName" class="form-label">Şablon Adı</label>
+                            <input type="text" class="form-control" id="templateName" value="Hakem Değerlendirme Hatırlatması">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="templateCategory" class="form-label">Kategori</label>
+                            <select class="form-select" id="templateCategory">
+                                <option value="communication" selected>İletişim</option>
+                                <option value="document">Belge</option>
+                                <option value="email">E-posta</option>
+                                <option value="notification">Bildirim</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="templateTags" class="form-label">Etiketler</label>
+                        <input type="text" class="form-control" id="templateTags" value="Hakem, Hatırlatma, Değerlendirme">
+                        <div class="form-text">Etiketleri virgülle ayırın</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Değişkenler</label>
+                        <div class="border rounded p-3 bg-light">
+                            <div class="row row-cols-1 row-cols-md-3 g-2">
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariable('{HAKEM_ADI}')">
+                                        {HAKEM_ADI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariable('{MAKALE_BAŞLIĞI}')">
+                                        {MAKALE_BAŞLIĞI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariable('{TARİH}')">
+                                        {TARİH}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariable('{YAZAR_ADI}')">
+                                        {YAZAR_ADI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariable('{EDİTÖR_ADI}')">
+                                        {EDİTÖR_ADI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariable('{MAKALE_ID}')">
+                                        {MAKALE_ID}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="templateEditor" class="form-label">Şablon İçeriği</label>
+                        <div class="toolbar-container">
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatText('bold')"><i class="bi bi-type-bold"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatText('italic')"><i class="bi bi-type-italic"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatText('underline')"><i class="bi bi-type-underline"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-3" onclick="formatText('normal')"><i class="bi bi-type"></i></button>
+                            
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="addListItem('ordered')"><i class="bi bi-list-ol"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-3" onclick="addListItem('unordered')"><i class="bi bi-list-ul"></i></button>
+                            
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="insertText('\n')"><i class="bi bi-text-paragraph"></i></button>
+                        </div>
+                        <div class="editor-container" id="templateEditor" contenteditable="true">
+                            <p>Sayın {HAKEM_ADI},</p>
+                            <p>"{MAKALE_BAŞLIĞI}" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.</p>
+                            <p>Saygılarımızla,<br>X Dergisi Editörlüğü</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success" onclick="saveTemplate(1)">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Yeni Şablon Oluşturma -->
+<div class="modal fade" id="newTemplateModal" tabindex="-1" aria-labelledby="newTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newTemplateModalLabel">Yeni Şablon Oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="newTemplateName" class="form-label">Şablon Adı</label>
+                            <input type="text" class="form-control" id="newTemplateName" placeholder="Şablon adını girin">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="newTemplateCategory" class="form-label">Kategori</label>
+                            <select class="form-select" id="newTemplateCategory">
+                                <option value="communication" selected>İletişim</option>
+                                <option value="document">Belge</option>
+                                <option value="email">E-posta</option>
+                                <option value="notification">Bildirim</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="newTemplateTags" class="form-label">Etiketler</label>
+                        <input type="text" class="form-control" id="newTemplateTags" placeholder="Etiketleri virgülle ayırarak girin">
+                        <div class="form-text">Etiketleri virgülle ayırın</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Değişkenler</label>
+                        <div class="border rounded p-3 bg-light">
+                            <div class="row row-cols-1 row-cols-md-3 g-2">
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariableNew('{HAKEM_ADI}')">
+                                        {HAKEM_ADI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariableNew('{MAKALE_BAŞLIĞI}')">
+                                        {MAKALE_BAŞLIĞI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariableNew('{TARİH}')">
+                                        {TARİH}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariableNew('{YAZAR_ADI}')">
+                                        {YAZAR_ADI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariableNew('{EDİTÖR_ADI}')">
+                                        {EDİTÖR_ADI}
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary w-100" onclick="insertVariableNew('{MAKALE_ID}')">
+                                        {MAKALE_ID}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="newTemplateEditor" class="form-label">Şablon İçeriği</label>
+                        <div class="toolbar-container">
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatTextNew('bold')"><i class="bi bi-type-bold"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatTextNew('italic')"><i class="bi bi-type-italic"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatTextNew('underline')"><i class="bi bi-type-underline"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-3" onclick="formatTextNew('normal')"><i class="bi bi-type"></i></button>
+                            
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="addListItemNew('ordered')"><i class="bi bi-list-ol"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-3" onclick="addListItemNew('unordered')"><i class="bi bi-list-ul"></i></button>
+                            
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="insertTextNew('\n')"><i class="bi bi-text-paragraph"></i></button>
+                        </div>
+                        <div class="editor-container" id="newTemplateEditor" contenteditable="true">
+                            <p>Şablon içeriğini buraya yazın...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="templateActive" checked>
+                            <label class="form-check-label" for="templateActive">
+                                Şablonu aktif olarak kullanıma aç
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" onclick="createTemplate()">Oluştur</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Şablon Silme Onayı -->
+<div class="modal fade" id="deleteTemplateModal" tabindex="-1" aria-labelledby="deleteTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTemplateModalLabel">Şablonu Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu şablonu silmek istediğinize emin misiniz?</p>
+                <p class="fw-bold" id="templateNameToDelete">Hakem Değerlendirme Hatırlatması</p>
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Bu işlem geri alınamaz ve şablonun tüm kullanımlarını etkileyebilir.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteTemplate()">Şablonu Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Şablon Kullanım Seçimi -->
+<div class="modal fade" id="useTemplateModal" tabindex="-1" aria-labelledby="useTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="useTemplateModalLabel">Şablonu Kullan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6>Şablon: <span id="templateToUseName">Hakem Değerlendirme Hatırlatması</span></h6>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="useTemplateFor" class="form-label">Kullanım Amacı</label>
+                    <select class="form-select" id="useTemplateFor">
+                        <option value="message" selected>Yeni Mesaj Oluştur</option>
+                        <option value="bulk">Toplu Mesaj Gönder</option>
+                        <option value="export">Dışa Aktar</option>
+                        <option value="document">Belge Oluştur</option>
+                    </select>
+                </div>
+                
+                <div id="recipientSection" class="mb-3">
+                    <label for="templateRecipient" class="form-label">Alıcı</label>
+                    <select class="form-select" id="templateRecipient">
+                        <option value="" selected disabled>Alıcı Seçin</option>
+                        <optgroup label="Hakemler">
+                            <option value="reviewer1">Prof. Dr. Ali Kaya</option>
+                            <option value="reviewer2">Doç. Dr. Zeynep Kartal</option>
+                            <option value="reviewer3">Prof. Dr. Mehmet Öztürk</option>
+                        </optgroup>
+                        <optgroup label="Yazarlar">
+                            <option value="author1">Doç. Dr. Ahmet Yılmaz</option>
+                            <option value="author2">Dr. Sinem Yıldız</option>
+                        </optgroup>
+                        <optgroup label="Editörler">
+                            <option value="editor1">Prof. Dr. Mehmet Aydın</option>
+                            <option value="editor2">Prof. Dr. Zeynep Kaya</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div id="articleSection" class="mb-3">
+                    <label for="templateArticle" class="form-label">İlgili Makale</label>
+                    <select class="form-select" id="templateArticle">
+                        <option value="" selected disabled>Makale Seçin</option>
+                        <option value="article1">ART-2025-0123: Eğitimde Uzaktan Öğrenme Teknolojileri</option>
+                        <option value="article2">ART-2025-0122: Doğal Dil İşleme Algoritmaları</option>
+                        <option value="article3">ART-2025-0103: Yapay Zeka ve Eğitim</option>
+                        <option value="article4">ART-2025-0097: Tarihsel Semantik Analizler</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success" onclick="applyTemplate()">İlerle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Kategorileri Düzenle -->
+<div class="modal fade" id="organizeTemplatesModal" tabindex="-1" aria-labelledby="organizeTemplatesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="organizeTemplatesModalLabel">Şablon Kategorilerini Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">Kategoriler</h6>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item template-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="fw-bold">İletişim</span>
+                                            <div class="small text-muted">8 şablon</div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-secondary me-1">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item template-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="fw-bold">Belge</span>
+                                            <div class="small text-muted">1 şablon</div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-secondary me-1">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item template-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="fw-bold">E-posta</span>
+                                            <div class="small text-muted">2 şablon</div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-secondary me-1">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item template-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="fw-bold">Bildirim</span>
+                                            <div class="small text-muted">1 şablon</div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-secondary me-1">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-sm btn-primary w-100" data-bs-toggle="modal" data-bs-target="#newCategoryModal">
+                                    <i class="bi bi-plus-circle"></i> Yeni Kategori
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">Kategori Etiketleri</h6>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-plus-circle"></i> Yeni Etiket
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">İletişim Kategorisi Etiketleri</label>
+                                    <div class="tags-container">
+                                        <span class="badge bg-secondary">Hakem <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Yazar <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Editör <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Değerlendirme <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Revizyon <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Karar <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Hatırlatma <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Davet <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Belge <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                        <span class="badge bg-secondary">Talep <button class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;"></button></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Etiket Ekle</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Yeni etiket adı">
+                                        <button class="btn btn-outline-primary" type="button">Ekle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Yeni Kategori Ekleme -->
+<div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newCategoryModalLabel">Yeni Kategori Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+ <!-- Eksik olan Modal: Yeni Kategori Ekleme kısmının devamı -->
+                    <div class="mb-3">
+                        <label for="newCategoryName" class="form-label">Kategori Adı</label>
+                        <input type="text" class="form-control" id="newCategoryName" placeholder="Kategori adını girin">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newCategoryDescription" class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="newCategoryDescription" rows="3" placeholder="Kategori açıklaması girin"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="newCategoryActive" checked>
+                            <label class="form-check-label" for="newCategoryActive">
+                                Kategoriyi aktif olarak kullanıma aç
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">Kategori Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Şablonlar Sayfası JavaScript Kodları -->
+<script>
+// Sayfa yüklendiğinde çalışacak fonksiyonlar
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobil menü toggle işlevi
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebarContainer = document.querySelector('.sidebar-container');
+    const sidebarBackdrop = document.createElement('div');
+    sidebarBackdrop.classList.add('sidebar-backdrop');
+    document.body.appendChild(sidebarBackdrop);
+
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            sidebarContainer.classList.toggle('show');
+            sidebarBackdrop.classList.toggle('show');
+        });
+
+        sidebarBackdrop.addEventListener('click', function() {
+            sidebarContainer.classList.remove('show');
+            sidebarBackdrop.classList.remove('show');
+        });
+    }
+    
+    // Tab geçişlerini etkinleştir
+    const templateTabs = document.querySelectorAll('#templateTabs .nav-link');
+    templateTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Aktif tab işaretlemesi
+            templateTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // İlgili içeriği göster
+            const target = document.querySelector(this.getAttribute('data-bs-target'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+            if (target) {
+                target.classList.add('show', 'active');
+            }
+        });
+    });
+});
+
+// Şablon görüntüleme fonksiyonu
+function viewTemplate(id) {
+    const modal = new bootstrap.Modal(document.getElementById('viewTemplateModal'));
+    
+    // Şablon ID'sine göre içeriği güncelle (gerçek uygulamada bu veriler API'den gelir)
+    const templateTitles = {
+        1: "Hakem Değerlendirme Hatırlatması",
+        2: "Hakem Değerlendirmesi Tamamlandı",
+        3: "Editör Kararı Bildirimi",
+        4: "Eksik Belge Talebi",
+        5: "Revizyon Talebi",
+        6: "Makale Reddetme Bildirimi",
+        7: "Makale Kabul Bildirimi",
+        8: "Hakem Daveti",
+        9: "Yeni Sayı Duyurusu",
+        10: "Telif Hakkı Formu",
+        11: "Makale Gönderimi Onayı",
+        12: "Süre Uzatım Onayı"
+    };
+    
+    // Modal başlığını güncelle
+    document.getElementById('viewTemplateModalLabel').textContent = `Şablon: ${templateTitles[id] || 'Şablon'}`;
+    
+    // Şablonu göster
+    modal.show();
+}
+
+// Şablon düzenleme fonksiyonu
+function editTemplate(id) {
+    // Önce görüntüleme modalını kapat (açıksa)
+    const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewTemplateModal'));
+    if (viewModal) {
+        viewModal.hide();
+    }
+    
+    const editModal = new bootstrap.Modal(document.getElementById('editTemplateModal'));
+    
+    // Şablon ID'sine göre içeriği güncelle (gerçek uygulamada bu veriler API'den gelir)
+    const templateTitles = {
+        1: "Hakem Değerlendirme Hatırlatması",
+        2: "Hakem Değerlendirmesi Tamamlandı",
+        3: "Editör Kararı Bildirimi",
+        4: "Eksik Belge Talebi",
+        5: "Revizyon Talebi",
+        6: "Makale Reddetme Bildirimi",
+        7: "Makale Kabul Bildirimi",
+        8: "Hakem Daveti",
+        9: "Yeni Sayı Duyurusu",
+        10: "Telif Hakkı Formu",
+        11: "Makale Gönderimi Onayı",
+        12: "Süre Uzatım Onayı"
+    };
+    
+    // Modal başlığını güncelle
+    document.getElementById('editTemplateModalLabel').textContent = `Şablon Düzenle: ${templateTitles[id] || 'Şablon'}`;
+    
+    // Şablon adını form alanına yaz
+    if (document.getElementById('templateName')) {
+        document.getElementById('templateName').value = templateTitles[id] || '';
+    }
+    
+    // Şablonu göster
+    editModal.show();
+}
+
+// Şablon silme fonksiyonu
+function deleteTemplate(id) {
+    const modal = new bootstrap.Modal(document.getElementById('deleteTemplateModal'));
+    
+    // Şablon ID'sine göre içeriği güncelle
+    const templateTitles = {
+        1: "Hakem Değerlendirme Hatırlatması",
+        2: "Hakem Değerlendirmesi Tamamlandı",
+        3: "Editör Kararı Bildirimi",
+        4: "Eksik Belge Talebi",
+        5: "Revizyon Talebi",
+        6: "Makale Reddetme Bildirimi",
+        7: "Makale Kabul Bildirimi",
+        8: "Hakem Daveti",
+        9: "Yeni Sayı Duyurusu",
+        10: "Telif Hakkı Formu",
+        11: "Makale Gönderimi Onayı",
+        12: "Süre Uzatım Onayı"
+    };
+    
+    // Silinecek şablon adını modalda göster
+    document.getElementById('templateNameToDelete').textContent = templateTitles[id] || 'Şablon';
+    
+    // Silme onayı modalını göster
+    modal.show();
+}
+
+// Şablon silme onay işlemi
+function confirmDeleteTemplate() {
+    // Gerçek uygulamada API çağrısı yapılır
+    alert('Şablon silindi!');
+    
+    // Modalı kapat
+    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteTemplateModal'));
+    if (modal) {
+        modal.hide();
+    }
+    
+    // Sayfayı yenile veya DOM'dan şablonu kaldır
+    // window.location.reload();
+}
+
+// Şablon kullanım fonksiyonu
+function useTemplate(id) {
+    // Önce görüntüleme modalını kapat (açıksa)
+    const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewTemplateModal'));
+    if (viewModal) {
+        viewModal.hide();
+    }
+    
+    const useModal = new bootstrap.Modal(document.getElementById('useTemplateModal'));
+    
+    // Şablon ID'sine göre içeriği güncelle
+    const templateTitles = {
+        1: "Hakem Değerlendirme Hatırlatması",
+        2: "Hakem Değerlendirmesi Tamamlandı",
+        3: "Editör Kararı Bildirimi",
+        4: "Eksik Belge Talebi",
+        5: "Revizyon Talebi",
+        6: "Makale Reddetme Bildirimi",
+        7: "Makale Kabul Bildirimi",
+        8: "Hakem Daveti",
+        9: "Yeni Sayı Duyurusu",
+        10: "Telif Hakkı Formu",
+        11: "Makale Gönderimi Onayı",
+        12: "Süre Uzatım Onayı"
+    };
+    
+    // Kullanılacak şablon adını modalda göster
+    document.getElementById('templateToUseName').textContent = templateTitles[id] || 'Şablon';
+    
+    // Kullanım modalını göster
+    useModal.show();
+}
+
+// Şablon uygulama işlemi
+function applyTemplate() {
+    // Gerçek uygulamada burada seçilen alıcı ve makaleye göre işlem yapılır
+    alert('Şablon uygulandı!');
+    
+    // Modalı kapat
+    const modal = bootstrap.Modal.getInstance(document.getElementById('useTemplateModal'));
+    if (modal) {
+        modal.hide();
+    }
+}
+
+// Yeni şablon oluşturma işlemi
+function createTemplate() {
+    // Form verilerini al
+    const templateName = document.getElementById('newTemplateName').value;
+    
+    if (!templateName) {
+        alert('Lütfen şablon adını giriniz.');
+        return;
+    }
+    
+    // Gerçek uygulamada API çağrısı yapılır
+    alert('Yeni şablon oluşturuldu: ' + templateName);
+    
+    // Modalı kapat
+    const modal = bootstrap.Modal.getInstance(document.getElementById('newTemplateModal'));
+    if (modal) {
+        modal.hide();
+    }
+    
+    // Sayfayı yenile
+    // window.location.reload();
+}
+
+// Şablon güncelleme işlemi
+function saveTemplate(id) {
+    // Form verilerini al
+    const templateName = document.getElementById('templateName').value;
+    
+    if (!templateName) {
+        alert('Lütfen şablon adını giriniz.');
+        return;
+    }
+    
+    // Gerçek uygulamada API çağrısı yapılır
+    alert('Şablon güncellendi: ' + templateName);
+    
+    // Modalı kapat
+    const modal = bootstrap.Modal.getInstance(document.getElementById('editTemplateModal'));
+    if (modal) {
+        modal.hide();
+    }
+    
+    // Sayfayı yenile
+    // window.location.reload();
+}
+
+// Metin biçimlendirme fonksiyonları
+function formatText(style) {
+    const editor = document.getElementById('templateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    const selectedText = range.toString();
+    
+    if (!selectedText) return;
+    
+    // Seçili metni biçimlendir
+    let formattedText = '';
+    switch (style) {
+        case 'bold':
+            formattedText = `<strong>${selectedText}</strong>`;
+            break;
+        case 'italic':
+            formattedText = `<em>${selectedText}</em>`;
+            break;
+        case 'underline':
+            formattedText = `<u>${selectedText}</u>`;
+            break;
+        case 'normal':
+            formattedText = selectedText;
+            break;
+    }
+    
+    // Yeni içeriği ekle
+    range.deleteContents();
+    const fragment = range.createContextualFragment(formattedText);
+    range.insertNode(fragment);
+}
+
+function formatTextNew(style) {
+    const editor = document.getElementById('newTemplateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    const selectedText = range.toString();
+    
+    if (!selectedText) return;
+    
+    // Seçili metni biçimlendir
+    let formattedText = '';
+    switch (style) {
+        case 'bold':
+            formattedText = `<strong>${selectedText}</strong>`;
+            break;
+        case 'italic':
+            formattedText = `<em>${selectedText}</em>`;
+            break;
+        case 'underline':
+            formattedText = `<u>${selectedText}</u>`;
+            break;
+        case 'normal':
+            formattedText = selectedText;
+            break;
+    }
+    
+    // Yeni içeriği ekle
+    range.deleteContents();
+    const fragment = range.createContextualFragment(formattedText);
+    range.insertNode(fragment);
+}
+
+// Liste öğesi ekleme
+function addListItem(listType) {
+    const editor = document.getElementById('templateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    let container = range.commonAncestorContainer;
+    
+    // Konteyner element değilse, üst elementi al
+    if (container.nodeType !== Node.ELEMENT_NODE) {
+        container = container.parentNode;
+    }
+    
+    // Liste oluşturma veya mevcut listede öğe ekleme
+    let list;
+    if (listType === 'ordered' && container.nodeName !== 'OL') {
+        list = document.createElement('ol');
+    } else if (listType === 'unordered' && container.nodeName !== 'UL') {
+        list = document.createElement('ul');
+    } else if (container.nodeName === 'OL' || container.nodeName === 'UL') {
+        list = container;
+    }
+    
+    const listItem = document.createElement('li');
+    listItem.textContent = 'Yeni liste öğesi';
+    
+    if (list && list !== container) {
+        list.appendChild(listItem);
+        range.deleteContents();
+        range.insertNode(list);
+    } else if (list === container) {
+        list.appendChild(listItem);
+    }
+}
+
+function addListItemNew(listType) {
+    const editor = document.getElementById('newTemplateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    let container = range.commonAncestorContainer;
+    
+    // Konteyner element değilse, üst elementi al
+    if (container.nodeType !== Node.ELEMENT_NODE) {
+        container = container.parentNode;
+    }
+    
+    // Liste oluşturma veya mevcut listede öğe ekleme
+    let list;
+    if (listType === 'ordered' && container.nodeName !== 'OL') {
+        list = document.createElement('ol');
+    } else if (listType === 'unordered' && container.nodeName !== 'UL') {
+        list = document.createElement('ul');
+    } else if (container.nodeName === 'OL' || container.nodeName === 'UL') {
+        list = container;
+    }
+    
+    const listItem = document.createElement('li');
+    listItem.textContent = 'Yeni liste öğesi';
+    
+    if (list && list !== container) {
+        list.appendChild(listItem);
+        range.deleteContents();
+        range.insertNode(list);
+    } else if (list === container) {
+        list.appendChild(listItem);
+    }
+}
+
+// Metin ekleme
+function insertText(text) {
+    const editor = document.getElementById('templateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    
+    if (text === '\n') {
+        const br = document.createElement('br');
+        range.deleteContents();
+        range.insertNode(br);
+    } else {
+        range.deleteContents();
+        range.insertNode(document.createTextNode(text));
+    }
+}
+
+function insertTextNew(text) {
+    const editor = document.getElementById('newTemplateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    
+    if (text === '\n') {
+        const br = document.createElement('br');
+        range.deleteContents();
+        range.insertNode(br);
+    } else {
+        range.deleteContents();
+        range.insertNode(document.createTextNode(text));
+    }
+}
+
+// Değişken ekleme
+function insertVariable(variable) {
+    const editor = document.getElementById('templateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    
+    range.deleteContents();
+    range.insertNode(document.createTextNode(variable));
+}
+
+function insertVariableNew(variable) {
+    const editor = document.getElementById('newTemplateEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    
+    range.deleteContents();
+    range.insertNode(document.createTextNode(variable));
+}
+</script>
+</body>
+</html>                   

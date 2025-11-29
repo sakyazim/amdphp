@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="45.479mm" height="31.841mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1070.69 749.62"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil1 {fill:#EEEDEE;fill-rule:nonzero}
+    .fil2 {fill:#D62628;fill-rule:nonzero}
+    .fil0 {fill:#1C88C9;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <path class="fil0" d="M1070.69 699.75c0,27.53 -22.3,49.86 -49.82,49.86l-971.03 0c-27.51,0 -49.83,-22.33 -49.83,-49.86l0 -649.89c0,-27.52 22.33,-49.87 49.83,-49.87l971.03 0c27.52,0 49.82,22.35 49.82,49.87l0 649.89z"/>
+  <path class="fil1" d="M1070.69 49.87c0,-12.72 -4.81,-24.3 -12.65,-33.12l-1058.04 611.26 0 71.75c0,20.99 12.99,38.92 31.34,46.27l1039.35 -600.48 0 -95.68z"/>
+  <polygon class="fil1" points="445.04,749.62 625.65,749.62 625.65,0 445.04,0 "/>
+  <polygon class="fil1" points="-0,465.16 1070.69,465.16 1070.69,284.44 -0,284.44 "/>
+  <path class="fil1" d="M1070.69 700.23l0 -84.56 -1049.29 -606.23c-12.92,9 -21.4,23.96 -21.4,40.91l0 82.84 1050.62 606.98c12.16,-9.09 20.07,-23.59 20.07,-39.94z"/>
+  <polygon class="fil2" points="770.99,466.84 687.96,466.84 1070.69,691.01 1070.69,639.99 "/>
+  <polygon class="fil2" points="-0,62.24 -0,113.77 298.31,286.11 387.48,286.11 "/>
+  <path class="fil2" d="M1070.69 86.03l0 -36.16c0,-4.92 -0.74,-9.68 -2.07,-14.17l-430.53 248.74 89.17 0 343.42 -198.41z"/>
+  <path class="fil2" d="M11.05 732.69l435.24 -251.99 -89.2 0 -356.82 207.34 0 13.69c0,11.74 4.04,22.47 10.78,30.96z"/>
+  <polygon class="fil2" points="468.6,749.62 602.1,749.62 602.1,0 468.6,0 "/>
+  <polygon class="fil2" points="-0,441.61 1070.69,441.61 1070.69,308.01 -0,308.01 "/>
+ </g>
+</svg>

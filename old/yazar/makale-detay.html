@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Makale Detayları</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Özel stiller */
+        .process-item.completed .step-icon {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .process-item.current .step-icon {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .process-item.pending .step-icon {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 1rem;
+			z-index:1;
+        }
+        
+        .process-timeline {
+            position: relative;
+        }
+        
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            height: calc(100% - 80px);
+            width: 2px;
+            background-color: var(--gray-300);
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="yazar-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Yazar olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-workspace me-2"></i>
+                        <span>Yazar</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Doç. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="yazar-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="yazar-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="yazar-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yazar-makaleler.html" class="nav-link active">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makalelerim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="ortak-yazarliklar.html" class="nav-link ">
+                                    <i class="bi bi-people me-2"></i> Ortak Yazarlıklar
+                                    <span class="badge bg-danger rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yeni-makale.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Makale
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="yazar-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yazar-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5><i class="bi bi-file-earmark-text"></i> Makale Detayları ve Değerlendirme Süreci</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h4 id="article-title">Yapay Zeka ve Eğitim</h4>
+                                <p class="text-muted">Gönderim Tarihi: <span id="submission-date">12.02.2025</span> | ID: <span id="article-id">ART-2025-0103</span></p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span id="article-status" class="badge bg-warning text-dark fs-6">Değerlendirmede</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Makale Bilgileri -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-info-circle"></i> Makale Bilgileri</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Yazarlar:</div>
+                                    <div class="col-md-9" id="authors">Ahmet Yılmaz (Sorumlu Yazar), Mehmet Can, Ayşe Demir</div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Makale Tipi:</div>
+                                    <div class="col-md-9" id="article-type">Özgün Araştırma</div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Özet:</div>
+                                    <div class="col-md-9" id="abstract">
+                                        Bu çalışmada, yapay zeka teknolojilerinin eğitim alanında kullanımı ve etkileri incelenmiştir. Özellikle kişiselleştirilmiş öğrenme, otomatik değerlendirme ve eğitimci destekleme sistemleri üzerinde durulmuş, bu teknolojilerin eğitim süreçlerine entegrasyonu için öneriler geliştirilmiştir.
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Anahtar Kelimeler:</div>
+                                    <div class="col-md-9" id="keywords">
+                                        <span class="badge bg-secondary me-1">Yapay Zeka</span>
+                                        <span class="badge bg-secondary me-1">Eğitim Teknolojileri</span>
+                                        <span class="badge bg-secondary me-1">Öğrenme</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Kategori:</div>
+                                    <div class="col-md-9" id="category">Eğitim Bilimleri, Bilgisayar Bilimleri</div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Dosyalar:</div>
+                                    <div class="col-md-9" id="files">
+                                        <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-file-pdf"></i> makale_v1.pdf</a>
+                                        <a href="#" class="btn btn-sm btn-outline-secondary"><i class="bi bi-file-earmark-excel"></i> veri_tabloları.xlsx</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Değerlendirme Süreci -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-list-check"></i> Değerlendirme Süreci</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="process-timeline">
+                                    <div class="d-flex process-item completed mb-3">
+                                        <div class="step-icon">
+                                            <i class="bi bi-check-lg"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Makale Gönderimi</h6>
+                                            <p class="text-muted mb-0">Makaleniz sisteme yüklendi.</p>
+                                            <small class="text-muted">12.02.2025</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex process-item completed mb-3">
+                                        <div class="step-icon">
+                                            <i class="bi bi-check-lg"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Ön Değerlendirme</h6>
+                                            <p class="text-muted mb-0">Editör tarafından ön değerlendirme tamamlandı.</p>
+                                            <small class="text-muted">15.02.2025</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex process-item completed mb-3">
+                                        <div class="step-icon">
+                                            <i class="bi bi-check-lg"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Hakem Ataması</h6>
+                                            <p class="text-muted mb-0">Makaleniz değerlendirme için 2 hakeme gönderildi.</p>
+                                            <small class="text-muted">18.02.2025</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex process-item current mb-3">
+                                        <div class="step-icon">
+                                            <i class="bi bi-hourglass-split"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Hakem Değerlendirmesi</h6>
+                                            <p class="text-muted mb-0">1/2 hakem değerlendirmesi tamamlandı.</p>
+                                            <small class="text-muted">Devam ediyor</small>
+                                            <div class="progress mt-2" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex process-item pending mb-3">
+                                        <div class="step-icon">
+                                            <i class="bi bi-clock"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Editör Kararı</h6>
+                                            <p class="text-muted mb-0">Hakem değerlendirmeleri sonrası karar verilecek.</p>
+                                            <small class="text-muted">Bekleniyor</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex process-item pending">
+                                        <div class="step-icon">
+                                            <i class="bi bi-clock"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Yayınlanma</h6>
+                                            <p class="text-muted mb-0">Kabul edilirse makale dergide yayınlanacak.</p>
+                                            <small class="text-muted">Bekleniyor</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hakem Yorumları -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-chat-left-text"></i> Hakem Yorumları</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info mb-3">
+                                    <h6>Hakem 1 Değerlendirmesi</h6>
+                                    <hr>
+                                    <p><strong>Genel Değerlendirme:</strong> Makale konu açısından güncel ve değerli. Bazı revizyonlarla yayınlanabilir.</p>
+                                    <p><strong>Güçlü Yönler:</strong> Kapsamlı literatür taraması, güncel örnekler, açık anlatım.</p>
+                                    <p><strong>Zayıf Yönler:</strong> Metodoloji bölümü genişletilebilir, daha fazla görsel eklenebilir.</p>
+                                    <p><strong>Öneriler:</strong></p>
+                                    <ul>
+                                        <li>Sayfa 5'teki şekil açıklamaları detaylandırılmalı</li>
+                                        <li>Yapay zeka uygulamalarının eğitim alanındaki etik boyutları tartışılabilir</li>
+                                        <li>Sonuç bölümü genişletilmeli ve uygulamaya yönelik daha somut öneriler sunulmalı</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-secondary">
+                                    <p class="text-center my-2">Hakem 2 değerlendirmesi henüz tamamlanmadı.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Düzeltme Yükleme -->
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-pencil-square"></i> Düzeltme Yükleme</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-info-circle-fill me-2"></i> 
+                                    Hakem değerlendirmeleri tamamlandıktan sonra düzeltme gönderebileceksiniz.
+                                </div>
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="revisionFile" class="form-label">Düzeltilmiş Makale Dosyası</label>
+                                        <input class="form-control" type="file" id="revisionFile" accept=".pdf,.doc,.docx" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="revisionComments" class="form-label">Düzeltme Açıklamaları</label>
+                                        <textarea class="form-control" id="revisionComments" rows="4" placeholder="Yaptığınız düzeltmeleri açıklayınız..." disabled></textarea>
+                                    </div>
+									<div class="mb-3">
+    <label for="editorMessage" class="form-label">Editöre Mesaj</label>
+    <textarea class="form-control" id="editorMessage" rows="3" placeholder="Editöre iletmek istediğiniz özel notları buraya yazabilirsiniz..."></textarea>
+    <div class="form-text">Bu mesaj sadece editör tarafından görüntülenecektir.</div>
+</div>
+
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <button type="submit" class="btn btn-primary" disabled>Düzeltmeleri Gönder</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Geri Dön Butonu -->
+<a href="yazar-makaleler.html" class="btn btn-primary back-button rounded-circle">
+    <i class="bi bi-arrow-left"></i>
+</a>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    // URL parametrelerinden makale bilgilerini al
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        
+        // Makalenin var olup olmadığını kontrol et
+        if (articleId) {
+            // Gerçek bir uygulamada burada AJAX ile makale verilerini çekersiniz
+            // Şimdilik statik olarak gösterme amaçlı ID'yi yerleştiriyoruz
+            document.getElementById('article-id').textContent = articleId;
+            
+            // Makale başlığı, durumu vb. bilgileri burada dinamik olarak doldururdunuz
+            // Örnek: fetchArticleDetails(articleId);
+        }
+        
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+    });
+</script>
+    <script src="assets/js/main.js"></script>
+	<script src="assets/js/utils.js"></script>
+</body>
+</html>

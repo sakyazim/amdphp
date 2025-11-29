@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Sekreter Kontrol Paneli</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --secondary: #6c757d;
+            --info: #0dcaf0;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .role-alert {
+            background-color: rgba(13, 110, 253, 0.1);
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .role-alert .alert-icon {
+            color: var(--primary);
+        }
+        
+        .content-wrapper {
+            margin-top: 2rem;
+        }
+        
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 1rem;
+        }
+        
+        .sidebar-heading {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-link {
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .nav-link.active {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .dashboard-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon-bg {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            border-left: 4px solid;
+            border-radius: 0.25rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .table {
+            font-size: 0.9rem;
+        }
+        
+        .task-item {
+            border-left: 3px solid var(--primary);
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
+            background-color: #fff;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .task-item.high-priority {
+            border-left-color: var(--danger);
+        }
+        
+        .task-item.medium-priority {
+            border-left-color: var(--warning);
+        }
+        
+        .task-item.low-priority {
+            border-left-color: var(--success);
+        }
+        
+        .task-due {
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+        
+        .task-due.overdue {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        .progress {
+            height: 8px;
+            margin-top: 0.5rem;
+        }
+        
+        .chart-container {
+            height: 240px;
+            position: relative;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar-container {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                height: 100vh;
+                width: 280px;
+                z-index: 1030;
+                transition: left 0.3s;
+                background-color: #fff;
+            }
+            
+            .sidebar-container.show {
+                left: 0;
+            }
+            
+            .sidebar-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1020;
+                display: none;
+            }
+            
+            .sidebar-backdrop.show {
+                display: block;
+            }
+            
+            .mobile-menu-toggle {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--primary);
+                padding: 0.25rem;
+            }
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+        
+        .notification-circle {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            line-height: 18px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Logo ve mobil menü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="sekreter-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Sekreter olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-badge me-2"></i>
+                        <span>Sekreter</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-badge me-2"></i> Sekreter</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Bildirimler -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary position-relative" type="button" id="notificationsDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-circle">5</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdownBtn" style="width: 300px;">
+                        <li><h6 class="dropdown-header">Bildirimler</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-file-earmark-plus me-2 text-success"></i>
+                            <div class="small">
+                                <div>Yeni makale gönderimi: "Yapay Zeka ve Etiği"</div>
+                                <div class="text-muted">10 dakika önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-clock me-2 text-warning"></i>
+                            <div class="small">
+                                <div>Değerlendirme süresi dolan makale: ART-2025-0097</div>
+                                <div class="text-muted">2 saat önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-envelope me-2 text-info"></i>
+                            <div class="small">
+                                <div>Yeni yazışma: Makale ART-2025-0103 için yanıt</div>
+                                <div class="text-muted">Dün</div>
+                            </div>
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center small text-primary" href="#">Tüm bildirimleri görüntüle</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Ayşe Yıldız</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="sekreter-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="sekreter-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-panel.html" class="nav-link active">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yeni-gonderimler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Gönderimler
+                                    <span class="badge bg-danger rounded-pill float-end">7</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makaleler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yazisma.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Yazışmalar
+                                    <span class="badge bg-warning rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yayinlar.html" class="nav-link">
+                                    <i class="bi bi-journal-check me-2"></i> Yayın Programı
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-hakem-havuzu.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Hakem Havuzu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Şablonlar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Karşılama Mesajı ve Tarih -->
+                <div class="mb-4">
+                    <div class="d-sm-flex justify-content-between align-items-center">
+                        <h3>Hoş geldiniz, Ayşe Yıldız</h3>
+                        <div class="text-muted">7 Mart 2025, Cuma</div>
+                    </div>
+                    <p class="text-muted">Sekreter kontrol panelinizden tüm dergi işlemlerini yönetebilirsiniz.</p>
+                </div>
+                
+                <!-- Özet İstatistikler -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--primary) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Toplam Makale</h6>
+                                        <h2 class="mt-2 mb-0">142</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-primary bg-opacity-10 text-primary">
+                                        <i class="bi bi-file-earmark-text fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-success"><i class="bi bi-arrow-up"></i> %8.3</span>
+                                    <span class="text-muted ms-2">geçen aya göre</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--danger) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Yeni Gönderi</h6>
+                                        <h2 class="mt-2 mb-0">7</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-danger bg-opacity-10 text-danger">
+                                        <i class="bi bi-file-earmark-plus fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-danger"><i class="bi bi-arrow-up"></i> %12.5</span>
+                                    <span class="text-muted ms-2">son 7 günde</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--warning) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Değerlendirmede</h6>
+                                        <h2 class="mt-2 mb-0">28</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-warning bg-opacity-10 text-warning">
+                                        <i class="bi bi-hourglass-split fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-success"><i class="bi bi-arrow-down"></i> %4.2</span>
+                                    <span class="text-muted ms-2">son 7 günde</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--success) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Yayınlanan</h6>
+                                        <h2 class="mt-2 mb-0">97</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-success bg-opacity-10 text-success">
+                                        <i class="bi bi-journal-check fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-success"><i class="bi bi-arrow-up"></i> %6.7</span>
+                                    <span class="text-muted ms-2">geçen aya göre</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Görev ve Durum Satırı -->
+                <div class="row g-3 mb-4">
+                    <!-- İşlem Bekleyen Görevler -->
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-list-check text-primary me-2"></i> İşlem Bekleyen Görevler</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="taskFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Tümü
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="taskFilterDropdown">
+                                        <li><a class="dropdown-item" href="#">Tümü</a></li>
+                                        <li><a class="dropdown-item" href="#">Yüksek Öncelik</a></li>
+                                        <li><a class="dropdown-item" href="#">Orta Öncelik</a></li>
+                                        <li><a class="dropdown-item" href="#">Düşük Öncelik</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="task-item high-priority">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Teknik kontrol gerekiyor</h6>
+                                            <div class="small">ART-2025-0123: "Eğitimde Uzaktan Öğrenme Teknolojileri"</div>
+                                        </div>
+                                        <span class="badge bg-danger">Acil</span>
+                                    </div>
+                                    <div class="task-due overdue">Son tarih: 06.03.2025 (1 gün gecikti)</div>
+                                </div>
+                                
+                                <div class="task-item high-priority">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Hakem atama hatırlatması gönderilecek</h6>
+                                            <div class="small">ART-2025-0116: "Klinik Psikolojide Güncel Yaklaşımlar"</div>
+                                        </div>
+                                        <span class="badge bg-danger">Acil</span>
+                                    </div>
+                                    <div class="task-due overdue">Son tarih: 05.03.2025 (2 gün gecikti)</div>
+                                </div>
+                                
+                                <div class="task-item medium-priority">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Eksik belge talebi gönderilecek</h6>
+                                            <div class="small">ART-2025-0119: "Sürdürülebilir Kalkınma ve İklim Politikaları"</div>
+                                        </div>
+                                        <span class="badge bg-warning text-dark">Normal</span>
+                                    </div>
+                                    <div class="task-due">Son tarih: 10.03.2025</div>
+                                </div>
+                                
+                                <div class="task-item medium-priority">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Hakem değerlendirme takibi</h6>
+                                            <div class="small">ART-2025-0103: "Yapay Zeka ve Eğitim"</div>
+                                        </div>
+                                        <span class="badge bg-warning text-dark">Normal</span>
+                                    </div>
+                                    <div class="task-due">Son tarih: 12.03.2025</div>
+                                </div>
+                                
+                                <div class="task-item low-priority">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Yeni numara ataması yapılacak</h6>
+                                            <div class="small">Cilt 12, Sayı 2 için makale numaralandırması</div>
+                                        </div>
+                                        <span class="badge bg-success">Düşük</span>
+                                    </div>
+                                    <div class="task-due">Son tarih: 20.03.2025</div>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Tüm görevleri görüntüle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Makale Durumları -->
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0"><i class="bi bi-bar-chart-line text-primary me-2"></i> Makale Durumları</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container mb-3">
+                                    <canvas id="articleStatusChart"></canvas>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #4BC0C0;"></span> Yeni gönderimler</td>
+                                                <td class="text-end">7</td>
+                                                <td class="text-end">%5</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #FF6384;"></span> Ön değerlendirmede</td>
+                                                <td class="text-end">12</td>
+                                                <td class="text-end">%8</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #FFCE56;"></span> Hakem değerlendirmesinde</td>
+                                                <td class="text-end">28</td>
+                                                <td class="text-end">%20</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #36A2EB;"></span> Revizyon bekleyen</td>
+                                                <td class="text-end">10</td>
+                                                <td class="text-end">%7</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #9966FF;"></span> Yayına hazırlanan</td>
+                                                <td class="text-end">15</td>
+                                                <td class="text-end">%11</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #FF9F40;"></span> Reddedilen</td>
+                                                <td class="text-end">35</td>
+                                                <td class="text-end">%25</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="status-badge" style="background-color: #4BC0C0;"></span> Yayınlanan</td>
+                                                <td class="text-end">35</td>
+                                                <td class="text-end">%25</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Makaleler ve Geçikme Satırı -->
+                <div class="row g-3 mb-4">
+                    <!-- Son Eklenen Makaleler -->
+                    <div class="col-md-7">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-file-earmark-text text-primary me-2"></i> Son Eklenen Makaleler</h5>
+                                <a href="sekreter-makaleler.html" class="btn btn-sm btn-outline-primary">Tümünü gör</a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Başlık</th>
+                                                <th>Durum</th>
+                                                <th>Tarih</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>ART-2025-0123</td>
+                                                <td>Eğitimde Uzaktan Öğrenme Teknolojileri</td>
+                                                <td><span class="badge bg-info">Yeni</span></td>
+                                                <td>06.03.2025</td>
+                                                <td>
+                                                    <a href="sekreter-makale-detay.html?id=ART-2025-0123" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0122</td>
+                                                <td>Doğal Dil İşleme Algoritmaları</td>
+                                                <td><span class="badge bg-info">Yeni</span></td>
+                                                <td>05.03.2025</td>
+                                                <td>
+                                                    <a href="sekreter-makale-detay.html?id=ART-2025-0122" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0121</td>
+                                                <td>Türkiye'de Göç Politikaları</td>
+                                                <td><span class="badge bg-info">Yeni</span></td>
+                                                <td>04.03.2025</td>
+                                                <td>
+                                                    <a href="sekreter-makale-detay.html?id=ART-2025-0121" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0120</td>
+                                                <td>Yeni Nesil Öğrenme Teknolojileri</td>
+                                                <td><span class="badge bg-warning text-dark">Ön Değerlendirme</span></td>
+                                                <td>03.03.2025</td>
+                                                <td>
+                                                    <a href="sekreter-makale-detay.html?id=ART-2025-0120" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ART-2025-0119</td>
+                                                <td>Sürdürülebilir Kalkınma ve İklim Politikaları</td>
+                                                <td><span class="badge bg-warning text-dark">Ön Değerlendirme</span></td>
+                                                <td>02.03.2025</td>
+                                                <td>
+                                                    <a href="sekreter-makale-detay.html?id=ART-2025-0119" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Geciken Değerlendirmeler -->
+                    <div class="col-md-5">
+                        <div class="card h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0"><i class="bi bi-exclamation-triangle text-primary me-2"></i> Geciken Değerlendirmeler</h5>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <div>5 değerlendirme süresi geçmiş durumda</div>
+                                </div>
+                                
+                                <div class="task-item high-priority">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">ART-2025-0097: "Tarihsel Semantik Analizler"</h6>
+                                            <div class="small">Hakem: Prof. Dr. Mehmet Kaya</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-due overdue">Son tarih: 15.02.2025 (20 gün gecikti)</div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-envelope"></i> Hatırlatma Gönder</button>
+                                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i> İptal Et</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-item high-priority mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">ART-2025-0101: "Sosyal Medya Etkileri"</h6>
+                                            <div class="small">Hakem: Doç. Dr. Ayşe Tekin</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-due overdue">Son tarih: 20.02.2025 (15 gün gecikti)</div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-envelope"></i> Hatırlatma Gönder</button>
+                                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i> İptal Et</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-item high-priority mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">ART-2025-0105: "Karmaşık Sistemler"</h6>
+                                            <div class="small">Hakem: Prof. Dr. Ali Yılmaz</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-due overdue">Son tarih: 25.02.2025 (10 gün gecikti)</div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-envelope"></i> Hatırlatma Gönder</button>
+                                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i> İptal Et</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <a href="#" class="btn btn-outline-primary">
+                                        <i class="bi bi-envelope"></i> Toplu Hatırlatma Gönder
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Alt Kartlar Satırı -->
+                <div class="row g-3 mb-4">
+                    <!-- Yaklaşan Yayınlar -->
+                    <div class="col-md-4">
+                        <div class="card dashboard-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-calendar-check text-success"></i> Yaklaşan Yayınlar</h5>
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="mb-0">Cilt 12, Sayı 2</h6>
+                                    <span class="badge bg-success">Mart 2025</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="text-muted">17/20 makale hazır</small>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+                                    <h6 class="mb-0">Cilt 12, Sayı 3</h6>
+                                    <span class="badge bg-secondary">Haziran 2025</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="text-muted">7/20 makale hazır</small>
+                                
+                                <div class="mt-3 text-center">
+                                    <a href="sekreter-yayinlar.html" class="btn btn-sm btn-outline-success">Yayın Programı</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Son Yazışmalar -->
+                    <div class="col-md-4">
+                        <div class="card dashboard-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-envelope text-info"></i> Son Yazışmalar</h5>
+                                <hr>
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action px-0 py-2 border-0">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Değerlendirme Yanıtı</h6>
+                                            <small>2 saat önce</small>
+                                        </div>
+                                        <p class="mb-1 small">Prof. Dr. Ali Kaya'dan hakem değerlendirmesi alındı.</p>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action px-0 py-2 border-0">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Revizyon Talebi</h6>
+                                            <small>Dün</small>
+                                        </div>
+                                        <p class="mb-1 small">Yazar Ahmet Yılmaz'a revizyon talebi gönderildi.</p>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action px-0 py-2 border-0">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Hakem Atama</h6>
+                                            <small>2 gün önce</small>
+                                        </div>
+                                        <p class="mb-1 small">Doç. Dr. Zeynep Kartal hakemlik daveti kabul edildi.</p>
+                                    </a>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <a href="sekreter-yazisma.html" class="btn btn-sm btn-outline-info">Tüm Yazışmalar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hızlı İşlemler -->
+                    <div class="col-md-4">
+                        <div class="card dashboard-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-lightning-charge text-warning"></i> Hızlı İşlemler</h5>
+                                <hr>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-file-earmark-plus"></i> Yeni Makale Kaydı
+                                    </button>
+                                    <button class="btn btn-outline-success">
+                                        <i class="bi bi-person-plus"></i> Yeni Hakem Ekle
+                                    </button>
+                                    <button class="btn btn-outline-info">
+                                        <i class="bi bi-envelope"></i> Toplu Bildirim Gönder
+                                    </button>
+                                    <button class="btn btn-outline-warning">
+                                        <i class="bi bi-file-earmark-arrow-down"></i> Rapor Oluştur
+                                    </button>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-gear"></i> Sistem Ayarları
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Makale Durumları Grafiği
+        const statusChart = document.getElementById('articleStatusChart');
+        if (statusChart) {
+            new Chart(statusChart, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Yeni gönderimler', 'Ön değerlendirmede', 'Hakem değerlendirmesinde', 'Revizyon bekleyen', 'Yayına hazırlanan', 'Reddedilen', 'Yayınlanan'],
+                    datasets: [{
+                        data: [7, 12, 28, 10, 15, 35, 35],
+                        backgroundColor: [
+                            '#4BC0C0',
+                            '#FF6384',
+                            '#FFCE56',
+                            '#36A2EB',
+                            '#9966FF',
+                            '#FF9F40',
+                            '#4BC0C0'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            display: false
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+        
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

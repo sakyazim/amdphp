@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Uzmanlık Alanlarım</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Özel Stiller */
+        .expertise-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .expertise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .expertise-level {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .expertise-level.beginner {
+            background-color: #28a745;
+        }
+        
+        .expertise-level.intermediate {
+            background-color: #fd7e14;
+        }
+        
+        .expertise-level.expert {
+            background-color: #dc3545;
+        }
+        
+        .tag-primary {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            border: 1px solid rgba(13, 110, 253, 0.2);
+        }
+        
+        .tag-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.2);
+        }
+        
+        .tag-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .tag-info {
+            background-color: rgba(23, 162, 184, 0.1);
+            color: #17a2b8;
+            border: 1px solid rgba(23, 162, 184, 0.2);
+        }
+        
+        .tag-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+        
+        .tag-secondary {
+            background-color: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+            border: 1px solid rgba(108, 117, 125, 0.2);
+        }
+        
+        .tag-badge {
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .tag-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tag-badge i {
+            margin-right: 5px;
+        }
+        
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .select2-container {
+            width: 100% !important;
+        }
+        
+        .expertise-visualization {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .expertise-circle {
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            position: relative;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .expertise-circle-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .expertise-circle-count {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        
+        .expertise-circle-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .expertise-sector {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
+        
+        .expertise-radar-chart {
+            width: 100%;
+            height: 300px;
+        }
+        
+        .select2-container--default .select2-selection--multiple {
+            border-color: #ced4da;
+            min-height: 38px;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+            padding: 2px 8px;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .experience-progress {
+            height: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .notification-toggle {
+            margin-top: 1rem;
+        }
+        
+        .draggable-item {
+            cursor: move;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .add-expertise-button {
+            width: 100%;
+            border-style: dashed;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            min-height: 150px;
+        }
+        
+        .add-expertise-button:hover {
+            color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+
+        .expertise-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            width: 31%;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .expertise-map {
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .related-journals {
+            margin-top: 20px;
+        }
+
+        .journal-card {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .journal-card:hover {
+            background-color: #e9ecef;
+        }
+
+        .journal-logo {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .journal-info {
+            flex-grow: 1;
+        }
+
+        .journal-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .journal-match {
+            font-size: 0.75rem;
+            color: #28a745;
+        }
+
+        .expertise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .expertise-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-content {
+            padding-top: 20px;
+        }
+
+        .import-expertise {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="hakem-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Hakem olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-eyeglasses me-2"></i>
+                        <span>Hakem</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Mehmet Aydın</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        
+                        <li><a class="dropdown-item" href="hakem-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="../giris/giris.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="hakem-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-bekleyenler.html" class="nav-link">
+                                    <i class="bi bi-hourglass-split me-2"></i> Bekleyen Değerlendirmeler
+                                    <span class="badge bg-danger rounded-pill float-end">4</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-devam-eden.html" class="nav-link">
+                                    <i class="bi bi-clipboard-check me-2"></i> Devam Eden Değerlendirmeler
+                                    <span class="badge bg-warning rounded-pill float-end">2</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="tamamlanan-degerlendirmeler.html" class="nav-link">
+                                    <i class="bi bi-check-circle me-2"></i> Tamamlanan Değerlendirmeler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-davetler.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Hakem Davetleri
+                                    <span class="badge bg-primary rounded-pill float-end">4</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item">
+                                <a href="hakem-uzmanlik-alanlarim.html" class="nav-link active">
+                                    <i class="bi bi-mortarboard me-2"></i> Uzmanlık Alanlarım
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Bilgi -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="card-title mb-0"><i class="bi bi-mortarboard me-2"></i> Uzmanlık Alanlarım</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExpertiseModal">
+                                <i class="bi bi-plus-lg me-1"></i> Yeni Uzmanlık Alanı Ekle
+                            </button>
+                        </div>
+                        <p class="text-muted">Uzmanlık alanlarınız, editörlerin size uygun makaleleri değerlendirmeniz için davet göndermesine yardımcı olur. Güncel ve doğru bir uzmanlık alanı profili oluşturarak daha uygun değerlendirme davetleri alabilirsiniz.</p>
+                    </div>
+                </div>
+
+                <!-- Uzmanlık İstatistikleri -->
+                <div class="expertise-stats mb-4">
+                    <div class="stat-item">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Toplam Uzmanlık Alanı</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Öncelikli Uzmanlık Alanı</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Profil Tamamlanma Oranı</div>
+                    </div>
+                </div>
+
+                <!-- Uzmanlık Alanları Navigasyon -->
+                <ul class="nav nav-tabs mb-4" id="expertiseTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="current-expertise-tab" data-bs-toggle="tab" data-bs-target="#current-expertise" type="button" role="tab" aria-controls="current-expertise" aria-selected="true">
+                            <i class="bi bi-list-check me-1"></i> Mevcut Uzmanlık Alanları
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="visualization-tab" data-bs-toggle="tab" data-bs-target="#visualization" type="button" role="tab" aria-controls="visualization" aria-selected="false">
+                            <i class="bi bi-graph-up me-1"></i> Görselleştirme
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="journals-tab" data-bs-toggle="tab" data-bs-target="#journals" type="button" role="tab" aria-controls="journals" aria-selected="false">
+                            <i class="bi bi-journal-text me-1"></i> Önerilen Dergiler
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">
+                            <i class="bi bi-gear me-1"></i> Ayarlar
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab İçerikleri -->
+                <div class="tab-content" id="expertiseTabContent">
+                    <!-- Mevcut Uzmanlık Alanları -->
+                    <div class="tab-pane fade show active" id="current-expertise" role="tabpanel" aria-labelledby="current-expertise-tab">
+                        <div class="expertise-header">
+                            <h5>Ana Uzmanlık Alanlarınız</h5>
+                            <div class="expertise-actions">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-funnel me-1"></i> Filtrele
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Tüm Alanlar</a></li>
+                                        <li><a class="dropdown-item" href="#">Sadece Öncelikli Alanlar</a></li>
+                                        <li><a class="dropdown-item" href="#">Uzman Seviyesi</a></li>
+                                        <li><a class="dropdown-item" href="#">Orta Seviye</a></li>
+                                        <li><a class="dropdown-item" href="#">Başlangıç Seviyesi</a></li>
+                                    </ul>
+                                </div>
+                                <div class="input-group" style="width: 250px;">
+                                    <input type="text" class="form-control" placeholder="Uzmanlık alanı ara..." aria-label="Uzmanlık alanı ara">
+                                    <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Eğitim Teknolojileri -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card expertise-card h-100" style="border-left-color: #0d6efd;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="card-title">Eğitim Teknolojileri</h5>
+                                            <div>
+                                                <span class="badge bg-primary">Birincil</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3">Eğitimde teknoloji entegrasyonu, öğrenme yönetim sistemleri, eğitsel yazılım değerlendirme ve geliştirme</p>
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="small">Uzmanlık Seviyesi</span>
+                                                <span class="small fw-bold">Uzman</span>
+                                            </div>
+                                            <div class="progress experience-progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="small">İlgili Alt Alanlar:</span>
+                                            <div class="tag-container mt-2">
+                                                <span class="tag-badge tag-primary"><i class="bi bi-tag"></i>Öğrenme Yönetim Sistemleri</span>
+                                                <span class="tag-badge tag-primary"><i class="bi bi-tag"></i>Eğitsel Mobil Uygulamalar</span>
+                                                <span class="tag-badge tag-primary"><i class="bi bi-tag"></i>Teknoloji Entegrasyonu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="small text-muted">8 tamamlanan değerlendirme</span>
+                                            <div class="btn-group btn-group-sm">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editExpertiseModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteExpertiseModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Yapay Zeka -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card expertise-card h-100" style="border-left-color: #0d6efd;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="card-title">Yapay Zeka</h5>
+                                            <div>
+                                                <span class="badge bg-primary">Birincil</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3">Yapay zeka uygulamaları, makine öğrenmesi, derin öğrenme, doğal dil işleme, eğitimde yapay zeka kullanımı</p>
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="small">Uzmanlık Seviyesi</span>
+                                                <span class="small fw-bold">Uzman</span>
+                                            </div>
+                                            <div class="progress experience-progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="small">İlgili Alt Alanlar:</span>
+                                            <div class="tag-container mt-2">
+                                                <span class="tag-badge tag-danger"><i class="bi bi-tag"></i>Makine Öğrenmesi</span>
+                                                <span class="tag-badge tag-danger"><i class="bi bi-tag"></i>Derin Öğrenme</span>
+                                                <span class="tag-badge tag-danger"><i class="bi bi-tag"></i>Eğitimde YZ</span>
+                                                <span class="tag-badge tag-danger"><i class="bi bi-tag"></i>Doğal Dil İşleme</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="small text-muted">5 tamamlanan değerlendirme</span>
+                                            <div class="btn-group btn-group-sm">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editExpertiseModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteExpertiseModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Uzaktan Eğitim -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card expertise-card h-100" style="border-left-color: #0d6efd;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="card-title">Uzaktan Eğitim</h5>
+                                            <div>
+                                                <span class="badge bg-primary">Birincil</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3">Çevrimiçi öğrenme, senkron ve asenkron eğitim modelleri, uzaktan eğitim metodolojileri, çevrimiçi değerlendirme</p>
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="small">Uzmanlık Seviyesi</span>
+                                                <span class="small fw-bold">Uzman</span>
+                                            </div>
+                                            <div class="progress experience-progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="small">İlgili Alt Alanlar:</span>
+                                            <div class="tag-container mt-2">
+                                                <span class="tag-badge tag-info"><i class="bi bi-tag"></i>Çevrimiçi Öğrenme</span>
+                                                <span class="tag-badge tag-info"><i class="bi bi-tag"></i>Hibrit Eğitim</span>
+                                                <span class="tag-badge tag-info"><i class="bi bi-tag"></i>Çevrimiçi Değerlendirme</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="small text-muted">4 tamamlanan değerlendirme</span>
+                                            <div class="btn-group btn-group-sm">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editExpertiseModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteExpertiseModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Eğitim Psikolojisi -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card expertise-card h-100" style="border-left-color: #28a745;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="card-title">Eğitim Psikolojisi</h5>
+                                            <div>
+                                                <span class="badge bg-secondary">İkincil</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3">Öğrenme stilleri, motivasyon, bilişsel süreçler, öğrenme teorileri, sınıf içi davranış yönetimi</p>
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="small">Uzmanlık Seviyesi</span>
+                                                <span class="small fw-bold">Orta</span>
+                                            </div>
+                                            <div class="progress experience-progress">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="small">İlgili Alt Alanlar:</span>
+                                            <div class="tag-container mt-2">
+                                                <span class="tag-badge tag-warning"><i class="bi bi-tag"></i>Motivasyon</span>
+                                                <span class="tag-badge tag-warning"><i class="bi bi-tag"></i>Öğrenme Stilleri</span>
+                                                <span class="tag-badge tag-warning"><i class="bi bi-tag"></i>Bilişsel Süreçler</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="small text-muted">1 tamamlanan değerlendirme</span>
+                                            <div class="btn-group btn-group-sm">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editExpertiseModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteExpertiseModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Öğretmen Eğitimi -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card expertise-card h-100" style="border-left-color: #0d6efd;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="card-title">Öğretmen Eğitimi</h5>
+                                            <div>
+                                                <span class="badge bg-primary">Birincil</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3">Hizmet içi öğretmen eğitimi, mesleki gelişim, teknoloji entegrasyonu, öğretmen yeterlilikleri</p>
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="small">Uzmanlık Seviyesi</span>
+                                                <span class="small fw-bold">Uzman</span>
+                                            </div>
+                                            <div class="progress experience-progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="small">İlgili Alt Alanlar:</span>
+                                            <div class="tag-container mt-2">
+                                                <span class="tag-badge tag-success"><i class="bi bi-tag"></i>Hizmet İçi Eğitim</span>
+                                                <span class="tag-badge tag-success"><i class="bi bi-tag"></i>Mesleki Gelişim</span>
+                                                <span class="tag-badge tag-success"><i class="bi bi-tag"></i>Öğretmen Yeterlilikleri</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="small text-muted">3 tamamlanan değerlendirme</span>
+                                            <div class="btn-group btn-group-sm">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editExpertiseModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteExpertiseModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mobil Öğrenme -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card expertise-card h-100" style="border-left-color: #28a745;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="card-title">Mobil Öğrenme</h5>
+                                            <div>
+                                                <span class="badge bg-secondary">İkincil</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3">Mobil uygulamalar, mobil cihazlar ile öğrenme, konum tabanlı öğrenme, mobil değerlendirme</p>
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="small">Uzmanlık Seviyesi</span>
+                                                <span class="small fw-bold">Orta</span>
+                                            </div>
+                                            <div class="progress experience-progress">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="small">İlgili Alt Alanlar:</span>
+                                            <div class="tag-container mt-2">
+                                                <span class="tag-badge tag-secondary"><i class="bi bi-tag"></i>Mobil Uygulamalar</span>
+                                                <span class="tag-badge tag-secondary"><i class="bi bi-tag"></i>Konum Tabanlı Öğrenme</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="small text-muted">2 tamamlanan değerlendirme</span>
+                                            <div class="btn-group btn-group-sm">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editExpertiseModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteExpertiseModal">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Yeni Uzmanlık Alanı Ekleme Kartı -->
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card h-100">
+                                    <button class="btn add-expertise-button" data-bs-toggle="modal" data-bs-target="#addExpertiseModal">
+                                        <div class="text-center">
+                                            <i class="bi bi-plus-circle" style="font-size: 2rem;"></i>
+                                            <p class="mt-2">Yeni Uzmanlık Alanı Ekle</p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Görselleştirme Tabı -->
+                    <div class="tab-pane fade" id="visualization" role="tabpanel" aria-labelledby="visualization-tab">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Uzmanlık Alanları Dağılımı</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="expertiseDistribution" width="100%" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Değerlendirme Dağılımı</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="reviewDistribution" width="100%" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Uzmanlık Alanı Radar Grafiği</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="expertiseRadar" width="100%" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">Kelime Bulutu: Anahtar Kelimeleriniz</h5>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-download me-1"></i> İndir
+                                        </button>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <img src="https://via.placeholder.com/800x400" alt="Word Cloud" class="img-fluid rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Önerilen Dergiler Tabı -->
+                    <div class="tab-pane fade" id="journals" role="tabpanel" aria-labelledby="journals-tab">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5 class="mb-3">Uzmanlık Alanlarınıza Göre Önerilen Dergiler</h5>
+                                <p class="text-muted mb-4">Uzmanlık alanlarınıza göre davet alabileceğiniz ve katkıda bulunabileceğiniz dergiler:</p>
+                                
+                                <div class="related-journals">
+                                    <!-- Dergi 1 -->
+                                    <div class="journal-card">
+                                        <div class="journal-logo">ETD</div>
+                                        <div class="journal-info">
+                                            <h6 class="journal-title">Eğitim Teknolojileri Dergisi</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="journal-match"><i class="bi bi-arrow-up-right"></i> %95 Uzmanlık Uyumu</p>
+                                                <span class="badge bg-success">4 Aktif Davet</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dergi 2 -->
+                                    <div class="journal-card">
+                                        <div class="journal-logo">YZE</div>
+                                        <div class="journal-info">
+                                            <h6 class="journal-title">Yapay Zeka ve Eğitim Dergisi</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="journal-match"><i class="bi bi-arrow-up-right"></i> %92 Uzmanlık Uyumu</p>
+                                                <span class="badge bg-success">2 Aktif Davet</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dergi 3 -->
+                                    <div class="journal-card">
+                                        <div class="journal-logo">UED</div>
+                                        <div class="journal-info">
+                                            <h6 class="journal-title">Uzaktan Eğitim Dergisi</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="journal-match"><i class="bi bi-arrow-up-right"></i> %88 Uzmanlık Uyumu</p>
+                                                <span class="badge bg-secondary">Davet Yok</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dergi 4 -->
+                                    <div class="journal-card">
+                                        <div class="journal-logo">ÖEA</div>
+                                        <div class="journal-info">
+                                            <h6 class="journal-title">Öğretmen Eğitimi Araştırmaları</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="journal-match"><i class="bi bi-arrow-up-right"></i> %85 Uzmanlık Uyumu</p>
+                                                <span class="badge bg-secondary">Davet Yok</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dergi 5 -->
+                                    <div class="journal-card">
+                                        <div class="journal-logo">MOD</div>
+                                        <div class="journal-info">
+                                            <h6 class="journal-title">Mobil Öğrenme Dergisi</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="journal-match"><i class="bi bi-arrow-up-right"></i> %78 Uzmanlık Uyumu</p>
+                                                <span class="badge bg-success">1 Aktif Davet</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h6 class="card-title mb-0">Dergi Filtreleri</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="journalSearch" class="form-label">Dergi Ara</label>
+                                            <input type="text" class="form-control" id="journalSearch" placeholder="Dergi adı girin...">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Uzmanlık Alanına Göre</label>
+                                            <select class="form-select">
+                                                <option selected>Tüm Alanlar</option>
+                                                <option>Eğitim Teknolojileri</option>
+                                                <option>Yapay Zeka</option>
+                                                <option>Uzaktan Eğitim</option>
+                                                <option>Eğitim Psikolojisi</option>
+                                                <option>Öğretmen Eğitimi</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Dergi İndeksi</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="ssciFiler" checked>
+                                                <label class="form-check-label" for="ssciFiler">SSCI</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="sciFilter" checked>
+                                                <label class="form-check-label" for="sciFilter">SCI</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="trUlakbimFilter" checked>
+                                                <label class="form-check-label" for="trUlakbimFilter">TR Dizin (ULAKBİM)</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="btn btn-primary w-100">Filtrele</button>
+                                    </div>
+                                </div>
+
+                                <div class="card mt-4">
+                                    <div class="card-header bg-light">
+                                        <h6 class="card-title mb-0">İstatistikler</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Toplam Dergi
+                                                <span class="badge bg-primary rounded-pill">24</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Aktif Davetler
+                                                <span class="badge bg-success rounded-pill">7</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Tamamlanan Değerlendirmeler
+                                                <span class="badge bg-info rounded-pill">32</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ayarlar Tabı -->
+                    <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Uzmanlık Alanı Bildirimleri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyNewInvitations" checked>
+                                            <label class="form-check-label" for="notifyNewInvitations">Uzmanlık alanlarıma uygun yeni davetlerde bildir</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyNewJournals" checked>
+                                            <label class="form-check-label" for="notifyNewJournals">Uzmanlık alanlarıma uygun yeni dergiler eklendiğinde bildir</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyMatchingArticles">
+                                            <label class="form-check-label" for="notifyMatchingArticles">Uzmanlık alanlarıma uygun yeni makaleler yayınlandığında bildir</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyExpertiseUpdate" checked>
+                                            <label class="form-check-label" for="notifyExpertiseUpdate">Uzmanlık alanları güncelleme hatırlatmaları gönder (3 ayda bir)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mt-4">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Veri Paylaşımı</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="shareWithEditors" checked>
+                                            <label class="form-check-label" for="shareWithEditors">Uzmanlık alanlarımı editörlerle paylaş</label>
+                                            <div class="form-text">Editörler, hakem davetleri göndermek için uzmanlık alanlarınızı görebilir.</div>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="shareWithPublic">
+                                            <label class="form-check-label" for="shareWithPublic">Uzmanlık alanlarımı profilimde genel olarak paylaş</label>
+                                            <div class="form-text">Uzmanlık alanlarınız, genel profilinizde görünür olacaktır.</div>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="shareWithAI" checked>
+                                            <label class="form-check-label" for="shareWithAI">Uzmanlık alanlarımı makale eşleştirme AI'ı ile paylaş</label>
+                                            <div class="form-text">Yapay zeka sistemleri, size daha uygun makaleleri önermek için uzmanlık alanlarınızı kullanabilir.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Veri İçe/Dışa Aktarma</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <h6>Uzmanlık Alanlarını Dışa Aktar</h6>
+                                            <p class="text-muted small">Uzmanlık alanlarınızı farklı formatlarda dışa aktarabilirsiniz.</p>
+                                            <div class="btn-group">
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-file-earmark-text me-1"></i> JSON
+                                                </button>
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-file-earmark-spreadsheet me-1"></i> CSV
+                                                </button>
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-file-earmark-pdf me-1"></i> PDF
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h6>Uzmanlık Alanlarını İçe Aktar</h6>
+                                            <p class="text-muted small">ORCID, Scopus veya diğer kaynaklardan uzmanlık alanlarınızı içe aktarabilirsiniz.</p>
+                                            <div class="btn-group">
+                                                <button class="btn btn-outline-success">
+                                                    <i class="bi bi-link-45deg me-1"></i> ORCID
+                                                </button>
+                                                <button class="btn btn-outline-success">
+                                                    <i class="bi bi-link-45deg me-1"></i> Scopus
+                                                </button>
+                                                <button class="btn btn-outline-success">
+                                                    <i class="bi bi-link-45deg me-1"></i> Google Scholar
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="import-expertise">
+                                            <h6>JSON veya CSV Dosyasından İçe Aktar</h6>
+                                            <div class="input-group mb-3">
+                                                <input type="file" class="form-control" id="importFile">
+                                                <button class="btn btn-outline-secondary" type="button">Yükle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mt-4">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">Diğer Ayarlar</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görünüm Tercihi</label>
+                                            <select class="form-select">
+                                                <option value="card" selected>Kart Görünümü</option>
+                                                <option value="list">Liste Görünümü</option>
+                                                <option value="compact">Kompakt Görünüm</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Sıralama Kriteri</label>
+                                            <select class="form-select">
+                                                <option value="level" selected>Uzmanlık Seviyesine Göre</option>
+                                                <option value="alphabetical">Alfabetik</option>
+                                                <option value="reviews">Değerlendirme Sayısına Göre</option>
+                                                <option value="added">Eklenme Tarihine Göre</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Maksimum Görüntülenen Uzmanlık Alanı</label>
+                                            <input type="number" class="form-control" value="10" min="5" max="50">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Modals -->
+<!-- Yeni Uzmanlık Alanı Ekleme Modal -->
+<div class="modal fade" id="addExpertiseModal" tabindex="-1" aria-labelledby="addExpertiseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addExpertiseModalLabel">Yeni Uzmanlık Alanı Ekle</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="expertiseTitle" class="form-label">Uzmanlık Alanı Başlığı <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="expertiseTitle" placeholder="Örn: Eğitim Teknolojileri" required>
+                </div>
+                <div class="mb-3">
+                    <label for="expertiseDescription" class="form-label">Açıklama</label>
+                    <textarea class="form-control" id="expertiseDescription" rows="3" placeholder="Bu alandaki uzmanlığınızı kısaca açıklayın..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="expertiseLevel" class="form-label">Uzmanlık Seviyesi <span class="text-danger">*</span></label>
+                    <select class="form-select" id="expertiseLevel" required>
+                        <option value="" selected disabled>Seviye seçin</option>
+                        <option value="expert">Uzman (5+ yıl deneyim)</option>
+                        <option value="intermediate">Orta (2-5 yıl deneyim)</option>
+                        <option value="beginner">Başlangıç (0-2 yıl deneyim)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="expertisePriority" class="form-label">Öncelik</label>
+                    <select class="form-select" id="expertisePriority">
+                        <option value="primary">Birincil (Ana uzmanlık alanım)</option>
+                        <option value="secondary" selected>İkincil (Yan uzmanlık alanım)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="expertiseSubfields" class="form-label">Alt Alanlar</label>
+                    <select class="form-select" id="expertiseSubfields" multiple>
+                        <option>Teknoloji Entegrasyonu</option>
+                        <option>Çevrimiçi Öğrenme</option>
+                        <option>Öğrenme Yönetim Sistemleri</option>
+                        <option>Eğitsel Mobil Uygulamalar</option>
+                        <option>Sanal Gerçeklik</option>
+                        <option>Yapay Zeka ve Eğitim</option>
+                        <option>Öğrenme Analitikleri</option>
+                        <option>Hibrit Eğitim</option>
+                        <option>Açık Eğitim Kaynakları</option>
+                        <option>Dijital Okuryazarlık</option>
+                    </select>
+                    <div class="form-text">Birden fazla seçim yapabilirsiniz.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="expertiseYears" class="form-label">Deneyim Yılı</label>
+                    <input type="number" class="form-control" id="expertiseYears" min="0" max="50" value="5">
+                </div>
+                <div class="mb-3">
+                    <label for="expertiseKeywords" class="form-label">Anahtar Kelimeler</label>
+                    <input type="text" class="form-control" id="expertiseKeywords" placeholder="Anahtar kelimeleri virgülle ayırın">
+                    <div class="form-text">Örn: yapay zeka, makine öğrenmesi, derin öğrenme</div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="isWillingToReview" checked>
+                        <label class="form-check-label" for="isWillingToReview">
+                            Bu alanda değerlendirme yapmaya istekliyim
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">Uzmanlık Alanı Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Uzmanlık Alanı Düzenleme Modal -->
+<div class="modal fade" id="editExpertiseModal" tabindex="-1" aria-labelledby="editExpertiseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editExpertiseModalLabel">Uzmanlık Alanını Düzenle</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="editExpertiseTitle" class="form-label">Uzmanlık Alanı Başlığı <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="editExpertiseTitle" value="Eğitim Teknolojileri" required>
+                </div>
+                <div class="mb-3">
+                    <label for="editExpertiseDescription" class="form-label">Açıklama</label>
+                    <textarea class="form-control" id="editExpertiseDescription" rows="3">Eğitimde teknoloji entegrasyonu, öğrenme yönetim sistemleri, eğitsel yazılım değerlendirme ve geliştirme</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="editExpertiseLevel" class="form-label">Uzmanlık Seviyesi <span class="text-danger">*</span></label>
+                    <select class="form-select" id="editExpertiseLevel" required>
+                        <option value="expert" selected>Uzman (5+ yıl deneyim)</option>
+                        <option value="intermediate">Orta (2-5 yıl deneyim)</option>
+                        <option value="beginner">Başlangıç (0-2 yıl deneyim)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="editExpertisePriority" class="form-label">Öncelik</label>
+                    <select class="form-select" id="editExpertisePriority">
+                        <option value="primary" selected>Birincil (Ana uzmanlık alanım)</option>
+                        <option value="secondary">İkincil (Yan uzmanlık alanım)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="editExpertiseSubfields" class="form-label">Alt Alanlar</label>
+                    <select class="form-select" id="editExpertiseSubfields" multiple>
+                        <option selected>Teknoloji Entegrasyonu</option>
+                        <option>Çevrimiçi Öğrenme</option>
+                        <option selected>Öğrenme Yönetim Sistemleri</option>
+                        <option selected>Eğitsel Mobil Uygulamalar</option>
+                        <option>Sanal Gerçeklik</option>
+                        <option>Yapay Zeka ve Eğitim</option>
+                        <option>Öğrenme Analitikleri</option>
+                        <option>Hibrit Eğitim</option>
+                        <option>Açık Eğitim Kaynakları</option>
+                        <option>Dijital Okuryazarlık</option>
+                    </select>
+                    <div class="form-text">Birden fazla seçim yapabilirsiniz.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="editExpertiseYears" class="form-label">Deneyim Yılı</label>
+                    <input type="number" class="form-control" id="editExpertiseYears" min="0" max="50" value="10">
+                </div>
+                <div class="mb-3">
+                    <label for="editExpertiseKeywords" class="form-label">Anahtar Kelimeler</label>
+                    <input type="text" class="form-control" id="editExpertiseKeywords" value="eğitim teknolojileri, öğrenme yönetim sistemleri, teknoloji entegrasyonu">
+                    <div class="form-text">Anahtar kelimeleri virgülle ayırın</div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="editIsWillingToReview" checked>
+                        <label class="form-check-label" for="editIsWillingToReview">
+                            Bu alanda değerlendirme yapmaya istekliyim
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Uzmanlık Alanı Silme Modal -->
+<div class="modal fade" id="deleteExpertiseModal" tabindex="-1" aria-labelledby="deleteExpertiseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteExpertiseModalLabel">Uzmanlık Alanını Sil</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p>Eğitim Teknolojileri uzmanlık alanını silmek istediğinizden emin misiniz?</p>
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i> Bu işlem geri alınamaz. Bu uzmanlık alanına bağlı değerlendirmeler etkilenmeyecektir.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger">Uzmanlık Alanını Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<!-- Custom JS -->
+<script src="assets/js/main.js"></script>
+<script src="assets/js/hakem-uzmanliklar.js"></script>
+<script>
+    $(document).ready(function() {
+        // Select2 başlatma
+        $('#expertiseSubfields, #editExpertiseSubfields').select2({
+            placeholder: "Alt alanları seçin",
+            allowClear: true,
+            tags: true
+        });
+        
+        // Grafikleri oluştur
+        if (typeof Chart !== 'undefined') {
+            // Uzmanlık Alanları Dağılımı
+            const expertiseCtx = document.getElementById('expertiseDistribution');
+            if (expertiseCtx) {
+                new Chart(expertiseCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Eğitim Teknolojileri', 'Yapay Zeka', 'Uzaktan Eğitim', 'Eğitim Psikolojisi', 'Öğretmen Eğitimi', 'Diğer'],
+                        datasets: [{
+                            data: [8, 5, 4, 1, 3, 2],
+                            backgroundColor: [
+                                'rgba(13, 110, 253, 0.7)',
+                                'rgba(220, 53, 69, 0.7)',
+                                'rgba(23, 162, 184, 0.7)',
+                                'rgba(255, 193, 7, 0.7)',
+                                'rgba(40, 167, 69, 0.7)',
+                                'rgba(108, 117, 125, 0.7)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Değerlendirme Dağılımı
+            const reviewCtx = document.getElementById('reviewDistribution');
+            if (reviewCtx) {
+                new Chart(reviewCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Eğitim Teknolojileri', 'Yapay Zeka', 'Uzaktan Eğitim', 'Eğitim Psikolojisi', 'Öğretmen Eğitimi'],
+                        datasets: [{
+                            label: 'Tamamlanan Değerlendirmeler',
+                            data: [8, 5, 4, 1, 3],
+                            backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                            borderColor: 'rgb(40, 167, 69)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Uzmanlık Radar Grafiği
+            const radarCtx = document.getElementById('expertiseRadar');
+            if (radarCtx) {
+                new Chart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: [
+                            'Eğitim Teknolojileri',
+                            'Yapay Zeka',
+                            'Uzaktan Eğitim',
+                            'Eğitim Psikolojisi',
+                            'Öğretmen Eğitimi',
+                            'Mobil Öğrenme'
+                        ],
+                        datasets: [{
+                            label: 'Uzmanlık Seviyesi',
+                            data: [95, 90, 85, 65, 80, 70],
+                            fill: true,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgb(54, 162, 235)',
+                            pointBackgroundColor: 'rgb(54, 162, 235)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(54, 162, 235)'
+                        }]
+                    },
+                    options: {
+                        elements: {
+                            line: {
+                                borderWidth: 3
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: true
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Mobile menu toggle
+        $('#mobileMenuToggle').on('click', function() {
+            $('.sidebar-container').toggleClass('show');
+        });
+    });
+</script>
+</body>
+</html>

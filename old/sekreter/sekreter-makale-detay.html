@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Sekreter Makale Detayları</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Özel stiller */
+        .process-item.completed .step-icon {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .process-item.current .step-icon {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .process-item.pending .step-icon {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 1rem;
+            z-index:1;
+        }
+        
+        .process-timeline {
+            position: relative;
+        }
+        
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            height: calc(100% - 80px);
+            width: 2px;
+            background-color: var(--gray-300);
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-item {
+            border-left: 3px solid var(--primary);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item .name {
+            font-weight: bold;
+        }
+        
+        .contact-item .role {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .contact-item .contact-details {
+            margin-top: 0.5rem;
+        }
+        
+        .contact-item .contact-details i {
+            width: 20px;
+            text-align: center;
+            margin-right: 0.5rem;
+        }
+        
+        .file-upload-row {
+            margin-bottom: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa;
+        }
+        
+        .document-label {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .document-mandatory {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+        
+        .document-optional {
+            background-color: #e2e3e5;
+            color: #41464b;
+        }
+        
+        .document-completed {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+        
+        .comment-bubble {
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+            position: relative;
+        }
+        
+        .comment-bubble::after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: -10px;
+            border-width: 10px 10px 10px 0;
+            border-style: solid;
+            border-color: transparent #f8f9fa transparent transparent;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        
+        .comment-date {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .template-select {
+            width: auto;
+            display: inline-block;
+        }
+        
+        .check-item {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        .check-item.passed {
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+        
+        .check-item.failed {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        .check-item i {
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="sekreter-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Sekreter olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-badge me-2"></i>
+                        <span>Sekreter</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-badge me-2"></i> Sekreter</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Ayşe Yıldız</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="sekreter-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="sekreter-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yeni-gonderimler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Gönderimler
+                                    <span class="badge bg-danger rounded-pill float-end">7</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-makaleler.html" class="nav-link active">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makaleler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yazisma.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Yazışmalar
+                                    <span class="badge bg-warning rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yayinlar.html" class="nav-link">
+                                    <i class="bi bi-journal-check me-2"></i> Yayın Programı
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-hakem-havuzu.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Hakem Havuzu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Şablonlar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5><i class="bi bi-file-earmark-text"></i> Makale Detayları ve İşlem Durumu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h4 id="article-title">Yapay Zeka ve Eğitim</h4>
+                                <p class="text-muted">Gönderim Tarihi: <span id="submission-date">12.02.2025</span> | ID: <span id="article-id">ART-2025-0103</span></p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span id="article-status" class="badge bg-warning text-dark fs-6">Değerlendirmede</span>
+                                <div class="mt-2">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-gear-fill"></i> İşlemler
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionDropdown">
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sendMessageModal"><i class="bi bi-envelope me-2"></i> Bildirim Gönder</a></li>
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changeStatusModal"><i class="bi bi-arrow-left-right me-2"></i> Durumu Güncelle</a></li>
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#assignEditorModal"><i class="bi bi-person-plus me-2"></i> Editör Ata</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exportDataModal"><i class="bi bi-download me-2"></i> Veri Dışa Aktar</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sekme Menüsü -->
+                        <ul class="nav nav-tabs mb-4" id="articleDetailTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Genel Bakış</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab" aria-controls="documents" aria-selected="false">Belgeler</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="technical-check-tab" data-bs-toggle="tab" data-bs-target="#technical-check" type="button" role="tab" aria-controls="technical-check" aria-selected="false">Teknik Kontrol</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="correspondence-tab" data-bs-toggle="tab" data-bs-target="#correspondence" type="button" role="tab" aria-controls="correspondence" aria-selected="false">Yazışmalar</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">İşlem Geçmişi</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="articleDetailTabsContent">
+                            <!-- Genel Bakış Sekmesi -->
+                            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                                <!-- Makale Bilgileri -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-info-circle"></i> Makale Bilgileri</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3 fw-bold">Yazarlar:</div>
+                                            <div class="col-md-9" id="authors">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#authorInfoModal">Ahmet Yılmaz</a> (Sorumlu Yazar), 
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#authorInfoModal">Mehmet Can</a>, 
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#authorInfoModal">Ayşe Demir</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3 fw-bold">Makale Tipi:</div>
+                                            <div class="col-md-9" id="article-type">Özgün Araştırma</div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3 fw-bold">Özet:</div>
+                                            <div class="col-md-9" id="abstract">
+                                                Bu çalışmada, yapay zeka teknolojilerinin eğitim alanında kullanımı ve etkileri incelenmiştir. Özellikle kişiselleştirilmiş öğrenme, otomatik değerlendirme ve eğitimci destekleme sistemleri üzerinde durulmuş, bu teknolojilerin eğitim süreçlerine entegrasyonu için öneriler geliştirilmiştir.
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3 fw-bold">Anahtar Kelimeler:</div>
+                                            <div class="col-md-9" id="keywords">
+                                                <span class="badge bg-secondary me-1">Yapay Zeka</span>
+                                                <span class="badge bg-secondary me-1">Eğitim Teknolojileri</span>
+                                                <span class="badge bg-secondary me-1">Öğrenme</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3 fw-bold">Kategori:</div>
+                                            <div class="col-md-9" id="category">Eğitim Bilimleri, Bilgisayar Bilimleri</div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3 fw-bold">Dosyalar:</div>
+                                            <div class="col-md-9" id="files">
+                                                <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-file-pdf"></i> makale_v1.pdf</a>
+                                                <a href="#" class="btn btn-sm btn-outline-secondary"><i class="bi bi-file-earmark-excel"></i> veri_tabloları.xlsx</a>
+                                                <button class="btn btn-sm btn-outline-success ms-2" data-bs-toggle="modal" data-bs-target="#documentViewerModal"><i class="bi bi-eye"></i> Görüntüle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Görevli Kişiler ve İletişim Bilgileri -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-people"></i> Görevli Kişiler ve İletişim Bilgileri</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="contact-item">
+                                                    <div class="name">Doç. Dr. Ahmet Yılmaz</div>
+                                                    <div class="role">Sorumlu Yazar</div>
+                                                    <div class="contact-details">
+                                                        <div><i class="bi bi-envelope"></i> ahmet.yilmaz@email.com</div>
+                                                        <div><i class="bi bi-telephone"></i> +90 555 123 4567</div>
+                                                        <div><i class="bi bi-building"></i> Ankara Üniversitesi</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="contact-item">
+                                                    <div class="name">Prof. Dr. Mehmet Aydın</div>
+                                                    <div class="role">Baş Editör</div>
+                                                    <div class="contact-details">
+                                                        <div><i class="bi bi-envelope"></i> mehmet.aydin@email.com</div>
+                                                        <div><i class="bi bi-telephone"></i> +90 555 987 6543</div>
+                                                        <div><i class="bi bi-building"></i> İstanbul Üniversitesi</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="contact-item">
+                                                    <div class="name">Doç. Dr. Kemal Öztürk</div>
+                                                    <div class="role">Alan Editörü</div>
+                                                    <div class="contact-details">
+                                                        <div><i class="bi bi-envelope"></i> kemal.ozturk@email.com</div>
+                                                        <div><i class="bi bi-telephone"></i> +90 555 456 7890</div>
+                                                        <div><i class="bi bi-building"></i> Ege Üniversitesi</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="contact-item">
+                                                    <div class="name">Prof. Dr. Ali Kaya</div>
+                                                    <div class="role">Hakem</div>
+                                                    <div class="contact-details">
+                                                        <div><i class="bi bi-envelope"></i> ali.kaya@email.com</div>
+                                                        <div><i class="bi bi-telephone"></i> +90 555 789 0123</div>
+                                                        <div><i class="bi bi-building"></i> Ankara Üniversitesi</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="contact-item">
+                                                    <div class="name">Doç. Dr. Zeynep Kartal</div>
+                                                    <div class="role">Hakem</div>
+                                                    <div class="contact-details">
+                                                        <div><i class="bi bi-envelope"></i> zeynep.kartal@email.com</div>
+                                                        <div><i class="bi bi-telephone"></i> +90 555 234 5678</div>
+                                                        <div><i class="bi bi-building"></i> İstanbul Üniversitesi</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Değerlendirme Süreci -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-list-check"></i> Değerlendirme Süreci</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="process-timeline">
+                                            <div class="d-flex process-item completed mb-3">
+                                                <div class="step-icon">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">Makale Gönderimi</h6>
+                                                    <p class="text-muted mb-0">Makale sisteme yüklendi.</p>
+                                                    <small class="text-muted">12.02.2025</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex process-item completed mb-3">
+                                                <div class="step-icon">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">Ön Değerlendirme</h6>
+                                                    <p class="text-muted mb-0">Editör tarafından ön değerlendirme tamamlandı.</p>
+                                                    <small class="text-muted">15.02.2025</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex process-item completed mb-3">
+                                                <div class="step-icon">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">Hakem Ataması</h6>
+                                                    <p class="text-muted mb-0">Makaleniz değerlendirme için 2 hakeme gönderildi.</p>
+                                                    <small class="text-muted">18.02.2025</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex process-item current mb-3">
+                                                <div class="step-icon">
+                                                    <i class="bi bi-hourglass-split"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">Hakem Değerlendirmesi</h6>
+                                                    <p class="text-muted mb-0">1/2 hakem değerlendirmesi tamamlandı.</p>
+                                                    <small class="text-muted">Devam ediyor</small>
+                                                    <div class="progress mt-2" style="height: 8px;">
+                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex process-item pending mb-3">
+                                                <div class="step-icon">
+                                                    <i class="bi bi-clock"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">Editör Kararı</h6>
+                                                    <p class="text-muted mb-0">Hakem değerlendirmeleri sonrası karar verilecek.</p>
+                                                    <small class="text-muted">Bekleniyor</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex process-item pending">
+                                                <div class="step-icon">
+                                                    <i class="bi bi-clock"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">Yayınlanma</h6>
+                                                    <p class="text-muted mb-0">Kabul edilirse makale dergide yayınlanacak.</p>
+                                                    <small class="text-muted">Bekleniyor</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Hatırlatmalar ve Planlanan İşlemler -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h6><i class="bi bi-bell"></i> Hatırlatmalar ve Planlanan İşlemler</h6>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addReminderModal">
+                                            <i class="bi bi-plus-circle"></i> Hatırlatma Ekle
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tarih</th>
+                                                        <th>İşlem</th>
+                                                        <th>Durum</th>
+                                                        <th>İlgili Kişi</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>10.03.2025</td>
+                                                        <td>Hakem değerlendirme hatırlatması</td>
+                                                        <td><span class="badge bg-warning">Beklemede</span></td>
+                                                        <td>Doç. Dr. Zeynep Kartal</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1" title="Şimdi Gönder">
+                                                                <i class="bi bi-send"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" title="İptal Et">
+                                                                <i class="bi bi-x-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>20.03.2025</td>
+                                                        <td>Editör değerlendirme hatırlatması</td>
+                                                        <td><span class="badge bg-secondary">Planlandı</span></td>
+                                                        <td>Prof. Dr. Mehmet Aydın</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1" title="Şimdi Gönder">
+                                                                <i class="bi bi-send"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" title="İptal Et">
+                                                                <i class="bi bi-x-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="table-light">
+                                                        <td>25.02.2025</td>
+                                                        <td>Hakem değerlendirme hatırlatması</td>
+                                                        <td><span class="badge bg-success">Tamamlandı</span></td>
+                                                        <td>Prof. Dr. Ali Kaya</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Belgeler Sekmesi -->
+                            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-file-earmark-text"></i> Makale Dosyaları</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Dosya Adı</th>
+                                                        <th>Tür</th>
+                                                        <th>Boyut</th>
+                                                        <th>Yüklenme Tarihi</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>makale_v1.pdf</td>
+                                                        <td>Ana Makale Dosyası</td>
+                                                        <td>2.4 MB</td>
+                                                        <td>12.02.2025</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1" title="İndir">
+                                                                <i class="bi bi-download"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-success me-1" title="Görüntüle" data-bs-toggle="modal" data-bs-target="#documentViewerModal">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" title="Sil">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>veri_tabloları.xlsx</td>
+                                                        <td>Ek Materyal</td>
+                                                        <td>1.1 MB</td>
+                                                        <td>12.02.2025</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1" title="İndir">
+                                                                <i class="bi bi-download"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-success me-1" title="Görüntüle" data-bs-toggle="modal" data-bs-target="#documentViewerModal">
+                                                                <i class="bi bi-eye"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" title="Sil">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadDocumentModal">
+                                                <i class="bi bi-upload"></i> Yeni Dosya Yükle
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-file-earmark-check"></i> Gerekli Belgeler</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-info">
+                                            <i class="bi bi-info-circle-fill me-2"></i>
+                                            Makalenin değerlendirme ve yayın sürecinde gerekli olan belgeler aşağıda listelenmiştir. 
+                                            Zorunlu belgelerin tamamlanması gerekmektedir.
+                                        </div>
+                                        
+                                        <div class="file-upload-row d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="document-label document-completed">Tamamlandı</span>
+                                                <h6 class="mb-0">Telif Hakkı Devir Formu</h6>
+                                                <small class="text-muted">Tüm yazarlar tarafından imzalanmış telif hakkı devir formu</small>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-success" title="Görüntüle">
+                                                    <i class="bi bi-eye"></i> Görüntüle
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="file-upload-row d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="document-label document-completed">Tamamlandı</span>
+                                                <h6 class="mb-0">Çıkar Çatışması Beyanı</h6>
+                                                <small class="text-muted">Yazarların doldurup imzalaması gereken çıkar çatışması olmadığına dair belge</small>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-success" title="Görüntüle">
+                                                    <i class="bi bi-eye"></i> Görüntüle
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="file-upload-row d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="document-label document-completed">Tamamlandı</span>
+                                                <h6 class="mb-0">Etik Kurul İzni</h6>
+                                                <small class="text-muted">Çalışma için alınan etik kurul izin belgesi</small>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-success" title="Görüntüle">
+                                                    <i class="bi bi-eye"></i> Görüntüle
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="file-upload-row d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="document-label document-optional">İsteğe Bağlı</span>
+                                                <h6 class="mb-0">İntihal Raporu</h6>
+                                                <small class="text-muted">Yazarın kendi sağladığı intihal raporu</small>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" title="Yükle" data-bs-toggle="modal" data-bs-target="#uploadDocumentModal">
+                                                    <i class="bi bi-upload"></i> Yükle
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <h6>Belge Kontrol Listesi</h6>
+                                            <div class="progress mb-3" style="height: 20px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                    %75 Tamamlandı
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-bell"></i> Yazara Eksik Belge Hatırlatması Gönder
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Teknik Kontrol Sekmesi -->
+                            <div class="tab-pane fade" id="technical-check" role="tabpanel" aria-labelledby="technical-check-tab">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h6><i class="bi bi-check2-circle"></i> Teknik Kontrol Listesi</h6>
+                                        <div>
+                                            <span class="badge bg-success">Tamamlandı</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-success">
+                                            <i class="bi bi-check-circle-fill me-2"></i>
+                                            Makalenin teknik kontrolü 13.02.2025 tarihinde tamamlanmıştır. Makale dergi formatına ve gerekliliklerine uygundur.
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h6>Format Kontrolleri</h6>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Sayfa formatı ve kenar boşlukları dergi şablonuna uygun
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Başlık, özet ve anahtar kelimeler uygun formatta
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Yazı tipi ve boyutu dergi kurallarına uygun
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Tablo ve şekiller uygun numaralandırılmış ve formatta
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h6>İçerik Kontrolleri</h6>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Özet içeriği makalenin amacını, yöntemini ve sonuçlarını içeriyor
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Anahtar kelimeler uygun sayıda (3-5 adet)
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Makale uzunluğu dergi sınırlamaları içinde (20 sayfa)
+                                            </div>
+                                            <div class="check-item failed">
+                                                <i class="bi bi-x-circle-fill text-danger"></i> Bazı kaynakçalarda eksik bilgiler var
+                                                <div class="ms-4 mt-1 small text-danger">
+                                                    Not: Hakem değerlendirmesinde düzeltilmesi için belirtilmiştir
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h6>Belge Kontrolleri</h6>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Telif hakkı devir formu imzalanmış
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Çıkar çatışması beyanı doldurulmuş
+                                            </div>
+                                            <div class="check-item passed">
+                                                <i class="bi bi-check-circle-fill text-success"></i> Etik kurul izni mevcut ve geçerli
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h6>Makalede Yapılan İntihal Kontrolü</h6>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="mb-0">İntihal Raporu Sonucu</h6>
+                                                        <span class="badge bg-success">%12 Benzerlik</span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 20px;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">%12</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <small class="text-muted">Kontrol Tarihi: 13.02.2025</small>
+                                                        <button class="btn btn-sm btn-outline-primary">
+                                                            <i class="bi bi-file-earmark-text"></i> Detaylı Raporu Görüntüle
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="technicalNotes" class="form-label">Kontrol Notları:</label>
+                                            <textarea class="form-control" id="technicalNotes" rows="3" placeholder="Teknik kontrolle ilgili notlarınızı buraya yazabilirsiniz..."></textarea>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <button type="button" class="btn btn-outline-primary">
+                                                <i class="bi bi-save"></i> Notları Kaydet
+                                            </button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendTechnicalReportModal">
+                                                <i class="bi bi-send"></i> Teknik Raporu Editöre Gönder
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Yazışmalar Sekmesi -->
+                            <div class="tab-pane fade" id="correspondence" role="tabpanel" aria-labelledby="correspondence-tab">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h6><i class="bi bi-envelope"></i> Yazışmalar ve Bildirimler</h6>
+                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#sendMessageModal">
+                                            <i class="bi bi-envelope-plus"></i> Yeni Mesaj Gönder
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <select class="form-select form-select-sm w-auto">
+                                                <option value="all">Tüm Yazışmalar</option>
+                                                <option value="author">Yazarlar ile Yazışmalar</option>
+                                                <option value="editor">Editörler ile Yazışmalar</option>
+                                                <option value="reviewer">Hakemler ile Yazışmalar</option>
+                                                <option value="system">Sistem Bildirimleri</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="list-group">
+                                            <div class="list-group-item">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Hakem Değerlendirmesi Tamamlandı Bildirimi</h6>
+                                                    <small>25.02.2025</small>
+                                                </div>
+                                                <p class="mb-1">Prof. Dr. Ali Kaya tarafından değerlendirme tamamlandı. Başarıyla sistem tarafından kaydedildi.</p>
+                                                <small class="text-muted">
+                                                    <span class="badge bg-info">Sistem Bildirimi</span>
+                                                    <span class="ms-2">Alıcılar: Prof. Dr. Mehmet Aydın, Doç. Dr. Kemal Öztürk</span>
+                                                </small>
+                                            </div>
+                                            
+                                            <div class="list-group-item">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Hakem Değerlendirme Hatırlatması</h6>
+                                                    <small>20.02.2025</small>
+                                                </div>
+                                                <p class="mb-1">Makale değerlendirmenizin tamamlanması için son tarih 18.03.2025'tir. Değerlendirmenizi sistem üzerinden tamamlayabilirsiniz.</p>
+                                                <small class="text-muted">
+                                                    <span class="badge bg-primary">Manuel Gönderim</span>
+                                                    <span class="ms-2">Gönderen: Ayşe Yıldız (Sekreter) | Alıcı: Doç. Dr. Zeynep Kartal</span>
+                                                </small>
+                                            </div>
+                                            
+                                            <div class="list-group-item">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Makale İşleme Alındı Bildirimi</h6>
+                                                    <small>18.02.2025</small>
+                                                </div>
+                                                <p class="mb-1">Sayın Ahmet Yılmaz, makaleniz hakem değerlendirme sürecine alınmıştır. Sonuç size en kısa sürede bildirilecektir.</p>
+                                                <small class="text-muted">
+                                                    <span class="badge bg-primary">Manuel Gönderim</span>
+                                                    <span class="ms-2">Gönderen: Ayşe Yıldız (Sekreter) | Alıcı: Doç. Dr. Ahmet Yılmaz</span>
+                                                </small>
+                                            </div>
+                                            
+                                            <div class="list-group-item">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Hakem Ataması Bildirimi</h6>
+                                                    <small>15.02.2025</small>
+                                                </div>
+                                                <p class="mb-1">Makale değerlendirme davetiniz kabul edildi. Lütfen 18.03.2025 tarihine kadar değerlendirmeyi tamamlayınız.</p>
+                                                <small class="text-muted">
+                                                    <span class="badge bg-success">Otomatik Bildirim</span>
+                                                    <span class="ms-2">Alıcı: Prof. Dr. Ali Kaya</span>
+                                                </small>
+                                            </div>
+                                            
+                                            <div class="list-group-item">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Makale Gönderimi Onayı</h6>
+                                                    <small>12.02.2025</small>
+                                                </div>
+                                                <p class="mb-1">Sayın Ahmet Yılmaz, makaleniz başarıyla sisteme yüklenmiştir. Teknik kontrol sonrası süreç başlayacaktır.</p>
+                                                <small class="text-muted">
+                                                    <span class="badge bg-success">Otomatik Bildirim</span>
+                                                    <span class="ms-2">Alıcı: Doç. Dr. Ahmet Yılmaz</span>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-download"></i> Yazışma Geçmişini Dışa Aktar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-chat-left-text"></i> Hızlı İletişim Şablonları</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="templateSelect" class="form-label">Şablon Seçin:</label>
+                                            <select class="form-select" id="templateSelect">
+                                                <option selected disabled>Şablon Seçin</option>
+                                                <option value="review_reminder">Hakem Değerlendirme Hatırlatması</option>
+                                                <option value="review_completed">Değerlendirme Tamamlanma Bildirimi</option>
+                                                <option value="editor_decision">Editör Kararı Bildirimi</option>
+                                                <option value="missing_documents">Eksik Belge Hatırlatması</option>
+                                                <option value="rejection">Ret Bildirimi</option>
+                                                <option value="revision_request">Revizyon Talebi</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="templateRecipient" class="form-label">Alıcı:</label>
+                                            <select class="form-select" id="templateRecipient">
+                                                <option selected disabled>Alıcı Seçin</option>
+                                                <option value="author">Doç. Dr. Ahmet Yılmaz (Sorumlu Yazar)</option>
+                                                <option value="editor">Prof. Dr. Mehmet Aydın (Baş Editör)</option>
+                                                <option value="field_editor">Doç. Dr. Kemal Öztürk (Alan Editörü)</option>
+                                                <option value="reviewer1">Prof. Dr. Ali Kaya (Hakem)</option>
+                                                <option value="reviewer2">Doç. Dr. Zeynep Kartal (Hakem)</option>
+                                                <option value="all_authors">Tüm Yazarlar</option>
+                                                <option value="all_reviewers">Tüm Hakemler</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="templateContent" class="form-label">Mesaj:</label>
+                                            <textarea class="form-control" id="templateContent" rows="6" placeholder="Şablon seçerek mesaj içeriğini görüntüleyebilirsiniz..."></textarea>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <button type="button" class="btn btn-outline-secondary">
+                                                <i class="bi bi-gear"></i> Şablonu Düzenle
+                                            </button>
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="bi bi-send"></i> Gönder
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- İşlem Geçmişi Sekmesi -->
+                            <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        <h6><i class="bi bi-clock-history"></i> İşlem Geçmişi</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tarih</th>
+                                                        <th>İşlem</th>
+                                                        <th>Kullanıcı</th>
+                                                        <th>Detay</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>25.02.2025 14:30</td>
+                                                        <td>Hakem Değerlendirmesi</td>
+                                                        <td>Prof. Dr. Ali Kaya</td>
+                                                        <td>Değerlendirme tamamlandı</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>20.02.2025 10:15</td>
+                                                        <td>Bildirim Gönderimi</td>
+                                                        <td>Ayşe Yıldız (Sekreter)</td>
+                                                        <td>Hakem değerlendirme hatırlatması gönderildi</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>18.02.2025 09:15</td>
+                                                        <td>Hakem Ataması</td>
+                                                        <td>Prof. Dr. Mehmet Aydın</td>
+                                                        <td>Doç. Dr. Zeynep Kartal atandı</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>15.02.2025 11:40</td>
+                                                        <td>Hakem Ataması</td>
+                                                        <td>Prof. Dr. Mehmet Aydın</td>
+                                                        <td>Prof. Dr. Ali Kaya atandı</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>15.02.2025 10:25</td>
+                                                        <td>Ön Değerlendirme</td>
+                                                        <td>Prof. Dr. Mehmet Aydın</td>
+                                                        <td>Ön değerlendirme tamamlandı</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>13.02.2025 16:20</td>
+                                                        <td>Teknik Kontrol</td>
+                                                        <td>Ayşe Yıldız (Sekreter)</td>
+                                                        <td>Teknik kontrol tamamlandı</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>13.02.2025 14:45</td>
+                                                        <td>Editör Ataması</td>
+                                                        <td>Prof. Dr. Mehmet Aydın</td>
+                                                        <td>Doç. Dr. Kemal Öztürk alan editörü olarak atandı</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>12.02.2025 15:10</td>
+                                                        <td>Makale Gönderimi</td>
+                                                        <td>Doç. Dr. Ahmet Yılmaz</td>
+                                                        <td>Makale sisteme yüklendi</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-info" title="Detaylar">
+                                                                <i class="bi bi-info-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-download"></i> İşlem Geçmişini Dışa Aktar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Geri Dön Butonu -->
+<a href="sekreter-makaleler.html" class="btn btn-primary back-button rounded-circle">
+    <i class="bi bi-arrow-left"></i>
+</a>
+
+<!-- Modal: Bildirim Gönder -->
+<div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sendMessageModalLabel">Bildirim/Mesaj Gönder</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="messageType" class="form-label">Mesaj Türü:</label>
+                        <select class="form-select" id="messageType">
+                            <option value="standard">Standart Bildirim</option>
+                            <option value="reminder">Hatırlatma</option>
+                            <option value="notification">Durum Değişikliği Bildirimi</option>
+                            <option value="request">Belge/Bilgi Talebi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="messageRecipients" class="form-label">Alıcılar:</label>
+                        <select class="form-select" id="messageRecipients" multiple>
+                            <option value="author">Doç. Dr. Ahmet Yılmaz (Sorumlu Yazar)</option>
+                            <option value="coauthor1">Mehmet Can (Ortak Yazar)</option>
+                            <option value="coauthor2">Ayşe Demir (Ortak Yazar)</option>
+                            <option value="editor">Prof. Dr. Mehmet Aydın (Baş Editör)</option>
+                            <option value="field_editor">Doç. Dr. Kemal Öztürk (Alan Editörü)</option>
+                            <option value="reviewer1">Prof. Dr. Ali Kaya (Hakem)</option>
+                            <option value="reviewer2">Doç. Dr. Zeynep Kartal (Hakem)</option>
+                        </select>
+                        <div class="form-text">Birden fazla alıcı seçmek için CTRL tuşunu basılı tutun.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="messageTemplate" class="form-label">Şablon:</label>
+                        <select class="form-select" id="messageTemplate">
+                            <option value="none">Şablon Seçin (İsteğe Bağlı)</option>
+                            <option value="review_reminder">Hakem Değerlendirme Hatırlatması</option>
+                            <option value="document_request">Belge Talebi</option>
+                            <option value="status_update">Durum Güncellemesi</option>
+                            <option value="decision_notification">Karar Bildirimi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="messageSubject" class="form-label">Konu:</label>
+                        <input type="text" class="form-control" id="messageSubject" placeholder="Mesaj konusu">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="messageContent" class="form-label">Mesaj İçeriği:</label>
+                        <textarea class="form-control" id="messageContent" rows="6" placeholder="Mesaj içeriğini yazın..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="saveMessageCopy">
+                            <label class="form-check-label" for="saveMessageCopy">
+                                Mesajın bir kopyasını bana da gönder
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success">
+                    <i class="bi bi-send"></i> Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Dosya Yükleme -->
+<div class="modal fade" id="uploadDocumentModal" tabindex="-1" aria-labelledby="uploadDocumentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadDocumentModalLabel">Dosya Yükle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="documentType" class="form-label">Belge Türü:</label>
+                        <select class="form-select" id="documentType">
+                            <option value="manuscript">Makale Dosyası</option>
+                            <option value="supplementary">Ek Materyal</option>
+                            <option value="copyright">Telif Hakkı Formu</option>
+                            <option value="conflict">Çıkar Çatışması Beyanı</option>
+                            <option value="ethics">Etik Kurul İzni</option>
+                            <option value="plagiarism">İntihal Raporu</option>
+                            <option value="other">Diğer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="documentTitle" class="form-label">Belge Başlığı/Açıklaması:</label>
+                        <input type="text" class="form-control" id="documentTitle" placeholder="Belgeyi tanımlayan bir başlık girin">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="documentFile" class="form-label">Dosya Seçin:</label>
+                        <input class="form-control" type="file" id="documentFile">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="documentVersion" class="form-label">Versiyon/Revizyon:</label>
+                        <select class="form-select" id="documentVersion">
+                            <option value="original">Orijinal Gönderim</option>
+                            <option value="revision1">1. Revizyon</option>
+                            <option value="revision2">2. Revizyon</option>
+                            <option value="final">Final Versiyon</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="documentNotes" class="form-label">Notlar:</label>
+                        <textarea class="form-control" id="documentNotes" rows="3" placeholder="Belge hakkında ek notlar..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="notifyAuthors">
+                            <label class="form-check-label" for="notifyAuthors">
+                                Yazarlara bildirim gönder
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-upload"></i> Yükle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // URL parametrelerinden makale bilgilerini al
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        
+        // Makalenin var olup olmadığını kontrol et
+        if (articleId) {
+            // Gerçek bir uygulamada burada AJAX ile makale verilerini çekersiniz
+            // Şimdilik statik olarak gösterme amaçlı ID'yi yerleştiriyoruz
+            document.getElementById('article-id').textContent = articleId;
+        }
+        
+        // Şablon seçiminde içeriği değiştir
+        const templateSelect = document.getElementById('templateSelect');
+        const templateContent = document.getElementById('templateContent');
+        
+        if (templateSelect && templateContent) {
+            templateSelect.addEventListener('change', function() {
+                const selectedTemplate = this.value;
+                let content = '';
+                
+                switch(selectedTemplate) {
+                    case 'review_reminder':
+                        content = 'Sayın {HAKEM_ADI},\n\n"Yapay Zeka ve Eğitim" başlıklı makale için değerlendirmenizin tamamlanması için son tarih 18.03.2025 olduğunu hatırlatmak isteriz. Değerlendirmenizi sistem üzerinden tamamlayabilirsiniz.\n\nDeğerlendirmeniz için teşekkür ederiz.\n\nSaygılarımla,\nX Dergisi Editörlüğü';
+                        break;
+                    case 'review_completed':
+                        content = 'Sayın {EDİTÖR_ADI},\n\n"Yapay Zeka ve Eğitim" başlıklı makale için {HAKEM_ADI} tarafından değerlendirme tamamlanmıştır. Değerlendirmeyi sistem üzerinden görüntüleyebilirsiniz.\n\nSaygılarımla,\nX Dergisi Editörlüğü';
+                        break;
+                    case 'editor_decision':
+                        content = 'Sayın {YAZAR_ADI},\n\n"Yapay Zeka ve Eğitim" başlıklı makalenizin değerlendirme süreci tamamlanmıştır. Editör kararını sistem üzerinden görüntüleyebilirsiniz.\n\nSaygılarımla,\nX Dergisi Editörlüğü';
+                        break;
+                    case 'missing_documents':
+                        content = 'Sayın {YAZAR_ADI},\n\n"Yapay Zeka ve Eğitim" başlıklı makalenizin değerlendirme sürecinin devam edebilmesi için aşağıdaki belgeleri göndermeniz gerekmektedir:\n\n- İntihal Raporu\n\nBelgeleri en kısa sürede sistem üzerinden yüklemenizi rica ederiz.\n\nSaygılarımla,\nX Dergisi Editörlüğü';
+                        break;
+                    case 'rejection':
+                        content = 'Sayın {YAZAR_ADI},\n\n"Yapay Zeka ve Eğitim" başlıklı makaleniz editoryal değerlendirme sonucu dergimizde yayınlanmak üzere kabul edilmemiştir. Hakem değerlendirmelerini sistem üzerinden görüntüleyebilirsiniz.\n\nGelecekte dergimize yeni çalışmalarınızı göndermenizi bekleriz.\n\nSaygılarımla,\nX Dergisi Editörlüğü';
+                        break;
+                    case 'revision_request':
+                        content = 'Sayın {YAZAR_ADI},\n\n"Yapay Zeka ve Eğitim" başlıklı makaleniz için hakem değerlendirmeleri sonrası revizyonlar talep edilmiştir. Hakem değerlendirmelerini ve revizyon taleplerini sistem üzerinden görüntüleyebilirsiniz.\n\nRevize edilmiş makalenizi 30 gün içinde sistem üzerinden yüklemenizi rica ederiz.\n\nSaygılarımla,\nX Dergisi Editörlüğü';
+                        break;
+                    default:
+                        content = '';
+                }
+                
+                templateContent.value = content;
+            });
+        }
+        
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

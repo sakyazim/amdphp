@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Dergi Yöneticisi İstatistikler</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <!-- <link href="assets/css/main.css" rel="stylesheet"> -->
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Özel stiller */
+        .stat-card {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .sidebar-heading {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-link {
+            padding: 0.5rem 0;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link.active {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        
+        .nav-link:hover {
+            color: #0d6efd;
+        }
+        
+        .filter-card {
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+        
+        .trend-indicator {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .trend-up {
+            color: #198754;
+        }
+        
+        .trend-down {
+            color: #dc3545;
+        }
+        
+        .trend-neutral {
+            color: #6c757d;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .table-responsive {
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-summary {
+            border-left: 3px solid #0d6efd;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .time-filter {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+        }
+        
+        .time-filter .btn-group {
+            background-color: white;
+            border-radius: 0.25rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .time-filter .btn {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .stat-progress {
+            height: 0.5rem;
+            margin-top: 0.25rem;
+        }
+        
+        .stat-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            margin-left: 0.5rem;
+        }
+        
+        .category-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            margin-right: 0.25rem;
+            border-radius: 2px;
+        }
+        
+        .data-table th {
+            font-weight: 600;
+            background-color: #f8f9fa;
+        }
+        
+        .comparison-card {
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .custom-tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="dergi-yonetici-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <!-- <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2"> -->
+                <span class="logo-text">AMDS Logo</span>
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Dergi Yöneticisi olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal-check me-2"></i>
+                        <span>Dergi Yöneticisi</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-journal-check me-2"></i> Dergi Yöneticisi</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="me-2">TR</span>
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="me-2">TR</span> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="me-2">EN</span> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-2" style="font-size: 24px;"></i>
+                        <span>Prof. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="dergi-yonetici-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="dergi-yonetici-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container-fluid">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Yönetim Menüsü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Ana Gösterge Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-istatistikler.html" class="nav-link active">
+                                    <i class="bi bi-graph-up me-2"></i> İstatistikler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-raporlar.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Raporlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-tum-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Tüm Makaleler
+                                    <span class="badge bg-primary rounded-pill float-end">25</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-kullanicilar.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Kullanıcı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-roller.html" class="nav-link">
+                                    <i class="bi bi-person-badge me-2"></i> Rol Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-is-akislari.html" class="nav-link">
+                                    <i class="bi bi-diagram-3 me-2"></i> İş Akışı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-email-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> E-posta Şablonları
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-dergiler.html" class="nav-link">
+                                    <i class="bi bi-journal-richtext me-2"></i> Dergi Yapılandırması
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-sistem-ayarlari.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Sistem Ayarları
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <div class="row mb-4">
+                    <div class="col">
+                        <h2 class="mb-0"><i class="bi bi-graph-up"></i> İstatistikler</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="dergi-yonetici-panel.html">Ana Sayfa</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">İstatistikler</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                
+                <!-- Zaman Filtresi -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Veri Zaman Aralığı</h5>
+                                    <div class="btn-group" role="group" aria-label="Zaman filtresi">
+                                        <button type="button" class="btn btn-outline-secondary">Bu Ay</button>
+                                        <button type="button" class="btn btn-outline-secondary active">Son 3 Ay</button>
+                                        <button type="button" class="btn btn-outline-secondary">Son 6 Ay</button>
+                                        <button type="button" class="btn btn-outline-secondary">Son 1 Yıl</button>
+                                        <button type="button" class="btn btn-outline-secondary">Tüm Zamanlar</button>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-outline-primary">
+                                            <i class="bi bi-download"></i> Dışa Aktar
+                                        </button>
+                                        <button class="btn btn-outline-secondary ms-2">
+                                            <i class="bi bi-arrow-clockwise"></i> Yenile
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Özet İstatistikler -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-file-earmark-text stat-icon text-primary"></i>
+                                <h5>Toplam Makale</h5>
+                                <h2 class="fw-bold">153</h2>
+                                <div class="text-muted small">
+                                    Son 3 aydaki değişim
+                                    <span class="trend-indicator trend-up">
+                                        <i class="bi bi-arrow-up"></i> %15
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-check-circle stat-icon text-success"></i>
+                                <h5>Kabul Oranı</h5>
+                                <h2 class="fw-bold">36.4%</h2>
+                                <div class="text-muted small">
+                                    Son 3 aydaki değişim
+                                    <span class="trend-indicator trend-up">
+                                        <i class="bi bi-arrow-up"></i> %4.2
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-clock stat-icon text-warning"></i>
+                                <h5>Ortalama Değ. Süresi</h5>
+                                <h2 class="fw-bold">27.5 <span class="fs-5">gün</span></h2>
+                                <div class="text-muted small">
+                                    Son 3 aydaki değişim
+                                    <span class="trend-indicator trend-down">
+                                        <i class="bi bi-arrow-down"></i> %8.3
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-people stat-icon text-info"></i>
+                                <h5>Aktif Hakemler</h5>
+                                <h2 class="fw-bold">72</h2>
+                                <div class="text-muted small">
+                                    Son 3 aydaki değişim
+                                    <span class="trend-indicator trend-up">
+                                        <i class="bi bi-arrow-up"></i> %12
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Makale İstatistikleri -->
+                <div class="row mb-4">
+                    <div class="col-md-8 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Aylık Makale Gönderim ve Kabul Oranları</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="articleSubmissionChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Makalelerin Durum Dağılımı</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="articleStatusChart"></canvas>
+                                </div>
+                                <div class="category-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #4e73df;"></span> Değerlendirmede (25%)
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #1cc88a;"></span> Kabul Edildi (36%)
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #e74a3b;"></span> Reddedildi (21%)
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #f6c23e;"></span> Revizyonda (12%)
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #36b9cc;"></span> Yayınlandı (6%)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kategori Analizi -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-diagram-3"></i> Kategorilere Göre Makale Dağılımı</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="categoriesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-check2-circle"></i> Kategorilere Göre Kabul Oranları</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Kategori</th>
+                                                <th>Toplam</th>
+                                                <th>Kabul</th>
+                                                <th>Oran</th>
+                                                <th>Değişim</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Eğitim Bilimleri</td>
+                                                <td>42</td>
+                                                <td>18</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        42.8%
+                                                        <div class="progress flex-grow-1 ms-2 me-2 stat-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 42.8%" aria-valuenow="42.8" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="trend-indicator trend-up"><i class="bi bi-arrow-up"></i> %3.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Bilgisayar Bilimleri</td>
+                                                <td>38</td>
+                                                <td>14</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        36.8%
+                                                        <div class="progress flex-grow-1 ms-2 me-2 stat-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 36.8%" aria-valuenow="36.8" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="trend-indicator trend-down"><i class="bi bi-arrow-down"></i> %1.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sağlık Bilimleri</td>
+                                                <td>35</td>
+                                                <td>12</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        34.3%
+                                                        <div class="progress flex-grow-1 ms-2 me-2 stat-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 34.3%" aria-valuenow="34.3" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="trend-indicator trend-neutral"><i class="bi bi-dash"></i> %0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sosyal Bilimler</td>
+                                                <td>24</td>
+                                                <td>10</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        41.7%
+                                                        <div class="progress flex-grow-1 ms-2 me-2 stat-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 41.7%" aria-valuenow="41.7" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="trend-indicator trend-up"><i class="bi bi-arrow-up"></i> %5.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mühendislik</td>
+                                                <td>14</td>
+                                                <td>4</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        28.6%
+                                                        <div class="progress flex-grow-1 ms-2 me-2 stat-progress">
+                                                            <div class="progress-bar" role="progressbar" style="width: 28.6%" aria-valuenow="28.6" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="trend-indicator trend-down"><i class="bi bi-arrow-down"></i> %4.3</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hakem Performansı -->
+                <div class="row mb-4">
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="bi bi-people"></i> Hakem Performans İstatistikleri</h5>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-file-earmark-text me-1"></i> Detaylı Rapor
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="stat-summary">
+                                            <h6>Ortalama Yanıt Süresi</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h3 class="mb-0">5.2 <small>gün</small></h3>
+                                                <span class="trend-indicator trend-down ms-2">
+                                                    <i class="bi bi-arrow-down"></i> %12.5
+                                                </span>
+                                            </div>
+                                            <div class="text-muted small">Önceki Dönem: 5.9 gün</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="stat-summary">
+                                            <h6>Hakemlik Tamamlama Oranı</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h3 class="mb-0">86.2%</h3>
+                                                <span class="trend-indicator trend-up ms-2">
+                                                    <i class="bi bi-arrow-up"></i> %3.8
+                                                </span>
+                                            </div>
+                                            <div class="text-muted small">Önceki Dönem: 82.4%</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="stat-summary">
+                                            <h6>Hakem Değerlendirme Kalitesi</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h3 class="mb-0">4.3 <small>/5</small></h3>
+                                                <span class="trend-indicator trend-up ms-2">
+                                                    <i class="bi bi-arrow-up"></i> %0.2
+                                                </span>
+                                            </div>
+                                            <div class="text-muted small">Editör değerlendirmesine göre</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="chart-container mt-3">
+                                    <canvas id="reviewerTimeChart"></canvas>
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <h6>En Aktif Hakemler (Son 3 Ay)</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hakem</th>
+                                                    <th>Kategori</th>
+                                                    <th>Tamamlanan Değ.</th>
+                                                    <th>Ort. Değ. Süresi</th>
+                                                    <th>Kalite Puanı</th>
+                                                    <th>Durum</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Prof. Dr. Mehmet Kaya</td>
+                                                    <td>Bilgisayar Bilimleri</td>
+                                                    <td>8</td>
+                                                    <td>4.2 gün</td>
+                                                    <td>4.8/5</td>
+                                                    <td><span class="badge bg-success stat-badge">Aktif</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Prof. Dr. Ayşe Demir</td>
+                                                    <td>Eğitim Bilimleri</td>
+                                                    <td>7</td>
+                                                    <td>3.8 gün</td>
+                                                    <td>4.7/5</td>
+                                                    <td><span class="badge bg-success stat-badge">Aktif</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Doç. Dr. Ali Yıldız</td>
+                                                    <td>Sağlık Bilimleri</td>
+                                                    <td>6</td>
+                                                    <td>5.1 gün</td>
+                                                    <td>4.5/5</td>
+                                                    <td><span class="badge bg-success stat-badge">Aktif</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Dr. Öğr. Üyesi Sevgi Çelik</td>
+                                                    <td>Sosyal Bilimler</td>
+                                                    <td>5</td>
+                                                    <td>4.5 gün</td>
+                                                    <td>4.6/5</td>
+                                                    <td><span class="badge bg-success stat-badge">Aktif</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Prof. Dr. Hasan Şahin</td>
+                                                    <td>Mühendislik</td>
+                                                    <td>5</td>
+                                                    <td>6.2 gün</td>
+                                                    <td>4.2/5</td>
+                                                    <td><span class="badge bg-success stat-badge">Aktif</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- İşlem Süreleri ve Performans -->
+                <div class="row mb-4">
+                    <div class="col-md-7 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-clock-history"></i> Makale İşlem Süreleri</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="processingTimeChart"></canvas>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="stat-summary">
+                                        <h6>İlk Değerlendirme Süresi</h6>
+                                        <div class="d-flex align-items-center">
+                                            <h4 class="mb-0">12.3 <small>gün</small></h4>
+                                            <span class="trend-indicator trend-down ms-2">
+                                                <i class="bi bi-arrow-down"></i> %8.2
+                                            </span>
+                                        </div>
+                                        <div class="text-muted small">İlk başvurudan ilk editör değerlendirmesine kadar</div>
+                                    </div>
+                                    <div class="stat-summary mt-3">
+                                        <h6>Hakem Değerlendirme Süresi</h6>
+                                        <div class="d-flex align-items-center">
+                                            <h4 class="mb-0">18.5 <small>gün</small></h4>
+                                            <span class="trend-indicator trend-down ms-2">
+                                                <i class="bi bi-arrow-down"></i> %5.3
+                                            </span>
+                                        </div>
+                                        <div class="text-muted small">İlk editör değerlendirmesinden hakem kararına kadar</div>
+                                    </div>
+                                    <div class="stat-summary mt-3">
+                                        <h6>Revizyon Süresi</h6>
+                                        <div class="d-flex align-items-center">
+                                            <h4 class="mb-0">14.8 <small>gün</small></h4>
+                                            <span class="trend-indicator trend-neutral ms-2">
+                                                <i class="bi bi-dash"></i> %0.5
+                                            </span>
+                                        </div>
+                                        <div class="text-muted small">Revizyon talebinden revizyon yanıtına kadar</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-speedometer2"></i> Performans Karşılaştırması</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="comparison-card bg-light p-3 mb-3">
+                                    <h6>Editör İş Yükü Dağılımı</h6>
+                                    <div class="chart-container" style="height: 180px;">
+                                        <canvas id="editorWorkloadChart"></canvas>
+                                    </div>
+                                </div>
+                                
+                                <div class="comparison-card bg-light p-3">
+                                    <h6>Bu Dönem vs Önceki Dönem Karşılaştırma</h6>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Metrik</th>
+                                                <th>Bu Dönem</th>
+                                                <th>Önceki Dönem</th>
+                                                <th>Değişim</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Gönderilen Makale</td>
+                                                <td>153</td>
+                                                <td>133</td>
+                                                <td><span class="trend-indicator trend-up"><i class="bi bi-arrow-up"></i> %15</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kabul Oranı</td>
+                                                <td>36.4%</td>
+                                                <td>32.2%</td>
+                                                <td><span class="trend-indicator trend-up"><i class="bi bi-arrow-up"></i> %4.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Değerlendirme Süresi</td>
+                                                <td>27.5 gün</td>
+                                                <td>30 gün</td>
+                                                <td><span class="trend-indicator trend-down"><i class="bi bi-arrow-down"></i> %8.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hakem Yanıt Oranı</td>
+                                                <td>86.2%</td>
+                                                <td>82.4%</td>
+                                                <td><span class="trend-indicator trend-up"><i class="bi bi-arrow-up"></i> %3.8</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yayın ve Atıf İstatistikleri -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="bi bi-journal-richtext"></i> Yayın ve Atıf İstatistikleri</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="chart-container">
+                                            <canvas id="citationChart"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="stat-summary">
+                                            <h6>Toplam Yayın</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h3 class="mb-0">428</h3>
+                                                <span class="badge bg-primary stat-badge">Son 5 Yıl</span>
+                                            </div>
+                                            <div class="progress mt-2 stat-progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 76%" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <span class="text-muted small">Yıllık Artış: %8.5</span>
+                                                <span class="text-muted small">Hedef: 562</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="stat-summary mt-4">
+                                            <h6>Toplam Atıf</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h3 class="mb-0">1,253</h3>
+                                                <span class="badge bg-primary stat-badge">Son 5 Yıl</span>
+                                            </div>
+                                            <div class="progress mt-2 stat-progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 62%" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <span class="text-muted small">Yıllık Artış: %12.3</span>
+                                                <span class="text-muted small">Hedef: 2,000</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="stat-summary mt-4">
+                                            <h6>Etki Faktörü</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h3 class="mb-0">1.842</h3>
+                                                <span class="trend-indicator trend-up ms-2">
+                                                    <i class="bi bi-arrow-up"></i> %0.15
+                                                </span>
+                                            </div>
+                                            <div class="progress mt-2 stat-progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 51%" aria-valuenow="51" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <span class="text-muted small">Önceki: 1.691</span>
+                                                <span class="text-muted small">Hedef: 2.500</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3 bg-light border-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <span class="me-2"><i class="bi bi-journal" style="font-size: 24px;"></i></span>
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <span class="text-muted small">Versiyon 2.5.3 | Son Güncelleme: 01.03.2025</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tooltips'leri etkinleştir
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+        
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+        
+        // Grafikleri oluştur
+        createCharts();
+    });
+
+    /**
+     * Tüm grafikleri oluşturma fonksiyonu
+     */
+    function createCharts() {
+        // Ortak grafik seçenekleri
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        };
+        
+        // Aylık Makale Gönderim ve Kabul Oranları
+        if (document.getElementById('articleSubmissionChart')) {
+            const ctx = document.getElementById('articleSubmissionChart').getContext('2d');
+            const articleSubmissionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Aralık', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs'],
+                    datasets: [
+                        {
+                            label: 'Gönderilen Makale',
+                            data: [42, 38, 45, 53, 48, 57],
+                            backgroundColor: 'rgba(78, 115, 223, 0.8)',
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Kabul Edilen',
+                            data: [15, 12, 18, 21, 16, 19],
+                            backgroundColor: 'rgba(28, 200, 138, 0.8)',
+                            borderColor: 'rgba(28, 200, 138, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Reddedilen',
+                            data: [18, 16, 14, 19, 17, 22],
+                            backgroundColor: 'rgba(231, 74, 59, 0.8)',
+                            borderColor: 'rgba(231, 74, 59, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Makale Sayısı'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Makalelerin Durum Dağılımı
+        if (document.getElementById('articleStatusChart')) {
+            const ctx = document.getElementById('articleStatusChart').getContext('2d');
+            const articleStatusChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Değerlendirmede', 'Kabul Edildi', 'Reddedildi', 'Revizyonda', 'Yayınlandı'],
+                    datasets: [{
+                        data: [25, 36, 21, 12, 6],
+                        backgroundColor: [
+                            '#4e73df',
+                            '#1cc88a',
+                            '#e74a3b',
+                            '#f6c23e',
+                            '#36b9cc'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Kategorilere Göre Makale Dağılımı
+        if (document.getElementById('categoriesChart')) {
+            const ctx = document.getElementById('categoriesChart').getContext('2d');
+            const categoriesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Eğitim Bilimleri', 'Bilgisayar Bilimleri', 'Sağlık Bilimleri', 'Sosyal Bilimler', 'Mühendislik'],
+                    datasets: [{
+                        label: 'Makale Sayısı',
+                        data: [42, 38, 35, 24, 14],
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.8)',
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(54, 185, 204, 0.8)',
+                            'rgba(231, 74, 59, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(78, 115, 223, 1)',
+                            'rgba(28, 200, 138, 1)',
+                            'rgba(246, 194, 62, 1)',
+                            'rgba(54, 185, 204, 1)',
+                            'rgba(231, 74, 59, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Hakem Değerlendirme Süreleri
+        if (document.getElementById('reviewerTimeChart')) {
+            const ctx = document.getElementById('reviewerTimeChart').getContext('2d');
+            const reviewerTimeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Aralık', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs'],
+                    datasets: [
+                        {
+                            label: 'Ortalama Yanıt Süresi (Gün)',
+                            data: [6.5, 6.2, 6.0, 5.8, 5.5, 5.2],
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Hedef Yanıt Süresi',
+                            data: [7, 7, 7, 7, 7, 7],
+                            borderColor: 'rgba(231, 74, 59, 1)',
+                            borderDash: [5, 5],
+                            tension: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Gün'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Makale İşlem Süreleri
+        if (document.getElementById('processingTimeChart')) {
+            const ctx = document.getElementById('processingTimeChart').getContext('2d');
+            const processingTimeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Aralık', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs'],
+                    datasets: [
+                        {
+                            label: 'İlk Değerlendirme',
+                            data: [14.2, 13.8, 13.5, 13.0, 12.7, 12.3],
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            backgroundColor: 'transparent',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Hakem Değerlendirmesi',
+                            data: [21.5, 20.8, 20.0, 19.2, 18.7, 18.5],
+                            borderColor: 'rgba(28, 200, 138, 1)',
+                            backgroundColor: 'transparent',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Revizyon',
+                            data: [14.5, 14.6, 14.7, 14.8, 14.8, 14.8],
+                            borderColor: 'rgba(246, 194, 62, 1)',
+                            backgroundColor: 'transparent',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Gün'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Editör İş Yükü Dağılımı
+        if (document.getElementById('editorWorkloadChart')) {
+            const ctx = document.getElementById('editorWorkloadChart').getContext('2d');
+            const editorWorkloadChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Baş Editör', 'Alan Editörü 1', 'Alan Editörü 2', 'Alan Editörü 3', 'Alan Editörü 4'],
+                    datasets: [{
+                        label: 'Aktif Makale Sayısı',
+                        data: [8, 12, 15, 10, 7],
+                        backgroundColor: 'rgba(78, 115, 223, 0.8)',
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Makale Sayısı'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Yayın ve Atıf İstatistikleri
+        if (document.getElementById('citationChart')) {
+            const ctx = document.getElementById('citationChart').getContext('2d');
+            const citationChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025 (TAHMİN)'],
+                    datasets: [
+                        {
+                            label: 'Yayın Sayısı',
+                            data: [75, 82, 88, 93, 90, 95],
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Atıf Sayısı',
+                            data: [180, 210, 245, 290, 328, 350],
+                            borderColor: 'rgba(28, 200, 138, 1)',
+                            backgroundColor: 'transparent',
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Yayın Sayısı'
+                            }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Atıf Sayısı'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

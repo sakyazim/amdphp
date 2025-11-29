@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Akademik Makale Değerlendirme Sistemi - Profil</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="yazar-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                 <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Yazar olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-workspace me-2"></i>
+                        <span>Yazar</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="yazar-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="yazar-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="yazar-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yazar-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makalelerim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="ortak-yazarliklar.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Ortak Yazarlıklar
+                                    <span class="badge bg-danger rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yeni-makale.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Makale
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="yazar-profil.html" class="nav-link active">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yazar-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <h2 class="section-title mb-4"><i class="bi bi-person me-2"></i>Profilim</h2>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body text-center">
+                                <img src="assets/images/avatar.png" alt="Profil Fotoğrafı" class="rounded-circle mb-3" width="120">
+                                <h5>Dr. Ahmet Yılmaz</h5>
+                                <p class="text-muted">İstanbul Üniversitesi</p>
+                                <div class="d-grid">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-camera"></i> Fotoğraf Değiştir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-white">
+                                <h6 class="mb-0">İletişim Bilgileri</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2">
+                                        <i class="bi bi-envelope me-2"></i> ahmet.yilmaz@example.com
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-telephone me-2"></i> +90 555 123 4567
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-geo-alt me-2"></i> İstanbul, Türkiye
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-globe me-2"></i> www.ahmetyilmaz.com
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-white">
+                                <h6 class="mb-0">Akademik Kimlikler</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2">
+                                        <i class="bi bi-person-badge me-2"></i> ORCID: 0000-0001-2345-6789
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-mortarboard me-2"></i> Scopus ID: 123456789
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-mortarboard me-2"></i> ResearcherID: A-1234-5678
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+					<div class="col-md-9">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#personal-info">
+                        <i class="bi bi-person"></i> Kişisel Bilgiler
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#academic-info">
+                        <i class="bi bi-mortarboard"></i> Akademik Bilgiler
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#contact-info">
+                        <i class="bi bi-envelope"></i> İletişim Bilgileri
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#reference-info">
+                        <i class="bi bi-people"></i> Referans Bilgileri
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#password">
+                        <i class="bi bi-key"></i> Şifre
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <!-- Kişisel Bilgiler Sekmesi -->
+                <div class="tab-pane fade show active" id="personal-info">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Kişisel Bilgiler</h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('personal-info-form')">
+                            <i class="bi bi-pencil"></i> Düzenle
+                        </button>
+                    </div>
+                    <form id="personal-info-form">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="firstName" class="form-label">Ad</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control" id="firstName" value="Ahmet" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="middleName" class="form-label">İkinci Ad</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control" id="middleName" value="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Soyad</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control" id="lastName" value="Yılmaz" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label">Cinsiyet</label>
+                                    <select class="form-select" id="gender" disabled>
+                                        <option>Seçiniz</option>
+                                        <option selected>Erkek</option>
+                                        <option>Kadın</option>
+                                        <option>Diğer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="website" class="form-label">Web Sitesi</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                        <input type="url" class="form-control" id="website" value="http://www.ahmetyilmaz.com" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Unvan</label>
+                                    <select class="form-select" id="title" disabled>
+                                        <option>Seçiniz</option>
+                                        <option>Dr.</option>
+                                        <option selected>Dr. Öğr. Üyesi</option>
+                                        <option>Doç. Dr.</option>
+                                        <option>Prof. Dr.</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="bio" class="form-label">Biyografi</label>
+                                    <textarea class="form-control" id="bio" rows="4" disabled>Dr. Ahmet Yılmaz, İstanbul Üniversitesi Bilgisayar Mühendisliği Bölümü'nde öğretim üyesi olarak görev yapmaktadır. Yapay zeka, veri madenciliği ve sürdürülebilir enerji sistemleri konularında araştırmalar yürütmektedir.</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end d-none" id="personal-info-buttons">
+                            <button type="button" class="btn btn-secondary me-2" onclick="cancelEdit('personal-info-form')">
+                                <i class="bi bi-x-circle"></i> İptal
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Akademik Bilgiler Sekmesi -->
+                <div class="tab-pane fade" id="academic-info">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Akademik Bilgiler</h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('academic-info-form')">
+                            <i class="bi bi-pencil"></i> Düzenle
+                        </button>
+                    </div>
+                    <form id="academic-info-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="institution" class="form-label">Kurum</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                        <input type="text" class="form-control" id="institution" value="İstanbul Üniversitesi" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="institutionType" class="form-label">Kurum Tipi</label>
+                                    <select class="form-select" id="institutionType" disabled>
+                                        <option>Seçiniz</option>
+                                        <option selected>Üniversite</option>
+                                        <option>Araştırma Merkezi</option>
+                                        <option>Kamu Kurumu</option>
+                                        <option>Özel Sektör</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="department" class="form-label">Bölüm</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-diagram-3"></i></span>
+                                        <input type="text" class="form-control" id="department" value="Bilgisayar Mühendisliği" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="position" class="form-label">Pozisyon</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                        <input type="text" class="form-control" id="position" value="Dr. Öğretim Üyesi" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="institutionCountry" class="form-label">Kurum Ülkesi</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                        <input type="text" class="form-control" id="institutionCountry" value="Türkiye" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="institutionCity" class="form-label">Kurum Şehri</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                        <input type="text" class="form-control" id="institutionCity" value="İstanbul" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="orcid" class="form-label">ORCID ID</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-credit-card-2-front"></i></span>
+                                        <input type="text" class="form-control" id="orcid" value="0000-0001-2345-6789" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="institutionLanguage" class="form-label">Kurum Dili</label>
+                                    <select class="form-select" id="institutionLanguage" disabled>
+                                        <option>Seçiniz</option>
+                                        <option selected>Türkçe</option>
+                                        <option>İngilizce</option>
+                                        <option>Diğer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Uzmanlık Alanları</label>
+                                    <div class="specialization-tags">
+                                        <span class="badge bg-primary me-2 mb-2">Yapay Zeka</span>
+                                        <span class="badge bg-primary me-2 mb-2">Veri Madenciliği</span>
+                                        <span class="badge bg-primary me-2 mb-2">Makine Öğrenmesi</span>
+                                        <span class="badge bg-primary me-2 mb-2">Sürdürülebilir Enerji</span>
+                                    </div>
+                                    <div class="specialization-select-group mt-2 d-none">
+                                        <select class="form-select" id="specialization" disabled>
+                                            <option value="">Uzmanlık Alanı Seçiniz</option>
+                                            <option value="computer_science">Bilgisayar Bilimleri</option>
+                                            <option value="mathematics">Matematik</option>
+                                            <option value="physics">Fizik</option>
+                                            <option value="chemistry">Kimya</option>
+                                            <option value="biology">Biyoloji</option>
+                                        </select>
+                                        <button class="btn btn-outline-primary" type="button" disabled>
+                                            <i class="bi bi-plus-lg"></i> Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end d-none" id="academic-info-buttons">
+                            <button type="button" class="btn btn-secondary me-2" onclick="cancelEdit('academic-info-form')">
+                                <i class="bi bi-x-circle"></i> İptal
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- İletişim Bilgileri Sekmesi -->
+                <div class="tab-pane fade" id="contact-info">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">İletişim Bilgileri</h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('contact-info-form')">
+                            <i class="bi bi-pencil"></i> Düzenle
+                        </button>
+                    </div>
+                    <form id="contact-info-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-posta</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                                                                <input type="email" class="form-control" id="email" value="ahmet.yilmaz@istanbul.edu.tr" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Telefon</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                        <input type="tel" class="form-control" id="phone" value="5321234567" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Adres</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                        <textarea class="form-control" id="address" rows="3" disabled>İstanbul Üniversitesi, Bilgisayar Mühendisliği Bölümü, Beyazıt Kampüsü, Fatih, İstanbul</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="city" class="form-label">Şehir</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                        <input type="text" class="form-control" id="city" value="İstanbul" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="postalCode" class="form-label">Posta Kodu</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-mailbox"></i></span>
+                                        <input type="text" class="form-control" id="postalCode" value="34452" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="country" class="form-label">Ülke</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                        <input type="text" class="form-control" id="country" value="Türkiye" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end d-none" id="contact-info-buttons">
+                            <button type="button" class="btn btn-secondary me-2" onclick="cancelEdit('contact-info-form')">
+                                <i class="bi bi-x-circle"></i> İptal
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Referans Bilgileri Sekmesi -->
+                <div class="tab-pane fade" id="reference-info">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Referans Bilgileri</h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEdit('reference-info-form')">
+                            <i class="bi bi-pencil"></i> Düzenle
+                        </button>
+                    </div>
+                    <form id="reference-info-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="referenceNameInstitution" class="form-label">Tavsiye Eden Kişi/Kurum</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                        <input type="text" class="form-control" id="referenceNameInstitution" value="Prof. Dr. Mehmet Demir" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="referenceEmail" class="form-label">Referans E-posta Adresi</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                        <input type="email" class="form-control" id="referenceEmail" value="mehmet.demir@example.com" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="referenceInstitution" class="form-label">Referans Kurumu</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                        <input type="text" class="form-control" id="referenceInstitution" value="Boğaziçi Üniversitesi" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="referencePhone" class="form-label">Referans Telefonu</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                        <input type="tel" class="form-control" id="referencePhone" value="5447654321" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end d-none" id="reference-info-buttons">
+                            <button type="button" class="btn btn-secondary me-2" onclick="cancelEdit('reference-info-form')">
+                                <i class="bi bi-x-circle"></i> İptal
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Şifre Değiştirme Sekmesi -->
+                <div class="tab-pane fade" id="password">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Şifre Değiştirme</h5>
+                    </div>
+                    <form id="password-form">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="currentPassword" class="form-label">Mevcut Şifre</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control" id="currentPassword" required>
+                                        <button class="btn btn-outline-secondary password-toggle" type="button">
+                                            <i class="bi bi-eye-slash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label">Yeni Şifre</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control" id="newPassword" required minlength="8">
+                                        <button class="btn btn-outline-secondary password-toggle" type="button">
+                                            <i class="bi bi-eye-slash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Şifre gereksinimleri listesi -->
+                                <div class="password-requirements mt-2">
+                                    <ul class="requirements-list">
+                                        <li id="length-check">
+                                            <i class="bi bi-circle"></i>
+                                            En az 8 karakter uzunluğunda
+                                        </li>
+                                        <li id="uppercase-check">
+                                            <i class="bi bi-circle"></i>
+                                            En az 1 büyük harf
+                                        </li>
+                                        <li id="lowercase-check">
+                                            <i class="bi bi-circle"></i>
+                                            En az 1 küçük harf
+                                        </li>
+                                        <li id="number-check">
+                                            <i class="bi bi-circle"></i>
+                                            En az 1 rakam
+                                        </li>
+                                        <li id="special-check">
+                                            <i class="bi bi-circle"></i>
+                                            En az 1 özel karakter
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Yeni Şifre Tekrar</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control" id="confirmPassword" required>
+                                        <button class="btn btn-outline-secondary password-toggle" type="button">
+                                            <i class="bi bi-eye-slash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Şifre Değiştir
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+					
+					
+                    
+                </div>
+            </section>
+                </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Timeline Stil Tanımları -->
+<style>
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 25px;
+    }
+    
+    .timeline-marker {
+        position: absolute;
+        left: -30px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        top: 5px;
+    }
+    
+    .timeline-item:not(:last-child)::before {
+        content: '';
+        position: absolute;
+        left: -23px;
+        width: 2px;
+        background-color: #e9ecef;
+        top: 25px;
+        bottom: -25px;
+    }
+    
+    .timeline-content {
+        padding-bottom: 10px;
+    }
+</style>
+
+<!-- JavaScript -->
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+    <script src="assets/js/main.js"></script>
+	<script src="assets/js/utils.js"></script>
+</body>
+</html>
+
+

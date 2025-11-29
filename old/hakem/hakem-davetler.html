@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Hakem Davetleri</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="hakem-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Hakem olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-eyeglasses me-2"></i>
+                        <span>Hakem</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Mehmet Aydın</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        
+                        <li><a class="dropdown-item" href="hakem-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="../giris/giris.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="hakem-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-bekleyenler.html" class="nav-link">
+                                    <i class="bi bi-hourglass-split me-2"></i> Bekleyen Değerlendirmeler
+                                    <span class="badge bg-danger rounded-pill float-end">8</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-devam-eden.html" class="nav-link">
+                                    <i class="bi bi-clipboard-check me-2"></i> Devam Eden Değerlendirmeler
+                                    <span class="badge bg-warning rounded-pill float-end">5</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="tamamlanan-degerlendirmeler.html" class="nav-link">
+                                    <i class="bi bi-check-circle me-2"></i> Tamamlanan Değerlendirmeler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-davetler.html" class="nav-link active">
+                                    <i class="bi bi-envelope me-2"></i> Hakem Davetleri
+                                    <span class="badge bg-primary rounded-pill float-end">10</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item">
+                                <a href="hakem-uzmanlik-alanlarim.html" class="nav-link">
+                                    <i class="bi bi-mortarboard me-2"></i> Uzmanlık Alanlarım
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Filtreler -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h2 mb-0">
+                        <i class="bi bi-envelope me-2"></i>
+                        Hakem Davetleri
+                    </h1>
+                    <div class="d-flex gap-2">
+                        <!-- Arama Kutusu -->
+                        <div class="input-group" style="width: 250px;">
+                            <input type="text" class="form-control" placeholder="Davet ara..." id="searchInput">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Filtreleme -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-funnel me-1"></i> Filtrele
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">Davet Durumu</h6></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="all"><i class="bi bi-check-all me-2"></i> Tümü</a></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="pending"><i class="bi bi-hourglass-split text-warning me-2"></i> Bekleyen</a></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="accepted"><i class="bi bi-check-circle-fill text-success me-2"></i> Kabul Edilen</a></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="rejected"><i class="bi bi-x-circle-fill text-danger me-2"></i> Reddedilen</a></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="expired"><i class="bi bi-clock-history text-secondary me-2"></i> Süresi Dolmuş</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">Acillik Durumu</h6></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="urgent"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i> Acil Olanlar</a></li>
+                                <li><a class="dropdown-item filter-btn" href="#" data-filter="normal"><i class="bi bi-calendar me-2"></i> Normal Olanlar</a></li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Sıralama -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-sort-down me-1"></i> Sırala
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">En Yeni Davet</a></li>
+                                <li><a class="dropdown-item" href="#">En Eski Davet</a></li>
+                                <li><a class="dropdown-item" href="#">Son Yanıt Tarihi (Yakın)</a></li>
+                                <li><a class="dropdown-item" href="#">Son Yanıt Tarihi (Uzak)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Özet Bilgiler -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h3 class="display-4 fw-bold text-primary">10</h3>
+                                <p class="mb-0">Toplam Davet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h3 class="display-4 fw-bold text-warning">4</h3>
+                                <p class="mb-0">Bekleyen Davet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h3 class="display-4 fw-bold text-success">5</h3>
+                                <p class="mb-0">Kabul Edilen</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h3 class="display-4 fw-bold text-danger">1</h3>
+                                <p class="mb-0">Reddedilen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bekleyen Davetler Bölümü -->
+                <section class="dashboard-section invitations-section mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="section-title mb-0">
+                            <i class="bi bi-hourglass-split text-warning me-2"></i>
+                            Bekleyen Davetler
+                        </h2>
+                        <span class="badge bg-warning">4 Bekleyen</span>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush invitations-list">
+                                <!-- Davet 1 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="pending">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Mobil Öğrenme Uygulamaları</h6>
+                                        <span class="badge bg-danger">2 gün önce</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Davet: 01.03.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-alarm me-1"></i>
+                                            <span>Son Yanıt: <span class="text-danger">05.03.2025</span></span>
+                                        </div>
+                                        <span class="badge bg-danger mt-2 mt-md-0"><i class="bi bi-exclamation-circle me-1"></i> Acil</span>
+                                    </div>
+                                    <div class="alert alert-warning mt-2 py-2">
+                                        <p class="mb-0"><strong>Editör Notu:</strong> Mobil öğrenme alanındaki uzmanlığınız nedeniyle bu makalenin değerlendirmesini yapmanızı rica ediyoruz.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-primary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#details-1">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal" 
+                                                data-article-id="MOB-2025-001" 
+                                                data-article-title="Mobil Öğrenme Uygulamaları"
+                                                data-article-type="Özgün Araştırma"
+                                                data-article-subject="Eğitim Teknolojileri"
+                                                data-article-language="Türkçe"
+                                                data-article-keywords="mobil öğrenme, eğitim teknolojileri, m-öğrenme, dijital eğitim"
+                                                data-article-summary="Bu çalışma, mobil öğrenme uygulamalarının yükseköğretimde kullanımını ve öğrenci başarısına etkilerini incelemektedir. Araştırma kapsamında 120 öğrenci üzerinde yapılan deneysel çalışmanın sonuçları sunulmaktadır.">
+                                                <i class="bi bi-x-circle me-1"></i>
+                                                Reddet
+                                            </button>
+                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#acceptModal" 
+                                                data-article-id="MOB-2025-001" 
+                                                data-article-title="Mobil Öğrenme Uygulamaları"
+                                                data-article-type="Özgün Araştırma"
+                                                data-article-subject="Eğitim Teknolojileri"
+                                                data-article-language="Türkçe"
+                                                data-article-keywords="mobil öğrenme, eğitim teknolojileri, m-öğrenme, dijital eğitim"
+                                                data-article-summary="Bu çalışma, mobil öğrenme uygulamalarının yükseköğretimde kullanımını ve öğrenci başarısına etkilerini incelemektedir. Araştırma kapsamında 120 öğrenci üzerinde yapılan deneysel çalışmanın sonuçları sunulmaktadır.">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Kabul Et
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="details-1">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> MOB-2025-001</p>
+                                                    <p><strong>Makale Türü:</strong> Özgün Araştırma</p>
+                                                    <p><strong>Konu Alanı:</strong> Eğitim Teknolojileri</p>
+                                                    <p><strong>Dil:</strong> Türkçe</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> mobil öğrenme, eğitim teknolojileri, m-öğrenme, dijital eğitim</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Davet Bilgileri</h6>
+                                                    <p><strong>Davet Tarihi:</strong> 01.03.2025</p>
+                                                    <p><strong>Son Yanıt Tarihi:</strong> <span class="text-danger">05.03.2025</span></p>
+                                                    <p><strong>Değerlendirme Son Tarihi:</strong> 15.03.2025</p>
+                                                    <p><strong>Daveti Gönderen:</strong> Prof. Dr. Ahmet Yılmaz (Editör)</p>
+                                                    <p><strong>Öngörülen Değerlendirme Süresi:</strong> Yaklaşık 7-10 gün</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <h6 class="card-subtitle mb-2">Özet</h6>
+                                                    <p>Bu çalışma, mobil öğrenme uygulamalarının yükseköğretimde kullanımını ve öğrenci başarısına etkilerini incelemektedir. Araştırma kapsamında 120 öğrenci üzerinde yapılan deneysel çalışmanın sonuçları sunulmaktadır. Çalışmada, mobil öğrenme uygulamalarının öğrenci motivasyonunu artırdığı ve akademik başarıyı olumlu yönde etkilediği tespit edilmiştir. Ayrıca, farklı mobil uygulama türlerinin etkililiği karşılaştırmalı olarak analiz edilmiştir.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <p class="mb-0 text-danger"><i class="bi bi-exclamation-triangle me-1"></i> Yanıt süresi 4 günden az kaldı! Lütfen en kısa sürede yanıt verin.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <!-- Davet 2 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="pending">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Eğitimde Sanal Gerçeklik</h6>
+                                        <span class="badge bg-danger">3 gün önce</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Davet: 28.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-alarm me-1"></i>
+                                            <span>Son Yanıt: <span class="text-danger">04.03.2025</span></span>
+                                        </div>
+                                        <span class="badge bg-danger mt-2 mt-md-0"><i class="bi bi-exclamation-circle me-1"></i> Acil</span>
+                                    </div>
+                                    <div class="alert alert-warning mt-2 py-2">
+                                        <p class="mb-0"><strong>Editör Notu:</strong> Sanal gerçeklik alanındaki çalışmalarınız nedeniyle bu makaleyi değerlendirmenizi rica ediyoruz. Özellikle metodoloji bölümüne odaklanmanız önemli olacaktır.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-primary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#details-2">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal" 
+                                                data-article-id="VR-2025-002" 
+                                                data-article-title="Eğitimde Sanal Gerçeklik"
+                                                data-article-type="Deneysel Çalışma"
+                                                data-article-subject="Sanal Gerçeklik"
+                                                data-article-language="Türkçe"
+                                                data-article-keywords="sanal gerçeklik, VR, eğitim teknolojileri, immersif öğrenme"
+                                                data-article-summary="Bu çalışma, sanal gerçeklik teknolojilerinin eğitim ortamlarında kullanımını ve öğrencilerin öğrenme deneyimleri üzerindeki etkilerini incelemektedir. Farklı disiplinlerde VR uygulamalarının etkinliği karşılaştırmalı olarak analiz edilmiştir.">
+                                                <i class="bi bi-x-circle me-1"></i>
+                                                Reddet
+                                            </button>
+                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#acceptModal" 
+                                                data-article-id="VR-2025-002" 
+                                                data-article-title="Eğitimde Sanal Gerçeklik"
+                                                data-article-type="Deneysel Çalışma"
+                                                data-article-subject="Sanal Gerçeklik"
+                                                data-article-language="Türkçe"
+                                                data-article-keywords="sanal gerçeklik, VR, eğitim teknolojileri, immersif öğrenme"
+                                                data-article-summary="Bu çalışma, sanal gerçeklik teknolojilerinin eğitim ortamlarında kullanımını ve öğrencilerin öğrenme deneyimleri üzerindeki etkilerini incelemektedir. Farklı disiplinlerde VR uygulamalarının etkinliği karşılaştırmalı olarak analiz edilmiştir.">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Kabul Et
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="details-2">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> VR-2025-002</p>
+                                                    <p><strong>Makale Türü:</strong> Deneysel Çalışma</p>
+                                                    <p><strong>Konu Alanı:</strong> Sanal Gerçeklik, Eğitim Teknolojileri</p>
+                                                    <p><strong>Dil:</strong> Türkçe</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> sanal gerçeklik, VR, eğitim teknolojileri, immersif öğrenme</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Davet Bilgileri</h6>
+                                                    <p><strong>Davet Tarihi:</strong> 28.02.2025</p>
+                                                    <p><strong>Son Yanıt Tarihi:</strong> <span class="text-danger">04.03.2025</span></p>
+                                                    <p><strong>Değerlendirme Son Tarihi:</strong> 18.03.2025</p>
+                                                    <p><strong>Daveti Gönderen:</strong> Doç. Dr. Zeynep Demir (Konuk Editör)</p>
+                                                    <p><strong>Öngörülen Değerlendirme Süresi:</strong> Yaklaşık 10-14 gün</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <h6 class="card-subtitle mb-2">Özet</h6>
+                                                    <p>Bu çalışma, sanal gerçeklik teknolojilerinin eğitim ortamlarında kullanımını ve öğrencilerin öğrenme deneyimleri üzerindeki etkilerini incelemektedir. Farklı disiplinlerde VR uygulamalarının etkinliği karşılaştırmalı olarak analiz edilmiştir. Araştırma kapsamında, fen bilimleri, tıp eğitimi ve mimarlık eğitiminde kullanılan sanal gerçeklik uygulamaları incelenmiş ve öğrencilerin öğrenme performansları, motivasyonları ve memnuniyetleri değerlendirilmiştir. Çalışmanın sonuçları, sanal gerçeklik teknolojilerinin özellikle uygulamalı alanlarda geleneksel öğretim yöntemlerine göre daha etkili olduğunu göstermektedir.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <p class="mb-0 text-danger"><i class="bi bi-exclamation-triangle me-1"></i> Yanıt süresi 3 günden az kaldı! Lütfen en kısa sürede yanıt verin.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <!-- Davet 3 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="pending">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Çevrimiçi Sınav Sistemleri</h6>
+                                        <span class="badge bg-danger">4 gün önce</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Davet: 27.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-alarm me-1"></i>
+                                            <span>Son Yanıt: <span class="text-danger">05.03.2025</span></span>
+                                        </div>
+                                        <span class="badge bg-warning mt-2 mt-md-0"><i class="bi bi-clock me-1"></i> Normal</span>
+                                    </div>
+                                    <div class="alert alert-warning mt-2 py-2">
+                                        <p class="mb-0"><strong>Editör Notu:</strong> Çevrimiçi değerlendirme sistemleri konusundaki uzmanlığınız nedeniyle bu makalenin değerlendirmesini yapmanızı rica ediyoruz.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-primary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#details-3">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal" 
+                                                data-article-id="OES-2025-003" 
+                                                data-article-title="Çevrimiçi Sınav Sistemleri">
+                                                <i class="bi bi-x-circle me-1"></i>
+                                                Reddet
+                                            </button>
+                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#acceptModal" 
+                                                data-article-id="OES-2025-003" 
+                                                data-article-title="Çevrimiçi Sınav Sistemleri">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Kabul Et
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="details-3">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> OES-2025-003</p>
+                                                    <p><strong>Makale Türü:</strong> Derleme</p>
+                                                    <p><strong>Konu Alanı:</strong> Çevrimiçi Değerlendirme</p>
+                                                    <p><strong>Dil:</strong> Türkçe</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> çevrimiçi sınav, değerlendirme sistemleri, uzaktan eğitim, ölçme</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Davet Bilgileri</h6>
+                                                    <p><strong>Davet Tarihi:</strong> 27.02.2025</p>
+                                                    <p><strong>Son Yanıt Tarihi:</strong> <span class="text-danger">05.03.2025</span></p>
+                                                    <p><strong>Değerlendirme Son Tarihi:</strong> 20.03.2025</p>
+                                                    <p><strong>Daveti Gönderen:</strong> Dr. Murat Kaya (Yardımcı Editör)</p>
+                                                    <p><strong>Öngörülen Değerlendirme Süresi:</strong> Yaklaşık 10 gün</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <h6 class="card-subtitle mb-2">Özet</h6>
+                                                    <p>Bu derleme çalışması, yükseköğretimde kullanılan çevrimiçi sınav sistemlerini kapsamlı bir şekilde incelemektedir. Çalışmada, farklı çevrimiçi sınav yöntemleri, bunların güvenlik özellikleri, geçerlik ve güvenirlik sorunları ele alınmaktadır. Ayrıca, pandemi sürecinde hızla yaygınlaşan çevrimiçi sınav uygulamalarının karşılaştığı teknik, pedagojik ve etik zorluklar tartışılmakta ve gelecekteki çevrimiçi değerlendirme sistemleri için öneriler sunulmaktadır.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <!-- Davet 4 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="pending">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Yapay Zeka Destekli Eğitimde Etik Sorunlar</h6>
+                                        <span class="badge bg-warning">1 gün önce</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Davet: 03.03.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-alarm me-1"></i>
+                                            <span>Son Yanıt: <span class="text-primary">10.03.2025</span></span>
+                                        </div>
+                                        <span class="badge bg-warning mt-2 mt-md-0"><i class="bi bi-clock me-1"></i> Normal</span>
+                                    </div>
+                                    <div class="alert alert-warning mt-2 py-2">
+                                        <p class="mb-0"><strong>Editör Notu:</strong> Yapay zeka ve etik konularındaki çalışmalarınız nedeniyle bu makaleyi değerlendirmenizi rica ediyoruz. Özellikle yazarların sunduğu etik çerçevenin değerlendirilmesi konusunda görüşleriniz önemlidir.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-primary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#details-4">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal" 
+                                                data-article-id="AI-2025-004" 
+                                                data-article-title="Yapay Zeka Destekli Eğitimde Etik Sorunlar">
+                                                <i class="bi bi-x-circle me-1"></i>
+                                                Reddet
+                                            </button>
+                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#acceptModal" 
+                                                data-article-id="AI-2025-004" 
+                                                data-article-title="Yapay Zeka Destekli Eğitimde Etik Sorunlar">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Kabul Et
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="details-4">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> AI-2025-004</p>
+                                                    <p><strong>Makale Türü:</strong> Teorik Analiz</p>
+                                                    <p><strong>Konu Alanı:</strong> Yapay Zeka, Eğitim Etiği</p>
+                                                    <p><strong>Dil:</strong> Türkçe</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> yapay zeka, eğitimde etik, veri gizliliği, algoritma yanlılığı</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Davet Bilgileri</h6>
+                                                    <p><strong>Davet Tarihi:</strong> 03.03.2025</p>
+                                                    <p><strong>Son Yanıt Tarihi:</strong> <span class="text-primary">10.03.2025</span></p>
+                                                    <p><strong>Değerlendirme Son Tarihi:</strong> 24.03.2025</p>
+                                                    <p><strong>Daveti Gönderen:</strong> Prof. Dr. Ahmet Yılmaz (Editör)</p>
+                                                    <p><strong>Öngörülen Değerlendirme Süresi:</strong> Yaklaşık 10-14 gün</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <h6 class="card-subtitle mb-2">Özet</h6>
+                                                    <p>Bu çalışma, eğitim ortamlarında artan yapay zeka kullanımıyla ortaya çıkan etik sorunları kapsamlı bir şekilde ele almaktadır. Çalışmada, veri gizliliği, algoritma yanlılığı, şeffaflık, hesap verebilirlik ve dijital eşitlik gibi konular etrafında yapılandırılmış bir etik çerçeve sunulmaktadır. Makale, yapay zeka destekli eğitim teknolojilerinin etik ilkeler doğrultusunda nasıl geliştirilebileceğine ve uygulanabileceğine dair öneriler sunmakta ve eğitimciler, politika yapıcılar ve teknoloji geliştiriciler için bir yol haritası çizmektedir.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <div class="d-flex gap-2">
+                                                        <a href="#" class="btn btn-sm btn-outline-primary">
+                                                            <i class="bi bi-file-earmark-text me-1"></i> Özeti PDF Olarak İndir
+                                                        </a>
+                                                        <a href="#" class="btn btn-sm btn-outline-secondary">
+                                                            <i class="bi bi-people me-1"></i> Bu Konu Hakkındaki Değerlendirmelerim
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Kabul Edilen Davetler Bölümü -->
+                <section class="dashboard-section invitations-section mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="section-title mb-0">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Kabul Edilen Davetler
+                        </h2>
+                        <span class="badge bg-success">5 Kabul Edilen</span>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush invitations-list">
+                                <!-- Kabul Edilen 1 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="accepted">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Öğrenme Analitiği Uygulamaları</h6>
+                                        <span class="badge bg-success">Kabul Edildi</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Kabul: 25.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-alarm me-1"></i>
+                                            <span>Değerlendirme Son Tarihi: <span class="text-success">15.03.2025</span></span>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2 mt-md-0">
+                                            <span class="badge bg-info me-2">Aktif</span>
+                                            <div class="progress" style="width: 150px; height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <span class="ms-2 small">%75</span>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-success mt-2 py-2">
+                                        <p class="mb-0"><strong>İlerleme:</strong> Değerlendirme devam ediyor. Literatür ve metodoloji değerlendirmesi tamamlandı, bulgular ve sonuçlar bölümleri değerlendiriliyor.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-primary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#accepted-1">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <a href="hakem-makale-detay.html?id=LA-2025-005" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-pencil-square me-1"></i> Değerlendirmeye Devam Et
+                                            </a>
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#schedulingModal">
+                                                <i class="bi bi-calendar-event me-1"></i> Hatırlatıcı Ekle
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="accepted-1">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> LA-2025-005</p>
+                                                    <p><strong>Makale Türü:</strong> Özgün Araştırma</p>
+                                                    <p><strong>Konu Alanı:</strong> Öğrenme Analitiği</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> öğrenme analitiği, veri analizi, eğitim teknolojileri</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Değerlendirme Durumu</h6>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Literatür Değerlendirmesi</span>
+                                                            <span class="badge bg-success">Tamamlandı</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Metodoloji Değerlendirmesi</span>
+                                                            <span class="badge bg-success">Tamamlandı</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Bulgular Değerlendirmesi</span>
+                                                            <span class="badge bg-warning">Devam Ediyor</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Yorumlar ve Sonuç</span>
+                                                            <span class="badge bg-secondary">Başlanmadı</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <div class="alert alert-info mb-0">
+                                                        <p class="mb-0"><i class="bi bi-lightbulb me-1"></i> <strong>İpucu:</strong> Daha önce devam eden değerlendirmelerinizi "Devam Eden Değerlendirmeler" sayfasından takip edebilirsiniz. Kabul ettiğiniz bu davet de artık o sayfada listelenmektedir.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <!-- Kabul Edilen 2 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="accepted">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">MOOC Platformlarının Karşılaştırmalı Analizi</h6>
+                                        <span class="badge bg-success">Kabul Edildi</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Kabul: 22.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-alarm me-1"></i>
+                                            <span>Değerlendirme Son Tarihi: <span class="text-success">12.03.2025</span></span>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2 mt-md-0">
+                                            <span class="badge bg-info me-2">Aktif</span>
+                                            <div class="progress" style="width: 150px; height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <span class="ms-2 small">%90</span>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-success mt-2 py-2">
+                                        <p class="mb-0"><strong>İlerleme:</strong> Değerlendirme neredeyse tamamlandı. Sadece editöre yönelik yorumlar kaldı.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-primary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#accepted-2">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <a href="hakem-makale-detay.html?id=MOOC-2025-006" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-pencil-square me-1"></i> Değerlendirmeyi Tamamla
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="accepted-2">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> MOOC-2025-006</p>
+                                                    <p><strong>Makale Türü:</strong> Karşılaştırmalı Analiz</p>
+                                                    <p><strong>Konu Alanı:</strong> Çevrimiçi Eğitim Platformları</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> MOOC, Coursera, edX, Udemy, çevrimiçi eğitim</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Değerlendirme Durumu</h6>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Genel Değerlendirme</span>
+                                                            <span class="badge bg-success">Tamamlandı</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Yazara Yorumlar</span>
+                                                            <span class="badge bg-success">Tamamlandı</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <span>Editöre Yorumlar</span>
+                                                            <span class="badge bg-warning">Devam Ediyor</span>
+                                                        </div>
+                                                        <div class="progress" style="height: 5px;">
+                                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <div class="alert alert-info mb-0">
+                                                        <p class="mb-0"><i class="bi bi-lightbulb me-1"></i> <strong>İpucu:</strong> Değerlendirmeniz neredeyse tamamlandı! Editöre yönelik gizli yorumlarınızı tamamlayarak değerlendirme sürecini sonlandırabilirsiniz.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <!-- Diğer Kabul Edilen Davetler - Kısa Gösterim -->
+                                <li class="list-group-item p-3 invitation-item" data-status="accepted">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Dijital Okuryazarlık Becerileri ve Değerlendirme Yöntemleri</h6>
+                                        <span class="badge bg-success">Kabul Edildi</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Kabul: 18.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-clock me-1"></i>
+                                            <span>Değerlendirme Son Tarihi: 10.03.2025</span>
+                                        </div>
+                                        <a href="hakem-makale-detay.html?id=DL-2025-007" class="btn btn-sm btn-primary">Değerlendirmeye Git</a>
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item p-3 invitation-item" data-status="accepted">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Oyun Tabanlı Öğrenme ve Motivasyon</h6>
+                                        <span class="badge bg-success">Kabul Edildi</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Kabul: 15.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-clock me-1"></i>
+                                            <span>Değerlendirme Son Tarihi: 08.03.2025</span>
+                                        </div>
+                                        <a href="hakem-makale-detay.html?id=GBL-2025-008" class="btn btn-sm btn-primary">Değerlendirmeye Git</a>
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item p-3 invitation-item" data-status="accepted">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-primary">Hibrit Öğrenme Modellerinin Etkililiği</h6>
+                                        <span class="badge bg-success">Kabul Edildi</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Kabul: 10.02.2025</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-clock me-1"></i>
+                                            <span>Değerlendirme Son Tarihi: 05.03.2025</span>
+                                        </div>
+                                        <a href="hakem-makale-detay.html?id=HYB-2025-009" class="btn btn-sm btn-primary">Değerlendirmeye Git</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Reddedilen Davetler Bölümü -->
+                <section class="dashboard-section invitations-section mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="section-title mb-0">
+                            <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                            Reddedilen Davetler
+                        </h2>
+                        <span class="badge bg-danger">1 Reddedilen</span>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush invitations-list">
+                                <!-- Reddedilen 1 -->
+                                <li class="list-group-item p-3 invitation-item" data-status="rejected">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <h6 class="mb-2 mb-md-0 text-muted">Yükseköğretimde E-portfolyo Değerlendirmesi</h6>
+                                        <span class="badge bg-danger">Reddedildi</span>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-2">
+                                        <div class="d-flex align-items-center text-muted small mb-2 mb-md-0 flex-wrap">
+                                            <i class="bi bi-journal-text me-1"></i>
+                                            <span>Eğitim Teknolojileri Dergisi</span>
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-calendar me-1"></i>
+                                            <span>Red Tarihi: 20.02.2025</span>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-secondary mt-2 py-2">
+                                        <p class="mb-0"><strong>Red Sebebi:</strong> Yoğun iş yükü nedeniyle değerlendirme takvimime uygun değil.</p>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2">
+                                        <button class="btn btn-sm btn-outline-secondary mb-2 mb-md-0" type="button" data-bs-toggle="collapse" data-bs-target="#rejected-1">
+                                            <i class="bi bi-info-circle me-1"></i> Detayları Göster
+                                        </button>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#undoRejectModal">
+                                                <i class="bi bi-arrow-counterclockwise me-1"></i> Reddi Geri Al
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Detay Bölümü -->
+                                    <div class="collapse mt-3" id="rejected-1">
+                                        <div class="card card-body bg-light">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Makale Bilgileri</h6>
+                                                    <p><strong>Makale ID:</strong> EP-2025-010</p>
+                                                    <p><strong>Makale Türü:</strong> Vaka Çalışması</p>
+                                                    <p><strong>Konu Alanı:</strong> E-portfolyo, Ölçme ve Değerlendirme</p>
+                                                    <p><strong>Anahtar Kelimeler:</strong> e-portfolyo, alternatif değerlendirme, yükseköğretim</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="card-subtitle mb-2">Red Detayları</h6>
+                                                    <p><strong>Red Tarihi:</strong> 20.02.2025</p>
+                                                    <p><strong>Red Sebebi:</strong> Yoğun iş yükü nedeniyle değerlendirme takvimime uygun değil.</p>
+                                                    <p><strong>Açıklama:</strong> Önümüzdeki 3 hafta boyunca konferans ve proje teslim süreçleri nedeniyle yoğun bir çalışma takvimine sahibim. Bu nedenle makaleyi zamanında ve hakkıyla değerlendirmem mümkün olmayacaktır.</p>
+                                                    <p><strong>Önerilen Alternatif Hakem:</strong> Doç. Dr. Ayşe Yıldız (Ankara Üniversitesi)</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-12">
+                                                    <div class="alert alert-info mb-0">
+                                                        <p class="mb-0"><i class="bi bi-info-circle me-1"></i> <strong>Bilgi:</strong> Reddettiğiniz davetleri, ret tarihinden itibaren 48 saat içinde geri alabilirsiniz.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sayfalama veya "Daha Fazla Göster" butonu -->
+                <div class="text-center mt-4">
+                    <button class="btn btn-outline-primary" id="loadMoreBtn">
+                        <i class="bi bi-plus-circle me-1"></i> Daha Fazla Göster
+                    </button>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Davet Kabul Modal -->
+<div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acceptModalLabel">Değerlendirme Davetini Kabul Et</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p>Aşağıdaki makale için değerlendirme davetini kabul ediyorsunuz:</p>
+                <div class="alert alert-info">
+                    <p class="mb-0"><strong id="acceptArticleTitle"></strong> <span class="small text-muted">(ID: <span id="acceptArticleId"></span>)</span></p>
+                </div>
+                
+                <!-- Eklenen Makale Bilgileri -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">Makale Bilgileri</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Makale Türü:</strong> <span id="acceptArticleType"></span></p>
+                                <p><strong>Makale Konusu:</strong> <span id="acceptArticleSubject"></span></p>
+                                <p><strong>Makale Dili:</strong> <span id="acceptArticleLanguage"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Anahtar Kelimeler:</strong> <span id="acceptArticleKeywords"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p><strong>Özet:</strong></p>
+                                <p id="acceptArticleSummary" class="text-muted"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Bu makaleyi değerlendirmeyi kabul ettiğinizde:</p>
+                <ul>
+                    <li>Makaleyi gizli tutmayı kabul ediyorsunuz</li>
+                    <li>Değerlendirme süresince herhangi bir çıkar çatışması olmadığını beyan ediyorsunuz</li>
+                    <li>Değerlendirmeyi son tarihe kadar tamamlamayı taahhüt ediyorsunuz</li>
+                </ul>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="acceptTerms" required>
+                    <label class="form-check-label" for="acceptTerms">
+                        Yukarıdaki koşulları kabul ediyorum
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="acceptNote" class="form-label">Editöre Not (Opsiyonel):</label>
+                    <textarea class="form-control" id="acceptNote" rows="3" placeholder="Editöre iletmek istediğiniz bir not varsa yazabilirsiniz"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success" id="confirmAccept">Davet Kabul Et</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Davet Ret Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel">Değerlendirme Davetini Reddet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p>Aşağıdaki makale için değerlendirme davetini reddetmek üzeresiniz:</p>
+                <div class="alert alert-warning">
+                    <p class="mb-0"><strong id="rejectArticleTitle"></strong> <span class="small text-muted">(ID: <span id="rejectArticleId"></span>)</span></p>
+                </div>
+                
+                <!-- Eklenen Makale Bilgileri -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">Makale Bilgileri</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Makale Türü:</strong> <span id="rejectArticleType"></span></p>
+                                <p><strong>Makale Konusu:</strong> <span id="rejectArticleSubject"></span></p>
+                                <p><strong>Makale Dili:</strong> <span id="rejectArticleLanguage"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Anahtar Kelimeler:</strong> <span id="rejectArticleKeywords"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p><strong>Özet:</strong></p>
+                                <p id="rejectArticleSummary" class="text-muted"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="rejectReason" class="form-label">Reddetme Sebebi:</label>
+                    <select class="form-select" id="rejectReason" required>
+                        <option value="" selected disabled>Bir sebep seçin</option>
+                        <option value="expertise">Uzmanlık alanım dışında</option>
+                        <option value="conflict">Çıkar çatışması mevcut</option>
+                        <option value="time">Zaman kısıtlaması</option>
+                        <option value="workload">İş yükü fazlalığı</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="rejectNote" class="form-label">Detaylı Açıklama:</label>
+                    <textarea class="form-control" id="rejectNote" rows="3" placeholder="Reddetme sebebinizi detaylandırın" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="reviewerSuggestion" class="form-label">Alternatif Hakem Önerisi (Opsiyonel):</label>
+                    <input type="text" class="form-control" id="reviewerSuggestion" placeholder="Uygun bir hakem önerebilirsiniz">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmReject">Daveti Reddet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ret Geri Al Modal -->
+<div class="modal fade" id="undoRejectModal" tabindex="-1" aria-labelledby="undoRejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="undoRejectModalLabel">Ret İşlemini Geri Al</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p>Yükseköğretimde E-portfolyo Değerlendirmesi makalesine yönelik ret işleminizi geri almak istediğinizden emin misiniz?</p>
+                <div class="alert alert-info">
+                    <p class="mb-0"><i class="bi bi-info-circle me-1"></i> Ret işlemini geri aldığınızda, makaleyi kabul etmiş olacaksınız ve değerlendirme süreciniz başlayacaktır.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="confirmUndoReject">Reddi Geri Al</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hatırlatıcı Modal -->
+<div class="modal fade" id="schedulingModal" tabindex="-1" aria-labelledby="schedulingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="schedulingModalLabel">Hatırlatıcı Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="reminderDate" class="form-label">Hatırlatıcı Tarihi:</label>
+                    <input type="date" class="form-control" id="reminderDate">
+                </div>
+                <div class="mb-3">
+                    <label for="reminderTime" class="form-label">Hatırlatıcı Saati:</label>
+                    <input type="time" class="form-control" id="reminderTime">
+                </div>
+                <div class="mb-3">
+                    <label for="reminderNote" class="form-label">Hatırlatıcı Notu:</label>
+                    <textarea class="form-control" id="reminderNote" rows="3" placeholder="Hatırlatıcı için bir not ekleyin"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Hatırlatıcı Yöntemi:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="emailReminder" checked>
+                        <label class="form-check-label" for="emailReminder">
+                            E-posta ile hatırlat
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="systemReminder" checked>
+                        <label class="form-check-label" for="systemReminder">
+                            Sistem bildirimi olarak hatırlat
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveReminder">Hatırlatıcı Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="120" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<script src="assets/js/main.js"></script>
+
+<!-- Filtreleme ve Arama için JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Modalların dinamik olarak doldurulması için
+        document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const modalId = this.getAttribute('data-bs-target');
+                const modal = document.querySelector(modalId);
+                
+                // Makale bilgilerini modal'a aktarma
+                if (modal) {
+                    const articleId = this.getAttribute('data-article-id');
+                    const articleTitle = this.getAttribute('data-article-title');
+                    const articleType = this.getAttribute('data-article-type');
+                    const articleSubject = this.getAttribute('data-article-subject');
+                    const articleLanguage = this.getAttribute('data-article-language');
+                    const articleKeywords = this.getAttribute('data-article-keywords');
+                    const articleSummary = this.getAttribute('data-article-summary');
+                    
+                    // İlgili alanlara değerleri ata
+                    if (modalId === '#acceptModal') {
+                        modal.querySelector('#acceptArticleId').textContent = articleId;
+                        modal.querySelector('#acceptArticleTitle').textContent = articleTitle;
+                        modal.querySelector('#acceptArticleType').textContent = articleType;
+                        modal.querySelector('#acceptArticleSubject').textContent = articleSubject;
+                        modal.querySelector('#acceptArticleLanguage').textContent = articleLanguage;
+                        modal.querySelector('#acceptArticleKeywords').textContent = articleKeywords;
+                        modal.querySelector('#acceptArticleSummary').textContent = articleSummary;
+                    } else if (modalId === '#rejectModal') {
+                        modal.querySelector('#rejectArticleId').textContent = articleId;
+                        modal.querySelector('#rejectArticleTitle').textContent = articleTitle;
+						modal.querySelector('#rejectArticleId').textContent = articleId;
+                        modal.querySelector('#rejectArticleTitle').textContent = articleTitle;
+                        modal.querySelector('#rejectArticleType').textContent = articleType;
+                        modal.querySelector('#rejectArticleSubject').textContent = articleSubject;
+                        modal.querySelector('#rejectArticleLanguage').textContent = articleLanguage;
+                        modal.querySelector('#rejectArticleKeywords').textContent = articleKeywords;
+                        modal.querySelector('#rejectArticleSummary').textContent = articleSummary;
+                    }
+                }
+            });
+        });
+        
+        // Davet kabul ve ret işlemleri
+        document.getElementById('confirmAccept').addEventListener('click', function() {
+            const termsChecked = document.getElementById('acceptTerms').checked;
+            if (!termsChecked) {
+                alert('Lütfen koşulları kabul edin.');
+                return;
+            }
+            
+            // Burada AJAX ile kabul işlemi yapılabilir
+            // Basitleştirmek için sadece sayfayı yeniliyoruz
+            alert('Davet kabul edildi. Değerlendirme sayfasına yönlendiriliyorsunuz.');
+            window.location.href = 'hakem-devam-eden.html';
+        });
+        
+        document.getElementById('confirmReject').addEventListener('click', function() {
+            const rejectReason = document.getElementById('rejectReason').value;
+            const rejectNote = document.getElementById('rejectNote').value;
+            
+            if (!rejectReason || !rejectNote) {
+                alert('Lütfen reddetme sebebi ve açıklama giriniz.');
+                return;
+            }
+            
+            // Burada AJAX ile red işlemi yapılabilir
+            // Basitleştirmek için sadece sayfayı yeniliyoruz
+            alert('Davet reddedildi.');
+            window.location.reload();
+        });
+        
+        document.getElementById('confirmUndoReject').addEventListener('click', function() {
+            // Burada AJAX ile red işlemini geri alma yapılabilir
+            // Basitleştirmek için sadece sayfayı yeniliyoruz
+            alert('Ret işlemi geri alındı. Makale kabul edildi.');
+            window.location.reload();
+        });
+        
+        document.getElementById('saveReminder').addEventListener('click', function() {
+            const reminderDate = document.getElementById('reminderDate').value;
+            const reminderTime = document.getElementById('reminderTime').value;
+            
+            if (!reminderDate || !reminderTime) {
+                alert('Lütfen hatırlatıcı için tarih ve saat seçin.');
+                return;
+            }
+            
+            // Burada AJAX ile hatırlatıcı ekleme işlemi yapılabilir
+            // Basitleştirmek için sadece modalı kapatıp bildirim gösteriyoruz
+            var schedulingModal = bootstrap.Modal.getInstance(document.getElementById('schedulingModal'));
+            schedulingModal.hide();
+            
+            // Bildirim gösterme
+            showNotification('Hatırlatıcı başarıyla eklendi.', 'success');
+        });
+        
+        // Filtreleme işlemleri
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const filter = this.getAttribute('data-filter');
+                
+                // Tüm davetleri göster veya gizle
+                const invitationItems = document.querySelectorAll('.invitation-item');
+                invitationItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = '';
+                    } else {
+                        const status = item.getAttribute('data-status');
+                        if (status === filter) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Filtre butonlarının aktif durumunu güncelle
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Arama işlemi
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchVal = this.value.toLowerCase();
+            const invitationItems = document.querySelectorAll('.invitation-item');
+            
+            invitationItems.forEach(item => {
+                const title = item.querySelector('h6').textContent.toLowerCase();
+                if (title.includes(searchVal)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Yardımcı fonksiyonlar
+        function showNotification(message, type = 'info') {
+            // Bootstrap toast oluşturma
+            const toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            
+            const toastFlex = document.createElement('div');
+            toastFlex.className = 'd-flex';
+            
+            const toastBody = document.createElement('div');
+            toastBody.className = 'toast-body';
+            toastBody.textContent = message;
+            
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'btn-close btn-close-white me-2 m-auto';
+            closeButton.setAttribute('data-bs-dismiss', 'toast');
+            closeButton.setAttribute('aria-label', 'Kapat');
+            
+            toastFlex.appendChild(toastBody);
+            toastFlex.appendChild(closeButton);
+            toast.appendChild(toastFlex);
+            toastContainer.appendChild(toast);
+            document.body.appendChild(toastContainer);
+            
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            
+            // 5 saniye sonra toast'ı kaldır
+            setTimeout(() => {
+                toastContainer.remove();
+            }, 5000);
+        }
+        
+        // Mobil menü toggle işlemi
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar-container');
+            sidebar.classList.toggle('show-mobile');
+        });
+        
+        // Daha fazla göster butonu
+        document.getElementById('loadMoreBtn').addEventListener('click', function() {
+            // Burada AJAX ile daha fazla davet yükleme işlemi yapılabilir
+            // Basitleştirmek için butonu devre dışı bırakıp bildirim gösteriyoruz
+            this.disabled = true;
+            this.innerHTML = '<i class="bi bi-check-circle me-1"></i> Tüm davetler görüntülendi';
+            showNotification('Tüm davetler görüntülendi. Başka davet bulunmamaktadır.', 'info');
+        });
+        
+        // Tarihe göre vurgu yapma
+        function highlightDeadlines() {
+            const deadlines = document.querySelectorAll('.invitation-item [class*="text-danger"]');
+            deadlines.forEach(deadline => {
+                // Tarihi vurgulama işlemleri burada yapılabilir
+                if (deadline.textContent.includes('gün') || deadline.textContent.includes('saat')) {
+                    deadline.style.fontWeight = 'bold';
+                }
+            });
+        }
+        
+        // Sayfa yüklendiğinde tarihleri vurgula
+        highlightDeadlines();
+    });
+</script>
+
+<!-- Ek JavaScript - Çubuk grafikler için -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // İlerleme çubuklarını otomatik güncelleme (Demo amaçlı)
+        const progressBars = document.querySelectorAll('.progress-bar');
+        progressBars.forEach(bar => {
+            const currentWidth = parseInt(bar.style.width);
+            if (currentWidth < 100) {
+                // Rastgele ilerleme - gerçek uygulamada kullanılmayacak
+                const interval = setInterval(() => {
+                    const currentWidth = parseInt(bar.style.width);
+                    if (currentWidth < 100) {
+                        const newWidth = currentWidth + 1;
+                        bar.style.width = newWidth + '%';
+                        bar.setAttribute('aria-valuenow', newWidth);
+                        
+                        // Yüzde göstergesini güncelle (varsa)
+                        const percentText = bar.parentElement.nextElementSibling;
+                        if (percentText && percentText.classList.contains('small')) {
+                            percentText.textContent = '%' + newWidth;
+                        }
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 5000); // Gerçek uygulamada kullanılmayacak
+            }
+        });
+    });
+</script>
+
+<!-- Tarih biçimlendirme için yardımcı JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tarih formatını standartlaştırmak için
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('tr-TR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+        
+        // Kalan gün hesaplama
+        function calculateRemainingDays(deadlineString) {
+            const today = new Date();
+            const deadline = new Date(deadlineString);
+            const diffTime = deadline - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 0) {
+                return 'Süresi geçmiş';
+            } else if (diffDays === 0) {
+                return 'Bugün son gün';
+            } else {
+                return diffDays + ' gün kaldı';
+            }
+        }
+        
+        // Demo amaçlı - gerçek uygulamada kullanılacak
+        // Burada tarihleri formatlamak için bir şey yapılmadı çünkü
+        // sayfadaki tarihler zaten formatlı olarak geliyor
+    });
+</script>
+
+</body>
+</html>
+                        

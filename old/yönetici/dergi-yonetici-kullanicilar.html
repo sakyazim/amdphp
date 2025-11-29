@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Dergi Yöneticisi Kullanıcı Yönetimi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Dashboard CSS -->
+    <link href="assets/css/dashboard.css" rel="stylesheet">
+    <!-- User Management CSS -->
+    <link href="assets/css/user-management.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="dergi-yonetici-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Dergi Yöneticisi olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal-check me-2"></i>
+                        <span>Dergi Yöneticisi</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-journal-check me-2"></i> Dergi Yöneticisi</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="dergi-yonetici-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="dergi-yonetici-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container-fluid">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Yönetim Menüsü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Ana Gösterge Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-istatistikler.html" class="nav-link">
+                                    <i class="bi bi-graph-up me-2"></i> İstatistikler & Raporlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-tum-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Tüm Makaleler
+                                    <span class="badge bg-primary rounded-pill float-end">25</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-kullanicilar.html" class="nav-link active">
+                                    <i class="bi bi-people me-2"></i> Kullanıcı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-roller.html" class="nav-link">
+                                    <i class="bi bi-person-badge me-2"></i> Rol Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-is-akislari.html" class="nav-link">
+                                    <i class="bi bi-diagram-3 me-2"></i> İş Akışı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-email-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> E-posta Şablonları
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-dergiler.html" class="nav-link">
+                                    <i class="bi bi-journal-richtext me-2"></i> Dergi Yapılandırması
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-sistem-ayarlari.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Sistem Ayarları
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Butonlar -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="mb-0"><i class="bi bi-people me-2"></i>Kullanıcı Yönetimi</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="dergi-yonetici-panel.html">Ana Sayfa</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Kullanıcı Yönetimi</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="d-flex mt-3 mt-md-0">
+                        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#importUsersModal">
+                            <i class="bi bi-upload me-2"></i>İçe Aktar
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#exportUsersModal">
+                            <i class="bi bi-download me-2"></i>Dışa Aktar
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                            <i class="bi bi-person-plus me-2"></i>Yeni Kullanıcı
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtreleme ve Arama -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" id="searchUsers" placeholder="Ad, e-posta veya ID ara...">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <select class="form-select w-auto" id="roleFilter">
+                                        <option value="">Tüm Roller</option>
+                                        <option value="editor">Editör</option>
+                                        <option value="reviewer">Hakem</option>
+                                        <option value="author">Yazar</option>
+                                        <option value="manager">Dergi Yöneticisi</option>
+                                    </select>
+                                    <select class="form-select w-auto" id="statusFilter">
+                                        <option value="">Tüm Durumlar</option>
+                                        <option value="active">Aktif</option>
+                                        <option value="pending">Onay Bekliyor</option>
+                                        <option value="inactive">Pasif</option>
+                                        <option value="blocked">Engelli</option>
+                                    </select>
+                                    <select class="form-select w-auto" id="sortUsers">
+                                        <option value="name_asc">İsme Göre (A-Z)</option>
+                                        <option value="name_desc">İsme Göre (Z-A)</option>
+                                        <option value="date_desc">Kayıt Tarihi (Yeni-Eski)</option>
+                                        <option value="date_asc">Kayıt Tarihi (Eski-Yeni)</option>
+                                        <option value="activity_desc">Son Aktivite (Yeni-Eski)</option>
+                                    </select>
+                                    <button type="button" class="btn btn-outline-secondary" id="clearFilters">
+                                        <i class="bi bi-x-circle me-1"></i>Filtreleri Temizle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kullanıcı İstatistikleri -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-primary">Toplam Kullanıcı</div>
+                                        <div class="dashboard-stat-card-value">487</div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-up-short"></i> %8 artış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-primary-light">
+                                        <i class="bi bi-people text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-success">Aktif Kullanıcılar</div>
+                                        <div class="dashboard-stat-card-value">415</div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-up-short"></i> %5 artış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-success-light">
+                                        <i class="bi bi-person-check text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-warning">Onay Bekleyenler</div>
+                                        <div class="dashboard-stat-card-value">24</div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-down-short"></i> %12 azalış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-warning-light">
+                                        <i class="bi bi-hourglass-split text-warning"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-danger">Pasif/Engelli</div>
+                                        <div class="dashboard-stat-card-value">48</div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-up-short"></i> %3 artış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-danger-light">
+                                        <i class="bi bi-person-x text-danger"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kullanıcı Listesi -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <h5 class="card-title mb-0">Kullanıcı Listesi</h5>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-grid me-1"></i>Kart Görünümü
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary active">
+                                <i class="bi bi-list-ul me-1"></i>Liste Görünümü
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" id="usersTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="selectAllUsers">
+                                                <label class="form-check-label" for="selectAllUsers"></label>
+                                            </div>
+                                        </th>
+                                        <th>Kullanıcı</th>
+                                        <th>İletişim</th>
+                                        <th>Roller</th>
+                                        <th>Kayıt Tarihi</th>
+                                        <th>Son Aktivite</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input user-select" type="checkbox">
+                                                <label class="form-check-label"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatars/avatar-4.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>
+                                                    <div class="fw-bold">Dr. Ayşe Şahin</div>
+                                                    <div class="text-muted small">ID: USR-240167</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div><i class="bi bi-envelope-fill me-1 text-muted"></i> ayse.sahin@tuni.edu.tr</div>
+                                            <div><i class="bi bi-telephone-fill me-1 text-muted"></i> +90 555 456 7890</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary me-1">Yazar</span>
+                                        </td>
+                                        <td>05.01.2025</td>
+                                        <td>28.02.2025 10:15</td>
+                                        <td><span class="badge bg-warning text-dark">Onay Bekliyor</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-check-circle me-2"></i>Onayla</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#rejectUserModal"><i class="bi bi-x-circle me-2"></i>Reddet</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input user-select" type="checkbox">
+                                                <label class="form-check-label"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatars/avatar-5.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>
+                                                    <div class="fw-bold">Prof. Dr. Kemal Öztürk</div>
+                                                    <div class="text-muted small">ID: USR-240022</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div><i class="bi bi-envelope-fill me-1 text-muted"></i> kemal.ozturk@auni.edu.tr</div>
+                                            <div><i class="bi bi-telephone-fill me-1 text-muted"></i> +90 555 567 8901</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary me-1">Editör</span>
+                                        </td>
+                                        <td>18.05.2023</td>
+                                        <td>28.02.2025 09:22</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i>Rol Değiştir</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deactivateUserModal"><i class="bi bi-person-slash me-2"></i>Pasife Al</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input user-select" type="checkbox">
+                                                <label class="form-check-label"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatars/avatar-6.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>
+                                                    <div class="fw-bold">Prof. Dr. Canan Yücel</div>
+                                                    <div class="text-muted small">ID: USR-240037</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div><i class="bi bi-envelope-fill me-1 text-muted"></i> canan.yucel@buni.edu.tr</div>
+                                            <div><i class="bi bi-telephone-fill me-1 text-muted"></i> +90 555 678 9012</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary me-1">Editör</span>
+                                            <span class="badge bg-info me-1">Hakem</span>
+                                        </td>
+                                        <td>03.07.2023</td>
+                                        <td>27.02.2025 15:40</td>
+                                        <td><span class="badge bg-warning text-dark">İzinde</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i>Rol Değiştir</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person-check me-2"></i>İzinden Çağır</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deactivateUserModal"><i class="bi bi-person-slash me-2"></i>Pasife Al</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input user-select" type="checkbox">
+                                                <label class="form-check-label"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatars/avatar-7.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>
+                                                    <div class="fw-bold">Doç. Dr. Deniz Yılmaz</div>
+                                                    <div class="text-muted small">ID: USR-240098</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div><i class="bi bi-envelope-fill me-1 text-muted"></i> deniz.yilmaz@cuni.edu.tr</div>
+                                            <div><i class="bi bi-telephone-fill me-1 text-muted"></i> +90 555 789 0123</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger me-1">Engellenmiş</span>
+                                        </td>
+                                        <td>12.10.2023</td>
+                                        <td>15.01.2025 08:10</td>
+                                        <td><span class="badge bg-danger">Engelli</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-unlock me-2"></i>Engeli Kaldır</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center py-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <select class="form-select form-select-sm" id="userPerPage">
+                                    <option value="10">10</option>
+                                    <option value="25" selected>25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <span class="text-muted small">Toplam 487 kullanıcı içinden 1-25 arası gösteriliyor</span>
+                        </div>
+                        <nav aria-label="Kullanıcı sayfaları">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Önceki">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Sonraki">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Toplu İşlem Butonları -->
+                <div class="d-flex mb-4 flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-primary" id="bulkEmailBtn" disabled>
+                        <i class="bi bi-envelope me-2"></i>Seçililere E-posta Gönder
+                    </button>
+                    <button type="button" class="btn btn-outline-info" id="bulkRoleBtn" disabled>
+                        <i class="bi bi-arrow-repeat me-2"></i>Seçililere Rol Ata
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" id="bulkActivateBtn" disabled>
+                        <i class="bi bi-person-check me-2"></i>Seçilileri Aktifleştir
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" id="bulkDeactivateBtn" disabled>
+                        <i class="bi bi-person-x me-2"></i>Seçilileri Pasifleştir
+                    </button>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Modaller -->
+<!-- Yeni Kullanıcı Ekle Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel"><i class="bi bi-person-plus me-2"></i>Yeni Kullanıcı Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Ad <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Soyad <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">E-posta <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Telefon</label>
+                            <input type="tel" class="form-control" id="phone">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="institution" class="form-label">Kurum</label>
+                            <input type="text" class="form-control" id="institution">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="department" class="form-label">Bölüm</label>
+                            <input type="text" class="form-control" id="department">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="title" class="form-label">Unvan</label>
+                            <select class="form-select" id="title">
+                                <option value="">Seçiniz</option>
+                                <option value="prof">Prof. Dr.</option>
+                                <option value="assoc">Doç. Dr.</option>
+                                <option value="assist">Dr. Öğr. Üyesi</option>
+                                <option value="dr">Dr.</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="userRoles" class="form-label">Kullanıcı Rolleri <span class="text-danger">*</span></label>
+                            <select class="form-select" id="userRoles" multiple required>
+                                <option value="editor">Editör</option>
+                                <option value="reviewer">Hakem</option>
+                                <option value="author">Yazar</option>
+                                <option value="manager">Dergi Yöneticisi</option>
+                            </select>
+                            <div class="form-text">Ctrl tuşu ile birden fazla seçim yapabilirsiniz.</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Durum <span class="text-danger">*</span></label>
+                            <select class="form-select" id="status" required>
+                                <option value="active">Aktif</option>
+                                <option value="pending">Onay Bekliyor</option>
+                                <option value="inactive">Pasif</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="sendWelcome" class="form-label">Hoş Geldiniz E-postası</label>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" id="sendWelcome" checked>
+                                <label class="form-check-label" for="sendWelcome">Hoş geldiniz e-postası gönder</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="notes" class="form-label">Notlar</label>
+                            <textarea class="form-control" id="notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveNewUser">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kullanıcı Görüntüle Modal -->
+<div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewUserModalLabel"><i class="bi bi-person me-2"></i>Kullanıcı Bilgileri</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <div class="col-md-3 text-center">
+                        <img src="assets/images/avatar.png" alt="User Avatar" class="img-fluid rounded-circle mb-3" style="max-width: 120px;">
+                        <div>
+                            <span class="badge bg-success mb-2">Aktif</span>
+                            <div class="text-muted small">ID: USR-240305</div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h4>Prof. Dr. Mehmet Aydın</h4>
+                        <div class="mb-2">
+                            <span class="badge bg-primary me-1">Editör</span>
+                            <span class="badge bg-info me-1">Hakem</span>
+                        </div>
+                        <p class="mb-1"><i class="bi bi-envelope-fill me-2 text-muted"></i>mehmet.aydin@xuni.edu.tr</p>
+                        <p class="mb-1"><i class="bi bi-telephone-fill me-2 text-muted"></i>+90 555 123 4567</p>
+                        <p class="mb-1"><i class="bi bi-building me-2 text-muted"></i>X Üniversitesi, Bilgisayar Mühendisliği</p>
+                        <p class="mb-1"><i class="bi bi-geo-alt-fill me-2 text-muted"></i>İstanbul, Türkiye</p>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs" id="userInfoTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab">Aktivite</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="articles-tab" data-bs-toggle="tab" data-bs-target="#articles" type="button" role="tab">Makaleler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">Değerlendirmeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="system-tab" data-bs-toggle="tab" data-bs-target="#system" type="button" role="tab">Sistem Bilgileri</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-3" id="userInfoTabsContent">
+                    <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                        <div class="activity-timeline">
+                            <div class="activity-timeline-item">
+                                <div class="activity-timeline-dot bg-primary"></div>
+                                <div class="activity-timeline-content">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <strong>Giriş Yaptı</strong>
+                                        <small class="text-muted">05.03.2025 09:45</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Sistem üzerinde son oturum açma</p>
+                                </div>
+                            </div>
+                            <div class="activity-timeline-item">
+                                <div class="activity-timeline-dot bg-success"></div>
+                                <div class="activity-timeline-content">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <strong>Makale Değerlendirmesi Tamamlandı</strong>
+                                        <small class="text-muted">01.03.2025 15:20</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">ART-2025-0102 numaralı makale için değerlendirme tamamlandı.</p>
+                                </div>
+                            </div>
+                            <div class="activity-timeline-item">
+                                <div class="activity-timeline-dot bg-info"></div>
+                                <div class="activity-timeline-content">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <strong>Değerlendirme Görevi Atandı</strong>
+                                        <small class="text-muted">25.02.2025 11:35</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">ART-2025-0103 numaralı makale için hakem olarak atandı.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="articles" role="tabpanel" aria-labelledby="articles-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Makale ID</th>
+                                        <th>Başlık</th>
+                                        <th>Rol</th>
+                                        <th>Tarih</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ART-2025-0098</td>
+                                        <td>Yapay Zeka Etiği Üzerine Bir İnceleme</td>
+                                        <td>Editör</td>
+                                        <td>15.01.2025</td>
+                                        <td><span class="badge bg-success">Yayınlandı</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ART-2025-0095</td>
+                                        <td>Veri Madenciliği Teknikleri</td>
+                                        <td>Editör</td>
+                                        <td>05.01.2025</td>
+                                        <td><span class="badge bg-warning text-dark">Revizyon</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Makale ID</th>
+                                        <th>Başlık</th>
+                                        <th>Atanma Tarihi</th>
+                                        <th>Tamamlanma</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ART-2025-0102</td>
+                                        <td>Meme Kanseri Teşhisinde Derin Öğrenme</td>
+                                        <td>20.02.2025</td>
+                                        <td>01.03.2025</td>
+                                        <td><span class="badge bg-success">Tamamlandı</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ART-2025-0103</td>
+                                        <td>Yapay Zeka ve Eğitim</td>
+                                        <td>25.02.2025</td>
+                                        <td>-</td>
+                                        <td><span class="badge bg-primary">Devam Ediyor</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Kullanıcı ID:</div>
+                            <div class="col-md-8">USR-240305</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Kayıt Tarihi:</div>
+                            <div class="col-md-8">10.06.2023 14:25</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Son Giriş:</div>
+                            <div class="col-md-8">05.03.2025 09:45</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Durum:</div>
+                            <div class="col-md-8"><span class="badge bg-success">Aktif</span></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Hesap Türü:</div>
+                            <div class="col-md-8">Standart</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">E-posta Doğrulanmış:</div>
+                            <div class="col-md-8"><i class="bi bi-check-circle-fill text-success me-1"></i>Evet</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">IP Adresi:</div>
+                            <div class="col-md-8">192.168.1.45</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4 text-muted">Tarayıcı:</div>
+                            <div class="col-md-8">Chrome 120.0.0.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editUserModal">Düzenle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kullanıcı Düzenle Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel"><i class="bi bi-pencil me-2"></i>Kullanıcı Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editFirstName" class="form-label">Ad <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editFirstName" value="Mehmet" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editLastName" class="form-label">Soyad <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editLastName" value="Aydın" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editEmail" class="form-label">E-posta <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="editEmail" value="mehmet.aydin@xuni.edu.tr" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPhone" class="form-label">Telefon</label>
+                            <input type="tel" class="form-control" id="editPhone" value="+90 555 123 4567">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editInstitution" class="form-label">Kurum</label>
+                            <input type="text" class="form-control" id="editInstitution" value="X Üniversitesi">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editDepartment" class="form-label">Bölüm</label>
+                            <input type="text" class="form-control" id="editDepartment" value="Bilgisayar Mühendisliği">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editTitle" class="form-label">Unvan</label>
+                            <select class="form-select" id="editTitle">
+                                <option value="">Seçiniz</option>
+                                <option value="prof" selected>Prof. Dr.</option>
+                                <option value="assoc">Doç. Dr.</option>
+                                <option value="assist">Dr. Öğr. Üyesi</option>
+                                <option value="dr">Dr.</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editUserRoles" class="form-label">Kullanıcı Rolleri <span class="text-danger">*</span></label>
+                            <select class="form-select" id="editUserRoles" multiple required>
+                                <option value="editor" selected>Editör</option>
+                                <option value="reviewer" selected>Hakem</option>
+                                <option value="author">Yazar</option>
+                                <option value="manager">Dergi Yöneticisi</option>
+                            </select>
+                            <div class="form-text">Ctrl tuşu ile birden fazla seçim yapabilirsiniz.</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="editStatus" class="form-label">Durum <span class="text-danger">*</span></label>
+                            <select class="form-select" id="editStatus" required>
+                                <option value="active" selected>Aktif</option>
+                                <option value="pending">Onay Bekliyor</option>
+                                <option value="inactive">Pasif</option>
+                                <option value="blocked">Engelli</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="sendNotification" class="form-label">Bildirim Gönder</label>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" id="sendNotification">
+                                <label class="form-check-label" for="sendNotification">Değişiklik bildirimi gönder</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="editNotes" class="form-label">Notlar</label>
+                            <textarea class="form-control" id="editNotes" rows="3">Bilgisayar Mühendisliği Bölüm Başkanı. Yapay Zeka alanında uzman.</textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveUserChanges">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kullanıcı Pasifleştir Modal -->
+<div class="modal fade" id="deactivateUserModal" tabindex="-1" aria-labelledby="deactivateUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deactivateUserModalLabel"><i class="bi bi-person-x me-2"></i>Kullanıcıyı Pasifleştir</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Dikkat:</strong> Bu işlem kullanıcının erişimini engelleyecektir.
+                </div>
+                <p>Aşağıdaki kullanıcıyı pasifleştirmek istediğinize emin misiniz?</p>
+                <div class="d-flex align-items-center mb-3">
+                    <img src="assets/images/avatar.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                    <div>
+                        <div class="fw-bold">Prof. Dr. Mehmet Aydın</div>
+                        <div class="text-muted small">mehmet.aydin@xuni.edu.tr</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="deactivateReason" class="form-label">Pasifleştirme Nedeni</label>
+                    <select class="form-select" id="deactivateReason">
+                        <option value="inactive">Uzun süredir aktif değil</option>
+                        <option value="request">Kullanıcı talebi</option>
+                        <option value="policy">Politika ihlali</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="deactivateNotes" class="form-label">Ek Açıklama</label>
+                    <textarea class="form-control" id="deactivateNotes" rows="3" placeholder="İsteğe bağlı açıklama..."></textarea>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="sendDeactivateNotification" checked>
+                    <label class="form-check-label" for="sendDeactivateNotification">
+                        Kullanıcıya bildirim e-postası gönder
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeactivate">Pasifleştir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kullanıcı Reddet Modal -->
+<div class="modal fade" id="rejectUserModal" tabindex="-1" aria-labelledby="rejectUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectUserModalLabel"><i class="bi bi-x-circle me-2"></i>Kullanıcı Kaydını Reddet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Dikkat:</strong> Bu işlem kullanıcı kaydını reddedecektir.
+                </div>
+                <p>Aşağıdaki kullanıcı kaydını reddetmek istediğinize emin misiniz?</p>
+                <div class="d-flex align-items-center mb-3">
+                    <img src="assets/images/avatars/avatar-4.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                    <div>
+                        <div class="fw-bold">Dr. Ayşe Şahin</div>
+                        <div class="text-muted small">ayse.sahin@tuni.edu.tr</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="rejectReason" class="form-label">Reddetme Nedeni</label>
+                    <select class="form-select" id="rejectReason">
+                        <option value="incomplete">Eksik bilgi</option>
+                        <option value="duplicate">Çift kayıt</option>
+                        <option value="policy">Politika ihlali</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="rejectNotes" class="form-label">Açıklama</label>
+                    <textarea class="form-control" id="rejectNotes" rows="3" placeholder="Reddetme nedeninizi açıklayın..."></textarea>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="sendRejectNotification" checked>
+                    <label class="form-check-label" for="sendRejectNotification">
+                        Kullanıcıya bildirim e-postası gönder
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmReject">Reddet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- İçe Aktar Modal -->
+<div class="modal fade" id="importUsersModal" tabindex="-1" aria-labelledby="importUsersModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importUsersModalLabel"><i class="bi bi-upload me-2"></i>Kullanıcıları İçe Aktar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Bilgi:</strong> CSV veya Excel formatında kullanıcı listesini içe aktarabilirsiniz.
+                </div>
+                <div class="mb-3">
+                    <label for="importFile" class="form-label">Dosya Seç</label>
+                    <input class="form-control" type="file" id="importFile">
+                    <div class="form-text">İzin verilen dosya tipleri: .csv, .xlsx</div>
+                </div>
+                <div class="mb-3">
+                    <label for="importOptions" class="form-label">İçe Aktarma Seçenekleri</label>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="skipHeader" checked>
+                        <label class="form-check-label" for="skipHeader">
+                            İlk satırı başlık olarak atla
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="updateExisting" checked>
+                        <label class="form-check-label" for="updateExisting">
+                            Mevcut kullanıcıları güncelle (e-posta eşleşmesine göre)
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="sendImportNotification">
+                        <label class="form-check-label" for="sendImportNotification">
+                            Yeni kullanıcılara hoş geldiniz e-postası gönder
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Örnek Şablon</label>
+                    <div>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-download me-1"></i>CSV Şablonu İndir
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-primary ms-2">
+                            <i class="bi bi-download me-1"></i>Excel Şablonu İndir
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="confirmImport">İçe Aktar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dışa Aktar Modal -->
+<div class="modal fade" id="exportUsersModal" tabindex="-1" aria-labelledby="exportUsersModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportUsersModalLabel"><i class="bi bi-download me-2"></i>Kullanıcıları Dışa Aktar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="exportFormat" class="form-label">Dosya Formatı</label>
+                    <select class="form-select" id="exportFormat">
+                        <option value="csv">CSV (.csv)</option>
+                        <option value="excel">Excel (.xlsx)</option>
+                        <option value="pdf">PDF (.pdf)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Dışa Aktarılacak Kullanıcılar</label>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="exportUsers" id="exportAll" checked>
+                        <label class="form-check-label" for="exportAll">
+                            Tüm kullanıcılar
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="exportUsers" id="exportFiltered">
+                        <label class="form-check-label" for="exportFiltered">
+                            Filtrelenmiş kullanıcılar
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="exportUsers" id="exportSelected">
+                        <label class="form-check-label" for="exportSelected">
+                            Seçili kullanıcılar
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Dahil Edilecek Alanlar</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportID" checked>
+                                <label class="form-check-label" for="exportID">Kullanıcı ID</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportName" checked>
+                                <label class="form-check-label" for="exportName">Ad Soyad</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportEmail" checked>
+                                <label class="form-check-label" for="exportEmail">E-posta</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportPhone" checked>
+                                <label class="form-check-label" for="exportPhone">Telefon</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportInstitution" checked>
+                                <label class="form-check-label" for="exportInstitution">Kurum</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportRoles" checked>
+                                <label class="form-check-label" for="exportRoles">Roller</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportStatus" checked>
+                                <label class="form-check-label" for="exportStatus">Durum</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exportDate" checked>
+                                <label class="form-check-label" for="exportDate">Kayıt Tarihi</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="confirmExport">Dışa Aktar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3 bg-light border-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <span class="text-muted small">Versiyon 2.5.3 | Son Güncelleme: 01.03.2025</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/user-management.js"></script>
+</body>
+</html>
+</div>
+                                     

@@ -1,0 +1,2843 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Hakem Havuzu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --secondary: #6c757d;
+            --info: #0dcaf0;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .role-alert {
+            background-color: rgba(13, 110, 253, 0.1);
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .role-alert .alert-icon {
+            color: var(--primary);
+        }
+        
+        .content-wrapper {
+            margin-top: 2rem;
+        }
+        
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 1rem;
+        }
+        
+        .sidebar-heading {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-link {
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .nav-link.active {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .dashboard-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon-bg {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            border-left: 4px solid;
+            border-radius: 0.25rem;
+        }
+        
+        .table {
+            font-size: 0.9rem;
+        }
+        
+        .expertise-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .hakem-card {
+            transition: transform 0.2s;
+            border-radius: 0.5rem;
+        }
+        
+        .hakem-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-circle {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            line-height: 18px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-available {
+            background-color: var(--success);
+        }
+
+        .status-busy {
+            background-color: var(--warning);
+        }
+
+        .status-unavailable {
+            background-color: var(--danger);
+        }
+        
+        .rating-stars {
+            color: var(--warning);
+        }
+        
+        .filters-card {
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar-container {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                height: 100vh;
+                width: 280px;
+                z-index: 1030;
+                transition: left 0.3s;
+                background-color: #fff;
+            }
+            
+            .sidebar-container.show {
+                left: 0;
+            }
+            
+            .sidebar-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1020;
+                display: none;
+            }
+            
+            .sidebar-backdrop.show {
+                display: block;
+            }
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--primary);
+                padding: 0.25rem;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Logo ve mobil menü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="sekreter-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Sekreter olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-badge me-2"></i>
+                        <span>Sekreter</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-badge me-2"></i> Sekreter</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Bildirimler -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary position-relative" type="button" id="notificationsDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-circle">5</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdownBtn" style="width: 300px;">
+                        <li><h6 class="dropdown-header">Bildirimler</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-file-earmark-plus me-2 text-success"></i>
+                            <div class="small">
+                                <div>Yeni makale gönderimi: "Yapay Zeka ve Etiği"</div>
+                                <div class="text-muted">10 dakika önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-clock me-2 text-warning"></i>
+                            <div class="small">
+                                <div>Değerlendirme süresi dolan makale: ART-2025-0097</div>
+                                <div class="text-muted">2 saat önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-envelope me-2 text-info"></i>
+                            <div class="small">
+                                <div>Yeni yazışma: Makale ART-2025-0103 için yanıt</div>
+                                <div class="text-muted">Dün</div>
+                            </div>
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center small text-primary" href="#">Tüm bildirimleri görüntüle</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Ayşe Yıldız</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="sekreter-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="sekreter-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yeni-gonderimler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Gönderimler
+                                    <span class="badge bg-danger rounded-pill float-end">7</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makaleler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yazisma.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Yazışmalar
+                                    <span class="badge bg-warning rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yayinlar.html" class="nav-link">
+                                    <i class="bi bi-journal-check me-2"></i> Yayın Programı
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-hakem-havuzu.html" class="nav-link active">
+                                    <i class="bi bi-people me-2"></i> Hakem Havuzu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Şablonlar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Butonlar -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3>Hakem Havuzu</h3>
+                        <p class="text-muted">Dergimize kayıtlı hakem listesini yönetin</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRefereeModal">
+                            <i class="bi bi-person-plus"></i> Yeni Hakem Ekle
+                        </button>
+                        <button class="btn btn-outline-success ms-2">
+                            <i class="bi bi-envelope"></i> Toplu Davet Gönder
+                        </button>
+                        <button class="btn btn-outline-secondary ms-2">
+                            <i class="bi bi-download"></i> Dışa Aktar
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Özet İstatistikler -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--primary) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Toplam Hakem</h6>
+                                        <h2 class="mt-2 mb-0">127</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-primary bg-opacity-10 text-primary">
+                                        <i class="bi bi-people fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-success"><i class="bi bi-arrow-up"></i> %5.8</span>
+                                    <span class="text-muted ms-2">son 3 ayda</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--success) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Aktif Hakem</h6>
+                                        <h2 class="mt-2 mb-0">78</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-success bg-opacity-10 text-success">
+                                        <i class="bi bi-person-check fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-muted">Toplam hakemlerin %61'i</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--warning) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Değerlendirmede</h6>
+                                        <h2 class="mt-2 mb-0">42</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-warning bg-opacity-10 text-warning">
+                                        <i class="bi bi-hourglass-split fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-danger"><i class="bi bi-arrow-up"></i> %8.3</span>
+                                    <span class="text-muted ms-2">geçen aya göre</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card stat-card border-0" style="border-left-color: var(--danger) !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted mb-0">Geciken</h6>
+                                        <h2 class="mt-2 mb-0">5</h2>
+                                    </div>
+                                    <div class="card-icon-bg bg-danger bg-opacity-10 text-danger">
+                                        <i class="bi bi-exclamation-circle fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="small mt-3">
+                                    <span class="text-success"><i class="bi bi-arrow-down"></i> %2.4</span>
+                                    <span class="text-muted ms-2">geçen haftaya göre</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filtreler ve Arama -->
+                <div class="card mb-4 filters-card">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" placeholder="Hakem ara..." id="searchReferee">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <select class="form-select" style="max-width: 160px;">
+                                        <option selected>Uzmanlık Alanı</option>
+                                        <option>Bilgisayar Bilimleri</option>
+                                        <option>Yapay Zeka</option>
+                                        <option>Sosyal Bilimler</option>
+                                        <option>Psikoloji</option>
+                                        <option>Eğitim Bilimleri</option>
+                                        <option>Tıp</option>
+                                        <option>Mühendislik</option>
+                                    </select>
+                                    <select class="form-select" style="max-width: 160px;">
+                                        <option selected>Durumu</option>
+                                        <option>Müsait</option>
+                                        <option>Meşgul</option>
+                                        <option>Uygun Değil</option>
+                                    </select>
+                                    <select class="form-select" style="max-width: 160px;">
+                                        <option selected>Ülke</option>
+                                        <option>Türkiye</option>
+                                        <option>ABD</option>
+                                        <option>Almanya</option>
+                                        <option>İngiltere</option>
+                                        <option>Fransa</option>
+                                        <option>Diğer</option>
+                                    </select>
+                                    <select class="form-select" style="max-width: 160px;">
+                                        <option selected>Akademik Ünvan</option>
+                                        <option>Prof. Dr.</option>
+                                        <option>Doç. Dr.</option>
+                                        <option>Dr. Öğr. Üyesi</option>
+                                        <option>Arş. Gör. Dr.</option>
+                                        <option>Dr.</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-funnel"></i> Filtrele
+                                    </button>
+                                    <button class="btn btn-outline-danger">
+                                        <i class="bi bi-x"></i> Temizle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hakem Listesi - Tablo Görünümü -->
+                <ul class="nav nav-tabs mb-3" id="viewTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="table-tab" data-bs-toggle="tab" data-bs-target="#table-view" type="button" role="tab" aria-controls="table-view" aria-selected="true">
+                            <i class="bi bi-table me-1"></i> Tablo Görünümü
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="card-tab" data-bs-toggle="tab" data-bs-target="#card-view" type="button" role="tab" aria-controls="card-view" aria-selected="false">
+                            <i class="bi bi-grid-3x3-gap me-1"></i> Kart Görünümü
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="viewTabsContent">
+                    <!-- Tablo Görünümü -->
+                    <div class="tab-pane fade show active" id="table-view" role="tabpanel" aria-labelledby="table-tab">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="selectAllReferees">
+                                                    </div>
+                                                </th>
+                                                <th>Ad Soyad</th>
+                                                <th>Uzmanlık Alanı</th>
+                                                <th>Kurum</th>
+                                                <th>Durumu</th>
+                                                <th>Değerlendirme</th>
+                                                <th>Son Değerlendirme</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="assets/images/avatar-male-1.png" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                                                        <div>
+                                                            <div>Prof. Dr. Ahmet Yılmaz</div>
+                                                            <div class="small text-muted">ahmet.yilmaz@university.edu.tr</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary expertise-badge">Yapay Zeka</span>
+                                                    <span class="badge bg-primary expertise-badge">Bilgisayar Bilimleri</span>
+                                                </td>
+                                                <td>İstanbul Üniversitesi</td>
+                                                <td><span class="status-indicator status-available"></span> Müsait</td>
+                                                <td>
+                                                    <div class="rating-stars">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-half"></i>
+                                                    </div>
+                                                </td>
+                                                <td>28.02.2025</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="1" title="Profil Görüntüle">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="1" title="Mesaj Gönder">
+                                                            <i class="bi bi-envelope"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="1" title="Düzenle">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="1" title="Yazışma Geçmişi">
+                                                            <i class="bi bi-chat-dots"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="assets/images/avatar-female-1.png" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                                                        <div>
+                                                            <div>Doç. Dr. Zeynep Kaya</div>
+                                                            <div class="small text-muted">zeynep.kaya@university.edu.tr</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary expertise-badge">Psikoloji</span>
+                                                    <span class="badge bg-primary expertise-badge">Sosyal Bilimler</span>
+                                                </td>
+                                                <td>Ankara Üniversitesi</td>
+                                                <td><span class="status-indicator status-busy"></span> Meşgul</td>
+                                                <td>
+                                                    <div class="rating-stars">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star"></i>
+                                                    </div>
+                                                </td>
+                                                <td>15.02.2025</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="2" title="Profil Görüntüle">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="2" title="Mesaj Gönder">
+                                                            <i class="bi bi-envelope"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="2" title="Düzenle">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="2" title="Yazışma Geçmişi">
+                                                            <i class="bi bi-chat-dots"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="assets/images/avatar-male-2.png" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                                                        <div>
+                                                            <div>Dr. Öğr. Üyesi Mehmet Demir</div>
+                                                            <div class="small text-muted">mehmet.demir@university.edu.tr</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary expertise-badge">Eğitim Bilimleri</span>
+                                                </td>
+                                                <td>Ege Üniversitesi</td>
+                                                <td><span class="status-indicator status-available"></span> Müsait</td>
+                                                <td>
+                                                    <div class="rating-stars">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star"></i>
+                                                        <i class="bi bi-star"></i>
+                                                    </div>
+                                                </td>
+                                                <td>10.03.2025</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="3" title="Profil Görüntüle">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="3" title="Mesaj Gönder">
+                                                            <i class="bi bi-envelope"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="3" title="Düzenle">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="3" title="Yazışma Geçmişi">
+                                                            <i class="bi bi-chat-dots"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="assets/images/avatar-female-2.png" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                                                        <div>
+                                                            <div>Prof. Dr. Ayşe Öztürk</div>
+                                                            <div class="small text-muted">ayse.ozturk@university.edu.tr</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary expertise-badge">Tıp</span>
+                                                    <span class="badge bg-primary expertise-badge">Sağlık Bilimleri</span>
+                                                </td>
+                                                <td>Hacettepe Üniversitesi</td>
+                                                <td><span class="status-indicator status-unavailable"></span> Uygun Değil</td>
+                                                <td>
+                                                    <div class="rating-stars">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                    </div>
+                                                </td>
+                                                <td>05.01.2025</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="4" title="Profil Görüntüle">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="4" title="Mesaj Gönder">
+                                                            <i class="bi bi-envelope"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="4" title="Düzenle">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="4" title="Yazışma Geçmişi">
+                                                            <i class="bi bi-chat-dots"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="assets/images/avatar-male-3.png" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                                                        <div>
+                                                            <div>Doç. Dr. Ali Yıldız</div>
+                                                            <div class="small text-muted">ali.yildiz@university.edu.tr</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary expertise-badge">Mühendislik</span>
+                                                    <span class="badge bg-primary expertise-badge">Yapay Zeka</span>
+                                                </td>
+                                                <td>ODTÜ</td>
+                                                <td><span class="status-indicator status-busy"></span> Meşgul</td>
+                                                <td>
+                                                    <div class="rating-stars">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-half"></i>
+                                                        <i class="bi bi-star"></i>
+                                                    </div>
+                                                </td>
+                                                <td>20.02.2025</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="5" title="Profil Görüntüle">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="5" title="Mesaj Gönder">
+                                                            <i class="bi bi-envelope"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="5" title="Düzenle">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="5" title="Yazışma Geçmişi">
+                                                            <i class="bi bi-chat-dots"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-muted small">5 / 127 hakem gösteriliyor</div>
+                                    <nav aria-label="Hakem listesi sayfalama">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <li class="page-item disabled"><a class="page-link" href="#">Önceki</a></li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">25</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">Sonraki</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Kart Görünümü -->
+                    <div class="tab-pane fade" id="card-view" role="tabpanel" aria-labelledby="card-tab">
+                        <div class="row g-3">
+                            <!-- Hakem Kartı 1 -->
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="card hakem-card h-100">
+                                    <div class="card-body p-3">
+                                        <div class="text-center mb-3">
+                                            <img src="assets/images/avatar-male-1.png" alt="Profile" width="80" height="80" class="rounded-circle border p-1">
+                                            <h5 class="mt-2 mb-0">Prof. Dr. Ahmet Yılmaz</h5>
+                                            <div class="text-muted small">İstanbul Üniversitesi</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Müsait</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center small mb-2">
+                                                <span>Değerlendirme:</span>
+                                                <div class="rating-stars">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-half"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Son Değerlendirme:</span>
+                                                <span>28.02.2025</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">Uzmanlık Alanları:</div>
+                                            <div>
+                                                <span class="badge bg-primary expertise-badge">Yapay Zeka</span>
+                                                <span class="badge bg-primary expertise-badge">Bilgisayar Bilimleri</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">İletişim:</div>
+                                            <div class="small text-muted">ahmet.yilmaz@university.edu.tr</div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="1"><i class="bi bi-eye me-1"></i> Profil</button>
+                                            <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="1"><i class="bi bi-envelope me-1"></i> Mesaj Gönder</button>
+                                            <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="1"><i class="bi bi-pencil me-1"></i> Düzenle</button>
+                                            <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="1"><i class="bi bi-chat-dots me-1"></i> Yazışma Geçmişi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hakem Kartı 2 -->
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="card hakem-card h-100">
+                                    <div class="card-body p-3">
+                                        <div class="text-center mb-3">
+                                            <img src="assets/images/avatar-female-1.png" alt="Profile" width="80" height="80" class="rounded-circle border p-1">
+                                            <h5 class="mt-2 mb-0">Doç. Dr. Zeynep Kaya</h5>
+                                            <div class="text-muted small">Ankara Üniversitesi</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-warning text-dark">Meşgul</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center small mb-2">
+                                                <span>Değerlendirme:</span>
+                                                <div class="rating-stars">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Son Değerlendirme:</span>
+                                                <span>15.02.2025</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">Uzmanlık Alanları:</div>
+                                            <div>
+                                                <span class="badge bg-primary expertise-badge">Psikoloji</span>
+                                                <span class="badge bg-primary expertise-badge">Sosyal Bilimler</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">İletişim:</div>
+                                            <div class="small text-muted">zeynep.kaya@university.edu.tr</div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="2"><i class="bi bi-eye me-1"></i> Profil</button>
+                                            <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="2"><i class="bi bi-envelope me-1"></i> Mesaj Gönder</button>
+                                            <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="2"><i class="bi bi-pencil me-1"></i> Düzenle</button>
+                                            <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="2"><i class="bi bi-chat-dots me-1"></i> Yazışma Geçmişi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hakem Kartı 3 -->
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="card hakem-card h-100">
+                                    <div class="card-body p-3">
+                                        <div class="text-center mb-3">
+                                            <img src="assets/images/avatar-male-2.png" alt="Profile" width="80" height="80" class="rounded-circle border p-1">
+                                            <h5 class="mt-2 mb-0">Dr. Öğr. Üyesi Mehmet Demir</h5>
+                                            <div class="text-muted small">Ege Üniversitesi</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Müsait</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center small mb-2">
+                                                <span>Değerlendirme:</span>
+                                                <div class="rating-stars">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star"></i>
+                                                    <i class="bi bi-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Son Değerlendirme:</span>
+                                                <span>10.03.2025</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">Uzmanlık Alanları:</div>
+                                            <div>
+                                                <span class="badge bg-primary expertise-badge">Eğitim Bilimleri</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">İletişim:</div>
+                                            <div class="small text-muted">mehmet.demir@university.edu.tr</div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="3"><i class="bi bi-eye me-1"></i> Profil</button>
+                                            <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="3"><i class="bi bi-envelope me-1"></i> Mesaj Gönder</button>
+                                            <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="3"><i class="bi bi-pencil me-1"></i> Düzenle</button>
+                                            <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="3"><i class="bi bi-chat-dots me-1"></i> Yazışma Geçmişi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hakem Kartı 4 -->
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="card hakem-card h-100">
+                                    <div class="card-body p-3">
+                                        <div class="text-center mb-3">
+                                            <img src="assets/images/avatar-female-2.png" alt="Profile" width="80" height="80" class="rounded-circle border p-1">
+                                            <h5 class="mt-2 mb-0">Prof. Dr. Ayşe Öztürk</h5>
+                                            <div class="text-muted small">Hacettepe Üniversitesi</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-danger">Uygun Değil</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center small mb-2">
+                                                <span>Değerlendirme:</span>
+                                                <div class="rating-stars">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Son Değerlendirme:</span>
+                                                <span>05.01.2025</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">Uzmanlık Alanları:</div>
+                                            <div>
+                                                <span class="badge bg-primary expertise-badge">Tıp</span>
+                                                <span class="badge bg-primary expertise-badge">Sağlık Bilimleri</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">İletişim:</div>
+                                            <div class="small text-muted">ayse.ozturk@university.edu.tr</div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="4"><i class="bi bi-eye me-1"></i> Profil</button>
+                                            <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="4"><i class="bi bi-envelope me-1"></i> Mesaj Gönder</button>
+                                            <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="4"><i class="bi bi-pencil me-1"></i> Düzenle</button>
+                                            <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="4"><i class="bi bi-chat-dots me-1"></i> Yazışma Geçmişi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hakem Kartı 5 -->
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="card hakem-card h-100">
+                                    <div class="card-body p-3">
+                                        <div class="text-center mb-3">
+                                            <img src="assets/images/avatar-male-3.png" alt="Profile" width="80" height="80" class="rounded-circle border p-1">
+                                            <h5 class="mt-2 mb-0">Doç. Dr. Ali Yıldız</h5>
+                                            <div class="text-muted small">ODTÜ</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-warning text-dark">Meşgul</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center small mb-2">
+                                                <span>Değerlendirme:</span>
+                                                <div class="rating-stars">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-half"></i>
+                                                    <i class="bi bi-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Son Değerlendirme:</span>
+                                                <span>20.02.2025</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">Uzmanlık Alanları:</div>
+                                            <div>
+                                                <span class="badge bg-primary expertise-badge">Mühendislik</span>
+                                                <span class="badge bg-primary expertise-badge">Yapay Zeka</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="small fw-bold mb-1">İletişim:</div>
+                                            <div class="small text-muted">ali.yildiz@university.edu.tr</div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-sm btn-outline-primary view-referee" data-referee-id="5"><i class="bi bi-eye me-1"></i> Profil</button>
+                                            <button class="btn btn-sm btn-outline-info message-referee" data-referee-id="5"><i class="bi bi-envelope me-1"></i> Mesaj Gönder</button>
+                                            <button class="btn btn-sm btn-outline-secondary edit-referee" data-referee-id="5"><i class="bi bi-pencil me-1"></i> Düzenle</button>
+                                            <button class="btn btn-sm btn-outline-warning correspondence-history" data-referee-id="5"><i class="bi bi-chat-dots me-1"></i> Yazışma Geçmişi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hakem Kartı 6 - Yeni Hakem Ekle Kartı -->
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="card hakem-card h-100 border-dashed">
+                                    <div class="card-body d-flex flex-column justify-content-center align-items-center p-3 h-100" data-bs-toggle="modal" data-bs-target="#newRefereeModal" style="cursor: pointer;">
+                                        <div class="text-center mb-3">
+                                            <div class="card-icon-bg bg-light text-primary">
+                                                <i class="bi bi-person-plus-fill fs-3"></i>
+                                            </div>
+                                            <h5 class="mt-2 mb-0">Yeni Hakem Ekle</h5>
+                                            <p class="text-muted small">Hakem havuzuna yeni bir hakem ekleyin</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sayfalama -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <div class="text-muted small">5 / 127 hakem gösteriliyor</div>
+                            <nav aria-label="Hakem listesi sayfalama">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled"><a class="page-link" href="#">Önceki</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">25</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Sonraki</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Yeni Hakem Ekle Modal -->
+<div class="modal fade" id="newRefereeModal" tabindex="-1" aria-labelledby="newRefereeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newRefereeModalLabel">Yeni Hakem Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="academicTitle" class="form-label">Akademik Ünvan</label>
+                            <select class="form-select" id="academicTitle" required>
+                                <option value="" selected disabled>Seçiniz</option>
+                                <option>Prof. Dr.</option>
+                                <option>Doç. Dr.</option>
+                                <option>Dr. Öğr. Üyesi</option>
+                                <option>Arş. Gör. Dr.</option>
+                                <option>Dr.</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Durumu</label>
+                            <select class="form-select" id="status" required>
+                                <option value="" selected disabled>Seçiniz</option>
+                                <option>Müsait</option>
+                                <option>Meşgul</option>
+                                <option>Uygun Değil</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">Ad</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Soyad</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">E-posta</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Telefon (İsteğe Bağlı)</label>
+                            <input type="tel" class="form-control" id="phone">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="institution" class="form-label">Kurum</label>
+                            <input type="text" class="form-control" id="institution" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="department" class="form-label">Bölüm</label>
+                            <input type="text" class="form-control" id="department" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="country" class="form-label">Ülke</label>
+                            <select class="form-select" id="country" required>
+                                <option value="" selected disabled>Seçiniz</option>
+                                <option>Türkiye</option>
+                                <option>ABD</option>
+                                <option>Almanya</option>
+                                <option>İngiltere</option>
+                                <option>Fransa</option>
+                                <option>Diğer</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">Şehir</label>
+                            <input type="text" class="form-control" id="city" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="expertise" class="form-label">Uzmanlık Alanları</label>
+                        <select class="form-select" id="expertise" multiple aria-label="Uzmanlık alanları" required>
+                            <option>Bilgisayar Bilimleri</option>
+                            <option>Yapay Zeka</option>
+                            <option>Makine Öğrenmesi</option>
+                            <option>Sosyal Bilimler</option>
+                            <option>Psikoloji</option>
+                            <option>Eğitim Bilimleri</option>
+                            <option>Tıp</option>
+                            <option>Sağlık Bilimleri</option>
+                            <option>Mühendislik</option>
+                            <option>Matematik</option>
+                            <option>Fizik</option>
+                            <option>Kimya</option>
+                            <option>Biyoloji</option>
+                            <option>Ekonomi</option>
+                            <option>İşletme</option>
+                            <option>Hukuk</option>
+                        </select>
+                        <div class="form-text">Birden fazla seçim için CTRL tuşunu basılı tutun.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="biography" class="form-label">Kısa Özgeçmiş</label>
+                        <textarea class="form-control" id="biography" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="orcid" class="form-label">ORCID ID (İsteğe Bağlı)</label>
+                        <input type="text" class="form-control" id="orcid" placeholder="örn: 0000-0002-1825-0097">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="sendInvitation">
+                        <label class="form-check-label" for="sendInvitation">Hakeme davet e-postası gönder</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">Hakem Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hakem Profil Görüntüleme Modal -->
+<div class="modal fade" id="viewRefereeModal" tabindex="-1" aria-labelledby="viewRefereeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRefereeModalLabel">Hakem Profil Bilgileri</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <img src="assets/images/avatar-male-1.png" alt="Profil" id="refereeProfileImage" width="150" height="150" class="rounded-circle border p-1 mb-3">
+                        <h5 id="refereeFullName">Prof. Dr. Ahmet Yılmaz</h5>
+                        <p class="text-muted" id="refereeInstitution">İstanbul Üniversitesi</p>
+                        <div class="mb-3">
+                            <span class="badge bg-success" id="refereeStatus">Müsait</span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">Akademik Bilgiler</h6>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td width="40%">Ünvan:</td>
+                                        <td id="refereeTitle">Prof. Dr.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kurum:</td>
+                                        <td id="refereeInstitutionDetail">İstanbul Üniversitesi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bölüm:</td>
+                                        <td id="refereeDepartment">Bilgisayar Mühendisliği</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ORCID ID:</td>
+                                        <td id="refereeOrcid">0000-0002-1234-5678</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">İletişim Bilgileri</h6>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td width="40%">E-posta:</td>
+                                        <td id="refereeEmail">ahmet.yilmaz@university.edu.tr</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefon:</td>
+                                        <td id="refereePhone">+90 555 123 4567</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ülke:</td>
+                                        <td id="refereeCountry">Türkiye</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Şehir:</td>
+                                        <td id="refereeCity">İstanbul</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Uzmanlık Alanları</h6>
+                            <div id="refereeExpertise">
+                                <span class="badge bg-primary expertise-badge">Yapay Zeka</span>
+                                <span class="badge bg-primary expertise-badge">Bilgisayar Bilimleri</span>
+                                <span class="badge bg-primary expertise-badge">Makine Öğrenmesi</span>
+                                <span class="badge bg-primary expertise-badge">Veri Bilimi</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Değerlendirme Performansı</h6>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td width="40%">Değerlendirme Puanı:</td>
+                                    <td>
+                                        <div class="rating-stars" id="refereeRating">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-half"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tamamlanan Değerlendirme:</td>
+                                    <td id="refereeCompletedReviews">12</td>
+                                </tr>
+                                <tr>
+                                    <td>Devam Eden Değerlendirme:</td>
+                                    <td id="refereeOngoingReviews">2</td>
+                                </tr>
+                                <tr>
+                                    <td>Reddedilen Davet:</td>
+                                    <td id="refereeRejectedInvitations">3</td>
+                                </tr>
+                                <tr>
+                                    <td>Ortalama Tamamlama Süresi:</td>
+                                    <td id="refereeAverageCompletionTime">14 gün</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Özgeçmiş</h6>
+                            <p id="refereeBio">Prof. Dr. Ahmet Yılmaz, yapay zeka ve makine öğrenmesi alanlarında uzmanlaşmış deneyimli bir akademisyendir. 20 yılı aşkın akademik kariyeri boyunca çeşitli ulusal ve uluslararası projelerde yer almış, 50'den fazla bilimsel makale yayınlamıştır. Şu anda İstanbul Üniversitesi Bilgisayar Mühendisliği Bölümü'nde öğretim üyesi olarak görev yapmaktadır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-outline-info message-referee-from-profile">
+                    <i class="bi bi-envelope"></i> Mesaj Gönder
+                </button>
+                <button type="button" class="btn btn-outline-warning correspondence-history-from-profile">
+                    <i class="bi bi-chat-dots"></i> Yazışma Geçmişi
+                </button>
+                <button type="button" class="btn btn-primary edit-referee-from-profile">
+                    <i class="bi bi-pencil"></i> Düzenle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hakem Düzenleme Modal -->
+<div class="modal fade" id="editRefereeModal" tabindex="-1" aria-labelledby="editRefereeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRefereeModalLabel">Hakem Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editRefereeForm">
+                    <div class="row mb-4">
+                        <div class="col-md-12 text-center">
+                            <img src="assets/images/avatar-male-1.png" alt="Profil" id="editRefereeImg" width="100" height="100" class="rounded-circle border p-1 mb-2">
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                    <i class="bi bi-upload"></i> Fotoğraf Değiştir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs mb-3" id="editRefereeTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal-info" type="button" role="tab" aria-controls="personal-info" aria-selected="true">Kişisel Bilgiler</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic-info" type="button" role="tab" aria-controls="academic-info" aria-selected="false">Akademik Bilgiler</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="performance-tab" data-bs-toggle="tab" data-bs-target="#performance-info" type="button" role="tab" aria-controls="performance-info" aria-selected="false">Performans</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes-info" type="button" role="tab" aria-controls="notes-info" aria-selected="false">Notlar</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="editRefereeTabContent">
+                        <!-- Kişisel Bilgiler Tab -->
+                        <div class="tab-pane fade show active" id="personal-info" role="tabpanel" aria-labelledby="personal-tab">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editAcademicTitle" class="form-label">Akademik Ünvan</label>
+                                    <select class="form-select" id="editAcademicTitle" required>
+                                        <option value="" disabled>Seçiniz</option>
+                                        <option selected>Prof. Dr.</option>
+                                        <option>Doç. Dr.</option>
+                                        <option>Dr. Öğr. Üyesi</option>
+                                        <option>Arş. Gör. Dr.</option>
+                                        <option>Dr.</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editStatus" class="form-label">Durumu</label>
+                                    <select class="form-select" id="editStatus" required>
+                                        <option value="" disabled>Seçiniz</option>
+                                        <option selected>Müsait</option>
+                                        <option>Meşgul</option>
+                                        <option>Uygun Değil</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editFirstName" class="form-label">Ad</label>
+                                    <input type="text" class="form-control" id="editFirstName" value="Ahmet" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editLastName" class="form-label">Soyad</label>
+                                    <input type="text" class="form-control" id="editLastName" value="Yılmaz" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editEmail" class="form-label">E-posta</label>
+                                    <input type="email" class="form-control" id="editEmail" value="ahmet.yilmaz@university.edu.tr" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editPhone" class="form-label">Telefon</label>
+                                    <input type="tel" class="form-control" id="editPhone" value="+90 555 123 4567">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editCountry" class="form-label">Ülke</label>
+                                    <select class="form-select" id="editCountry" required>
+                                        <option value="" disabled>Seçiniz</option>
+                                        <option selected>Türkiye</option>
+                                        <option>ABD</option>
+                                        <option>Almanya</option>
+                                        <option>İngiltere</option>
+                                        <option>Fransa</option>
+                                        <option>Diğer</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editCity" class="form-label">Şehir</label>
+                                    <input type="text" class="form-control" id="editCity" value="İstanbul" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Akademik Bilgiler Tab -->
+                        <div class="tab-pane fade" id="academic-info" role="tabpanel" aria-labelledby="academic-tab">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editInstitution" class="form-label">Kurum</label>
+                                    <input type="text" class="form-control" id="editInstitution" value="İstanbul Üniversitesi" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editDepartment" class="form-label">Bölüm</label>
+                                    <input type="text" class="form-control" id="editDepartment" value="Bilgisayar Mühendisliği" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editExpertise" class="form-label">Uzmanlık Alanları</label>
+                                <select class="form-select" id="editExpertise" multiple size="5" aria-label="Uzmanlık alanları" required>
+                                    <option selected>Bilgisayar Bilimleri</option>
+                                    <option selected>Yapay Zeka</option>
+                                    <option selected>Makine Öğrenmesi</option>
+                                    <option selected>Veri Bilimi</option>
+                                    <option>Sosyal Bilimler</option>
+                                    <option>Psikoloji</option>
+                                    <option>Eğitim Bilimleri</option>
+                                    <option>Tıp</option>
+                                    <option>Sağlık Bilimleri</option>
+                                    <option>Mühendislik</option>
+                                    <option>Matematik</option>
+                                    <option>Fizik</option>
+                                    <option>Kimya</option>
+                                    <option>Biyoloji</option>
+                                    <option>Ekonomi</option>
+                                    <option>İşletme</option>
+                                    <option>Hukuk</option>
+                                </select>
+                                <div class="form-text">Birden fazla seçim için CTRL tuşunu basılı tutun.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editOrcid" class="form-label">ORCID ID</label>
+                                <input type="text" class="form-control" id="editOrcid" value="0000-0002-1234-5678" placeholder="örn: 0000-0002-1825-0097">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editBiography" class="form-label">Özgeçmiş</label>
+                                <textarea class="form-control" id="editBiography" rows="4">Prof. Dr. Ahmet Yılmaz, yapay zeka ve makine öğrenmesi alanlarında uzmanlaşmış deneyimli bir akademisyendir. 20 yılı aşkın akademik kariyeri boyunca çeşitli ulusal ve uluslararası projelerde yer almış, 50'den fazla bilimsel makale yayınlamıştır. Şu anda İstanbul Üniversitesi Bilgisayar Mühendisliği Bölümü'nde öğretim üyesi olarak görev yapmaktadır.</textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Performans Tab -->
+                        <div class="tab-pane fade" id="performance-info" role="tabpanel" aria-labelledby="performance-tab">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i> Bu bölümdeki değerler sistem tarafından otomatik olarak hesaplanır.
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editCompletedReviews" class="form-label">Tamamlanan Değerlendirme</label>
+                                    <input type="number" class="form-control" id="editCompletedReviews" value="12" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editOngoingReviews" class="form-label">Devam Eden Değerlendirme</label>
+                                    <input type="number" class="form-control" id="editOngoingReviews" value="2" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editRejectedInvitations" class="form-label">Reddedilen Davet</label>
+                                    <input type="number" class="form-control" id="editRejectedInvitations" value="3" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editAverageCompletionTime" class="form-label">Ortalama Tamamlama Süresi (Gün)</label>
+                                    <input type="number" class="form-control" id="editAverageCompletionTime" value="14" readonly>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editRating" class="form-label">Değerlendirme Puanı (1-5)</label>
+                                <select class="form-select" id="editRating">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option selected>4.5</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Notlar Tab -->
+                        <div class="tab-pane fade" id="notes-info" role="tabpanel" aria-labelledby="notes-tab">
+                            <div class="mb-3">
+                                <label for="editNotes" class="form-label">Özel Notlar (Sadece editörler tarafından görülebilir)</label>
+                                <textarea class="form-control" id="editNotes" rows="5">Değerlendirmelerini genellikle zamanında ve detaylı şekilde tamamlar. Makine öğrenmesi ve yapay zeka alanlarındaki makaleler için öncelikli olarak tercih edilebilir.</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editPreferredReferee" checked>
+                                    <label class="form-check-label" for="editPreferredReferee">
+                                        Tercih Edilen Hakem
+                                    </label>
+                                    <div class="form-text">Bu hakeme öncelikli olarak davet gönderilir.</div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editBlacklist">
+                                    <label class="form-check-label" for="editBlacklist">
+                                        Kara Liste
+                                    </label>
+                                    <div class="form-text">Bu hakeme davet gönderilmez.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveRefereeChanges">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hakem Mesaj Gönderme Modal -->
+<div class="modal fade" id="messageRefereeModal" tabindex="-1" aria-labelledby="messageRefereeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageRefereeModalLabel">Hakem Mesaj Gönderme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="messageRefereeForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="messageRecipient" class="form-label">Alıcı:</label>
+                            <input type="text" class="form-control" id="messageRecipient" value="Prof. Dr. Ahmet Yılmaz" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="messageEmail" class="form-label">E-posta:</label>
+                            <input type="email" class="form-control" id="messageEmail" value="ahmet.yilmaz@university.edu.tr" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="messageType" class="form-label">Mesaj Tipi:</label>
+                            <select class="form-select" id="messageType" required>
+                                <option value="" selected disabled>Seçiniz...</option>
+                                <option>Hakem Daveti</option>
+                                <option>Değerlendirme Hatırlatması</option>
+                                <option>Süre Uzatımı Yanıtı</option>
+                                <option>Teşekkür Mesajı</option>
+                                <option>Genel Bilgilendirme</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="messageArticle" class="form-label">İlgili Makale:</label>
+                            <select class="form-select" id="messageArticle">
+                                <option value="" selected disabled>Seçiniz...</option>
+                                <option>ART-2025-0123: Eğitimde Uzaktan Öğrenme Teknolojileri</option>
+                                <option>ART-2025-0122: Doğal Dil İşleme Algoritmaları</option>
+                                <option>ART-2025-0121: Türkiye'de Göç Politikaları</option>
+                                <option>ART-2025-0120: Yeni Nesil Öğrenme Teknolojileri</option>
+                                <option>ART-2025-0097: Tarihsel Semantik Analizler</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageSubject" class="form-label">Konu:</label>
+                        <input type="text" class="form-control" id="messageSubject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageTemplate" class="form-label">Şablon:</label>
+                        <select class="form-select" id="messageTemplate">
+                            <option value="" selected disabled>Şablon Seçin...</option>
+                            <option>Yeni Hakem Daveti</option>
+                            <option>Değerlendirme Hatırlatması</option>
+                            <option>Süre Uzatımı Onayı</option>
+                            <option>Süre Uzatımı Reddi</option>
+                            <option>Teşekkür Mesajı</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageContent" class="form-label">Mesaj:</label>
+                        <textarea class="form-control" id="messageContent" rows="8" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageAttachment" class="form-label">Ekler:</label>
+                        <input type="file" class="form-control" id="messageAttachment" multiple>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success" id="previewMessage">
+                    <i class="bi bi-eye"></i> Önizleme
+                </button>
+                <button type="button" class="btn btn-primary" id="sendMessage">
+                    <i class="bi bi-send"></i> Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hakem Yazışma Geçmişi Modal -->
+<div class="modal fade" id="correspondenceHistoryModal" tabindex="-1" aria-labelledby="correspondenceHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="correspondenceHistoryModalLabel">Hakem Yazışma Geçmişi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 id="correspondenceRefereeTitle">Prof. Dr. Ahmet Yılmaz</h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" id="refreshCorrespondence">
+                            <i class="bi bi-arrow-clockwise"></i> Yenile
+                        </button>
+                        <button class="btn btn-sm btn-outline-info ms-2" id="newCorrespondence">
+                            <i class="bi bi-envelope-plus"></i> Yeni Yazışma
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="list-group correspondence-list mb-3">
+                    <!-- Yazışma 1 -->
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">Değerlendirme Yanıtı - ART-2025-0097</h6>
+                            <span class="badge bg-danger">Acil</span>
+                        </div>
+                        <p class="mb-1">Merhaba, makale değerlendirmesi için süremin uzatılmasını talep ediyorum. İlave bir hafta daha süreye ihtiyacım olacak.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">7 Mart 2025, 10:15</small>
+                            <button class="btn btn-sm btn-outline-primary view-correspondence" data-correspondence-id="1">
+                                <i class="bi bi-eye"></i> Görüntüle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Yazışma 2 -->
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">Değerlendirme Hatırlatması - ART-2025-0097</h6>
+                            <span class="badge bg-warning text-dark">Hatırlatma</span>
+                        </div>
+                        <p class="mb-1">Sayın Prof. Dr. Kaya, "Tarihsel Semantik Analizler" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">5 Mart 2025, 09:30</small>
+                            <button class="btn btn-sm btn-outline-primary view-correspondence" data-correspondence-id="2">
+                                <i class="bi bi-eye"></i> Görüntüle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Yazışma 3 -->
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">Hakem Daveti Kabulü - ART-2025-0097</h6>
+                            <span class="badge bg-success">Kabul</span>
+                        </div>
+                        <p class="mb-1">Değerli Editör, "Tarihsel Semantik Analizler" başlıklı makale için hakemlik davetinizi kabul ediyorum. Değerlendirmemi 15 gün içerisinde tamamlamaya çalışacağım.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">15 Şubat 2025, 14:45</small>
+                            <button class="btn btn-sm btn-outline-primary view-correspondence" data-correspondence-id="3">
+                                <i class="bi bi-eye"></i> Görüntüle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Yazışma 4 -->
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">Hakem Daveti - ART-2025-0097</h6>
+                            <span class="badge bg-primary">Davet</span>
+                        </div>
+                        <p class="mb-1">Sayın Prof. Dr. Kaya, X Dergisi'ne gönderilen "Tarihsel Semantik Analizler" başlıklı makaleyi değerlendirmeniz için davet ediyoruz. Uzmanlık alanınıza uygun olduğunu düşündüğümüz bu çalışmayı değerlendirmeyi kabul ederseniz memnun oluruz.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">14 Şubat 2025, 10:15</small>
+                            <button class="btn btn-sm btn-outline-primary view-correspondence" data-correspondence-id="4">
+                                <i class="bi bi-eye"></i> Görüntüle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Yazışma 5 -->
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">Değerlendirme Tamamlandı - ART-2024-0084</h6>
+                            <span class="badge bg-info">Tamamlandı</span>
+                        </div>
+                        <p class="mb-1">Değerli Editör, "Sosyal Medya ve Toplumsal Değişim" başlıklı makale değerlendirmemi tamamladım. Sistem üzerinden değerlendirme formunu doldurdum.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">10 Kasım 2024, 16:30</small>
+                            <button class="btn btn-sm btn-outline-primary view-correspondence" data-correspondence-id="5">
+                                <i class="bi bi-eye"></i> Görüntüle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav aria-label="Yazışma geçmişi sayfalama">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+                        </li>
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Sonraki</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-outline-info" id="viewAllCorrespondence">
+                    <i class="bi bi-list-ul"></i> Tüm Yazışmaları Görüntüle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yazışma Detay Modal -->
+<div class="modal fade" id="viewCorrespondenceModal" tabindex="-1" aria-labelledby="viewCorrespondenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewCorrespondenceModalLabel">Yazışma Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="correspondence-header">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0" id="correspondenceDetailTitle">Değerlendirme Yanıtı - ART-2025-0097</h5>
+                        <span class="badge bg-danger" id="correspondenceDetailBadge">Acil</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="fw-bold me-2">Gönderen:</div>
+                                <div id="correspondenceDetailSender">Prof. Dr. Ali Kaya <span class="text-muted">(a.kaya@email.com)</span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="fw-bold me-2">Alıcı:</div>
+                                <div id="correspondenceDetailRecipient">Ayşe Yıldız <span class="text-muted">(sekreter@xdergisi.com)</span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="fw-bold me-2">Tarih:</div>
+                                <div id="correspondenceDetailDate">7 Mart 2025, 10:15</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="fw-bold me-2">İlgili Makale:</div>
+                                <div id="correspondenceDetailArticle">
+                                    <a href="sekreter-makale-detay.html?id=ART-2025-0097">ART-2025-0097: "Tarihsel Semantik Analizler"</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="correspondence-body" id="correspondenceDetailBody">
+                    <p>Değerli Editör,</p>
+                    
+                    <p>Merhaba, makale değerlendirmesi için süremin uzatılmasını talep ediyorum. İlave bir hafta daha süreye ihtiyacım olacak. Şu anda uluslararası bir konferans için hazırlık yapmaktayım ve bu nedenle değerlendirmeyi zamanında tamamlayamayacağım.</p>
+                    
+                    <p>Makalenin konusu olan "Tarihsel Semantik Analizler" alanında daha detaylı bir inceleme yapmak istiyorum. Bununla birlikte, makale oldukça kapsamlı ve titiz bir değerlendirme gerektiriyor.</p>
+                    
+                    <p>Anlayışınız için teşekkür ederim.</p>
+                    
+                    <p>Saygılarımla,<br>
+                    Prof. Dr. Ali Kaya<br>
+                    Dil Bilimleri Bölümü<br>
+                    İstanbul Üniversitesi</p>
+                </div>
+                
+                <div class="correspondence-attachments mt-3" id="correspondenceDetailAttachments">
+                    <h6 class="mb-2">Ekler:</h6>
+                    <div class="d-flex flex-wrap">
+                        <a href="#" class="attachment-item">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> makale_notlari.pdf
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-outline-primary" id="respondToCorrespondence">
+                    <i class="bi bi-reply"></i> Yanıtla
+                </button>
+                <button type="button" class="btn btn-outline-secondary" id="printCorrespondence">
+                    <i class="bi bi-printer"></i> Yazdır
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mesaj Önizleme Modal -->
+<div class="modal fade" id="messagePreviewModal" tabindex="-1" aria-labelledby="messagePreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messagePreviewModalLabel">Mesaj Önizleme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <div class="mb-2">
+                            <strong>Kime:</strong> <span id="previewRecipient">Prof. Dr. Ahmet Yılmaz (ahmet.yilmaz@university.edu.tr)</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Konu:</strong> <span id="previewSubject">Hakem Daveti: ART-2025-0123</span>
+                        </div>
+                        <div>
+                            <strong>Tarih:</strong> <span id="previewDate">7 Mart 2025</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="previewContent">
+                        <p>Sayın Prof. Dr. Ahmet Yılmaz,</p>
+                        
+                        <p>X Dergisi'ne gönderilen "Eğitimde Uzaktan Öğrenme Teknolojileri" başlıklı makaleyi değerlendirmeniz için davet ediyoruz. Uzmanlık alanınıza uygun olduğunu düşündüğümüz bu çalışmayı değerlendirmeyi kabul ederseniz memnun oluruz.</p>
+                        
+                        <p>Değerlendirme için son tarih: 7 Nisan 2025</p>
+                        
+                        <p>Saygılarımızla,<br>
+                        Ayşe Yıldız<br>
+                        X Dergisi Sekreterliği</p>
+                    </div>
+                    <div class="card-footer bg-light" id="previewAttachments">
+                        <strong>Ekler:</strong>
+                        <div class="mt-2">
+                            <div class="attachment-item">
+                                <i class="bi bi-file-earmark-pdf me-1"></i> değerlendirme_formu.pdf
+                            </div>
+                            <div class="attachment-item">
+                                <i class="bi bi-file-earmark-word me-1"></i> hakem_kilavuzu.docx
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Düzenle</button>
+                <button type="button" class="btn btn-primary" id="sendFromPreview">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+        
+        // Tüm hakemleri seçme/seçimi kaldırma
+        const selectAllCheckbox = document.getElementById('selectAllReferees');
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('table tbody .form-check-input');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+        }
+        
+        // Hakem arama fonksiyonu
+        const searchInput = document.getElementById('searchReferee');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const searchText = searchInput.value.toLowerCase();
+                const tableRows = document.querySelectorAll('#table-view tbody tr');
+                
+                tableRows.forEach(row => {
+                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const expertise = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    const institution = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                    
+                    if (name.includes(searchText) || expertise.includes(searchText) || institution.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Kart görünümü için de aynı işlemi yap
+                const cards = document.querySelectorAll('#card-view .hakem-card');
+                cards.forEach(card => {
+                    const nameEl = card.querySelector('h5');
+                    const institutionEl = card.querySelector('.text-muted.small');
+                    const expertiseEl = card.querySelector('.expertise-badge');
+                    
+                    if (!nameEl || !institutionEl || !expertiseEl) return;
+                    
+                    const name = nameEl.textContent.toLowerCase();
+                    const institution = institutionEl.textContent.toLowerCase();
+                    const expertise = expertiseEl.textContent.toLowerCase();
+                    
+                    const cardContainer = card.closest('.col-xl-3, .col-lg-4, .col-md-6');
+                    if (name.includes(searchText) || expertise.includes(searchText) || institution.includes(searchText)) {
+                        cardContainer.style.display = '';
+                    } else {
+                        cardContainer.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // ----- Modallar ve İşlem Butonları -----
+        
+        // Hakem veri deposu (gerçek uygulamada API'den alınacak)
+        const refereeData = {
+            1: {
+                id: 1,
+                title: "Prof. Dr.",
+                firstName: "Ahmet",
+                lastName: "Yılmaz",
+                email: "ahmet.yilmaz@university.edu.tr",
+                phone: "+90 555 123 4567",
+                institution: "İstanbul Üniversitesi",
+                department: "Bilgisayar Mühendisliği",
+                country: "Türkiye",
+                city: "İstanbul",
+                expertise: ["Yapay Zeka", "Bilgisayar Bilimleri", "Makine Öğrenmesi", "Veri Bilimi"],
+                status: "Müsait",
+                rating: 4.5,
+                completedReviews: 12,
+                ongoingReviews: 2,
+                rejectedInvitations: 3,
+                averageCompletionTime: 14,
+                bio: "Prof. Dr. Ahmet Yılmaz, yapay zeka ve makine öğrenmesi alanlarında uzmanlaşmış deneyimli bir akademisyendir. 20 yılı aşkın akademik kariyeri boyunca çeşitli ulusal ve uluslararası projelerde yer almış, 50'den fazla bilimsel makale yayınlamıştır. Şu anda İstanbul Üniversitesi Bilgisayar Mühendisliği Bölümü'nde öğretim üyesi olarak görev yapmaktadır.",
+                orcid: "0000-0002-1234-5678",
+                notes: "Değerlendirmelerini genellikle zamanında ve detaylı şekilde tamamlar. Makine öğrenmesi ve yapay zeka alanlarındaki makaleler için öncelikli olarak tercih edilebilir.",
+                preferredReferee: true,
+                blacklist: false,
+                avatarUrl: "assets/images/avatar-male-1.png"
+            },
+            2: {
+                id: 2,
+                title: "Doç. Dr.",
+                firstName: "Zeynep",
+                lastName: "Kaya",
+                email: "zeynep.kaya@university.edu.tr",
+                phone: "+90 555 234 5678",
+                institution: "Ankara Üniversitesi",
+                department: "Psikoloji",
+                country: "Türkiye",
+                city: "Ankara",
+                expertise: ["Psikoloji", "Sosyal Bilimler", "Klinik Psikoloji"],
+                status: "Meşgul",
+                rating: 4.0,
+                completedReviews: 8,
+                ongoingReviews: 3,
+                rejectedInvitations: 1,
+                averageCompletionTime: 16,
+                bio: "Doç. Dr. Zeynep Kaya, klinik psikoloji alanında uzmanlaşmış bir akademisyendir. Araştırma alanları arasında bilişsel davranışçı terapi, travma sonrası stres bozukluğu ve anksiyete bozuklukları bulunmaktadır.",
+                orcid: "0000-0003-2345-6789",
+                notes: "Klinik psikoloji ve sosyal bilimler alanındaki makaleler için tercih edilebilir. Değerlendirmeleri oldukça detaylı ve yapıcıdır.",
+                preferredReferee: true,
+                blacklist: false,
+                avatarUrl: "assets/images/avatar-female-1.png"
+            },
+            3: {
+                id: 3,
+                title: "Dr. Öğr. Üyesi",
+                firstName: "Mehmet",
+                lastName: "Demir",
+                email: "mehmet.demir@university.edu.tr",
+                phone: "+90 555 345 6789",
+                institution: "Ege Üniversitesi",
+                department: "Eğitim Bilimleri",
+                country: "Türkiye",
+                city: "İzmir",
+                expertise: ["Eğitim Bilimleri", "Eğitim Teknolojileri", "Uzaktan Eğitim"],
+                status: "Müsait",
+                rating: 3.0,
+                completedReviews: 5,
+                ongoingReviews: 1,
+                rejectedInvitations: 2,
+                averageCompletionTime: 20,
+                bio: "Dr. Öğr. Üyesi Mehmet Demir, eğitim teknolojileri ve uzaktan eğitim konularında çalışmalar yapmaktadır. Özellikle pandemi sürecinde çevrimiçi eğitim yöntemleri ve etkinliği üzerine araştırmalar yürütmektedir.",
+                orcid: "0000-0004-3456-7890",
+                notes: "Eğitim bilimleri ve teknoloji alanındaki makaleler için tercih edilebilir. Yeni hakem olduğu için daha fazla deneyim kazanması gerekmektedir.",
+                preferredReferee: false,
+                blacklist: false,
+                avatarUrl: "assets/images/avatar-male-2.png"
+            },
+            4: {
+                id: 4,
+                title: "Prof. Dr.",
+                firstName: "Ayşe",
+                lastName: "Öztürk",
+                email: "ayse.ozturk@university.edu.tr",
+                phone: "+90 555 456 7890",
+                institution: "Hacettepe Üniversitesi",
+                department: "Tıp Fakültesi",
+                country: "Türkiye",
+                city: "Ankara",
+                expertise: ["Tıp", "Sağlık Bilimleri", "Nöroloji", "Tıbbi Etik"],
+                status: "Uygun Değil",
+                rating: 5.0,
+                completedReviews: 20,
+                ongoingReviews: 0,
+                rejectedInvitations: 5,
+                averageCompletionTime: 10,
+                bio: "Prof. Dr. Ayşe Öztürk, nöroloji alanında uzmanlaşmış bir tıp doktorudur. Özellikle nörodejeneratif hastalıklar ve tedavi yöntemleri üzerine araştırmalar yapmaktadır. Aynı zamanda tıbbi etik konularında da çalışmalar yürütmektedir.",
+                orcid: "0000-0005-4567-8901",
+                notes: "Tıp ve sağlık bilimleri alanındaki makaleler için mükemmel bir hakemdir. Değerlendirmeleri çok detaylı ve titizdir. Şu anda yurtdışında olduğu için yeni değerlendirme almamaktadır.",
+                preferredReferee: true,
+                blacklist: false,
+                avatarUrl: "assets/images/avatar-female-2.png"
+            },
+            5: {
+                id: 5,
+                title: "Doç. Dr.",
+                firstName: "Ali",
+                lastName: "Yıldız",
+                email: "ali.yildiz@university.edu.tr",
+                phone: "+90 555 567 8901",
+                institution: "ODTÜ",
+                department: "Mühendislik Fakültesi",
+                country: "Türkiye",
+                city: "Ankara",
+                expertise: ["Mühendislik", "Yapay Zeka", "Robotik", "Otonom Sistemler"],
+                status: "Meşgul",
+                rating: 3.5,
+                completedReviews: 7,
+                ongoingReviews: 4,
+                rejectedInvitations: 2,
+                averageCompletionTime: 18,
+                bio: "Doç. Dr. Ali Yıldız, robotik ve otonom sistemler alanında çalışmalar yapmaktadır. Yapay zeka ve mühendislik alanlarında çeşitli projeler yürütmekte ve uluslararası işbirlikleri geliştirmektedir.",
+                orcid: "0000-0006-5678-9012",
+                notes: "Robotik ve otonom sistemler alanındaki makaleler için tercih edilebilir. Son zamanlarda çok yoğun olduğu için değerlendirme süreleri uzayabilir.",
+                preferredReferee: false,
+                blacklist: false,
+                avatarUrl: "assets/images/avatar-male-3.png"
+            }
+        };
+        
+        // Bildirim gösterme fonksiyonu
+        function showNotification(message, type) {
+            const notificationDiv = document.createElement('div');
+            notificationDiv.className = `toast align-items-center text-white bg-${type} border-0 position-fixed top-0 end-0 mt-5 me-3`;
+            notificationDiv.setAttribute('role', 'alert');
+            notificationDiv.setAttribute('aria-live', 'assertive');
+            notificationDiv.setAttribute('aria-atomic', 'true');
+            notificationDiv.style.zIndex = "1090";
+            
+            notificationDiv.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Kapat"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(notificationDiv);
+            
+            const toast = new bootstrap.Toast(notificationDiv, { delay: 5000 });
+            toast.show();
+            
+            // Bildirim kapatıldığında DOM'dan kaldır
+            notificationDiv.addEventListener('hidden.bs.toast', function() {
+                document.body.removeChild(notificationDiv);
+            });
+        }
+
+        // Hakem bilgilerini görüntüleme modalını doldur
+        function populateViewRefereeModal(refereeId) {
+            const referee = refereeData[refereeId];
+            if (!referee) return;
+            
+            // Profil resmi ve temel bilgiler
+            document.getElementById('refereeProfileImage').src = referee.avatarUrl;
+            document.getElementById('refereeFullName').textContent = `${referee.title} ${referee.firstName} ${referee.lastName}`;
+            document.getElementById('refereeInstitution').textContent = referee.institution;
+            
+            // Durum bilgisi
+            const statusBadge = document.getElementById('refereeStatus');
+            statusBadge.textContent = referee.status;
+            statusBadge.className = `badge ${referee.status === 'Müsait' ? 'bg-success' : referee.status === 'Meşgul' ? 'bg-warning' : 'bg-danger'}`;
+            
+            // Akademik bilgiler
+            document.getElementById('refereeTitle').textContent = referee.title;
+            document.getElementById('refereeInstitutionDetail').textContent = referee.institution;
+            document.getElementById('refereeDepartment').textContent = referee.department;
+            document.getElementById('refereeOrcid').textContent = referee.orcid;
+            
+            // İletişim bilgileri
+            document.getElementById('refereeEmail').textContent = referee.email;
+            document.getElementById('refereePhone').textContent = referee.phone;
+            document.getElementById('refereeCountry').textContent = referee.country;
+            document.getElementById('refereeCity').textContent = referee.city;
+            
+            // Uzmanlık alanları
+            const expertiseContainer = document.getElementById('refereeExpertise');
+            expertiseContainer.innerHTML = '';
+            referee.expertise.forEach(exp => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-primary expertise-badge';
+                badge.textContent = exp;
+                expertiseContainer.appendChild(badge);
+            });
+            
+            // Değerlendirme performansı
+            document.getElementById('refereeCompletedReviews').textContent = referee.completedReviews;
+            document.getElementById('refereeOngoingReviews').textContent = referee.ongoingReviews;
+            document.getElementById('refereeRejectedInvitations').textContent = referee.rejectedInvitations;
+            document.getElementById('refereeAverageCompletionTime').textContent = `${referee.averageCompletionTime} gün`;
+            
+            // Derecelendirme yıldızları
+            const ratingDiv = document.getElementById('refereeRating');
+            ratingDiv.innerHTML = '';
+            
+            const fullStars = Math.floor(referee.rating);
+            const hasHalfStar = referee.rating % 1 >= 0.5;
+            
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('i');
+                if (i < fullStars) {
+                    star.className = 'bi bi-star-fill';
+                } else if (i === fullStars && hasHalfStar) {
+                    star.className = 'bi bi-star-half';
+                } else {
+                    star.className = 'bi bi-star';
+                }
+                ratingDiv.appendChild(star);
+            }
+            
+            // Özgeçmiş
+            document.getElementById('refereeBio').textContent = referee.bio;
+            
+            // Profil modalındaki butonlara hakem ID'sini ekle
+            document.querySelector('.message-referee-from-profile').setAttribute('data-referee-id', refereeId);
+            document.querySelector('.correspondence-history-from-profile').setAttribute('data-referee-id', refereeId);
+            document.querySelector('.edit-referee-from-profile').setAttribute('data-referee-id', refereeId);
+        }
+
+        // Hakem düzenleme modalını doldur
+        function populateEditRefereeModal(refereeId) {
+            const referee = refereeData[refereeId];
+            if (!referee) return;
+            
+            // Profil resmi
+            document.getElementById('editRefereeImg').src = referee.avatarUrl;
+            
+            // Temel bilgiler
+            document.getElementById('editAcademicTitle').value = referee.title;
+            document.getElementById('editStatus').value = referee.status;
+            document.getElementById('editFirstName').value = referee.firstName;
+            document.getElementById('editLastName').value = referee.lastName;
+            document.getElementById('editEmail').value = referee.email;
+            document.getElementById('editPhone').value = referee.phone;
+            document.getElementById('editCountry').value = referee.country;
+            document.getElementById('editCity').value = referee.city;
+            
+            // Akademik bilgiler
+            document.getElementById('editInstitution').value = referee.institution;
+            document.getElementById('editDepartment').value = referee.department;
+            document.getElementById('editOrcid').value = referee.orcid;
+            document.getElementById('editBiography').value = referee.bio;
+            
+            // Uzmanlık alanları
+            const expertiseSelect = document.getElementById('editExpertise');
+            for (let i = 0; i < expertiseSelect.options.length; i++) {
+                expertiseSelect.options[i].selected = referee.expertise.includes(expertiseSelect.options[i].text);
+            }
+            
+            // Performans bilgileri
+            document.getElementById('editCompletedReviews').value = referee.completedReviews;
+            document.getElementById('editOngoingReviews').value = referee.ongoingReviews;
+            document.getElementById('editRejectedInvitations').value = referee.rejectedInvitations;
+            document.getElementById('editAverageCompletionTime').value = referee.averageCompletionTime;
+            document.getElementById('editRating').value = referee.rating;
+            
+            // Notlar
+            document.getElementById('editNotes').value = referee.notes;
+            document.getElementById('editPreferredReferee').checked = referee.preferredReferee;
+            document.getElementById('editBlacklist').checked = referee.blacklist;
+        }
+
+        // Mesaj gönderme modalını doldur
+        function populateMessageRefereeModal(refereeId) {
+            const referee = refereeData[refereeId];
+            if (!referee) return;
+            
+            // Alıcı bilgileri
+            document.getElementById('messageRecipient').value = `${referee.title} ${referee.firstName} ${referee.lastName}`;
+            document.getElementById('messageEmail').value = referee.email;
+            
+            // Mesaj tipi ve şablon seçildiğinde mesaj içeriğini doldur
+            const messageType = document.getElementById('messageType');
+            const messageTemplate = document.getElementById('messageTemplate');
+            const messageSubject = document.getElementById('messageSubject');
+            const messageContent = document.getElementById('messageContent');
+            
+            messageType.value = '';
+            messageTemplate.value = '';
+            messageSubject.value = '';
+            messageContent.value = '';
+            
+            // Mesaj tipi değiştiğinde
+            messageType.addEventListener('change', function() {
+                let subject = '';
+                
+                switch (this.value) {
+                    case 'Hakem Daveti':
+                        subject = `Hakem Daveti: ART-2025-0123`;
+                        break;
+                    case 'Değerlendirme Hatırlatması':
+                        subject = `Değerlendirme Hatırlatması: ART-2025-0097`;
+                        break;
+                    case 'Süre Uzatımı Yanıtı':
+                        subject = `Süre Uzatımı Yanıtı: ART-2025-0097`;
+                        break;
+                    case 'Teşekkür Mesajı':
+                        subject = `Değerlendirme için Teşekkür: ART-2025-0097`;
+                        break;
+                    case 'Genel Bilgilendirme':
+                        subject = `X Dergisi - Bilgilendirme`;
+                        break;
+                }
+                
+                messageSubject.value = subject;
+            });
+            
+            // Şablon seçildiğinde
+            messageTemplate.addEventListener('change', function() {
+                let template = '';
+                
+                switch (this.value) {
+                    case 'Yeni Hakem Daveti':
+                        template = `Sayın ${referee.title} ${referee.firstName} ${referee.lastName},\n\nX Dergisi'ne gönderilen "Eğitimde Uzaktan Öğrenme Teknolojileri" başlıklı makaleyi değerlendirmeniz için davet ediyoruz. Uzmanlık alanınıza uygun olduğunu düşündüğümüz bu çalışmayı değerlendirmeyi kabul ederseniz memnun oluruz.\n\nDeğerlendirme için son tarih: 7 Nisan 2025\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği`;
+                        messageType.value = 'Hakem Daveti';
+                        messageSubject.value = `Hakem Daveti: ART-2025-0123`;
+                        break;
+                    case 'Değerlendirme Hatırlatması':
+                        template = `Sayın ${referee.title} ${referee.firstName} ${referee.lastName},\n\n"Tarihsel Semantik Analizler" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği`;
+                        messageType.value = 'Değerlendirme Hatırlatması';
+                        messageSubject.value = `Değerlendirme Hatırlatması: ART-2025-0097`;
+                        break;
+                    case 'Süre Uzatımı Onayı':
+                        template = `Sayın ${referee.title} ${referee.firstName} ${referee.lastName},\n\nDeğerlendirme süresi uzatım talebiniz onaylanmıştır. Yeni değerlendirme son tarihiniz 15 Mart 2025'tir.\n\nAnlayışınız ve katkılarınız için teşekkür ederiz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği`;
+                        messageType.value = 'Süre Uzatımı Yanıtı';
+                        messageSubject.value = `Süre Uzatımı Yanıtı: ART-2025-0097`;
+                        break;
+                    case 'Süre Uzatımı Reddi':
+                        template = `Sayın ${referee.title} ${referee.firstName} ${referee.lastName},\n\nDeğerlendirme süresi uzatım talebiniz değerlendirilmiş olup, maalesef yayın takvimimiz nedeniyle onaylanamamıştır. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz.\n\nAnlayışınız için teşekkür ederiz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği`;
+                        messageType.value = 'Süre Uzatımı Yanıtı';
+                        messageSubject.value = `Süre Uzatımı Yanıtı: ART-2025-0097`;
+                        break;
+                    case 'Teşekkür Mesajı':
+                        template = `Sayın ${referee.title} ${referee.firstName} ${referee.lastName},\n\n"Tarihsel Semantik Analizler" başlıklı makale için yaptığınız değerlendirme için teşekkür ederiz. Değerli katkılarınız, dergimizin akademik kalitesini sürdürmemizde büyük önem taşımaktadır.\n\nGelecekte de değerlendirmelerinizle dergimize katkı sağlamanızı umar, çalışmalarınızda başarılar dileriz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği`;
+                        messageType.value = 'Teşekkür Mesajı';
+                        messageSubject.value = `Değerlendirme için Teşekkür: ART-2025-0097`;
+                        break;
+                }
+                
+                messageContent.value = template;
+            });
+        }
+
+        // Yazışma geçmişi modalını doldur
+        function populateCorrespondenceHistoryModal(refereeId) {
+            const referee = refereeData[refereeId];
+            if (!referee) return;
+            
+            // Hakem adını güncelle
+            document.getElementById('correspondenceRefereeTitle').textContent = `${referee.title} ${referee.firstName} ${referee.lastName}`;
+            
+            // Gönderme ve görüntüleme butonlarında hakem ID'sini güncelle
+            document.getElementById('newCorrespondence').setAttribute('data-referee-id', refereeId);
+            
+            // Yazışma listesi varsa, her bir yazışma görüntüleme butonuna click event ekle
+            document.querySelectorAll('.view-correspondence').forEach(button => {
+                button.addEventListener('click', function() {
+                    const correspondenceId = this.getAttribute('data-correspondence-id');
+                    const viewCorrespondenceModal = new bootstrap.Modal(document.getElementById('viewCorrespondenceModal'));
+                    viewCorrespondenceModal.show();
+                    
+                    // ID'ye göre içeriği doldurabilirsiniz (demo için statik içerik bırakıldı)
+                });
+            });
+        }
+
+        // Profil görüntüleme düğmelerine olay dinleyicileri ekle
+        document.querySelectorAll('.view-referee').forEach(button => {
+            button.addEventListener('click', function() {
+                const refereeId = this.getAttribute('data-referee-id');
+                const viewRefereeModal = new bootstrap.Modal(document.getElementById('viewRefereeModal'));
+                
+                populateViewRefereeModal(refereeId);
+                viewRefereeModal.show();
+            });
+        });
+        
+        // Düzenleme düğmelerine olay dinleyicileri ekle
+        document.querySelectorAll('.edit-referee').forEach(button => {
+            button.addEventListener('click', function() {
+                const refereeId = this.getAttribute('data-referee-id');
+                const editRefereeModal = new bootstrap.Modal(document.getElementById('editRefereeModal'));
+                
+                populateEditRefereeModal(refereeId);
+                editRefereeModal.show();
+            });
+        });
+        
+        // Düzenleme modalında "Değişiklikleri Kaydet" düğmesine olay dinleyicisi ekle
+        document.getElementById('saveRefereeChanges').addEventListener('click', function() {
+            // Demo için sadece bildirim gösterelim (gerçek uygulamada AJAX ile kaydedilecek)
+            showNotification('Hakem bilgileri başarıyla güncellenmiştir.', 'success');
+            
+            // Modalı kapat
+            const editRefereeModal = bootstrap.Modal.getInstance(document.getElementById('editRefereeModal'));
+            editRefereeModal.hide();
+        });
+        
+        // Profil modalından düzenleme modalına geçiş
+        document.querySelector('.edit-referee-from-profile').addEventListener('click', function() {
+            const refereeId = this.getAttribute('data-referee-id');
+            
+            // Profil modalını kapat
+            const viewRefereeModal = bootstrap.Modal.getInstance(document.getElementById('viewRefereeModal'));
+            viewRefereeModal.hide();
+            
+            // Düzenleme modalını aç
+            setTimeout(() => {
+                const editRefereeModal = new bootstrap.Modal(document.getElementById('editRefereeModal'));
+                populateEditRefereeModal(refereeId);
+                editRefereeModal.show();
+            }, 500);
+        });
+        
+        // Mesaj gönderme düğmelerine olay dinleyicileri ekle
+        document.querySelectorAll('.message-referee').forEach(button => {
+            button.addEventListener('click', function() {
+                const refereeId = this.getAttribute('data-referee-id');
+                const messageRefereeModal = new bootstrap.Modal(document.getElementById('messageRefereeModal'));
+                
+                populateMessageRefereeModal(refereeId);
+                messageRefereeModal.show();
+            });
+        });
+        
+        // Profil modalından mesaj gönderme modalına geçiş
+        document.querySelector('.message-referee-from-profile').addEventListener('click', function() {
+            const refereeId = this.getAttribute('data-referee-id');
+            
+            // Profil modalını kapat
+            const viewRefereeModal = bootstrap.Modal.getInstance(document.getElementById('viewRefereeModal'));
+            viewRefereeModal.hide();
+            
+            // Mesaj gönderme modalını aç
+            setTimeout(() => {
+                const messageRefereeModal = new bootstrap.Modal(document.getElementById('messageRefereeModal'));
+                populateMessageRefereeModal(refereeId);
+                messageRefereeModal.show();
+            }, 500);
+        });
+        
+        // Mesaj önizleme düğmesine olay dinleyicisi ekle
+        document.getElementById('previewMessage').addEventListener('click', function() {
+            const recipient = document.getElementById('messageRecipient').value;
+            const email = document.getElementById('messageEmail').value;
+            const subject = document.getElementById('messageSubject').value;
+            const content = document.getElementById('messageContent').value;
+            
+            if (!subject.trim() || !content.trim()) {
+                showNotification('Lütfen konu ve mesaj içeriğini doldurun.', 'warning');
+                return;
+            }
+            
+            // Önizleme modalını doldur
+            document.getElementById('previewRecipient').textContent = `${recipient} (${email})`;
+            document.getElementById('previewSubject').textContent = subject;
+            document.getElementById('previewDate').textContent = new Date().toLocaleDateString('tr-TR');
+            
+            // Mesaj içeriğini formatla (satır aralarını <p> etiketlerine dönüştür)
+            const formattedContent = content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('previewContent').innerHTML = formattedContent;
+            
+            // Dosya ekleri kontrolü
+            const attachmentInput = document.getElementById('messageAttachment');
+            const previewAttachments = document.getElementById('previewAttachments');
+            
+            if (attachmentInput.files.length > 0) {
+                previewAttachments.style.display = 'block';
+                let attachmentHTML = '<strong>Ekler:</strong><div class="mt-2">';
+                
+                for (let i = 0; i < attachmentInput.files.length; i++) {
+                    const file = attachmentInput.files[i];
+                    const fileExt = file.name.split('.').pop().toLowerCase();
+                    let iconClass = 'bi-file-earmark';
+                    
+                    if (['pdf'].includes(fileExt)) {
+                        iconClass = 'bi-file-earmark-pdf';
+                    } else if (['doc', 'docx'].includes(fileExt)) {
+                        iconClass = 'bi-file-earmark-word';
+                    } else if (['xls', 'xlsx'].includes(fileExt)) {
+                        iconClass = 'bi-file-earmark-excel';
+                    } else if (['ppt', 'pptx'].includes(fileExt)) {
+                        iconClass = 'bi-file-earmark-ppt';
+                    } else if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExt)) {
+                        iconClass = 'bi-file-earmark-image';
+                    }
+                    
+                    attachmentHTML += `
+                        <div class="attachment-item">
+                            <i class="bi ${iconClass} me-1"></i> ${file.name}
+                        </div>
+                    `;
+                }
+                
+                attachmentHTML += '</div>';
+                previewAttachments.innerHTML = attachmentHTML;
+            } else {
+                previewAttachments.style.display = 'none';
+            }
+            
+            // Önizleme modalını göster
+            const messagePreviewModal = new bootstrap.Modal(document.getElementById('messagePreviewModal'));
+            messagePreviewModal.show();
+        });
+        
+        // Mesaj gönderme (önizlemeden) düğmesine olay dinleyicisi ekle
+        document.getElementById('sendFromPreview').addEventListener('click', function() {
+            // Önizleme modalını kapat
+            const messagePreviewModal = bootstrap.Modal.getInstance(document.getElementById('messagePreviewModal'));
+            messagePreviewModal.hide();
+            
+            // Mesaj gönderildi bildirimi göster
+            setTimeout(() => {
+                showNotification('Mesaj başarıyla gönderildi.', 'success');
+                
+                // Mesaj gönderme modalını kapat
+                const messageRefereeModal = bootstrap.Modal.getInstance(document.getElementById('messageRefereeModal'));
+                messageRefereeModal.hide();
+            }, 500);
+        });
+        
+        // Mesaj gönderme düğmesine olay dinleyicisi ekle
+        document.getElementById('sendMessage').addEventListener('click', function() {
+            const subject = document.getElementById('messageSubject').value;
+            const content = document.getElementById('messageContent').value;
+            
+            if (!subject.trim() || !content.trim()) {
+                showNotification('Lütfen konu ve mesaj içeriğini doldurun.', 'warning');
+                return;
+            }
+            
+            // Mesaj gönderildi bildirimi göster
+            showNotification('Mesaj başarıyla gönderildi.', 'success');
+            
+            // Mesaj gönderme modalını kapat
+            const messageRefereeModal = bootstrap.Modal.getInstance(document.getElementById('messageRefereeModal'));
+            messageRefereeModal.hide();
+        });
+        
+        // Yazışma geçmişi düğmelerine olay dinleyicileri ekle
+        document.querySelectorAll('.correspondence-history').forEach(button => {
+            button.addEventListener('click', function() {
+                const refereeId = this.getAttribute('data-referee-id');
+                const correspondenceHistoryModal = new bootstrap.Modal(document.getElementById('correspondenceHistoryModal'));
+                
+                populateCorrespondenceHistoryModal(refereeId);
+                correspondenceHistoryModal.show();
+            });
+        });
+        
+        // Profil modalından yazışma geçmişi modalına geçiş
+        document.querySelector('.correspondence-history-from-profile').addEventListener('click', function() {
+            const refereeId = this.getAttribute('data-referee-id');
+            
+            // Profil modalını kapat
+            const viewRefereeModal = bootstrap.Modal.getInstance(document.getElementById('viewRefereeModal'));
+            viewRefereeModal.hide();
+            
+            // Yazışma geçmişi modalını aç
+            setTimeout(() => {
+                const correspondenceHistoryModal = new bootstrap.Modal(document.getElementById('correspondenceHistoryModal'));
+                populateCorrespondenceHistoryModal(refereeId);
+                correspondenceHistoryModal.show();
+            }, 500);
+        });
+        
+        // Yazışma geçmişi yenileme düğmesine olay dinleyicisi ekle
+        document.getElementById('refreshCorrespondence').addEventListener('click', function() {
+            // Yenileme animasyonu
+            this.disabled = true;
+            const icon = this.querySelector('i');
+            icon.classList.add('spin');
+            
+            setTimeout(() => {
+                this.disabled = false;
+                icon.classList.remove('spin');
+                showNotification('Yazışma geçmişi yenilendi.', 'info');
+            }, 1000);
+        });
+        
+        // Yazışmadan yeni yazışma modalına geçiş
+        document.getElementById('newCorrespondence').addEventListener('click', function() {
+            const refereeId = this.getAttribute('data-referee-id');
+            
+            // Yazışma geçmişi modalını kapat
+            const correspondenceHistoryModal = bootstrap.Modal.getInstance(document.getElementById('correspondenceHistoryModal'));
+            correspondenceHistoryModal.hide();
+            
+            // Mesaj gönderme modalını aç
+            setTimeout(() => {
+                const messageRefereeModal = new bootstrap.Modal(document.getElementById('messageRefereeModal'));
+                populateMessageRefereeModal(refereeId);
+                messageRefereeModal.show();
+            }, 500);
+        });
+        
+        // Tüm yazışmaları görüntüle düğmesine olay dinleyicisi ekle
+        document.getElementById('viewAllCorrespondence').addEventListener('click', function() {
+            // Yazışma geçmişi modalını kapat
+            const correspondenceHistoryModal = bootstrap.Modal.getInstance(document.getElementById('correspondenceHistoryModal'));
+            correspondenceHistoryModal.hide();
+            
+            // Yazışmalar sayfasına yönlendir
+            setTimeout(() => {
+                window.location.href = 'sekreter-yazisma.html';
+            }, 500);
+        });
+        
+        // Yazışma görüntüleme düğmelerine olay dinleyicileri ekle
+        document.querySelectorAll('.view-correspondence').forEach(button => {
+            button.addEventListener('click', function() {
+                const correspondenceId = this.getAttribute('data-correspondence-id');
+                const viewCorrespondenceModal = new bootstrap.Modal(document.getElementById('viewCorrespondenceModal'));
+                viewCorrespondenceModal.show();
+            });
+        });
+        
+        // Yazışma yanıtlama düğmesine olay dinleyicisi ekle
+        document.getElementById('respondToCorrespondence').addEventListener('click', function() {
+            // Yazışma detay modalını kapat
+            const viewCorrespondenceModal = bootstrap.Modal.getInstance(document.getElementById('viewCorrespondenceModal'));
+            viewCorrespondenceModal.hide();
+            
+            // Mesaj gönderme modalını aç (demo için sabit ID kullanıyoruz)
+            setTimeout(() => {
+                const messageRefereeModal = new bootstrap.Modal(document.getElementById('messageRefereeModal'));
+                populateMessageRefereeModal(1);
+                messageRefereeModal.show();
+            }, 500);
+        });
+        
+        // Yazışma yazdırma düğmesine olay dinleyicisi ekle
+        document.getElementById('printCorrespondence').addEventListener('click', function() {
+            // Yazdırma ön hazırlığı
+            const printContents = document.querySelector('.modal-body').innerHTML;
+            const originalContents = document.body.innerHTML;
+            
+            // Yazdırma stili
+            const printCSS = `
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    .correspondence-header { border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 15px; }
+                    .correspondence-body { margin-bottom: 15px; }
+                    .correspondence-attachments { border-top: 1px solid #ddd; padding-top: 15px; }
+                    .attachment-item { background: #f8f9fa; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-right: 5px; }
+                </style>
+            `;
+            
+            // Yazdırma penceresi aç
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Yazışma - ART-2025-0097</title>
+                        ${printCSS}
+                    </head>
+                    <body>
+                        <h2>Yazışma Detayı</h2>
+                        ${printContents}
+                    </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Yazdırma işlemi
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        });
+
+        // CSS animasyonu için stil ekle
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            .spin {
+                animation: spin 1s linear infinite;
+            }
+        `;
+        document.head.appendChild(style);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+        
+        // Tüm hakemleri seçme/seçimi kaldırma
+        const selectAllCheckbox = document.getElementById('selectAllReferees');
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('table tbody .form-check-input');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+        }
+        
+        // Hakem arama fonksiyonu
+        const searchInput = document.getElementById('searchReferee');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const searchText = searchInput.value.toLowerCase();
+                const tableRows = document.querySelectorAll('#table-view tbody tr');
+                
+                tableRows.forEach(row => {
+                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const expertise = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    const institution = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                    
+                    if (name.includes(searchText) || expertise.includes(searchText) || institution.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Kart görünümü için de aynı işlemi yap
+                const cards = document.querySelectorAll('#card-view .hakem-card');
+                cards.forEach(card => {
+                    const nameEl = card.querySelector('h5');
+                    const institutionEl = card.querySelector('.text-muted.small');
+                    const expertiseEl = card.querySelector('.expertise-badge');
+                    
+                    if (!nameEl || !institutionEl || !expertiseEl) return;
+                    
+                    const name = nameEl.textContent.toLowerCase();
+                    const institution = institutionEl.textContent.toLowerCase();
+                    const expertise = expertiseEl.textContent.toLowerCase();
+                    
+                    const cardContainer = card.closest('.col-xl-3, .col-lg-4, .col-md-6');
+                    if (name.includes(searchText) || expertise.includes(searchText) || institution.includes(searchText)) {
+                        cardContainer.style.display = '';
+                    } else {
+                        cardContainer.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

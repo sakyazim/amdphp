@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Hesap Ayarları</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+	<link href="assets/css/hakem-ayarlar.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    
+    <style>
+        .settings-card {
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .settings-card .card-header {
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .form-switch-lg {
+            padding-left: 2.85em;
+        }
+        
+        .form-switch-lg .form-check-input {
+            width: 2.5em;
+            height: 1.25em;
+            margin-left: -2.85em;
+        }
+        
+        .avatar-upload {
+            position: relative;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+        
+        .avatar-upload .avatar-edit {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            z-index: 10;
+        }
+        
+        .avatar-upload .avatar-preview {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .avatar-upload .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .tag-input-container {
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            padding: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            min-height: 38px;
+        }
+        
+        .tag {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin: 2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tag-close {
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        
+        .tag-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            min-width: 100px;
+        }
+        
+        .settings-nav .nav-link {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .settings-nav .nav-link.active {
+            background-color: #f1f9ff;
+            color: #0d6efd;
+            border-left: 3px solid #0d6efd;
+        }
+        
+        .settings-nav .nav-link:hover:not(.active) {
+            background-color: #f8f9fa;
+        }
+        
+        .settings-section:not(.active) {
+            display: none;
+        }
+        
+    /* Sekmelerle ilgili stil tanımları - ÖNEMLİ GÜNCELLEMELERİ BURAYA EKLE */
+    .settings-section {
+        display: none; /* Varsayılan olarak sekmeleri gizle */
+    }
+    
+    .settings-section.active {
+        display: block; /* Aktif sekmeyi göster */
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Mobil görünüm için düzenlemeler */
+        @media (max-width: 768px) {
+            .settings-nav {
+                margin-bottom: 20px;
+            }
+            
+            .settings-nav .nav-link {
+                text-align: center;
+                margin-right: 5px;
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-tabs.settings-nav {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="hakem-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Hakem olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-eyeglasses me-2"></i>
+                        <span>Hakem</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Mehmet Aydın</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        
+                        <li><a class="dropdown-item active" href="hakem-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="../giris/giris.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="hakem-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-bekleyenler.html" class="nav-link">
+                                    <i class="bi bi-hourglass-split me-2"></i> Bekleyen Değerlendirmeler
+                                    <span class="badge bg-danger rounded-pill float-end">4</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-devam-eden.html" class="nav-link">
+                                    <i class="bi bi-clipboard-check me-2"></i> Devam Eden Değerlendirmeler
+                                    <span class="badge bg-warning rounded-pill float-end">2</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="tamamlanan-degerlendirmeler.html" class="nav-link">
+                                    <i class="bi bi-check-circle me-2"></i> Tamamlanan Değerlendirmeler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-davetler.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Hakem Davetleri
+                                    <span class="badge bg-primary rounded-pill float-end">4</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item">
+                                <a href="hakem-uzmanlik-alanlarim.html" class="nav-link">
+                                    <i class="bi bi-mortarboard me-2"></i> Uzmanlık Alanlarım
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-ayarlar.html" class="nav-link active">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Ayarlar Başlık -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title mb-0">
+                        <i class="bi bi-gear me-2"></i>Hesap Ayarları
+                    </h2>
+                    <div>
+                        <a href="hakem-panel.html" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Panele Dön
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Mobil Görünüm için Sekme Navigasyonu -->
+                <ul class="nav nav-tabs settings-nav d-md-none mb-4" id="mobileSettingsNav" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-section="profile-section" type="button">
+                            <i class="bi bi-person me-1"></i> Profil
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-section="account-section" type="button">
+                            <i class="bi bi-shield-lock me-1"></i> Hesap
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-section="expertise-section" type="button">
+                            <i class="bi bi-mortarboard me-1"></i> Uzmanlık
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-section="notification-section" type="button">
+                            <i class="bi bi-bell me-1"></i> Bildirimler
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-section="privacy-section" type="button">
+                            <i class="bi bi-eye me-1"></i> Gizlilik
+                        </button>
+                    </li>
+					<!-- Mobil Navigasyonda -->
+<li class="nav-item" role="presentation">
+    <button class="nav-link" data-section="templates-section" type="button">
+        <i class="bi bi-file-text me-1"></i> Şablonlar
+    </button>
+</li>
+                </ul>
+                
+                <div class="row">
+                    <!-- Masaüstü Görünüm için Sol Kenar Çubuğu -->
+                    <div class="col-md-3 d-none d-md-block">
+                        <div class="card settings-card">
+                            <div class="card-body p-0">
+                                <div class="list-group settings-nav" id="desktopSettingsNav">
+                                    <a href="#" class="list-group-item list-group-item-action active border-0" data-section="profile-section">
+                                        <i class="bi bi-person me-2"></i> Profil Ayarları
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action border-0" data-section="account-section">
+                                        <i class="bi bi-shield-lock me-2"></i> Hesap Güvenliği
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action border-0" data-section="expertise-section">
+                                        <i class="bi bi-mortarboard me-2"></i> Uzmanlık Alanları
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action border-0" data-section="notification-section">
+                                        <i class="bi bi-bell me-2"></i> Bildirim Ayarları
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action border-0" data-section="privacy-section">
+                                        <i class="bi bi-eye me-2"></i> Gizlilik ve Görünürlük
+                                    </a>
+									<!-- Masaüstü Navigasyonda -->
+<a href="#" class="list-group-item list-group-item-action border-0" data-section="templates-section">
+    <i class="bi bi-file-text me-2"></i> Değerlendirme Şablonları
+</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sistem Bilgileri -->
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="bi bi-info-circle me-2"></i>Sistem Bilgileri</h6>
+                                <ul class="list-unstyled mb-0 small">
+                                    <li class="mb-2 d-flex justify-content-between">
+                                        <span>Son Giriş</span>
+                                        <span class="text-muted">03.03.2025 09:15</span>
+                                    </li>
+                                    <li class="mb-2 d-flex justify-content-between">
+                                        <span>IP Adresi</span>
+                                        <span class="text-muted">192.168.1.XXX</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <span>Tarayıcı</span>
+                                        <span class="text-muted">Chrome 118.0</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ayarlar İçeriği -->
+                    <div class="col-md-9">
+                        <!-- Profil Ayarları Bölümü -->
+                        <div id="profile-section" class="settings-section active">
+                            <div class="card settings-card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-person me-2"></i>Profil Ayarları</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="profileForm">
+                                        <div class="row mb-4">
+                                            <div class="col-md-3">
+                                                <div class="avatar-upload mb-3">
+                                                    <div class="avatar-preview">
+                                                        <img src="assets/images/avatar.png" alt="Profil Fotoğrafı" id="profileImagePreview">
+                                                    </div>
+                                                    <div class="avatar-edit">
+                                                        <button type="button" class="btn btn-primary btn-sm rounded-circle" id="changeAvatarBtn" title="Fotoğrafı Değiştir">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <input type="file" id="profileImageInput" style="display: none" accept="image/*">
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" id="removeAvatarBtn">
+                                                        <i class="bi bi-trash me-1"></i> Fotoğrafı Kaldır
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="userTitle" class="form-label">Unvan</label>
+                                                        <select class="form-select" id="userTitle">
+                                                            <option>Prof. Dr.</option>
+                                                            <option>Doç. Dr.</option>
+                                                            <option>Dr. Öğr. Üyesi</option>
+                                                            <option>Dr.</option>
+                                                            <option>Öğr. Gör.</option>
+                                                            <option>Arş. Gör.</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="nameInput" class="form-label">Ad Soyad</label>
+                                                        <input type="text" class="form-control" id="nameInput" value="Mehmet Aydın">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="emailInput" class="form-label">E-posta</label>
+                                                        <input type="email" class="form-control" id="emailInput" value="mehmet.aydin@example.edu.tr">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="phoneInput" class="form-label">Telefon</label>
+                                                        <input type="tel" class="form-control" id="phoneInput" value="+90 555 123 4567">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="institutionInput" class="form-label">Kurum</label>
+                                                <input type="text" class="form-control" id="institutionInput" value="XYZ Üniversitesi">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="departmentInput" class="form-label">Bölüm</label>
+                                                <input type="text" class="form-control" id="departmentInput" value="Eğitim Bilimleri">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="orcidInput" class="form-label">ORCID ID</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">https://orcid.org/</span>
+                                                    <input type="text" class="form-control" id="orcidInput" value="0000-0002-1234-5678">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="googleScholarInput" class="form-label">Google Scholar Profili</label>
+                                                <input type="url" class="form-control" id="googleScholarInput" value="https://scholar.google.com/citations?user=XYZ123">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="websiteInput" class="form-label">Kişisel Web Sitesi</label>
+                                                <input type="url" class="form-control" id="websiteInput" value="https://mehmetaydin.example.edu.tr">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="countryInput" class="form-label">Ülke</label>
+                                                <select class="form-select" id="countryInput">
+                                                    <option selected>Türkiye</option>
+                                                    <option>ABD</option>
+                                                    <option>Almanya</option>
+                                                    <option>Birleşik Krallık</option>
+                                                    <option>Fransa</option>
+                                                    <option>İtalya</option>
+                                                    <option>Kanada</option>
+                                                    <option>Diğer...</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="bioInput" class="form-label">Biyografi</label>
+                                                <textarea class="form-control" id="bioInput" rows="4">Prof. Dr. Mehmet Aydın, eğitim teknolojileri alanında 15 yılı aşkın deneyime sahip bir akademisyendir. Yapay zeka ve eğitim teknolojilerinin entegrasyonu üzerine çalışmalar yürütmektedir. XYZ Üniversitesi Eğitim Fakültesi Eğitim Bilimleri Bölümünde öğretim üyesi olarak görev yapmaktadır.</textarea>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-outline-secondary me-2">İptal</button>
+                                            <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hesap Güvenliği Bölümü -->
+                        <div id="account-section" class="settings-section">
+                            <div class="card settings-card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-shield-lock me-2"></i>Hesap Güvenliği</h5>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Şifre Değiştirme -->
+                                    <form id="passwordForm" class="mb-4">
+                                        <h6 class="card-subtitle mb-3">Şifre Değiştirme</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="currentPassword" class="form-label">Mevcut Şifre</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="currentPassword">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <label for="newPassword" class="form-label">Yeni Şifre</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="newPassword">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="password-strength mt-1">
+                                                    <div class="progress" style="height: 5px;">
+                                                        <div class="progress-bar bg-danger" style="width: 0%" id="passwordStrength"></div>
+                                                    </div>
+                                                    <small class="text-muted mt-1">En az 8 karakter, büyük-küçük harf, rakam ve sembol içermeli</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="confirmPassword" class="form-label">Yeni Şifre (Tekrar)</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="confirmPassword">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button type="submit" class="btn btn-primary">Şifreyi Değiştir</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <hr>
+                                    
+                                    <!-- İki Adımlı Doğrulama -->
+                                    <h6 class="card-subtitle mb-3">İki Adımlı Doğrulama</h6>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <p class="mb-0">İki adımlı doğrulama, hesabınıza ekstra güvenlik katmanı ekler.</p>
+                                            <small class="text-muted">Giriş yaparken şifrenize ek olarak cep telefonunuza gönderilen kodu girmeniz istenecektir.</small>
+                                        </div>
+                                        <div class="form-check form-switch form-switch-lg">
+                                            <input class="form-check-input" type="checkbox" id="two-factor-auth">
+                                        </div>
+                                    </div>
+                                    <div id="two-factor-setup" class="border rounded p-3 mb-3" style="display: none;">
+                                        <div class="mb-3">
+                                            <label for="phoneForAuth" class="form-label">Doğrulama İçin Telefon Numarası</label>
+                                            <input type="tel" class="form-control" id="phoneForAuth" value="+90 555 123 4567">
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary" id="setupTwoFactorBtn">Doğrulama Kodunu Gönder</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <!-- Oturum Yönetimi -->
+                                    <h6 class="card-subtitle mb-3">Aktif Oturumlar</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Cihaz</th>
+                                                    <th>Tarayıcı</th>
+                                                    <th>Konum</th>
+                                                    <th>Son Erişim</th>
+                                                    <th>İşlem</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><i class="bi bi-laptop me-1"></i> Notebook</td>
+                                                    <td>Chrome 118.0</td>
+                                                    <td>Ankara, TR</td>
+                                                    <td><span class="badge bg-success">Aktif</span></td>
+                                                    <td>Bu Cihaz</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi bi-phone me-1"></i> iPhone 14</td>
+                                                    <td>Safari 17.0</td>
+                                                    <td>İstanbul, TR</td>
+                                                    <td>2 saat önce</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-danger">
+                                                            <i class="bi bi-x-circle me-1"></i>Sonlandır
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi bi-tablet me-1"></i> iPad</td>
+                                                    <td>Safari 16.5</td>
+                                                    <td>Ankara, TR</td>
+                                                    <td>1 gün önce</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-danger">
+                                                            <i class="bi bi-x-circle me-1"></i>Sonlandır
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-2">
+                                        <button type="button" class="btn btn-danger" id="logoutAllBtn">
+                                            <i class="bi bi-power me-1"></i>Tüm Oturumları Sonlandır
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hesap Bilgilerini İndirme ve Silme -->
+                            <div class="card settings-card mt-3">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-archive me-2"></i>Hesap Verileri</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0">
+                                                    <i class="bi bi-file-earmark-arrow-down fs-2 text-primary"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6>Hesap Verilerini İndir</h6>
+                                                    <p class="text-muted mb-2">Hesabınıza ait tüm verileri JSON veya CSV formatında indirebilirsiniz.</p>
+                                                    <button type="button" class="btn btn-outline-primary">
+                                                        <i class="bi bi-download me-1"></i>Verileri İndir
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0">
+                                                    <i class="bi bi-trash fs-2 text-danger"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6>Hesabı Kapat</h6>
+                                                    <p class="text-muted mb-2">Hesabınız ve tüm verileriniz kalıcı olarak silinecektir. Bu işlem geri alınamaz.</p>
+                                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                                        <i class="bi bi-exclamation-triangle me-1"></i>Hesabı Kapat
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Uzmanlık Alanları Bölümü -->
+                        <div id="expertise-section" class="settings-section">
+                            <div class="card settings-card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-mortarboard me-2"></i>Uzmanlık Alanları</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted">Lütfen akademik uzmanlık alanlarınızı seçin. Bu bilgiler editörlerin size uygun makaleleri yönlendirmesine yardımcı olacaktır.</p>
+                                    
+                                    <!-- Ana Uzmanlık Alanları -->
+                                    <div class="mb-4">
+                                        <h6 class="card-subtitle mb-3">Ana Uzmanlık Alanları</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="card border-primary h-100">
+                                                    <div class="card-header bg-primary text-white">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseEduTech" checked>
+                                                            <label class="form-check-label" for="expertiseEduTech">
+                                                                <i class="bi bi-laptop me-1"></i> Eğitim Teknolojileri
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseLMS" checked>
+                                                            <label class="form-check-label" for="expertiseLMS">
+                                                                Öğrenme Yönetim Sistemleri
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseDigitalContent" checked>
+                                                            <label class="form-check-label" for="expertiseDigitalContent">
+                                                                Dijital İçerik Geliştirme
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseEduSoftware" checked>
+                                                            <label class="form-check-label" for="expertiseEduSoftware">
+                                                                Eğitsel Yazılımlar
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseMobileEdu" checked>
+                                                            <label class="form-check-label" for="expertiseMobileEdu">
+                                                                Eğitimde Mobil Teknolojiler
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseEduGames" checked>
+                                                            <label class="form-check-label" for="expertiseEduGames">
+                                                                Eğitsel Oyunlar
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="card border-success h-100">
+                                                    <div class="card-header bg-success text-white">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseAI" checked>
+                                                            <label class="form-check-label" for="expertiseAI">
+                                                                <i class="bi bi-robot me-1"></i> Yapay Zeka
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseML" checked>
+                                                            <label class="form-check-label" for="expertiseML">
+                                                                Makine Öğrenmesi
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseAIEdu" checked>
+                                                            <label class="form-check-label" for="expertiseAIEdu">
+                                                                Eğitimde YZ Uygulamaları
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertisePersonalizedLearning" checked>
+                                                            <label class="form-check-label" for="expertisePersonalizedLearning">
+                                                                Kişiselleştirilmiş Öğrenme
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseNLP" checked>
+                                                            <label class="form-check-label" for="expertiseNLP">
+                                                                Doğal Dil İşleme
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="card border-info h-100">
+                                                    <div class="card-header bg-info text-white">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseDistanceEdu" checked>
+                                                            <label class="form-check-label" for="expertiseDistanceEdu">
+                                                                <i class="bi bi-globe me-1"></i> Uzaktan Eğitim
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseOnlineLearning" checked>
+                                                            <label class="form-check-label" for="expertiseOnlineLearning">
+                                                                Çevrimiçi Öğrenme
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseHybridEdu" checked>
+                                                            <label class="form-check-label" for="expertiseHybridEdu">
+                                                                Hibrit Eğitim Modelleri
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseVirtualClass" checked>
+                                                            <label class="form-check-label" for="expertiseVirtualClass">
+                                                                Sanal Sınıflar
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseAsyncLearning" checked>
+                                                            <label class="form-check-label" for="expertiseAsyncLearning">
+                                                                Asenkron Öğrenme
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="card border-warning h-100">
+                                                    <div class="card-header bg-warning">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseEduPsych" checked>
+                                                            <label class="form-check-label" for="expertiseEduPsych">
+                                                                <i class="bi bi-book me-1"></i> Eğitim Psikolojisi
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseLearningStrat" checked>
+                                                            <label class="form-check-label" for="expertiseLearningStrat">
+                                                                Öğrenme Stratejileri
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseMotivation" checked>
+                                                            <label class="form-check-label" for="expertiseMotivation">
+                                                                Motivasyon
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="expertisePedagogy">
+                                                            <label class="form-check-label" for="expertisePedagogy">
+                                                                Öğretim Yöntemleri
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="expertiseClassManagement">
+                                                            <label class="form-check-label" for="expertiseClassManagement">
+                                                                Sınıf Yönetimi
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Özel Uzmanlık Alanları -->
+                                    <div class="mb-4">
+                                        <h6 class="card-subtitle mb-3">Özel Uzmanlık Alanları</h6>
+                                        <p class="text-muted small">Yukarıda belirtilmeyen uzmanlık alanlarınızı eklemek için kullanabilirsiniz.</p>
+                                        <div class="tag-input-container">
+                                            <div class="tag">
+                                                Arttırılmış Gerçeklik
+                                                <span class="tag-close">&times;</span>
+                                            </div>
+                                            <div class="tag">
+                                                Sanal Gerçeklik
+                                                <span class="tag-close">&times;</span>
+                                            </div>
+                                            <div class="tag">
+                                                MOOC
+                                                <span class="tag-close">&times;</span>
+                                            </div>
+                                            <input type="text" class="tag-input" placeholder="Yeni alan eklemek için yazın ve Enter'a basın">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Değerlendirme Tercihleri -->
+                                    <div>
+                                        <h6 class="card-subtitle mb-3">Değerlendirme Tercihleri</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="maxReviewCount" class="form-label">Aynı Anda Değerlendirebileceğim Makale Sayısı</label>
+                                                <select class="form-select" id="maxReviewCount">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option selected>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="availabilityStatus" class="form-label">Uygunluk Durumu</label>
+                                                <select class="form-select" id="availabilityStatus">
+                                                    <option selected>Değerlendirme için uygunum</option>
+                                                    <option>Yoğunum - Sınırlı değerlendirme yapabilirim</option>
+                                                    <option>Geçici olarak uygun değilim</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <label for="unavailabilityRange" class="form-label">Uygun Olmadığım Tarih Aralığı</label>
+                                            <div class="row g-2">
+                                                <div class="col-md-5">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">Başlangıç</span>
+                                                        <input type="date" class="form-control" id="unavailabilityStart">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">Bitiş</span>
+                                                        <input type="date" class="form-control" id="unavailabilityEnd">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-primary w-100" id="addUnavailabilityPeriod">Ekle</button>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                                    <span>15.07.2025 - 30.07.2025</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button type="button" class="btn btn-outline-secondary me-2">İptal</button>
+                                        <button type="button" class="btn btn-primary" id="saveExpertiseBtn">Değişiklikleri Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Bildirim Ayarları Bölümü -->
+                        <div id="notification-section" class="settings-section">
+                            <div class="card settings-card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-bell me-2"></i>Bildirim Ayarları</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted">Hangi durumlarda bildirim almak istediğinizi ve bildirim kanallarınızı yapılandırın.</p>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Bildirim Türü</th>
+                                                    <th class="text-center">E-posta</th>
+                                                    <th class="text-center">SMS</th>
+                                                    <th class="text-center">Uygulama</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-envelope text-primary me-2"></i>
+                                                            <div>
+                                                                <strong>Yeni Değerlendirme Daveti</strong>
+                                                                <div class="text-muted small">Yeni bir makale değerlendirme daveti aldığınızda</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailNewInvitation" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsNewInvitation">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appNewInvitation" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-hourglass text-warning me-2"></i>
+                                                            <div>
+                                                                <strong>Değerlendirme Hatırlatması</strong>
+                                                                <div class="text-muted small">Süre bitimine yaklaşan değerlendirmeleriniz için</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailReminder" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsReminder" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appReminder" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-pencil-square text-info me-2"></i>
+                                                            <div>
+                                                                <strong>Revizyon Gerektiren Makaleler</strong>
+                                                                <div class="text-muted small">Değerlendirdiğiniz makalelerin revizyon süreci hakkında</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailRevision" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsRevision">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appRevision" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-chat-quote text-success me-2"></i>
+                                                            <div>
+                                                                <strong>Editör Yorumları</strong>
+                                                                <div class="text-muted small">Değerlendirmeleriniz hakkında editör geri bildirimleri</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailEditorFeedback" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsEditorFeedback">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appEditorFeedback" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-journal-check text-primary me-2"></i>
+                                                            <div>
+                                                                <strong>Makale Son Kararı</strong>
+                                                                <div class="text-muted small">Değerlendirdiğiniz makalelerin kabul/red kararları</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailFinalDecision" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsFinalDecision">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appFinalDecision" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-award text-warning me-2"></i>
+                                                            <div>
+                                                                <strong>Teşekkür ve Sertifikalar</strong>
+                                                                <div class="text-muted small">Değerlendirme teşekkürleri ve sertifikaları</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailCertificates" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsCertificates">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appCertificates" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-megaphone text-danger me-2"></i>
+                                                            <div>
+                                                                <strong>Genel Duyurular</strong>
+                                                                <div class="text-muted small">Sistem güncellemeleri ve duyurular</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="emailAnnouncements" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="smsAnnouncements">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <input class="form-check-input" type="checkbox" id="appAnnouncements" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <!-- E-posta Bildirim Sıklığı -->
+                                    <div class="mt-4">
+                                        <h6 class="card-subtitle mb-3">E-posta Bildirimi Sıklığı</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="emailFrequency" id="emailImmediate" checked>
+                                                    <label class="form-check-label" for="emailImmediate">
+                                                        <strong>Anlık Bildirim</strong>
+                                                        <div class="text-muted small">Her etkinlik gerçekleştiğinde hemen bildirim al</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="emailFrequency" id="emailDaily">
+                                                    <label class="form-check-label" for="emailDaily">
+                                                        <strong>Günlük Özet</strong>
+                                                        <div class="text-muted small">Günün tüm bildirimleri için bir e-posta al</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="emailFrequency" id="emailWeekly">
+                                                    <label class="form-check-label" for="emailWeekly">
+                                                        <strong>Haftalık Özet</strong>
+                                                        <div class="text-muted small">Haftanın tüm bildirimleri için bir e-posta al</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button type="button" class="btn btn-outline-secondary me-2">İptal</button>
+                                        <button type="button" class="btn btn-primary" id="saveNotificationBtn">Bildirimleri Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Gizlilik ve Görünürlük Bölümü -->
+                        <div id="privacy-section" class="settings-section">
+                            <div class="card settings-card">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="bi bi-eye me-2"></i>Gizlilik ve Görünürlük</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted">Profilinizin görünürlüğünü ve kişisel bilgilerinizin diğer kullanıcılara nasıl gösterildiğini kontrol edin.</p>
+                                    
+                                    <!-- Profil Görünürlüğü -->
+                                    <h6 class="card-subtitle mb-3">Profil Görünürlüğü</h6>
+                                    <div class="mb-4">
+                                        <div class="list-group">
+                                            <label class="list-group-item d-flex gap-3">
+                                                <input class="form-check-input flex-shrink-0" type="radio" name="profileVisibility" id="visibilityPublic" checked>
+                                                <div>
+                                                    <strong>Herkese Açık</strong>
+                                                    <div class="text-muted small">Profiliniz dergide yer alan herkes tarafından görülebilir</div>
+                                                </div>
+                                            </label>
+                                            <label class="list-group-item d-flex gap-3">
+                                                <input class="form-check-input flex-shrink-0" type="radio" name="profileVisibility" id="visibilityEditors">
+                                                <div>
+                                                    <strong>Yalnızca Editörler</strong>
+                                                    <div class="text-muted small">Profiliniz sadece dergi editörleri tarafından görülebilir</div>
+                                                </div>
+                                            </label>
+                                            <label class="list-group-item d-flex gap-3">
+                                                <input class="form-check-input flex-shrink-0" type="radio" name="profileVisibility" id="visibilityPrivate">
+                                                <div>
+                                                    <strong>Gizli</strong>
+                                                    <div class="text-muted small">Profiliniz sadece sizin ve sistem yöneticilerinin erişimine açıktır</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- İletişim Bilgisi Görünürlüğü -->
+                                    <h6 class="card-subtitle mb-3">İletişim Bilgisi Görünürlüğü</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table class="table">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Bilgi</th>
+                                                    <th class="text-center">Herkese Açık</th>
+                                                    <th class="text-center">Sadece Editörler</th>
+                                                    <th class="text-center">Gizli</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>E-posta Adresi</td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="emailVisibility" id="emailPublic">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="emailVisibility" id="emailEditors" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="emailVisibility" id="emailPrivate">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Telefon Numarası</td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="phoneVisibility" id="phonePublic">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="phoneVisibility" id="phoneEditors">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="phoneVisibility" id="phonePrivate" checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kurum ve Bölüm</td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="institutionVisibility" id="institutionPublic" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="institutionVisibility" id="institutionEditors">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="institutionVisibility" id="institutionPrivate">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ORCID ve Akademik Profiller</td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="academicProfilesVisibility" id="academicProfilesPublic" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="academicProfilesVisibility" id="academicProfilesEditors">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="academicProfilesVisibility" id="academicProfilesPrivate">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kişisel Web Sitesi</td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="websiteVisibility" id="websitePublic" checked>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="websiteVisibility" id="websiteEditors">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check d-flex justify-content-center">
+                                                            <input class="form-check-input" type="radio" name="websiteVisibility" id="websitePrivate">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <!-- Değerlendirme Aktivitesi Görünürlüğü -->
+                                    <h6 class="card-subtitle mb-3">Değerlendirme Aktivitesi Görünürlüğü</h6>
+                                    <div class="mb-4">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="showReviewCount" checked>
+                                            <label class="form-check-label" for="showReviewCount">
+                                                <strong>Toplam Değerlendirme Sayımı Göster</strong>
+                                                <div class="text-muted small">Kaç makale değerlendirdiğinizi profilinizde gösterir</div>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="showReviewedJournals" checked>
+                                            <label class="form-check-label" for="showReviewedJournals">
+                                                <strong>Değerlendirme Yaptığım Dergileri Göster</strong>
+                                                <div class="text-muted small">Hangi dergilerde hakemlik yaptığınızı gösterir (makale başlıkları gösterilmez)</div>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="showReviewTimeline">
+                                            <label class="form-check-label" for="showReviewTimeline">
+                                                <strong>Değerlendirme Zaman Çizelgemi Göster</strong>
+                                                <div class="text-muted small">Değerlendirme aktivitelerinizin zaman çizelgesini gösterir</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Çerez Tercihleri -->
+                                    <h6 class="card-subtitle mb-3">Çerez Tercihleri</h6>
+                                    <div class="mb-4">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="essentialCookies" checked disabled>
+                                            <label class="form-check-label" for="essentialCookies">
+                                                <strong>Gerekli Çerezler</strong>
+                                                <div class="text-muted small">Sistemin temel işlevleri için gereklidir, devre dışı bırakılamaz</div>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="preferenceCookies" checked>
+                                            <label class="form-check-label" for="preferenceCookies">
+                                                <strong>Tercih Çerezleri</strong>
+                                                <div class="text-muted small">Dil ve diğer tercihlerinizi hatırlamak için kullanılır</div>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="analyticsCookies" checked>
+                                            <label class="form-check-label" for="analyticsCookies">
+                                                <strong>Analitik Çerezler</strong>
+                                                <div class="text-muted small">Site kullanımını analiz etmek için kullanılır</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button type="button" class="btn btn-outline-secondary me-2">İptal</button>
+                                        <button type="button" class="btn btn-primary" id="savePrivacyBtn">Gizlilik Ayarlarını Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<!-- Değerlendirme Şablonları Bölümü - Hakem Ayarlar Sayfasına Entegre Edilecek -->
+<div id="templates-section" class="settings-section">
+    <div class="card settings-card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-file-text me-2"></i>Değerlendirme Şablonları</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#newTemplateModal">
+                <i class="bi bi-plus-circle me-1"></i> Yeni Şablon Ekle
+            </button>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">Değerlendirme süreçlerinde kullanmak üzere kişisel şablonlarınızı oluşturun ve yönetin. Bu şablonlar, makale değerlendirme formunda "Şablon Ekle" seçeneği ile kullanılabilir.</p>
+            
+            <!-- Şablon Kategorileri -->
+            <ul class="nav nav-tabs mb-3" id="templateTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-templates-tab" data-bs-toggle="tab" data-bs-target="#all-templates" type="button" role="tab">
+                        Tüm Şablonlar <span class="badge bg-secondary ms-1">6</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="methodology-templates-tab" data-bs-toggle="tab" data-bs-target="#methodology-templates" type="button" role="tab">
+                        Metodoloji <span class="badge bg-secondary ms-1">2</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="literature-templates-tab" data-bs-toggle="tab" data-bs-target="#literature-templates" type="button" role="tab">
+                        Literatür <span class="badge bg-secondary ms-1">1</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="structure-templates-tab" data-bs-toggle="tab" data-bs-target="#structure-templates" type="button" role="tab">
+                        Yapı <span class="badge bg-secondary ms-1">1</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="feedback-templates-tab" data-bs-toggle="tab" data-bs-target="#feedback-templates" type="button" role="tab">
+                        Geri Bildirim <span class="badge bg-secondary ms-1">2</span>
+                    </button>
+                </li>
+            </ul>
+            
+            <!-- Şablon İçerikleri -->
+            <div class="tab-content" id="templateTabsContent">
+                <!-- Tüm Şablonlar -->
+                <div class="tab-pane fade show active" id="all-templates" role="tabpanel">
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
+                        <!-- Metodoloji Eleştirisi Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-primary-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Metodoloji Eleştirisi</h6>
+                                    <span class="badge bg-primary">Metodoloji</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makale metodolojisinde bazı iyileştirmeler yapılmalıdır:</p>
+                                    <ol class="small">
+                                        <li>Örneklem seçimi ve büyüklüğü daha net açıklanmalıdır.</li>
+                                        <li>Kullanılan veri toplama araçlarının geçerlilik ve güvenilirliklerine dair bilgiler eklenmelidir.</li>
+                                        <li>Veri analiz yöntemleri seçimi için gerekçeler sunulmalıdır.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 01.03.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editTemplateModal">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Örneklem Seçimi Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-primary-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Örneklem Seçimi Eleştirisi</h6>
+                                    <span class="badge bg-primary">Metodoloji</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Çalışmanın örneklem seçiminde bazı sorunlar bulunmaktadır:</p>
+                                    <ol class="small">
+                                        <li>Örneklem büyüklüğünün nasıl belirlendiği açıklanmamıştır.</li>
+                                        <li>Örneklemin temsil gücü tartışılmamıştır.</li>
+                                        <li>Olası yanlılıkları azaltmak için alınan önlemler belirtilmemiştir.</li>
+                                        <li>Demografik dağılım detayları eksiktir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 27.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editTemplateModal">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Literatür Taraması Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-info-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Literatür Taraması Eleştirisi</h6>
+                                    <span class="badge bg-info">Literatür</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Literatür taraması şu yönlerden genişletilebilir:</p>
+                                    <ol class="small">
+                                        <li>Son 3-5 yıldaki güncel çalışmalar dahil edilmelidir.</li>
+                                        <li>Konuya farklı bakış açıları sunan çalışmalar eklenmelidir.</li>
+                                        <li>Uluslararası literatürden daha fazla kaynak eklenmelidir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 25.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editTemplateModal">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Makale Yapısı Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-warning-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Makale Yapısı İyileştirme</h6>
+                                    <span class="badge bg-warning text-dark">Yapı</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makalenin yapısal organizasyonu şu şekilde iyileştirilebilir:</p>
+                                    <ol class="small">
+                                        <li>Giriş bölümü araştırma sorusunu daha net ortaya koymalıdır.</li>
+                                        <li>Bulgular bölümü alt başlıklar halinde düzenlenerek daha anlaşılır hale getirilebilir.</li>
+                                        <li>Tartışma bölümünde literatürle ilişkilendirme güçlendirilmelidir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 20.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editTemplateModal">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Olumlu Değerlendirme Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-success-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Olumlu Değerlendirme</h6>
+                                    <span class="badge bg-success">Geri Bildirim</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makale genel olarak iyi hazırlanmış ve alan yazına değerli katkılar sunmaktadır. Özellikle aşağıdaki yönleri takdir edilmelidir:</p>
+                                    <ol class="small">
+                                        <li>Güncel ve önemli bir konuyu ele alması</li>
+                                        <li>Metodolojinin titizlikle uygulanması</li>
+                                        <li>Bulguların açık ve anlaşılır bir şekilde sunulması</li>
+                                        <li>Tartışma bölümünün kapsamlı ve derinlemesine olması</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 02.03.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editTemplateModal">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Revizyon Talebi Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-success-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Revizyon Talebi</h6>
+                                    <span class="badge bg-success">Geri Bildirim</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makale potansiyel olarak değerli katkılar sunmaktadır, ancak yayınlanmadan önce aşağıdaki revizyonların yapılması gerekmektedir:</p>
+                                    <ol class="small">
+                                        <li>Metodoloji bölümünde veri toplama ve analiz süreci daha detaylı açıklanmalıdır.</li>
+                                        <li>Bulgular bölümünde tablo ve şekiller daha net sunulmalıdır.</li>
+                                        <li>Tartışma bölümünde çalışmanın kısıtlılıkları daha açık bir şekilde belirtilmelidir.</li>
+                                        <li>Sonuç bölümünde pratik uygulamalara yönelik öneriler eklenmelidir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 28.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editTemplateModal">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metodoloji Şablonları -->
+                <div class="tab-pane fade" id="methodology-templates" role="tabpanel">
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
+                        <!-- Metodoloji Eleştirisi Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-primary-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Metodoloji Eleştirisi</h6>
+                                    <span class="badge bg-primary">Metodoloji</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makale metodolojisinde bazı iyileştirmeler yapılmalıdır:</p>
+                                    <ol class="small">
+                                        <li>Örneklem seçimi ve büyüklüğü daha net açıklanmalıdır.</li>
+                                        <li>Kullanılan veri toplama araçlarının geçerlilik ve güvenilirliklerine dair bilgiler eklenmelidir.</li>
+                                        <li>Veri analiz yöntemleri seçimi için gerekçeler sunulmalıdır.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 01.03.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Örneklem Seçimi Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-primary-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Örneklem Seçimi Eleştirisi</h6>
+                                    <span class="badge bg-primary">Metodoloji</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Çalışmanın örneklem seçiminde bazı sorunlar bulunmaktadır:</p>
+                                    <ol class="small">
+                                        <li>Örneklem büyüklüğünün nasıl belirlendiği açıklanmamıştır.</li>
+                                        <li>Örneklemin temsil gücü tartışılmamıştır.</li>
+                                        <li>Olası yanlılıkları azaltmak için alınan önlemler belirtilmemiştir.</li>
+                                        <li>Demografik dağılım detayları eksiktir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 27.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Literatür Şablonları -->
+                <div class="tab-pane fade" id="literature-templates" role="tabpanel">
+                    <div class="row">
+                        <!-- Literatür Taraması Şablonu -->
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-info-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Literatür Taraması Eleştirisi</h6>
+                                    <span class="badge bg-info">Literatür</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Literatür taraması şu yönlerden genişletilebilir:</p>
+                                    <ol class="small">
+                                        <li>Son 3-5 yıldaki güncel çalışmalar dahil edilmelidir.</li>
+                                        <li>Konuya farklı bakış açıları sunan çalışmalar eklenmelidir.</li>
+                                        <li>Uluslararası literatürden daha fazla kaynak eklenmelidir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 25.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yapı Şablonları -->
+                <div class="tab-pane fade" id="structure-templates" role="tabpanel">
+                    <div class="row">
+                        <!-- Makale Yapısı Şablonu -->
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-warning-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Makale Yapısı İyileştirme</h6>
+                                    <span class="badge bg-warning text-dark">Yapı</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makalenin yapısal organizasyonu şu şekilde iyileştirilebilir:</p>
+                                    <ol class="small">
+                                        <li>Giriş bölümü araştırma sorusunu daha net ortaya koymalıdır.</li>
+                                        <li>Bulgular bölümü alt başlıklar halinde düzenlenerek daha anlaşılır hale getirilebilir.</li>
+                                        <li>Tartışma bölümünde literatürle ilişkilendirme güçlendirilmelidir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 20.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Geri Bildirim Şablonları -->
+                <div class="tab-pane fade" id="feedback-templates" role="tabpanel">
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
+                        <!-- Olumlu Değerlendirme Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-success-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Olumlu Değerlendirme</h6>
+                                    <span class="badge bg-success">Geri Bildirim</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makale genel olarak iyi hazırlanmış ve alan yazına değerli katkılar sunmaktadır. Özellikle aşağıdaki yönleri takdir edilmelidir:</p>
+                                    <ol class="small">
+                                        <li>Güncel ve önemli bir konuyu ele alması</li>
+                                        <li>Metodolojinin titizlikle uygulanması</li>
+                                        <li>Bulguların açık ve anlaşılır bir şekilde sunulması</li>
+                                        <li>Tartışma bölümünün kapsamlı ve derinlemesine olması</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 02.03.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Revizyon Talebi Şablonu -->
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header bg-success-light d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">Revizyon Talebi</h6>
+                                    <span class="badge bg-success">Geri Bildirim</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text small">Makale potansiyel olarak değerli katkılar sunmaktadır, ancak yayınlanmadan önce aşağıdaki revizyonların yapılması gerekmektedir:</p>
+                                    <ol class="small">
+                                        <li>Metodoloji bölümünde veri toplama ve analiz süreci daha detaylı açıklanmalıdır.</li>
+                                        <li>Bulgular bölümünde tablo ve şekiller daha net sunulmalıdır.</li>
+                                        <li>Tartışma bölümünde çalışmanın kısıtlılıkları daha açık bir şekilde belirtilmelidir.</li>
+                                        <li>Sonuç bölümünde pratik uygulamalara yönelik öneriler eklenmelidir.</li>
+                                    </ol>
+                                </div>
+                                <div class="card-footer bg-transparent d-flex justify-content-between">
+                                    <small class="text-muted">Son Kullanım: 28.02.2025</small>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger template-delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Şablon Yönetimi Araçları -->
+            <div class="mt-4 p-3 bg-light rounded">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-sliders me-2"></i>Şablon Yönetimi</h6>
+                        <div class="d-flex gap-2 mt-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="exportTemplatesBtn">
+                                <i class="bi bi-download me-1"></i> Dışa Aktar
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="importTemplatesBtn">
+                                <i class="bi bi-upload me-1"></i> İçe Aktar
+                            </button>
+                            <input type="file" id="importTemplatesInput" accept=".json" style="display: none;">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="resetTemplatesBtn">
+                                <i class="bi bi-arrow-repeat me-1"></i> Varsayılana Sıfırla
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-info-circle me-2"></i>İpuçları</h6>
+                        <ul class="small text-muted mb-0">
+                            <li>Şablonlarınız makale değerlendirme formunda "Şablon Ekle" butonu ile kullanılabilir.</li>
+                            <li>Şablonlarınızı kategorilere ayırarak organize edebilirsiniz.</li>
+                            <li>Sık kullandığınız eleştiri ve geri bildirim metinlerini şablon olarak kaydedebilirsiniz.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yeni Şablon Ekleme Modalı -->
+<div class="modal fade" id="newTemplateModal" tabindex="-1" aria-labelledby="newTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="newTemplateModalLabel">Yeni Değerlendirme Şablonu Ekle</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newTemplateForm">
+                    <div class="mb-3">
+                        <label for="templateTitle" class="form-label">Şablon Başlığı <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="templateTitle" placeholder="Şablon için açıklayıcı bir başlık yazın" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="templateCategory" class="form-label">Kategori <span class="text-danger">*</span></label>
+                        <select class="form-select" id="templateCategory" required>
+                            <option value="" selected disabled>Kategori seçin</option>
+                            <option value="methodology">Metodoloji</option>
+                            <option value="literature">Literatür</option>
+                            <option value="structure">Yapı</option>
+                            <option value="feedback">Geri Bildirim</option>
+                            <option value="other">Diğer</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="templateContent" class="form-label">Şablon İçeriği <span class="text-danger">*</span></label>
+                        <div class="form-text text-muted mb-2">
+                            Değerlendirme formunda gösterilecek metni yazın. Liste içeren metinler için 
+                            madde işaretlerini (<code>&lt;li&gt;</code>) veya numaralandırmayı kullanabilirsiniz.
+                        </div>
+                        <textarea class="form-control" id="templateContent" rows="8" placeholder="Şablon içeriğini buraya yazın..." required></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label d-block">Şablon Formatı</label>
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="templateFormat" id="formatPlain" value="plain" checked>
+                                <label class="btn btn-outline-secondary" for="formatPlain">Düz Metin</label>
+                                
+                                <input type="radio" class="btn-check" name="templateFormat" id="formatBullet" value="bullet">
+                                <label class="btn btn-outline-secondary" for="formatBullet">Madde İşaretli</label>
+                                
+                                <input type="radio" class="btn-check" name="templateFormat" id="formatNumbered" value="numbered">
+                                <label class="btn btn-outline-secondary" for="formatNumbered">Numaralı Liste</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="templateTags" class="form-label">Etiketler (İsteğe Bağlı)</label>
+                            <input type="text" class="form-control" id="templateTags" placeholder="Virgülle ayırarak etiketler ekleyin (ör: YZ, eğitim)">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveNewTemplateBtn">Şablonu Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Şablon Düzenleme Modalı -->
+<div class="modal fade" id="editTemplateModal" tabindex="-1" aria-labelledby="editTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editTemplateModalLabel">Değerlendirme Şablonunu Düzenle</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editTemplateForm">
+                    <div class="mb-3">
+                        <label for="editTemplateTitle" class="form-label">Şablon Başlığı <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editTemplateTitle" value="Metodoloji Eleştirisi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTemplateCategory" class="form-label">Kategori <span class="text-danger">*</span></label>
+                        <select class="form-select" id="editTemplateCategory" required>
+                            <option value="methodology" selected>Metodoloji</option>
+                            <option value="literature">Literatür</option>
+                            <option value="structure">Yapı</option>
+                            <option value="feedback">Geri Bildirim</option>
+                            <option value="other">Diğer</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTemplateContent" class="form-label">Şablon İçeriği <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="editTemplateContent" rows="8" required>Makale metodolojisinde bazı iyileştirmeler yapılmalıdır:
+
+1. Örneklem seçimi ve büyüklüğü daha net açıklanmalıdır.
+2. Kullanılan veri toplama araçlarının geçerlilik ve güvenilirliklerine dair bilgiler eklenmelidir.
+3. Veri analiz yöntemleri seçimi için gerekçeler sunulmalıdır.</textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label d-block">Şablon Formatı</label>
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="editTemplateFormat" id="editFormatPlain" value="plain">
+                                <label class="btn btn-outline-secondary" for="editFormatPlain">Düz Metin</label>
+                                
+                                <input type="radio" class="btn-check" name="editTemplateFormat" id="editFormatBullet" value="bullet">
+                                <label class="btn btn-outline-secondary" for="editFormatBullet">Madde İşaretli</label>
+                                
+                                <input type="radio" class="btn-check" name="editTemplateFormat" id="editFormatNumbered" value="numbered" checked>
+                                <label class="btn btn-outline-secondary" for="editFormatNumbered">Numaralı Liste</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editTemplateTags" class="form-label">Etiketler</label>
+                            <input type="text" class="form-control" id="editTemplateTags" value="metodoloji, yöntem, örneklem">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="updateTemplateBtn">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Şablon Silme Onay Modalı -->
+<div class="modal fade" id="deleteTemplateModal" tabindex="-1" aria-labelledby="deleteTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteTemplateModalLabel">Şablonu Sil</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu şablonu silmek istediğinizden emin misiniz?</p>
+                <p class="fw-bold" id="deleteTemplateName">Metodoloji Eleştirisi</p>
+                <p>Bu işlem geri alınamaz.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteTemplateBtn">Şablonu Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Şablon Önizleme Modalı -->
+<div class="modal fade" id="previewTemplateModal" tabindex="-1" aria-labelledby="previewTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="previewTemplateModalLabel">Şablon Önizleme</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-header d-flex justify-content-between mb-3">
+                    <div>
+                        <h5 id="previewTemplateTitle">Metodoloji Eleştirisi</h5>
+                        <div>
+                            <span class="badge bg-primary me-1">Metodoloji</span>
+                            <span class="badge bg-secondary me-1">metodoloji</span>
+                            <span class="badge bg-secondary me-1">yöntem</span>
+                            <span class="badge bg-secondary">örneklem</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge bg-info text-white fs-6">Önizleme</span>
+                    </div>
+                </div>
+                <div class="preview-content p-3 border rounded" id="previewTemplateContent">
+                    <p>Makale metodolojisinde bazı iyileştirmeler yapılmalıdır:</p>
+                    <ol>
+                        <li>Örneklem seçimi ve büyüklüğü daha net açıklanmalıdır.</li>
+                        <li>Kullanılan veri toplama araçlarının geçerlilik ve güvenilirliklerine dair bilgiler eklenmelidir.</li>
+                        <li>Veri analiz yöntemleri seçimi için gerekçeler sunulmalıdır.</li>
+                    </ol>
+                </div>
+                <div class="mt-3">
+                    <p class="text-muted small">Bu şablon değerlendirme formundaki "Yazara Yorumlar" bölümüne eklenecektir.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="useTemplateBtn">Bu Şablonu Kullan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Şablon Kategori Yönetimi Modalı -->
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="categoryModalLabel">Şablon Kategorisi Ekle/Düzenle</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Kategori Adı</label>
+                    <input type="text" class="form-control" id="categoryName" placeholder="Yeni kategori adı">
+                </div>
+                <div class="mb-3">
+                    <label for="categoryColor" class="form-label">Kategori Rengi</label>
+                    <select class="form-select" id="categoryColor">
+                        <option value="primary">Mavi</option>
+                        <option value="success">Yeşil</option>
+                        <option value="info">Açık Mavi</option>
+                        <option value="warning">Sarı</option>
+                        <option value="danger">Kırmızı</option>
+                        <option value="secondary">Gri</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mevcut Kategoriler</label>
+                    <div class="list-group">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-primary me-2">Metodoloji</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-info me-2">Literatür</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-warning text-dark me-2">Yapı</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-success me-2">Geri Bildirim</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveCategoryBtn">Kategoriyi Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+						
+						
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Hesap Silme Onay Modalı -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteAccountModalLabel">Hesap Kapatma Onayı</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+                    <h5 class="mt-3">Bu işlem geri alınamaz!</h5>
+                </div>
+                <p>Hesabınızı kapatmak üzeresiniz. Bu işlem sonucunda:</p>
+                <ul>
+                    <li>Tüm kişisel bilgileriniz sistemden silinecek</li>
+                    <li>Tamamlanmamış değerlendirmeleriniz iptal edilecek</li>
+                    <li>Sistem üzerindeki tüm erişim haklarınız sonlandırılacak</li>
+                </ul>
+                <p>Devam etmek istediğinizden emin misiniz?</p>
+                <div class="alert alert-warning">
+                    <div class="d-flex">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <div>Devam eden değerlendirmeleriniz var. Hesabınızı kapatmadan önce bu değerlendirmeleri tamamlamanız veya reddetmeniz önerilir.</div>
+                    </div>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                    <label class="form-check-label" for="confirmDelete">
+                        Hesabımı kalıcı olarak kapatmak istediğimi onaylıyorum.
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="deleteReason" class="form-label">Hesabı kapatma nedeniniz (opsiyonel):</label>
+                    <select class="form-select mb-2" id="deleteReason">
+                        <option value="" selected>Bir neden seçin</option>
+                        <option value="time">Zaman kısıtı</option>
+                        <option value="interest">İlgi alanı değişikliği</option>
+                        <option value="personal">Kişisel nedenler</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                    <textarea class="form-control" id="deleteReasonDetail" rows="2" placeholder="Detaylı açıklama (opsiyonel)"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="currentPasswordConfirm" class="form-label">Onaylamak için şifrenizi girin:</label>
+                    <input type="password" class="form-control" id="currentPasswordConfirm" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteAccount" disabled>Hesabımı Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<!-- Bootstrap Bundle with Popper -->
+
+
+<!-- Ayarlar Sayfası JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sekme elementlerini seçelim
+    const sections = document.querySelectorAll('.settings-section');
+    const mobileNavButtons = document.querySelectorAll('#mobileSettingsNav button');
+    const desktopNavLinks = document.querySelectorAll('#desktopSettingsNav a');
+    
+    // Tüm sekmeleri önce gizleyelim (CSS'e güvenmeden)
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // İlk sekmeyi varsayılan olarak gösterelim
+    const defaultSection = document.getElementById('profile-section');
+    if (defaultSection) {
+        defaultSection.style.display = 'block';
+        defaultSection.classList.add('active');
+    }
+    
+    // Sekme değiştirme fonksiyonu
+    function switchTab(sectionId) {
+        // Tüm sekmeleri gizle
+        sections.forEach(section => {
+            section.style.display = 'none';
+            section.classList.remove('active');
+        });
+        
+        // Seçilen sekmeyi göster
+        const activeSection = document.getElementById(sectionId);
+        if (activeSection) {
+            activeSection.style.display = 'block';
+            activeSection.classList.add('active');
+            
+            // URL'e sekme bilgisini ekle (opsiyonel)
+            history.replaceState(null, null, `#${sectionId}`);
+        }
+        
+        // Mobil navigasyonu güncelle
+        mobileNavButtons.forEach(btn => {
+            if (btn.getAttribute('data-section') === sectionId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        // Masaüstü navigasyonu güncelle
+        desktopNavLinks.forEach(link => {
+            if (link.getAttribute('data-section') === sectionId) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+    
+    // Mobil navigasyon için tıklama olayları
+    mobileNavButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const sectionId = this.getAttribute('data-section');
+            switchTab(sectionId);
+        });
+    });
+    
+    // Masaüstü navigasyon için tıklama olayları
+    desktopNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const sectionId = this.getAttribute('data-section');
+            switchTab(sectionId);
+        });
+    });
+    
+    // URL'de # varsa ona göre sekme göster
+    if (location.hash) {
+        const sectionId = location.hash.substring(1);
+        const section = document.getElementById(sectionId);
+        if (section && section.classList.contains('settings-section')) {
+            switchTab(sectionId);
+        }
+    }
+    
+    // Şifre göster/gizle düğmeleri
+    const toggleButtons = document.querySelectorAll('.toggle-password');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+    });
+    
+    // İki adımlı doğrulama
+    const twoFactorToggle = document.getElementById('two-factor-auth');
+    const twoFactorSetup = document.getElementById('two-factor-setup');
+    
+    if (twoFactorToggle && twoFactorSetup) {
+        twoFactorToggle.addEventListener('change', function() {
+            twoFactorSetup.style.display = this.checked ? 'block' : 'none';
+        });
+    }
+    
+    // Profil resmi değiştirme işlevleri
+    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+    const profileImageInput = document.getElementById('profileImageInput');
+    const profileImagePreview = document.getElementById('profileImagePreview');
+    
+    if (changeAvatarBtn && profileImageInput && profileImagePreview) {
+        changeAvatarBtn.addEventListener('click', function() {
+            profileImageInput.click();
+        });
+        
+        profileImageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImagePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        
+        // Profil fotoğrafını kaldırma
+        const removeAvatarBtn = document.getElementById('removeAvatarBtn');
+        if (removeAvatarBtn) {
+            removeAvatarBtn.addEventListener('click', function() {
+                profileImagePreview.src = 'assets/images/default-avatar.png';
+                profileImageInput.value = '';
+            });
+        }
+    }
+    
+    // Şifre gücü kontrolü
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const passwordStrength = document.getElementById('passwordStrength');
+    
+    if (newPassword && passwordStrength) {
+        newPassword.addEventListener('input', function() {
+            const value = this.value;
+            let strength = 0;
+            
+            if (value.length >= 8) strength += 1;
+            if (/[A-Z]/.test(value)) strength += 1;
+            if (/[a-z]/.test(value)) strength += 1;
+            if (/[0-9]/.test(value)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(value)) strength += 1;
+            
+            const percentage = (strength / 5) * 100;
+            passwordStrength.style.width = percentage + '%';
+            
+            if (percentage <= 25) {
+                passwordStrength.className = 'progress-bar bg-danger';
+            } else if (percentage <= 50) {
+                passwordStrength.className = 'progress-bar bg-warning';
+            } else if (percentage <= 75) {
+                passwordStrength.className = 'progress-bar bg-info';
+            } else {
+                passwordStrength.className = 'progress-bar bg-success';
+            }
+            
+            // Şifre eşleşme kontrolü
+            if (confirmPassword && confirmPassword.value) {
+                checkPasswordMatch();
+            }
+        });
+    }
+    
+    // Şifre eşleşme kontrolü
+    function checkPasswordMatch() {
+        if (newPassword && confirmPassword) {
+            if (newPassword.value === confirmPassword.value) {
+                confirmPassword.classList.remove('is-invalid');
+                confirmPassword.classList.add('is-valid');
+            } else {
+                confirmPassword.classList.remove('is-valid');
+                confirmPassword.classList.add('is-invalid');
+            }
+        }
+    }
+    
+    if (confirmPassword) {
+        confirmPassword.addEventListener('input', checkPasswordMatch);
+    }
+    
+    // Şifre formunu gönderme
+    const passwordForm = document.getElementById('passwordForm');
+    if (passwordForm) {
+        passwordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword');
+            if (!currentPassword || !currentPassword.value || 
+                !newPassword || !newPassword.value || 
+                !confirmPassword || !confirmPassword.value) {
+                alert('Lütfen tüm şifre alanlarını doldurun.');
+                return;
+            }
+            
+            if (newPassword.value !== confirmPassword.value) {
+                alert('Yeni şifreler eşleşmiyor.');
+                return;
+            }
+            
+            // Başarılı şifre değişikliği simülasyonu
+            alert('Şifreniz başarıyla değiştirildi.');
+            this.reset();
+            if (passwordStrength) {
+                passwordStrength.style.width = '0%';
+                passwordStrength.className = 'progress-bar bg-danger';
+            }
+            confirmPassword.classList.remove('is-valid');
+        });
+    }
+    
+    // Profil formunu gönderme
+    const profileForm = document.getElementById('profileForm');
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Profil bilgileriniz başarıyla güncellendi.');
+        });
+    }
+    
+    // Tag input işlevselliği
+    const tagContainer = document.querySelector('.tag-input-container');
+    const tagInput = document.querySelector('.tag-input');
+    
+    if (tagContainer && tagInput) {
+        tagInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                e.preventDefault();
+                createTag(this.value.trim());
+                this.value = '';
+            }
+        });
+        
+        // Var olan etiketlere tıklama olayları
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('tag-close')) {
+                e.target.parentElement.remove();
+            }
+        });
+    }
+    
+    // Yeni etiket oluştur
+    function createTag(label) {
+        if (!tagContainer) return;
+        
+        const tag = document.createElement('div');
+        tag.className = 'tag';
+        tag.innerHTML = label + '<span class="tag-close">&times;</span>';
+        tagContainer.insertBefore(tag, tagInput);
+    }
+    
+    // Hesap kapatma modalı
+    const confirmDeleteCheck = document.getElementById('confirmDelete');
+    const confirmDeleteButton = document.getElementById('confirmDeleteAccount');
+    
+    if (confirmDeleteCheck && confirmDeleteButton) {
+        confirmDeleteCheck.addEventListener('change', function() {
+            confirmDeleteButton.disabled = !this.checked;
+        });
+        
+        confirmDeleteButton.addEventListener('click', function() {
+            const passwordInput = document.getElementById('currentPasswordConfirm');
+            if (!passwordInput || !passwordInput.value) {
+                alert('Lütfen şifrenizi girin.');
+                return;
+            }
+            
+            // Hesap silme simülasyonu
+            alert('Hesabınız kapatılmıştır. Sistem sizi çıkış sayfasına yönlendirecek.');
+            window.location.href = 'login.html';
+        });
+    }
+    
+    // Uzmanlık alanlarını kaydetme
+    const saveExpertiseBtn = document.getElementById('saveExpertiseBtn');
+    if (saveExpertiseBtn) {
+        saveExpertiseBtn.addEventListener('click', function() {
+            alert('Uzmanlık alanlarınız ve değerlendirme tercihleriniz başarıyla kaydedildi.');
+        });
+    }
+    
+    // Bildirim ayarlarını kaydetme
+    const saveNotificationBtn = document.getElementById('saveNotificationBtn');
+    if (saveNotificationBtn) {
+        saveNotificationBtn.addEventListener('click', function() {
+            alert('Bildirim ayarlarınız başarıyla kaydedildi.');
+        });
+    }
+    
+    // Gizlilik ayarlarını kaydetme
+    const savePrivacyBtn = document.getElementById('savePrivacyBtn');
+    if (savePrivacyBtn) {
+        savePrivacyBtn.addEventListener('click', function() {
+            alert('Gizlilik ve görünürlük ayarlarınız başarıyla kaydedildi.');
+        });
+    }
+    
+    // Oturum sonlandırma
+    const logoutAllBtn = document.getElementById('logoutAllBtn');
+    if (logoutAllBtn) {
+        logoutAllBtn.addEventListener('click', function() {
+            if (confirm('Tüm aktif oturumlarınız sonlandırılacak. Devam etmek istiyor musunuz?')) {
+                alert('Tüm oturumlarınız sonlandırılmıştır. Tekrar giriş yapmanız gerekecek.');
+                window.location.href = 'login.html';
+            }
+        });
+    }
+    
+    // İki faktörlü doğrulama kurulumu
+    const setupTwoFactorBtn = document.getElementById('setupTwoFactorBtn');
+    if (setupTwoFactorBtn) {
+        setupTwoFactorBtn.addEventListener('click', function() {
+            // Doğrulama kodu gönderme simülasyonu
+            const verificationCode = Math.floor(100000 + Math.random() * 900000); // 6 haneli rastgele kod
+            const phoneInput = document.getElementById('phoneForAuth');
+            const twoFactorSetup = document.getElementById('two-factor-setup');
+            
+            if (!phoneInput || !twoFactorSetup) return;
+            
+            // Varsa önceki doğrulama alanını kaldır
+            const existingVerification = document.getElementById('verification-input-group');
+            if (existingVerification) {
+                existingVerification.remove();
+            }
+            
+            // Yeni doğrulama alanı oluştur
+            const verificationDiv = document.createElement('div');
+            verificationDiv.id = 'verification-input-group';
+            verificationDiv.className = 'mt-3';
+            verificationDiv.innerHTML = `
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <span>Doğrulama kodu ${phoneInput.value} numaralı telefona gönderildi.</span>
+                </div>
+                <div class="mb-3">
+                    <label for="verificationCode" class="form-label">Doğrulama Kodunu Girin</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="verificationCode" placeholder="6 haneli kodu girin">
+                        <button class="btn btn-primary" id="verifyCodeBtn">Doğrula</button>
+                    </div>
+                    <div class="form-text">Gerçek kod: ${verificationCode} (Demo amaçlı gösterilmektedir)</div>
+                </div>
+            `;
+            
+            twoFactorSetup.appendChild(verificationDiv);
+            
+            // Doğrulama butonuna tıklama işlevi
+            document.getElementById('verifyCodeBtn').addEventListener('click', function() {
+                const enteredCode = document.getElementById('verificationCode').value;
+                if (enteredCode == verificationCode) {
+                    alert('İki adımlı doğrulama başarıyla etkinleştirildi!');
+                    document.getElementById('two-factor-auth').checked = true;
+                } else {
+                    alert('Hatalı doğrulama kodu. Lütfen tekrar deneyin.');
+                }
+            });
+        });
+    }
+});
+    </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="X Akademi - Eğitim ve Öğrenim Platformu Giriş Sayfası">
+    <meta property="og:title" content="X Akademi Giriş">
+    <meta property="og:description" content="X Akademi eğitim platformuna giriş yapın">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="X Akademi Giriş">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Sitesi Kayıt</title>
+    
+    <!-- External CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="kayit.css">
+    
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-graduation-cap me-2 text-primary"></i>
+                <span>X Akademi</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-2"></i>Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book me-2"></i>Kurslar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-2"></i>Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-headset me-2"></i>İletişim</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+  <!-- Main Content -->
+<main class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold mb-3">📚 X Akademi'ye Kayıt Ol</h1>
+        <p class="text-muted">Lütfen aşağıdaki bilgileri eksiksiz doldurunuz</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="login-box">
+                <form id="registrationForm" class="needs-validation" novalidate>
+                   <!-- Kişisel Bilgiler -->
+					<div class="card mb-4">
+						<div class="card-header bg-primary text-white">
+							<h5 class="mb-0"><i class="fas fa-user me-2"></i>Kişisel Bilgiler</h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="firstName" placeholder="Adınız" required>
+										<label for="firstName">Ad</label>
+										<i class="fas fa-user input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="middleName" placeholder="İkinci Adınız">
+										<label for="middleName">İkinci Ad</label>
+										<i class="fas fa-user input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="lastName" placeholder="Soyadınız" required>
+										<label for="lastName">Soyad</label>
+										<i class="fas fa-user input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select class="form-select" id="gender" required>
+											<option value="">Cinsiyet Seçiniz</option>
+											<option value="male">Erkek</option>
+											<option value="female">Kadın</option>
+											<option value="other">Diğer</option>
+										</select>
+										<label for="gender">Cinsiyet</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="url" class="form-control" id="website" placeholder="https://example.com">
+										<label for="website">Web Sitesi</label>
+										<i class="fas fa-globe input-icon"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+                    <!-- Akademik Bilgiler -->
+					<div class="card mb-4">
+						<div class="card-header bg-success text-white">
+							<h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Akademik Bilgiler</h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="institutionName" placeholder="Kurum Adı" required>
+										<label for="institutionName">Kurum Adı</label>
+										<i class="fas fa-university input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select class="form-select" id="institutionType" required>
+											<option value="">Kurum Tipi Seçiniz</option>
+											<option value="university">Üniversite</option>
+											<option value="research">Araştırma Merkezi</option>
+											<option value="government">Kamu Kurumu</option>
+											<option value="private">Özel Sektör</option>
+										</select>
+										<label for="institutionType">Kurum Tipi</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select class="form-select" id="institutionLanguage" required>
+											<option value="">Kurum Dili Seçiniz</option>
+											<option value="tr">Türkçe</option>
+											<option value="en">İngilizce</option>
+											<option value="other">Diğer</option>
+										</select>
+										<label for="institutionLanguage">Kurum Dili</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="institutionCountry" placeholder="Kurum Ülkesi" required>
+										<label for="institutionCountry">Kurum Ülkesi</label>
+										<i class="fas fa-globe-europe input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="institutionCity" placeholder="Kurum Şehri" required>
+										<label for="institutionCity">Kurum Şehri</label>
+										<i class="fas fa-city input-icon"></i>
+									</div>
+								</div>
+								<!-- Uzmanlık Alanları Bölümü -->
+								<div class="col-12">
+									<label class="form-label">Uzmanlık Alanları</label>
+									<div class="specialization-select-group">
+										<select class="form-select" id="specialization">
+											<option value="">Uzmanlık Alanı Seçiniz</option>
+											<option value="computer_science">Bilgisayar Bilimleri</option>
+											<option value="mathematics">Matematik</option>
+											<option value="physics">Fizik</option>
+											<option value="chemistry">Kimya</option>
+											<option value="biology">Biyoloji</option>
+											<option value="literature">Edebiyat</option>
+											<option value="history">Tarih</option>
+											<option value="philosophy">Felsefe</option>
+											<option value="psychology">Psikoloji</option>
+											<option value="sociology">Sosyoloji</option>
+											<option value="economics">Ekonomi</option>
+											<option value="business">İşletme</option>
+											<option value="law">Hukuk</option>
+											<option value="medicine">Tıp</option>
+											<option value="engineering">Mühendislik</option>
+										</select>
+										<button class="btn btn-outline-primary" type="button" onclick="addSpecialization()">
+											<i class="fas fa-plus"></i> Ekle
+										</button>
+									</div>
+									<div id="selectedSpecializations" class="mt-2">
+										<!-- Seçilen uzmanlık alanları buraya eklenecek -->
+									</div>
+									<!-- Yardım metni -->
+									<small class="text-muted mt-1 d-block">
+										Birden fazla uzmanlık alanı seçebilirsiniz.
+									</small>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" 
+											   class="form-control" 
+											   id="orcid" 
+											   pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+											   placeholder="0000-0000-0000-0000">
+										<label for="orcid">ORCID ID</label>
+										<i class="fab fa-orcid input-icon"></i>
+										<div class="invalid-feedback">
+											Geçerli bir ORCID ID giriniz (Format: 0000-0000-0000-0000)
+										</div>
+									</div>
+									<div class="mt-2">
+										<a href="https://orcid.org/register" target="_blank" class="text-decoration-none">
+											<i class="fas fa-external-link-alt"></i> ORCID ID'niz yok mu? Kayıt olun
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- İletişim Bilgileri -->
+					<div class="card mb-4">
+						<div class="card-header bg-info text-white">
+							<h5 class="mb-0"><i class="fas fa-envelope me-2"></i>İletişim Bilgileri</h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="tel" class="form-control" id="phone" 
+											   pattern="[0-9]{10}" 
+											   placeholder="5XX XXX XX XX" required>
+										<label for="phone">Telefon</label>
+										<i class="fas fa-phone input-icon"></i>
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-floating">
+										<textarea class="form-control" id="address" 
+												  style="height: 100px" 
+												  placeholder="Adres bilgileriniz" required></textarea>
+										<label for="address">Adres</label>
+										<i class="fas fa-map-marker-alt input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="city" 
+											   placeholder="Şehir" required>
+										<label for="city">Şehir</label>
+										<i class="fas fa-city input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="postalCode" 
+											   placeholder="34XXX" required>
+										<label for="postalCode">Posta Kodu</label>
+										<i class="fas fa-mail-bulk input-icon"></i>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control" id="country" 
+											   placeholder="Ülke" required>
+										<label for="country">Ülke</label>
+										<i class="fas fa-globe-europe input-icon"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                    <!-- Referans Bilgileri -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-purple text-white" style="background-color: #6f42c1;">
+                            <h5 class="mb-0"><i class="fas fa-user-friends me-2"></i>Referans Bilgileri</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="referenceNameInstitution">
+                                        <label for="referenceNameInstitution">Tavsiye Eden Kişi/Kurum</label>
+                                        <i class="fas fa-building input-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="referenceEmail">
+                                        <label for="referenceEmail">Referans E-posta Adresi</label>
+                                        <i class="fas fa-envelope input-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+					<!-- Hesap Bilgileri -->
+					<div class="card mb-4">
+						<div class="card-header bg-warning">
+							<h5 class="mb-0"><i class="fas fa-lock me-2"></i>Hesap Bilgileri</h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-12">
+									<div class="form-floating">
+										<input type="email" class="form-control" id="email" 
+											   placeholder="ornek@email.com" required>
+										<label for="email">E-posta</label>
+										<i class="fas fa-envelope input-icon"></i>
+									</div>
+								</div>
+								<!-- Şifre input grubu -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="password" 
+											   class="form-control" 
+											   id="password" 
+											   required 
+											   minlength="8" 
+											   placeholder="Şifreniz">
+										<label for="password">Şifre</label>
+										<i class="fas fa-lock input-icon"></i>
+										<button type="button" class="password-toggle" onclick="togglePasswordVisibility('password')">
+											<i class="fas fa-eye-slash"></i>
+										</button>
+									</div>
+									<!-- Şifre gereksinimleri listesi -->
+									<div class="password-requirements mt-2">
+										<ul class="requirements-list">
+											<li id="length-check">
+												<i class="fas fa-circle"></i>
+												En az 8 karakter uzunluğunda
+											</li>
+											<li id="uppercase-check">
+												<i class="fas fa-circle"></i>
+												En az 1 büyük harf
+											</li>
+											<li id="lowercase-check">
+												<i class="fas fa-circle"></i>
+												En az 1 küçük harf
+											</li>
+											<li id="number-check">
+												<i class="fas fa-circle"></i>
+												En az 1 rakam
+											</li>
+											<li id="special-check">
+												<i class="fas fa-circle"></i>
+												En az 1 özel karakter
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="password" class="form-control" id="passwordConfirm" 
+											   required placeholder="Şifre tekrar">
+										<label for="passwordConfirm">Şifre Tekrar</label>
+										<i class="fas fa-lock input-icon"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+                    <!-- Onaylar -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>Onaylar</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="termsConditions" required>
+                                <label class="form-check-label" for="termsConditions">
+                                    <a href="#" target="_blank">Kullanım Koşulları</a>'nı okudum ve kabul ediyorum
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="kvkkConsent" required>
+                                <label class="form-check-label" for="kvkkConsent">
+                                    <a href="#" target="_blank">KVKK Aydınlatma Metni</a>'ni okudum ve onaylıyorum
+                                </label>
+                            </div>
+                            <div class="g-recaptcha mb-3" data-sitekey="YOUR_SITE_KEY"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Kayıt Ol
+                        </button>
+                        <a href="../giris/giris.html" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Giriş Sayfasına Dön
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <!-- Kurumsal -->
+            <div class="col-md-3 footer-section">
+                <h5>Kurumsal</h5>
+                <ul>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-info-circle"></i>Hakkımızda
+                    </a></li>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-briefcase"></i>Kariyer
+                    </a></li>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-newspaper"></i>Blog
+                    </a></li>
+                </ul>
+            </div>
+
+            <!-- Eğitim -->
+            <div class="col-md-3 footer-section">
+                <h5>Eğitim</h5>
+                <ul>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-graduation-cap"></i>Tüm Kurslar
+                    </a></li>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-certificate"></i>Sertifikalar
+                    </a></li>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-chalkboard-teacher"></i>Eğitmenler
+                    </a></li>
+                </ul>
+            </div>
+
+            <!-- Yardım -->
+            <div class="col-md-3 footer-section">
+                <h5>Yardım</h5>
+                <ul>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-question-circle"></i>SSS
+                    </a></li>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-headset"></i>Destek
+                    </a></li>
+                    <li><a href="#" class="footer-link">
+                        <i class="fas fa-envelope"></i>İletişim
+                    </a></li>
+                </ul>
+            </div>
+
+            <!-- Bülten -->
+            <div class="col-md-3 footer-section">
+                <h5>Bültenimize Katılın</h5>
+                <p class="text-light mb-3">En son yeniliklerden haberdar olun</p>
+                <div class="footer-newsletter">
+                    <input type="email" placeholder="E-posta adresiniz">
+                    <button type="button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="social-icons mt-4">
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alt Bilgi -->
+        <div class="footer-bottom">
+            <p>X Akademi © 2024 | Tüm hakları saklıdır.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="kayit.js"></script>
+
+</body>
+</html>

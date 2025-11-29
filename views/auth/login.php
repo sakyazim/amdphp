@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="AMDS - Akademik Makale Değerlendirme Sistemi Giriş Sayfası">
+    <meta property="og:title" content="AMDS Giriş">
+    <meta property="og:description" content="AMDS platformuna giriş yapın">
+    <meta property="og:type" content="website">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMDS Giriş</title>
+
+    <!-- External CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= asset('css/auth.css') ?>">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="<?= base_url('/') ?>">
+                <i class="fas fa-graduation-cap me-2 text-primary"></i>
+                <span>AMDS</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('/') ?>"><i class="fas fa-home me-2"></i>Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book me-2"></i>Dergiler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-2"></i>Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-headset me-2"></i>İletişim</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="fw-bold mb-3">📚 AMDS'ye Hoş Geldiniz</h1>
+            <p class="text-muted">Lütfen hesabınıza giriş yapın veya yeni hesap oluşturun</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Login Form -->
+            <div class="col-lg-6">
+                <div class="login-box">
+                    <h2 class="h4 text-center mb-4">Giriş Yap</h2>
+
+                    <?php if (isset($error) && !empty($error)): ?>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i><?= htmlspecialchars($error) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($success) && !empty($success)): ?>
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i><?= htmlspecialchars($success) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="<?= base_url('login') ?>" class="needs-validation" novalidate>
+                        <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token'] ?? '' ?>">
+
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="emailInput" name="email"
+                                   placeholder="E-posta" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                            <label for="emailInput">E-posta</label>
+                            <i class="fas fa-envelope input-icon"></i>
+                            <div class="invalid-feedback">Lütfen geçerli bir e-posta adresi giriniz.</div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="passwordInput" name="sifre"
+                                   placeholder="Şifre" required minlength="6">
+                            <label for="passwordInput">Şifre</label>
+                            <i class="fas fa-lock input-icon"></i>
+                            <div class="invalid-feedback">Şifre en az 6 karakter olmalıdır.</div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Beni hatırla</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Alternative Login Options -->
+            <div class="col-lg-6">
+                <div class="login-box">
+                    <div class="text-center mb-4">
+                        <h2 class="h4">Diğer Giriş Seçenekleri</h2>
+                    </div>
+
+                    <button class="btn orcid-btn w-100 py-3 mb-4" data-bs-toggle="modal" data-bs-target="#orcidModal">
+                        <i class="fab fa-orcid me-2"></i>ORCID ile Giriş Yap
+                    </button>
+
+                    <div class="d-flex flex-column align-items-start gap-3">
+                        <a href="<?= base_url('register') ?>" class="action-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Yeni Hesap Oluştur</span>
+                        </a>
+                        <a href="#" class="action-link" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                            <i class="fas fa-key"></i>
+                            <span>Şifremi Unuttum</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Test Kullanıcıları -->
+                <div class="login-box mt-3" style="background: #f8f9fa;">
+                    <h6 class="mb-3">
+                        <i class="fas fa-info-circle"></i> Test Kullanıcıları
+                    </h6>
+                    <small class="d-block mb-1"><strong>Yazar:</strong> yazar1@test.com / 123456</small>
+                    <small class="d-block mb-1"><strong>Hakem:</strong> hakem1@test.com / 123456</small>
+                    <small class="d-block mb-1"><strong>Editör:</strong> editor@test.com / 123456</small>
+                    <small class="d-block"><strong>Yönetici:</strong> yonetici@test.com / 123456</small>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ORCID Modal -->
+    <div class="modal fade" id="orcidModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ORCID ile Giriş</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="orcidForm" class="needs-validation" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="orcidId" required>
+                            <label for="orcidId">ORCID ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="orcidPassword" required>
+                            <label for="orcidPassword">ORCID Şifre</label>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Giriş Yap</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Şifremi Unuttum</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm" class="needs-validation" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="resetEmail" required>
+                            <label for="resetEmail">E-posta</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Şifremi Sıfırla</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>Kurumsal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Hakkımızda</a></li>
+                        <li><a href="#" class="footer-link">Kariyer</a></li>
+                        <li><a href="#" class="footer-link">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Dergiler</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Tüm Dergiler</a></li>
+                        <li><a href="#" class="footer-link">Yayın İlkeleri</a></li>
+                        <li><a href="#" class="footer-link">Yazarlar İçin</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Yardım</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">SSS</a></li>
+                        <li><a href="#" class="footer-link">Destek</a></li>
+                        <li><a href="#" class="footer-link">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Bizi Takip Edin</h5>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <p class="mt-3 small">AMDS © 2025</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

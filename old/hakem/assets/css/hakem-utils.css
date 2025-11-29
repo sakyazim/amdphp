@@ -1,0 +1,87 @@
+/* Bu CSS kodlarını hakem-makale-detay.css dosyasına ekleyin */
+
+/* Doküman görüntüleyici stilleri */
+.document-viewer {
+    width: 100%;
+    height: 600px;
+    overflow: auto;
+    background-color: #f8f9fa;
+    position: relative;
+}
+
+/* Tam ekran modunda görüntüleyici yüksekliği */
+#fullscreenDocumentViewer {
+    height: calc(100vh - 140px);
+}
+
+/* Bölünmüş görünüm modu */
+.split-view-mode .content-area {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.split-view-mode .document-section {
+    flex: 0 0 100%;
+    max-width: 100%;
+    order: 1;
+}
+
+.split-view-mode .evaluation-section {
+    flex: 0 0 100%;
+    max-width: 100%;
+    order: 2;
+}
+
+@media (min-width: 992px) {
+    .split-view-mode .document-section {
+        flex: 0 0 40%;
+        max-width: 40%;
+        position: sticky;
+        top: 80px;
+        height: calc(100vh - 100px);
+        overflow-y: auto;
+    }
+    
+    .split-view-mode .evaluation-section {
+        flex: 0 0 60%;
+        max-width: 60%;
+        padding-left: 1rem;
+    }
+    
+    .split-view-mode .document-viewer {
+        height: calc(100vh - 150px);
+    }
+}
+
+/* Dosya türü ikonları */
+.file-icon-pdf {
+    color: #e74c3c;
+}
+
+.file-icon-word {
+    color: #3498db;
+}
+
+.file-icon-excel {
+    color: #2ecc71;
+}
+
+/* Toolbar */
+.document-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+/* PDF.js ince ayarlar */
+.pdfViewer .page {
+    border: 1px solid #ddd;
+    margin: 10px auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Yükleme animasyonu */
+.document-placeholder {
+    background-color: #f8f9fa;
+    height: 100%;
+}

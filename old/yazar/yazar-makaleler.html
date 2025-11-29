@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Makalelerim</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="yazar-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                 <div class=" role-alert d-flex align-items-center me-3" role="alert">
+                            <i class="bi bi-info-circle alert-icon me-2"></i>
+                            <div>Yazar olarak giriş yaptınız</div>
+                        </div>
+				
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-workspace me-2"></i>
+                        <span>Yazar</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                    <!-- Dil Seçimi -->
+                    <div class="dropdown me-3">
+                        <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                            <span>TR</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Kullanıcı Menüsü -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                            <span>Doç. Dr. Ahmet Yılmaz</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                            <li><a class="dropdown-item" href="yazar-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                            <li><a class="dropdown-item" href="yazar-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main class="mt-5 pt-4">
+        <div class="container">
+            <section class="content-wrapper d-flex">
+                <!-- Sidebar -->
+				
+                <aside class="sidebar-container me-lg-4">
+                    <div class="sidebar p-3 bg-white rounded shadow-sm">
+                        
+						
+                        
+                        <div class="mb-4">
+                            <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="yazar-panel.html" class="nav-link">
+                                        <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="yazar-makaleler.html" class="nav-link active">
+                                        <i class="bi bi-file-earmark-text me-2"></i> Makalelerim
+                                    </a>
+                                </li>
+								<li class="nav-item">
+                                    <a href="ortak-yazarliklar.html" class="nav-link ">
+                                        <i class="bi bi-people me-2"></i> Ortak Yazarlıklar
+                                        <span class="badge bg-danger rounded-pill float-end">3</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="yeni-makale.html" class="nav-link">
+                                        <i class="bi bi-file-earmark-plus me-2"></i> Yeni Makale
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="yazar-profil.html" class="nav-link">
+                                        <i class="bi bi-person me-2"></i> Profilim
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="yazar-ayarlar.html" class="nav-link">
+                                        <i class="bi bi-gear me-2"></i> Ayarlar
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="yardim.html" class="nav-link">
+                                        <i class="bi bi-question-circle me-2"></i> Yardım
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Ana İçerik Alanı -->
+                <section class="content-area flex-grow-1">
+
+                    <!-- Sayfa Başlığı -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="h2 mb-0"><i class="bi bi-file-earmark-text me-2"></i>Makalelerim</h1>
+                        <a href="yeni-makale.html" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i> Yeni Makale
+                        </a>
+                    </div>
+
+                    <!-- Filtreleme Seçenekleri -->
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="card-title mb-0">Filtreleme</h5>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="statusFilter" class="form-label">Durum</label>
+                                    <select class="form-select" id="statusFilter">
+                                        <option value="">Tümü</option>
+                                        <option value="draft">Taslak</option>
+                                        <option value="submitted">Gönderildi</option>
+                                        <option value="review">Değerlendirmede</option>
+                                        <option value="revision">Düzeltme İstendi</option>
+                                        <option value="accepted">Kabul Edildi</option>
+                                        <option value="rejected">Reddedildi</option>
+                                        <option value="published">Yayınlandı</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="dateFilter" class="form-label">Tarih Aralığı</label>
+                                    <select class="form-select" id="dateFilter">
+                                        <option value="">Tümü</option>
+                                        <option value="1month">Son 1 Ay</option>
+                                        <option value="3months">Son 3 Ay</option>
+                                        <option value="6months">Son 6 Ay</option>
+                                        <option value="1year">Son 1 Yıl</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="searchArticle" class="form-label">Arama</label>
+                                    <input type="text" class="form-control" id="searchArticle" placeholder="Makale adı, ID veya anahtar kelime">
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-funnel me-1"></i> Filtrele
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x-circle me-1"></i> Temizle
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Makaleler Tablosu -->
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Tüm Makaleler</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-primary me-2">
+                                    <i class="bi bi-download me-1"></i> Dışa Aktar
+                                </button>
+                                <div class="dropdown d-inline-block">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-sort-down me-1"></i> Sırala
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                                        <li><a class="dropdown-item" href="#">Tarihe Göre (Yeni-Eski)</a></li>
+                                        <li><a class="dropdown-item" href="#">Tarihe Göre (Eski-Yeni)</a></li>
+                                        <li><a class="dropdown-item" href="#">Duruma Göre</a></li>
+                                        <li><a class="dropdown-item" href="#">Alfabetik (A-Z)</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 30px;"></th>
+                                            <th>ID</th>
+                                            <th>Makale Başlığı</th>
+                                            <th>Durumu</th>
+                                            <th>Tarih</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Makale Satırı 1 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-1" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2025-0103</td>
+                                            <td>Yapay Zeka ve Eğitim</td>
+                                            <td><span class="badge bg-warning text-dark">Değerlendirmede</span></td>
+                                            <td>12.02.2025
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 1 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-1">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Özgün Araştırma</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar), Mehmet Can, Ayşe Demir</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> yapay zeka, eğitim teknolojileri, öğrenme</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Süreç Bilgileri</h6>
+                                                                <p><strong>Gönderim Tarihi:</strong> 12.02.2025</p>
+                                                                <p><strong>Son İşlem:</strong> Hakem değerlendirmesine gönderildi (15.02.2025)</p>
+                                                                <p><strong>Hakem Sayısı:</strong> 2</p>
+                                                                <div class="progress mb-2">
+                                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">40%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Dosyalar</h6>
+                                                                <div class="list-group list-group-flush">
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        makale_v1.pdf
+                                                                        <span class="badge bg-primary rounded-pill">İndir</span>
+                                                                    </a>
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        ek_tablolar.xlsx
+                                                                        <span class="badge bg-primary rounded-pill">İndir</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Makale Satırı 2 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-2" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2025-0087</td>
+                                            <td>Uzaktan Eğitim Metodları</td>
+                                            <td><span class="badge bg-danger">Düzeltme İstendi</span></td>
+                                            <td>05.02.2025</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-danger"><i class="bi bi-pencil-square"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 2 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-2">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Derleme</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar), Mehmet Can, Ayşe Demir</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> uzaktan eğitim, çevrimiçi öğrenme, eğitim teknolojileri</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Süreç Bilgileri</h6>
+                                                                <p><strong>Gönderim Tarihi:</strong> 05.02.2025</p>
+                                                                <p><strong>Son İşlem:</strong> Düzeltme istendi (20.02.2025)</p>
+                                                                <p><strong>Düzeltme Son Tarihi:</strong> 05.03.2025</p>
+                                                                <div class="alert alert-danger">
+                                                                    Düzeltme için kalan süre: 4 gün
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Hakem Yorumları</h6>
+                                                                <div class="card bg-light mb-2">
+                                                                    <div class="card-body py-2">
+                                                                        <p class="mb-1"><strong>Hakem 1:</strong> Literatür taraması genişletilmeli ve son 3 yıldaki çalışmalar dahil edilmelidir.</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card bg-light">
+                                                                    <div class="card-body py-2">
+                                                                        <p class="mb-1"><strong>Hakem 2:</strong> Metodoloji bölümü daha detaylı açıklanmalıdır.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Makale Satırı 3 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-3" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2025-0042</td>
+                                            <td>Modern Öğretim Teknikleri</td>
+                                            <td><span class="badge bg-success">Kabul Edildi</span></td>
+                                            <td>25.01.2025</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-success"><i class="bi bi-file-earmark-pdf"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 3 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-3">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Vaka Çalışması</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar)</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> öğretim teknikleri, sınıf yönetimi, eğitim psikolojisi</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Yayın Bilgileri</h6>
+                                                                <p><strong>Gönderim Tarihi:</strong> 25.01.2025</p>
+                                                                <p><strong>Kabul Tarihi:</strong> 20.02.2025</p>
+                                                                <p><strong>Yayın Tarihi:</strong> 28.02.2025</p>
+                                                                <p><strong>Cilt/Sayı:</strong> 12(1)</p>
+                                                                <p><strong>Sayfa:</strong> 45-58</p>
+                                                                <p><strong>DOI:</strong> 10.1234/jed.2025.12.1.45</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Dosyalar</h6>
+                                                                <div class="list-group list-group-flush">
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        yayinlanmis_makale.pdf
+                                                                        <span class="badge bg-success rounded-pill">İndir</span>
+                                                                    </a>
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        yayin_sertifikasi.pdf
+                                                                        <span class="badge bg-success rounded-pill">İndir</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- Yeni Eklenen Makale Satırları -->
+                                        <!-- Makale Satırı 4 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-4" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2025-0024</td>
+                                            <td>Bilişsel Öğrenme Yöntemleri</td>
+                                            <td><span class="badge bg-success">Yayınlandı</span></td>
+                                            <td>15.01.2025</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-success"><i class="bi bi-file-earmark-pdf"></i></a>
+                                                    <a href="#" class="btn btn-outline-info"><i class="bi bi-share"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 4 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-4">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Deneysel Araştırma</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar), Zeynep Kaya</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> bilişsel öğrenme, eğitim psikolojisi, öğrenme modelleri</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Yayın Bilgileri</h6>
+                                                                <p><strong>Gönderim Tarihi:</strong> 15.01.2025</p>
+                                                                <p><strong>Kabul Tarihi:</strong> 10.02.2025</p>
+                                                                <p><strong>Yayın Tarihi:</strong> 20.02.2025</p>
+                                                                <p><strong>Cilt/Sayı:</strong> 12(1)</p>
+                                                                <p><strong>Sayfa:</strong> 23-36</p>
+                                                                <p><strong>DOI:</strong> 10.1234/jed.2025.12.1.23</p>
+                                                                <p><strong>Atıf Sayısı:</strong> 3</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Dosyalar</h6>
+                                                                <div class="list-group list-group-flush">
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        yayinlanmis_makale.pdf
+                                                                        <span class="badge bg-success rounded-pill">İndir</span>
+                                                                    </a>
+                                                                    
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        yayin_sertifikasi.pdf
+                                                                        <span class="badge bg-success rounded-pill">İndir</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- Makale Satırı 5 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-5" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2024-0198</td>
+                                            <td>Eğitimde Teknoloji Entegrasyonu</td>
+                                            <td><span class="badge bg-info text-white">Revizyon Sonrası</span></td>
+                                            <td>20.12.2024</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-info"><i class="bi bi-clock-history"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 5 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-5">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Özgün Araştırma</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar), Mehmet Can, Ayşe Demir</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> eğitim teknolojisi, teknoloji entegrasyonu, dijital dönüşüm</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Süreç Bilgileri</h6>
+                                                                <p><strong>Gönderim Tarihi:</strong> 20.12.2024</p>
+                                                                <p><strong>İlk Değerlendirme:</strong> 10.01.2025</p>
+                                                                <p><strong>Düzeltme Talebi:</strong> 15.01.2025</p>
+                                                                <p><strong>Düzeltme Gönderimi:</strong> 25.01.2025</p>
+                                                                <p><strong>Son Durum:</strong> İkinci değerlendirme aşamasında</p>
+                                                                <div class="progress mb-2">
+                                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Revizyon Geçmişi</h6>
+                                                                <div class="card bg-light mb-2">
+                                                                    <div class="card-body py-2">
+                                                                        <p class="mb-1"><strong>İlk Gönderim:</strong> 20.12.2024</p>
+                                                                        <p class="mb-1"><strong>Düzeltme 1:</strong> 25.01.2025 - Literatür taraması genişletildi, metodoloji detaylandırıldı</p>
+                                                                    </div>
+                                                                </div>
+                                                                <h6>Dosyalar</h6>
+                                                                <div class="list-group list-group-flush">
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        makale_v1.pdf
+                                                                        <span class="badge bg-secondary rounded-pill">İlk Versiyon</span>
+                                                                    </a>
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        makale_v2_revizyon.pdf
+                                                                        <span class="badge bg-primary rounded-pill">Son Versiyon</span>
+                                                                    </a>
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        revizyon_raporu.pdf
+                                                                        <span class="badge bg-info rounded-pill">Rapor</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- Makale Satırı 6 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-6" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2024-0156</td>
+                                            <td>Öğrenme Güçlüğü ve Eğitim Stratejileri</td>
+                                            <td><span class="badge bg-secondary">Reddedildi</span></td>
+                                            <td>05.12.2024</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-text"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 6 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-6">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Derleme</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar), Ayşe Demir</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> öğrenme güçlüğü, eğitim stratejileri, özel eğitim</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Süreç Bilgileri</h6>
+                                                                <p><strong>Gönderim Tarihi:</strong> 05.12.2024</p>
+                                                                <p><strong>Değerlendirme Tarihi:</strong> 20.12.2024</p>
+                                                                <p><strong>Ret Tarihi:</strong> 05.01.2025</p>
+                                                                <div class="alert alert-secondary">
+                                                                    Bu makale kapsam dışı olduğu gerekçesiyle reddedilmiştir.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Editör Notu</h6>
+                                                                <div class="card bg-light mb-2">
+                                                                    <div class="card-body py-2">
+                                                                        <p class="mb-1">Sayın yazar, makaleniz dergimizin kapsam ve amaçlarına uygun bulunmamıştır. Çalışmanızın özel eğitim alanında uzmanlaşmış bir dergiye gönderilmesi daha uygun olacaktır. İlginiz için teşekkür ederiz.</p>
+                                                                    </div>
+                                                                </div>
+                                                                <h6>Dosyalar</h6>
+                                                                <div class="list-group list-group-flush">
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        makale.pdf
+                                                                        <span class="badge bg-secondary rounded-pill">İndir</span>
+                                                                    </a>
+                                                                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                                        ret_mektubu.pdf
+                                                                        <span class="badge bg-secondary rounded-pill">İndir</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- Makale Satırı 7 -->
+                                        <tr class="expandable-row" data-bs-toggle="collapse" data-bs-target="#details-7" aria-expanded="false">
+                                            <td>
+                                                <button class="btn btn-sm btn-link expand-button">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                            </td>
+                                            <td>ART-2024-0112</td>
+                                            <td>Eğitimde Oyunlaştırma</td>
+                                            <td><span class="badge bg-primary">Taslak</span></td>
+                                            <td>15.11.2024</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-danger"><i class="bi bi-pencil-square"></i></a>
+                                                    <a href="#" class="btn btn-outline-success"><i class="bi bi-check-circle"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Genişletilmiş Detay Satırı 7 -->
+                                        <tr>
+                                            <td colspan="6" class="p-0">
+                                                <div class="collapse" id="details-7">
+                                                    <div class="card card-body m-2">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h6>Makale Detayları</h6>
+                                                                <p><strong>Tipi:</strong> Özgün Araştırma</p>
+                                                                <p><strong>Yazarlar:</strong> Ahmet Yılmaz (Sorumlu Yazar)</p>
+                                                                <p><strong>Anahtar Kelimeler:</strong> oyunlaştırma, eğitim teknolojileri, motivasyon</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h6>Taslak Bilgileri</h6>
+                                                                <p><strong>Oluşturma Tarihi:</strong> 15.11.2024</p>
+                                                                <p><strong>Son Düzenleme:</strong> 20.02.2025</p>
+                                                                <p><strong>Tamamlanma Oranı:</strong> %85</p>
+                                                                <div class="progress mb-2">
+                                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                                                </div>
+                                                                <div class="alert alert-info">
+                                                                    Bu makale taslak halindedir. Tamamlayıp gönderebilirsiniz.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12">
+                                                                <h6>Eksik Bölümler</h6>
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        Sonuç ve Tartışma
+                                                                        <span class="badge bg-warning text-dark">Eksik</span>
+                                                                    </li>
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        Kaynakça
+                                                                        <span class="badge bg-warning text-dark">Tamamlanmadı</span>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="d-grid gap-2 mt-3">
+                                                                    <button class="btn btn-primary">
+                                                                        <i class="bi bi-pencil-square me-1"></i> Düzenlemeye Devam Et
+                                                                    </button>
+                                                                    <button class="btn btn-success">
+                                                                        <i class="bi bi-check-circle me-1"></i> Tamamla ve Gönder
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <nav aria-label="Makale sayfaları">
+                                <ul class="pagination justify-content-center mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Sonraki</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Makale İstatistikleri Özeti -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="card-title mb-0">Makale İstatistikleri</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4">
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="stats-icon bg-primary-light text-primary me-3">
+                                                    <i class="bi bi-file-earmark-text"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-muted small">Toplam Makale</div>
+                                                    <div class="h4 mb-0">12</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="stats-icon bg-success-light text-success me-3">
+                                                    <i class="bi bi-check-circle"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-muted small">Kabul Edilen</div>
+                                                    <div class="h4 mb-0">5</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="stats-icon bg-warning-light text-warning me-3">
+                                                    <i class="bi bi-hourglass-split"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-muted small">Değerlendirmede</div>
+                                                    <div class="h4 mb-0">4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="stats-icon bg-danger-light text-danger me-3">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-muted small">Reddedilen</div>
+                                                    <div class="h4 mb-0">3</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="120" class="me-2">
+                    <span class="text-muted">© 2025 AMDS</span>
+                </div>
+                <div class="col-md-4 text-center my-2 my-md-0">
+                    <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                    <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                    <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/main.js"></script>
+	<script src="assets/js/utils.js"></script>
+	<script src="assets/js/detay.js"></script>
+</body>
+</html>

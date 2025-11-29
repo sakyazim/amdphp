@@ -1,0 +1,154 @@
+/* Şablon Yönetimi CSS Kodları - hakem-ayarlar.css dosyasına eklenecek */
+
+/* Şablon Sekmesi Stilleri */
+.settings-section {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.settings-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Şablon Kartları Stilleri */
+.bg-primary-light {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.bg-success-light {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+.bg-info-light {
+    background-color: rgba(13, 202, 240, 0.1);
+}
+
+.bg-warning-light {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.card .badge {
+    font-weight: 500;
+}
+
+.card-header .card-title {
+    margin-bottom: 0;
+}
+
+.criteria-card {
+    transition: all 0.3s ease;
+}
+
+.criteria-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Şablon İçerik Stilleri */
+.card-body ol.small li, 
+.card-body ul.small li {
+    margin-bottom: 0.25rem;
+}
+
+.preview-content {
+    background-color: #f8f9fa;
+}
+
+/* Toast Bildirimleri */
+.toast-container {
+    z-index: 1100;
+}
+
+/* Şablon Etiketleri */
+.tag-input-container {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 38px;
+}
+
+.tag {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.tag-close {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.tag-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+    min-width: 100px;
+}
+
+/* Responsive Düzenlemeler */
+@media (max-width: 768px) {
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .row-cols-md-2 > .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Modal Düzenlemeleri */
+.modal-header .btn-close-white {
+    filter: brightness(0) invert(1);
+}
+
+/* Şablonu seçili olarak gösterme */
+.template-selected {
+    border: 2px solid #0d6efd;
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+}
+
+/* Format seçimi */
+.btn-check:checked + .btn-outline-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Şablon yönetim araçları */
+.template-tools {
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+/* Önizleme stileri */
+.preview-header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.preview-content {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Şablon listeleri stilleri - tam genişlik ve daha iyi boşluk */
+#templateTabsContent .col-md-6 {
+    margin-bottom: 1rem;
+}

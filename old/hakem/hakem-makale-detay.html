@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Makale Değerlendirme</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+	<link href="assets/css/hakem-utils.css" rel="stylesheet">
+	<link href="assets/css/hakem-makale-detay.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* Özel stiller */
+        .process-item.completed .step-icon {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .process-item.current .step-icon {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .process-item.pending .step-icon {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 1rem;
+            z-index:1;
+        }
+        
+        .process-timeline {
+            position: relative;
+        }
+        
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            height: calc(100% - 80px);
+            width: 2px;
+            background-color: var(--gray-300);
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .rating-stars .bi {
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+        
+        .rating-stars .bi-star-fill {
+            color: #ffc107;
+        }
+        
+        .rating-stars .bi-star {
+            color: #dee2e6;
+        }
+        
+        .criteria-card {
+            transition: all 0.3s ease;
+        }
+        
+        .criteria-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .sticky-buttons {
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: 0 -5px 10px rgba(0,0,0,0.05);
+            z-index: 99;
+        }
+        
+        .avatar-small {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+        
+        .comment-box {
+            border-left: 3px solid var(--primary);
+            padding-left: 1rem;
+        }
+        
+        .highlight-text {
+            background-color: rgba(255, 193, 7, 0.2);
+            padding: 0.25rem;
+            border-radius: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="hakem-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Hakem olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-eyeglasses me-2"></i>
+                        <span>Hakem</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Mehmet Aydın</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        
+                        <li><a class="dropdown-item" href="hakem-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="../giris/giris.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="hakem-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-bekleyenler.html" class="nav-link active">
+                                    <i class="bi bi-hourglass-split me-2"></i> Bekleyen Değerlendirmeler
+                                    <span class="badge bg-danger rounded-pill float-end">4</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-devam-eden.html" class="nav-link">
+                                    <i class="bi bi-clipboard-check me-2"></i> Devam Eden Değerlendirmeler
+                                    <span class="badge bg-warning rounded-pill float-end">2</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="tamamlanan-degerlendirmeler.html" class="nav-link">
+                                    <i class="bi bi-check-circle me-2"></i> Tamamlanan Değerlendirmeler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-davetler.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> Hakem Davetleri
+                                    <span class="badge bg-primary rounded-pill float-end">4</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                           
+                            <li class="nav-item">
+                                <a href="hakem-uzmanlik-alanlarim.html" class="nav-link">
+                                    <i class="bi bi-mortarboard me-2"></i> Uzmanlık Alanlarım
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="hakem-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5><i class="bi bi-clipboard-check"></i> Makale Değerlendirme Formu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h4 id="article-title">Yapay Zeka ve Eğitim</h4>
+                                <p class="text-muted">Gönderim Tarihi: <span id="submission-date">12.02.2025</span> | ID: <span id="article-id">REV-2025-0103</span></p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span id="article-status" class="badge bg-warning text-dark fs-6">Değerlendirme Bekliyor</span>
+                            </div>
+                        </div>
+                        
+                        <!-- İlerleme Durumu -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0"><i class="bi bi-bar-chart-line"></i> Değerlendirme İlerlemesi</h6>
+                                <span class="badge bg-primary">%0 Tamamlandı</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small class="text-muted">Başlangıç: Bugün</small>
+                                    <small class="text-muted">Son Değerlendirme Tarihi: 15.03.2025 (12 gün kaldı)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Makale Bilgileri -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-info-circle"></i> Makale Bilgileri</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Makale Tipi:</div>
+                                    <div class="col-md-9" id="article-type">Özgün Araştırma</div>
+                                </div>
+                                <hr>
+                                <div class="col-md-3 fw-bold">Alan:</div>
+                                    <div class="col-md-9" id="article-field">Eğitim Teknolojileri</div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Özet:</div>
+                                    <div class="col-md-9" id="abstract">
+                                        Bu çalışmada, yapay zeka teknolojilerinin eğitim alanında kullanımı ve etkileri incelenmiştir. Özellikle kişiselleştirilmiş öğrenme, otomatik değerlendirme ve eğitimci destekleme sistemleri üzerinde durulmuş, bu teknolojilerin eğitim süreçlerine entegrasyonu için öneriler geliştirilmiştir.
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Anahtar Kelimeler:</div>
+                                    <div class="col-md-9" id="keywords">
+                                        <span class="badge bg-secondary me-1">Yapay Zeka</span>
+                                        <span class="badge bg-secondary me-1">Eğitim Teknolojileri</span>
+                                        <span class="badge bg-secondary me-1">Öğrenme</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Editör Notu:</div>
+                                    <div class="col-md-9 comment-box" id="editor-note">
+                                        <p>Lütfen makalenin metodoloji bölümünü ve sonuçların tutarlılığını detaylı olarak değerlendiriniz. Yazarların literatür taraması yeterli görünmektedir.</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3 fw-bold">Dosyalar:</div>
+                                    <div class="col-md-9" id="files">
+                                        <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-file-pdf"></i> makale_tam_metin.pdf</a>
+                                        <a href="#" class="btn btn-sm btn-outline-secondary"><i class="bi bi-file-earmark-excel"></i> ek_tablolar.xlsx</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+						<!-- Bu kodu hakem-makale-detay.html dosyasındaki "Makale Bilgileri" kartından hemen sonra ekleyin -->
+
+<!-- Makale Görüntüleyici -->
+<div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h6><i class="bi bi-file-text"></i> Makale İçeriği</h6>
+        <div>
+            <button class="btn btn-sm btn-outline-primary" id="toggleViewMode">
+                <i class="bi bi-layout-split"></i> Bölünmüş Görünüm
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" id="fullscreenBtn">
+                <i class="bi bi-fullscreen"></i> Tam Ekran
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0" id="documentViewerContainer">
+        <div class="document-toolbar bg-light p-2 border-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <select class="form-select form-select-sm" id="documentSelector">
+                        <option value="makale_tam_metin.pdf" selected>makale_tam_metin.pdf</option>
+                        <option value="ek_tablolar.xlsx">ek_tablolar.xlsx</option>
+                    </select>
+                </div>
+                <div class="col-md-7 text-end">
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary" id="zoomOut">
+                            <i class="bi bi-zoom-out"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" id="zoomReset">
+                            <i class="bi bi-zoom-in"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" id="prevPage">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <span class="btn btn-outline-secondary disabled" id="pageInfo">
+                            Sayfa <span id="currentPage">1</span>/<span id="totalPages">?</span>
+                        </span>
+                        <button class="btn btn-outline-secondary" id="nextPage">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" id="downloadDoc">
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="documentViewer" class="document-viewer">
+            <!-- PDF.js veya Office Viewer burada yüklenecek -->
+            <div class="document-placeholder d-flex align-items-center justify-content-center p-5">
+                <div class="text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                    <p class="mb-0">Doküman yükleniyor, lütfen bekleyiniz...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tam Ekran Modal -->
+<div class="modal fade" id="fullscreenDocumentModal" tabindex="-1" aria-labelledby="fullscreenDocumentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fullscreenDocumentModalLabel">
+                    <span id="fullscreenDocName">makale_tam_metin.pdf</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="document-toolbar bg-light p-2 border-bottom">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <select class="form-select form-select-sm" id="fullscreenDocumentSelector">
+                                <option value="makale_tam_metin.pdf" selected>makale_tam_metin.pdf</option>
+                                <option value="ek_tablolar.xlsx">ek_tablolar.xlsx</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 text-end">
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary" id="fsZoomOut">
+                                    <i class="bi bi-zoom-out"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" id="fsZoomReset">
+                                    <i class="bi bi-zoom-in"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" id="fsPrevPage">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <span class="btn btn-outline-secondary disabled" id="fsPageInfo">
+                                    Sayfa <span id="fsCurrentPage">1</span>/<span id="fsTotalPages">?</span>
+                                </span>
+                                <button class="btn btn-outline-secondary" id="fsNextPage">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" id="fsDownloadDoc">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="fullscreenDocumentViewer" class="document-viewer">
+                    <!-- PDF.js burada yüklenecek -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+						
+						
+                        <!-- Çıkar Çatışması Beyanı -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-shield-check"></i> Çıkar Çatışması Beyanı</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="conflict-check" required>
+                                    <label class="form-check-label" for="conflict-check">
+                                        Bu makale ile ilgili herhangi bir çıkar çatışmam <span class="fw-bold">bulunmamaktadır</span>. Makalenin yazarları ile kişisel veya mesleki ilişkim yoktur ve objektif bir değerlendirme yapabileceğimi beyan ederim.
+                                    </label>
+                                </div>
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    Çıkar çatışması olduğunu düşünüyorsanız, değerlendirmeye devam etmeden önce editöre bildiriniz.
+                                </div>
+                                <div id="conflict-description-container" class="d-none mt-3">
+                                    <label for="conflict-description" class="form-label">Çıkar çatışması açıklaması:</label>
+                                    <textarea class="form-control" id="conflict-description" rows="3" placeholder="Var olan veya potansiyel çıkar çatışmasını açıklayınız..."></textarea>
+                                    <button type="button" class="btn btn-danger mt-2" id="report-conflict-btn">
+                                        <i class="bi bi-exclamation-triangle me-1"></i> Çıkar Çatışmasını Bildir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Değerlendirme Kriterleri -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-list-check"></i> Değerlendirme Kriterleri</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+                                    <!-- Kriter 1: Özgünlük ve Yenilik -->
+                                    <div class="col">
+                                        <div class="card h-100 criteria-card">
+                                            <div class="card-header bg-primary-light">
+                                                <h6 class="card-title mb-0">1. Özgünlük ve Yenilik</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text small">Makalenin literatüre katkısı ve özgünlük değeri nedir? Çalışma yeni bir bakış açısı, yöntem veya sonuçlar sunuyor mu?</p>
+                                                <div class="rating-stars text-center mb-2">
+                                                    <i class="bi bi-star" data-rating="1"></i>
+                                                    <i class="bi bi-star" data-rating="2"></i>
+                                                    <i class="bi bi-star" data-rating="3"></i>
+                                                    <i class="bi bi-star" data-rating="4"></i>
+                                                    <i class="bi bi-star" data-rating="5"></i>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="originality-comment" class="form-label small text-muted">Yorumunuz:</label>
+                                                    <textarea class="form-control form-control-sm" id="originality-comment" rows="3" placeholder="Özgünlük ve yenilik açısından değerlendirmenizi yazınız..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Kriter 2: Metodoloji -->
+                                    <div class="col">
+                                        <div class="card h-100 criteria-card">
+                                            <div class="card-header bg-primary-light">
+                                                <h6 class="card-title mb-0">2. Metodoloji</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text small">Araştırma yöntemi uygun ve doğru şekilde uygulanmış mı? Veri toplama ve analiz süreci yeterli ve güvenilir mi?</p>
+                                                <div class="rating-stars text-center mb-2">
+                                                    <i class="bi bi-star" data-rating="1"></i>
+                                                    <i class="bi bi-star" data-rating="2"></i>
+                                                    <i class="bi bi-star" data-rating="3"></i>
+                                                    <i class="bi bi-star" data-rating="4"></i>
+                                                    <i class="bi bi-star" data-rating="5"></i>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="methodology-comment" class="form-label small text-muted">Yorumunuz:</label>
+                                                    <textarea class="form-control form-control-sm" id="methodology-comment" rows="3" placeholder="Metodoloji açısından değerlendirmenizi yazınız..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Kriter 3: Sonuçlar ve Tartışma -->
+                                    <div class="col">
+                                        <div class="card h-100 criteria-card">
+                                            <div class="card-header bg-primary-light">
+                                                <h6 class="card-title mb-0">3. Sonuçlar ve Tartışma</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text small">Bulgular doğru yorumlanmış ve tartışılmış mı? Sonuçlar araştırma sorularını yanıtlıyor mu? Yazarlar sınırlılıkları yeterince ele almış mı?</p>
+                                                <div class="rating-stars text-center mb-2">
+                                                    <i class="bi bi-star" data-rating="1"></i>
+                                                    <i class="bi bi-star" data-rating="2"></i>
+                                                    <i class="bi bi-star" data-rating="3"></i>
+                                                    <i class="bi bi-star" data-rating="4"></i>
+                                                    <i class="bi bi-star" data-rating="5"></i>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="results-comment" class="form-label small text-muted">Yorumunuz:</label>
+                                                    <textarea class="form-control form-control-sm" id="results-comment" rows="3" placeholder="Sonuçlar ve tartışma açısından değerlendirmenizi yazınız..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Kriter 4: Literatür Taraması -->
+                                    <div class="col">
+                                        <div class="card h-100 criteria-card">
+                                            <div class="card-header bg-primary-light">
+                                                <h6 class="card-title mb-0">4. Literatür Taraması</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text small">Literatür taraması kapsamlı ve güncel mi? Konuyla ilgili önemli çalışmalar dahil edilmiş mi? Atıflar uygun ve yeterli mi?</p>
+                                                <div class="rating-stars text-center mb-2">
+                                                    <i class="bi bi-star" data-rating="1"></i>
+                                                    <i class="bi bi-star" data-rating="2"></i>
+                                                    <i class="bi bi-star" data-rating="3"></i>
+                                                    <i class="bi bi-star" data-rating="4"></i>
+                                                    <i class="bi bi-star" data-rating="5"></i>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="literature-comment" class="form-label small text-muted">Yorumunuz:</label>
+                                                    <textarea class="form-control form-control-sm" id="literature-comment" rows="3" placeholder="Literatür taraması açısından değerlendirmenizi yazınız..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Kriter 5: Yazım ve Organizasyon -->
+                                    <div class="col">
+                                        <div class="card h-100 criteria-card">
+                                            <div class="card-header bg-primary-light">
+                                                <h6 class="card-title mb-0">5. Yazım ve Organizasyon</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text small">Makale iyi yazılmış ve organize edilmiş mi? Dil kullanımı, akıcılık ve netlik nasıl? Tablo, şekil ve eklerin kalitesi ve anlaşılırlığı yeterli mi?</p>
+                                                <div class="rating-stars text-center mb-2">
+                                                    <i class="bi bi-star" data-rating="1"></i>
+                                                    <i class="bi bi-star" data-rating="2"></i>
+                                                    <i class="bi bi-star" data-rating="3"></i>
+                                                    <i class="bi bi-star" data-rating="4"></i>
+                                                    <i class="bi bi-star" data-rating="5"></i>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="writing-comment" class="form-label small text-muted">Yorumunuz:</label>
+                                                    <textarea class="form-control form-control-sm" id="writing-comment" rows="3" placeholder="Yazım ve organizasyon açısından değerlendirmenizi yazınız..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Kriter 6: Bilimsel Etki ve Önemi -->
+                                    <div class="col">
+                                        <div class="card h-100 criteria-card">
+                                            <div class="card-header bg-primary-light">
+                                                <h6 class="card-title mb-0">6. Bilimsel Etki ve Önemi</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text small">Çalışmanın alandaki potansiyel etkisi ve önemi nedir? Bulgular teori veya uygulamaya katkı sağlıyor mu? Gelecekteki araştırmalar için yol gösterici mi?</p>
+                                                <div class="rating-stars text-center mb-2">
+                                                    <i class="bi bi-star" data-rating="1"></i>
+                                                    <i class="bi bi-star" data-rating="2"></i>
+                                                    <i class="bi bi-star" data-rating="3"></i>
+                                                    <i class="bi bi-star" data-rating="4"></i>
+                                                    <i class="bi bi-star" data-rating="5"></i>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="impact-comment" class="form-label small text-muted">Yorumunuz:</label>
+                                                    <textarea class="form-control form-control-sm" id="impact-comment" rows="3" placeholder="Bilimsel etki ve önemi açısından değerlendirmenizi yazınız..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Puanlama Özeti -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0"><i class="bi bi-graph-up"></i> Değerlendirme Özeti</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Kriter</th>
+                                                        <th class="text-center">Puan (1-5)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1. Özgünlük ve Yenilik</td>
+                                                        <td class="text-center" id="originality-score">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2. Metodoloji</td>
+                                                        <td class="text-center" id="methodology-score">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3. Sonuçlar ve Tartışma</td>
+                                                        <td class="text-center" id="results-score">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4. Literatür Taraması</td>
+                                                        <td class="text-center" id="literature-score">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5. Yazım ve Organizasyon</td>
+                                                        <td class="text-center" id="writing-score">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6. Bilimsel Etki ve Önemi</td>
+                                                        <td class="text-center" id="impact-score">-</td>
+                                                    </tr>
+                                                    <tr class="table-primary">
+                                                        <td class="fw-bold">Ortalama Puan</td>
+                                                        <td class="text-center fw-bold" id="average-score">-</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Genel Değerlendirme -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-chat-left-text"></i> Genel Değerlendirme</h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- Editöre Yorumlar -->
+                                <div class="mb-4">
+                                    <label for="editor-comments" class="form-label">Editöre Yorumlar <span class="text-danger">*</span></label>
+                                    <div class="form-text text-muted mb-2">
+                                        Bu yorumlar sadece editör tarafından görülecektir. Yazarla paylaşılmayacaktır.
+                                    </div>
+                                    <textarea class="form-control" id="editor-comments" rows="4" placeholder="Editöre özel değerlendirmenizi, tavsiyelerinizi ve görüşlerinizi yazınız..."></textarea>
+                                </div>
+                                
+                                <!-- Yazara Yorumlar -->
+                                <div class="mb-4">
+								<div class="mt-3">
+    <p class="text-muted">
+        <i class="bi bi-info-circle me-1"></i>
+        Kişisel şablonlarınızı 
+        <a href="hakem-ayarlar.html#templates-section" class="alert-link">Ayarlar &gt; Değerlendirme Şablonları</a> 
+        bölümünden yönetebilirsiniz.
+    </p>
+</div>
+                                    <label for="author-comments" class="form-label">Yazara Yorumlar (Şablonları Ayarlar Sayfasından Yönetebilirsiniz!) <span class="text-danger">*</span></label>
+                                    <div class="form-text text-muted mb-2">
+                                        Bu yorumlar yazarla paylaşılacaktır. Yapıcı, net ve yönlendirici geri bildirimler sağlayınız.
+                                    </div>
+                                    <div class="mb-2">
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" id="add-template">
+                                            <i class="bi bi-file-earmark-text me-1"></i> Şablon Ekle
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" id="add-highlight">
+                                            <i class="bi bi-highlighter me-1"></i> Vurgu Ekle
+                                        </button>
+                                    </div>
+                                    <textarea class="form-control" id="author-comments" rows="6" placeholder="Yazara iletmek istediğiniz değerlendirme, eleştiri ve önerilerinizi yazınız..."></textarea>
+                                </div>
+                                
+                                <!-- Güçlü ve Zayıf Yönler -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="strengths" class="form-label">Güçlü Yönler</label>
+                                        <textarea class="form-control" id="strengths" rows="4" placeholder="Makalenin güçlü yönlerini listeleyiniz..."></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="weaknesses" class="form-label">Zayıf Yönler</label>
+                                        <textarea class="form-control" id="weaknesses" rows="4" placeholder="Makalenin zayıf yönlerini ve iyileştirme alanlarını listeleyiniz..."></textarea>
+                                    </div>
+                                </div>
+                                
+                                <!-- Karar -->
+                                <div class="mb-4">
+                                    <label class="form-label">Kararınız <span class="text-danger">*</span></label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="decision" id="decision-accept" value="accept">
+                                            <label class="form-check-label" for="decision-accept">Kabul</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="decision" id="decision-minor" value="minor">
+                                            <label class="form-check-label" for="decision-minor">Küçük Düzeltmeler ile Kabul</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="decision" id="decision-major" value="major">
+                                            <label class="form-check-label" for="decision-major">Büyük Düzeltmeler Gerekli</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="decision" id="decision-reject" value="reject">
+                                            <label class="form-check-label" for="decision-reject">Ret</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ek Dosyalar -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6><i class="bi bi-paperclip"></i> Ek Dosyalar</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-3">Değerlendirmenize destek olacak ek dosyaları (notlar, açıklamalar, düzeltmeler vb.) yükleyebilirsiniz.</p>
+                                <div class="mb-3">
+                                    <input class="form-control" type="file" id="attachment" multiple>
+                                </div>
+                                <div id="file-list" class="list-group">
+                                    <!-- Yüklenen dosyalar burada listelenecek -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Formun Alt Kısmı ve Butonlar -->
+                        <div class="sticky-buttons">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="save-template">
+                                    <label class="form-check-label" for="save-template">
+                                        Bu değerlendirmeyi şablon olarak kaydet
+                                    </label>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-secondary" id="save-draft-btn">
+                                        <i class="bi bi-save me-1"></i> Taslak Olarak Kaydet
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="preview-btn">
+                                        <i class="bi bi-eye me-1"></i> Önizleme
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="submit-btn">
+                                        <i class="bi bi-check-circle me-1"></i> Değerlendirmeyi Tamamla
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Geri Dön Butonu -->
+<a href="hakem-panel.html" class="btn btn-primary back-button rounded-circle">
+    <i class="bi bi-arrow-left"></i>
+</a>
+
+<!-- Önizleme Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Değerlendirme Önizlemesi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body" id="preview-content">
+                <!-- Önizleme içeriği buraya dinamik olarak yüklenecek -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="edit-review-btn">Düzenle</button>
+                <button type="button" class="btn btn-success" id="submit-review-btn">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Şablon Seçimi Modal -->
+<div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="templateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="templateModalLabel">Değerlendirme Şablonu Seç</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action" data-template="methodology">
+                        <strong>Metodoloji Eleştirisi</strong>
+                        <p class="mb-0 small text-muted">Araştırma metodolojisi iyileştirme önerileri...</p>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action" data-template="literature">
+                        <strong>Literatür Taraması Eleştirisi</strong>
+                        <p class="mb-0 small text-muted">Literatür taraması iyileştirme önerileri...</p>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action" data-template="structure">
+                        <strong>Makale Yapısı İyileştirme</strong>
+                        <p class="mb-0 small text-muted">Makale yapısı ve organizasyonu ile ilgili öneriler...</p>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action" data-template="positive">
+                        <strong>Olumlu Değerlendirme</strong>
+                        <p class="mb-0 small text-muted">Güçlü yönleri vurgulayan olumlu değerlendirme...</p>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // URL parametrelerinden makale bilgilerini al
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        
+        // Makalenin var olup olmadığını kontrol et
+        if (articleId) {
+            // Gerçek bir uygulamada burada AJAX ile makale verilerini çekersiniz
+            // Şimdilik statik olarak gösterme amaçlı ID'yi yerleştiriyoruz
+            document.getElementById('article-id').textContent = articleId;
+        }
+        
+        // Yıldız derecelendirme sistemi için tıklama olayları
+        document.querySelectorAll('.rating-stars .bi').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-rating');
+                const starsContainer = this.closest('.rating-stars');
+                const criteriaId = starsContainer.closest('.card').querySelector('.card-title').textContent.trim().split('.')[0];
+                
+                // Tüm yıldızları sıfırla
+                starsContainer.querySelectorAll('.bi').forEach(s => {
+                    s.classList.remove('bi-star-fill');
+                    s.classList.add('bi-star');
+                });
+                
+                // Seçilen yıldıza kadar doldur
+                for (let i = 1; i <= rating; i++) {
+                    const starToFill = starsContainer.querySelector(`.bi[data-rating="${i}"]`);
+                    starToFill.classList.remove('bi-star');
+                    starToFill.classList.add('bi-star-fill');
+                }
+                
+                // Puanı tabloya yaz
+                const scoreId = getScoreIdFromCriteriaNumber(criteriaId);
+                document.getElementById(scoreId).textContent = rating;
+                
+                // Ortalama puanı güncelle
+                updateAverageScore();
+            });
+            
+            // Hover efekti
+            star.addEventListener('mouseenter', function() {
+                const rating = this.getAttribute('data-rating');
+                const starsContainer = this.closest('.rating-stars');
+                
+                starsContainer.querySelectorAll('.bi').forEach(s => {
+                    const starRating = s.getAttribute('data-rating');
+                    if (starRating <= rating) {
+                        s.classList.add('text-warning');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseleave', function() {
+                const starsContainer = this.closest('.rating-stars');
+                starsContainer.querySelectorAll('.bi').forEach(s => {
+                    s.classList.remove('text-warning');
+                });
+            });
+        });
+        
+        // Çıkar çatışması kontrol kutusuna olay dinleyicisi ekle
+        const conflictCheck = document.getElementById('conflict-check');
+        const conflictContainer = document.getElementById('conflict-description-container');
+        
+        conflictCheck.addEventListener('change', function() {
+            if (!this.checked) {
+                conflictContainer.classList.remove('d-none');
+            } else {
+                conflictContainer.classList.add('d-none');
+            }
+        });
+        
+        // Şablon ekleme butonuna olay dinleyicisi ekle
+        document.getElementById('add-template').addEventListener('click', function() {
+            const templateModal = new bootstrap.Modal(document.getElementById('templateModal'));
+            templateModal.show();
+        });
+        
+        // Şablon seçimi olay dinleyicisi
+        document.querySelectorAll('[data-template]').forEach(button => {
+            button.addEventListener('click', function() {
+                const templateType = this.getAttribute('data-template');
+                const authorComments = document.getElementById('author-comments');
+                
+                // Template içeriğini belirle
+                let templateContent = '';
+                
+                switch(templateType) {
+                    case 'methodology':
+                        templateContent = "Makale metodolojisinde bazı iyileştirmeler yapılmalıdır:\n\n1. Örneklem seçimi ve büyüklüğü daha net açıklanmalıdır.\n2. Kullanılan veri toplama araçlarının geçerlilik ve güvenilirliklerine dair bilgiler eklenmelidir.\n3. Veri analiz yöntemleri seçimi için gerekçeler sunulmalıdır.";
+                        break;
+                    case 'literature':
+                        templateContent = "Literatür taraması şu yönlerden genişletilebilir:\n\n1. Son 3-5 yıldaki güncel çalışmalar dahil edilmelidir.\n2. Konuya farklı bakış açıları sunan çalışmalar eklenmelidir.\n3. Uluslararası literatürden daha fazla kaynak eklenmelidir.";
+                        break;
+                    case 'structure':
+                        templateContent = "Makalenin yapısal organizasyonu şu şekilde iyileştirilebilir:\n\n1. Giriş bölümü araştırma sorusunu daha net ortaya koymalıdır.\n2. Bulgular bölümü alt başlıklar halinde düzenlenerek daha anlaşılır hale getirilebilir.\n3. Tartışma bölümünde literatürle ilişkilendirme güçlendirilmelidir.";
+                        break;
+                    case 'positive':
+                        templateContent = "Makale genel olarak iyi hazırlanmış ve alan yazına değerli katkılar sunmaktadır. Özellikle aşağıdaki yönleri takdir edilmelidir:\n\n1. Güncel ve önemli bir konuyu ele alması\n2. Metodolojinin titizlikle uygulanması\n3. Bulguların açık ve anlaşılır bir şekilde sunulması\n4. Tartışma bölümünün kapsamlı ve derinlemesine olması";
+                        break;
+                }
+                
+                // Mevcut içeriğin sonuna ekle
+                authorComments.value = authorComments.value ? authorComments.value + "\n\n" + templateContent : templateContent;
+                
+                // Modal'ı kapat
+                bootstrap.Modal.getInstance(document.getElementById('templateModal')).hide();
+            });
+        });
+        
+        // Vurgu ekleme butonu
+        document.getElementById('add-highlight').addEventListener('click', function() {
+            const authorComments = document.getElementById('author-comments');
+            const selectionStart = authorComments.selectionStart;
+            const selectionEnd = authorComments.selectionEnd;
+            
+            if (selectionStart !== selectionEnd) {
+                const selectedText = authorComments.value.substring(selectionStart, selectionEnd);
+                const highlightedText = `[ÖNEMLİ: ${selectedText}]`;
+                
+                const newValue = authorComments.value.substring(0, selectionStart) + 
+                                highlightedText + 
+                                authorComments.value.substring(selectionEnd);
+                                
+                authorComments.value = newValue;
+            }
+        });
+        
+        // Önizleme butonu
+        document.getElementById('preview-btn').addEventListener('click', function() {
+            const previewContent = document.getElementById('preview-content');
+            let content = '<div class="review-preview">';
+            
+            // Makale bilgileri
+            content += `<h4 class="mb-3">Makale: ${document.getElementById('article-title').textContent}</h4>`;
+            content += `<p class="text-muted mb-4">ID: ${document.getElementById('article-id').textContent} | Değerlendirme Tarihi: ${new Date().toLocaleDateString()}</p>`;
+            
+            // Değerlendirme Özeti
+            content += '<div class="card mb-4"><div class="card-header bg-light"><h5>Değerlendirme Özeti</h5></div><div class="card-body">';
+            content += '<table class="table table-bordered"><thead><tr><th>Kriter</th><th class="text-center">Puan</th><th>Yorum</th></tr></thead><tbody>';
+            
+            // Kriterleri ekle
+            const criteria = [
+                {id: '1', name: 'Özgünlük ve Yenilik', scoreId: 'originality-score', commentId: 'originality-comment'},
+                {id: '2', name: 'Metodoloji', scoreId: 'methodology-score', commentId: 'methodology-comment'},
+                {id: '3', name: 'Sonuçlar ve Tartışma', scoreId: 'results-score', commentId: 'results-comment'},
+                {id: '4', name: 'Literatür Taraması', scoreId: 'literature-score', commentId: 'literature-comment'},
+                {id: '5', name: 'Yazım ve Organizasyon', scoreId: 'writing-score', commentId: 'writing-comment'},
+                {id: '6', name: 'Bilimsel Etki ve Önemi', scoreId: 'impact-score', commentId: 'impact-comment'}
+            ];
+            
+            criteria.forEach(criterion => {
+                const score = document.getElementById(criterion.scoreId).textContent;
+                const comment = document.getElementById(criterion.commentId).value;
+                
+                content += `<tr>
+                    <td>${criterion.id}. ${criterion.name}</td>
+                    <td class="text-center">${score}</td>
+                    <td>${comment || '<em>Yorum yok</em>'}</td>
+                </tr>`;
+            });
+            
+            content += `<tr class="table-primary">
+                <td colspan="2" class="fw-bold">Ortalama Puan</td>
+                <td class="fw-bold">${document.getElementById('average-score').textContent}</td>
+            </tr>`;
+            
+            content += '</tbody></table></div></div>';
+            
+            // Genel değerlendirme
+            content += '<div class="card mb-4"><div class="card-header bg-light"><h5>Genel Değerlendirme</h5></div><div class="card-body">';
+            
+            // Editör yorumları
+            const editorComments = document.getElementById('editor-comments').value;
+            content += `<div class="mb-4">
+                <h6 class="fw-bold">Editöre Yorumlar</h6>
+                <div class="alert alert-info">
+                    ${editorComments || '<em>Editöre yorum eklenmemiş</em>'}
+                </div>
+            </div>`;
+            
+            // Yazar yorumları
+            const authorComments = document.getElementById('author-comments').value;
+            content += `<div class="mb-4">
+                <h6 class="fw-bold">Yazara Yorumlar</h6>
+                <div class="alert alert-light border">
+                    ${authorComments || '<em>Yazara yorum eklenmemiş</em>'}
+                </div>
+            </div>`;
+            
+            // Güçlü ve zayıf yönler
+            const strengths = document.getElementById('strengths').value;
+            const weaknesses = document.getElementById('weaknesses').value;
+            
+            content += '<div class="row mb-4">';
+            content += `<div class="col-md-6">
+                <h6 class="fw-bold">Güçlü Yönler</h6>
+                <div class="alert alert-success">
+                    ${strengths || '<em>Güçlü yönler belirtilmemiş</em>'}
+                </div>
+            </div>`;
+            
+            content += `<div class="col-md-6">
+                <h6 class="fw-bold">Zayıf Yönler</h6>
+                <div class="alert alert-danger">
+                    ${weaknesses || '<em>Zayıf yönler belirtilmemiş</em>'}
+                </div>
+            </div>`;
+            content += '</div>';
+            
+            // Karar
+            let decision = '';
+            if (document.getElementById('decision-accept').checked) decision = 'Kabul';
+            else if (document.getElementById('decision-minor').checked) decision = 'Küçük Düzeltmeler ile Kabul';
+            else if (document.getElementById('decision-major').checked) decision = 'Büyük Düzeltmeler Gerekli';
+            else if (document.getElementById('decision-reject').checked) decision = 'Ret';
+            
+            content += `<div class="mb-4">
+                <h6 class="fw-bold">Karar</h6>
+                <div class="alert ${getDecisionClass(decision)}">
+                    <strong>${decision || 'Karar verilmemiş'}</strong>
+                </div>
+            </div>`;
+            
+            content += '</div></div>';
+            
+            // Ek dosyalar
+            const fileList = document.getElementById('file-list');
+            if (fileList.children.length > 0) {
+                content += '<div class="card mb-4"><div class="card-header bg-light"><h5>Ek Dosyalar</h5></div><div class="card-body">';
+                content += '<ul class="list-group">';
+                
+                Array.from(fileList.children).forEach(file => {
+                    content += `<li class="list-group-item">${file.textContent}</li>`;
+                });
+                
+                content += '</ul></div></div>';
+            }
+            
+            content += '</div>'; // review-preview div kapanışı
+            
+            previewContent.innerHTML = content;
+            
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
+        });
+        
+        // Gönder butonuna tıklama
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            validateAndSubmit();
+        });
+        
+        // Modal içindeki gönder butonu
+        document.getElementById('submit-review-btn').addEventListener('click', function() {
+            bootstrap.Modal.getInstance(document.getElementById('previewModal')).hide();
+            validateAndSubmit();
+        });
+        
+        // Dosya yükleme işlevi
+        document.getElementById('attachment').addEventListener('change', function(e) {
+            const fileList = document.getElementById('file-list');
+            
+            for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+                const fileItem = document.createElement('a');
+                fileItem.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
+                fileItem.href = '#';
+                
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+                
+                const fileSize = document.createElement('span');
+                fileSize.className = 'badge bg-primary rounded-pill';
+                fileSize.textContent = formatFileSize(file.size);
+                
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(fileSize);
+                fileList.appendChild(fileItem);
+            }
+            
+            // Input'u temizle
+            this.value = '';
+        });
+        
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+    });
+    
+    // Yardımcı fonksiyonlar
+    function getScoreIdFromCriteriaNumber(criteriaNumber) {
+        const criteriaMap = {
+            '1': 'originality-score',
+            '2': 'methodology-score',
+            '3': 'results-score',
+            '4': 'literature-score',
+            '5': 'writing-score',
+            '6': 'impact-score'
+        };
+        
+        return criteriaMap[criteriaNumber] || '';
+    }
+    
+    function updateAverageScore() {
+        const scores = [
+            'originality-score',
+            'methodology-score',
+            'results-score',
+            'literature-score',
+            'writing-score',
+            'impact-score'
+        ].map(id => {
+            const scoreElement = document.getElementById(id);
+            const scoreText = scoreElement.textContent;
+            return scoreText !== '-' ? parseInt(scoreText) : null;
+        }).filter(score => score !== null);
+        
+        if (scores.length > 0) {
+            const sum = scores.reduce((total, score) => total + score, 0);
+            const average = (sum / scores.length).toFixed(1);
+            document.getElementById('average-score').textContent = average;
+        } else {
+            document.getElementById('average-score').textContent = '-';
+        }
+    }
+    
+    function validateAndSubmit() {
+        // Değerlendirme formunun gerekli alanlarını kontrol et
+        const requiredFields = [
+            { id: 'conflict-check', type: 'checkbox', message: 'Lütfen çıkar çatışması beyanını onaylayın.' },
+            { id: 'editor-comments', type: 'text', message: 'Lütfen editöre yorumlarınızı girin.' },
+            { id: 'author-comments', type: 'text', message: 'Lütfen yazara yorumlarınızı girin.' }
+        ];
+        
+        let isValid = true;
+        let firstInvalidField = null;
+        
+        // Tüm gerekli alanları kontrol et
+        requiredFields.forEach(field => {
+            const element = document.getElementById(field.id);
+            let isFieldValid = false;
+            
+            if (field.type === 'checkbox') {
+                isFieldValid = element.checked;
+            } else if (field.type === 'text') {
+                isFieldValid = element.value.trim() !== '';
+            }
+            
+            if (!isFieldValid) {
+                isValid = false;
+                
+                // İlk geçersiz alanı kaydet
+                if (!firstInvalidField) {
+                    firstInvalidField = element;
+                }
+                
+                // Alanı vurgula
+                element.classList.add('is-invalid');
+                
+                // Hata mesajı varsa ekle
+                const feedbackDiv = element.nextElementSibling;
+                if (feedbackDiv && feedbackDiv.classList.contains('invalid-feedback')) {
+                    feedbackDiv.textContent = field.message;
+                } else {
+                    const invalidFeedback = document.createElement('div');
+                    invalidFeedback.className = 'invalid-feedback';
+                    invalidFeedback.textContent = field.message;
+                    element.parentNode.insertBefore(invalidFeedback, element.nextSibling);
+                }
+            } else {
+                // Geçerli ise vurgulamayı kaldır
+                element.classList.remove('is-invalid');
+                const feedbackDiv = element.nextElementSibling;
+                if (feedbackDiv && feedbackDiv.classList.contains('invalid-feedback')) {
+                    feedbackDiv.remove();
+                }
+            }
+        });
+        
+        // Karar seçimi kontrolü
+        const decisionSelected = document.querySelector('input[name="decision"]:checked');
+        if (!decisionSelected) {
+            isValid = false;
+            const decisionContainer = document.querySelector('input[name="decision"]').closest('.mb-4');
+            
+            // Hata mesajı ekle
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'text-danger mt-2';
+            errorMsg.textContent = 'Lütfen bir karar seçin.';
+            
+            // Varsa önceki hata mesajını kaldır
+            const existingError = decisionContainer.querySelector('.text-danger');
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            decisionContainer.appendChild(errorMsg);
+            
+            if (!firstInvalidField) {
+                firstInvalidField = document.querySelector('input[name="decision"]');
+            }
+        } else {
+            // Hata mesajını kaldır
+            const decisionContainer = document.querySelector('input[name="decision"]').closest('.mb-4');
+            const existingError = decisionContainer.querySelector('.text-danger');
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+        
+        // Geçerli değilse ilk hatalı alana odaklan
+        if (!isValid && firstInvalidField) {
+            firstInvalidField.focus();
+            return false;
+        }
+        
+        // Tüm kontroller geçildiyse formu gönder
+        if (isValid) {
+            // Gerçek bir uygulamada burada form verilerini sunucuya göndermek için AJAX kullanılır
+            // Burada simülasyon amacıyla başarılı bir gönderim mesajı gösteriyoruz
+            alert('Değerlendirmeniz başarıyla gönderildi. Teşekkür ederiz!');
+            window.location.href = 'hakem-panel.html';
+        }
+        
+        return isValid;
+    }
+    
+    function getDecisionClass(decision) {
+        switch (decision) {
+            case 'Kabul': return 'alert-success';
+            case 'Küçük Düzeltmeler ile Kabul': return 'alert-info';
+            case 'Büyük Düzeltmeler Gerekli': return 'alert-warning';
+            case 'Ret': return 'alert-danger';
+            default: return 'alert-secondary';
+        }
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/hakem-utils.js"></script>
+</body>
+</html>

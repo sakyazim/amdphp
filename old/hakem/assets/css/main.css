@@ -1,0 +1,280 @@
+        /* Custom styles to enhance the interface */
+        .stats-card {
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 0.25rem;
+            height: 100%;
+        }
+        .stats-header {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+        .stats-body {
+            padding: 1.25rem;
+        }
+        .stats-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .stats-item:last-child {
+            margin-bottom: 0;
+        }
+        .stats-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+        .stats-text {
+            flex: 1;
+        }
+        .stats-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        .stats-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .bg-primary-light {
+            background-color: rgba(13, 110, 253, 0.15);
+        }
+        .bg-success-light {
+            background-color: rgba(25, 135, 84, 0.15);
+        }
+        .bg-warning-light {
+            background-color: rgba(255, 193, 7, 0.15);
+        }
+        .bg-danger-light {
+            background-color: rgba(220, 53, 69, 0.15);
+        }
+        .bg-info-light {
+            background-color: rgba(13, 202, 240, 0.15);
+        }
+        .expandable-row {
+            cursor: pointer;
+        }
+        .expand-button {
+            padding: 0;
+            color: #6c757d;
+        }
+        .expand-button:hover {
+            color: #0d6efd;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .role-alert {
+            font-size: 0.875rem;
+            color: #6c757d;
+            background-color: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .sidebar-heading {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .nav-link:not(.active):hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* Mobile Sidebar Toggle */
+        @media (max-width: 991.98px) {
+            .sidebar-container {
+                position: fixed;
+                top: 70px;
+                left: -280px;
+                width: 280px;
+                height: calc(100vh - 70px);
+                z-index: 1030;
+                transition: left 0.3s ease-in-out;
+                overflow-y: auto;
+            }
+            .sidebar-container.show {
+                left: 0;
+            }
+            .content-wrapper {
+                flex-direction: column;
+            }
+            .mobile-menu-toggle {
+                background: transparent;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+        }
+/* Modal animasyon için */
+@keyframes shakeX {
+  from, to {
+    transform: translate3d(0, 0, 0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.animate__animated {
+  animation-duration: 0.5s;
+}
+
+.animate__shakeX {
+  animation-name: shakeX;
+}
+
+/* Modal arka plan vurgusu */
+.modal-backdrop.show {
+  opacity: 0.7;
+}
+
+
+/* Sidebar için sabit genişlik */
+.sidebar-container {
+    width: 280px;
+    min-width: 280px;
+    flex-shrink: 0;
+}
+
+/* İçerik alanının genişlemesini sınırlandırma */
+.content-area {
+    width: calc(100% - 300px);
+    overflow-x: auto;
+}
+
+/* Mobil görünüm için responsive ayarlar */
+@media (max-width: 991.98px) {
+    .content-area {
+        width: 100%;
+    }
+}
+
+
+/* Sidebar genel stil iyileştirmeleri */
+.sidebar {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Sidebar başlık stili */
+.sidebar-heading {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #6c757d;
+}
+
+/* Sidebar menü öğeleri için genel stil */
+.sidebar .nav-item {
+    margin-bottom: 0.25rem;
+}
+
+.sidebar .nav-link {
+    border-radius: 0.375rem;
+    padding: 0.625rem 1rem;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+
+/* Hover durumu */
+.sidebar .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+/* Aktif menü öğesi */
+.sidebar .nav-link.active {
+    background-color: #e9f0ff;
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* İkon stilleri */
+.sidebar .nav-link i {
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    width: 1.25rem;
+    text-align: center;
+}
+
+/* Badge (bildirim) stilleri */
+.sidebar .badge {
+    margin-left: auto;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Menü bölümleri arasında boşluk */
+.sidebar > div:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+
+/* Mobil görünüm için ek ayarlar */
+@media (max-width: 991.98px) {
+    .sidebar {
+        padding: 1rem;
+    }
+    
+    .sidebar .nav-link {
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Alternatif sidebar stili için ek özelleştirmeler */
+
+/* Sidebar arka plan rengi */
+.sidebar {
+    background-color: #ffffff;
+}
+
+/* Menü öğeleri arasında ince ayırıcı çizgiler */
+.sidebar .nav-item:not(:last-child) .nav-link {
+    border-bottom: 1px solid #f8f9fa;
+}
+
+/* Daha yuvarlak köşeler için */
+.sidebar .nav-link {
+    border-radius: 0.5rem;
+}
+
+/* Aktif menü öğesi için gradient arka plan */
+.sidebar .nav-link.active {
+    background: linear-gradient(to right, #e9f0ff, #f8f9fa);
+    border-left: 3px solid #0d6efd;
+}
+
+/* İkonlar için hafif renk efekti */
+.sidebar .nav-link i {
+    opacity: 0.8;
+}
+
+.sidebar .nav-link:hover i,
+.sidebar .nav-link.active i {
+    opacity: 1;
+}
+

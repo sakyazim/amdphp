@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Dergi Yöneticisi Ana Gösterge Paneli</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Dashboard CSS -->
+    <link href="assets/css/dashboard.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="dergi-yonetici-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Dergi Yöneticisi olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal-check me-2"></i>
+                        <span>Dergi Yöneticisi</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-journal-check me-2"></i> Dergi Yöneticisi</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="dergi-yonetici-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="dergi-yonetici-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container-fluid">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Yönetim Menüsü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-panel.html" class="nav-link active">
+                                    <i class="bi bi-house me-2"></i> Ana Gösterge Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-istatistikler.html" class="nav-link">
+                                    <i class="bi bi-graph-up me-2"></i> İstatistikler & Raporlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-tum-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Tüm Makaleler
+                                    <span class="badge bg-primary rounded-pill float-end">25</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-kullanicilar.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Kullanıcı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-roller.html" class="nav-link">
+                                    <i class="bi bi-person-badge me-2"></i> Rol Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-is-akislari.html" class="nav-link">
+                                    <i class="bi bi-diagram-3 me-2"></i> İş Akışı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-email-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> E-posta Şablonları
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-dergiler.html" class="nav-link">
+                                    <i class="bi bi-journal-richtext me-2"></i> Dergi Yapılandırması
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-sistem-ayarlari.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Sistem Ayarları
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Karşılama & Hızlı Bilgiler -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="card welcome-card">
+                            <div class="card-body d-flex align-items-center">
+                                <img src="assets/images/avatar.png" alt="User Avatar" class="welcome-avatar rounded-circle me-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Hoş Geldiniz, Prof. Dr. Ahmet Yılmaz</h4>
+                                    <p class="card-text text-muted mb-2">Son giriş: 05.03.2025, 09:45</p>
+                                    <div class="d-flex flex-wrap">
+                                        <div class="me-4 mb-2">
+                                            <span class="text-muted">Değerlendirme bekleyen:</span>
+                                            <span class="fw-bold text-warning">8 makale</span>
+                                        </div>
+                                        <div class="me-4 mb-2">
+                                            <span class="text-muted">Görevler:</span>
+                                            <span class="fw-bold text-info">5 bekleyen</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-muted">Bildirimler:</span>
+                                            <span class="fw-bold text-danger">3 okunmamış</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0"><i class="bi bi-calendar3"></i> Dergi Takvimi</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-danger">Bugün</span>
+                                            <small class="text-muted">05.03.2025</small>
+                                        </div>
+                                        <p class="mb-0 mt-1">Baş Editör Toplantısı (14:00)</p>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-warning text-dark">2 gün</span>
+                                            <small class="text-muted">07.03.2025</small>
+                                        </div>
+                                        <p class="mb-0 mt-1">Sayı Yayın Son Tarih</p>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-primary">10 gün</span>
+                                            <small class="text-muted">15.03.2025</small>
+                                        </div>
+                                        <p class="mb-0 mt-1">Yeni Sayı Planlaması</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <a href="#" class="text-decoration-none">Tüm Takvimi Görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI ve Özet İstatistikler -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-primary">Toplam Makale</div>
+                                        <div class="dashboard-stat-card-value">25</div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-up-short"></i> %12 artış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-primary-light">
+                                        <i class="bi bi-file-earmark-text text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-success">Kabul Oranı</div>
+                                        <div class="dashboard-stat-card-value">68<small>%</small></div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-up-short"></i> %5 artış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-success-light">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-info">Ortalama Değerlendirme</div>
+                                        <div class="dashboard-stat-card-value">18<small> gün</small></div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-down-short"></i> %8 azalış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-info-light">
+                                        <i class="bi bi-hourglass-split text-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="dashboard-stat-card-info">
+                                        <div class="dashboard-stat-card-title text-warning">Aktif Hakemler</div>
+                                        <div class="dashboard-stat-card-value">42</div>
+                                        <div class="dashboard-stat-card-trend">
+                                            <i class="bi bi-arrow-up-short"></i> %15 artış
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-stat-card-icon bg-warning-light">
+                                        <i class="bi bi-people text-warning"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grafik ve Aktivite Akışı -->
+                <div class="row mb-4">
+                    <div class="col-lg-8 mb-4 mb-lg-0">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-graph-up"></i> Makale Gönderim ve Kabul İstatistikleri</h5>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary active">Son 6 Ay</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Son 1 Yıl</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Tüm Zamanlar</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="articleStatsChart" width="100%" height="50"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-activity"></i> Aktivite Akışı</h5>
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-filter"></i> Filtrele
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="activity-stream">
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-success">
+                                            <i class="bi bi-check-circle"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>Makale Kabul Edildi</strong>
+                                                <small class="text-muted">10 dk önce</small>
+                                            </div>
+                                            <p class="mb-0">
+                                                <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0102" class="text-decoration-none">ART-2025-0102</a> numaralı makale editör tarafından kabul edildi.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-info">
+                                            <i class="bi bi-person-check"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>Hakem Ataması</strong>
+                                                <small class="text-muted">45 dk önce</small>
+                                            </div>
+                                            <p class="mb-0">
+                                                Doç. Dr. Zeynep Kartal, <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0103" class="text-decoration-none">ART-2025-0103</a> numaralı makaleye hakem olarak atandı.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-warning">
+                                            <i class="bi bi-clock-history"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>Son Tarih Hatırlatması</strong>
+                                                <small class="text-muted">2 saat önce</small>
+                                            </div>
+                                            <p class="mb-0">
+                                                Prof. Dr. Ali Kaya'ya değerlendirme için hatırlatma e-postası gönderildi.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-primary">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>Yeni Makale Gönderildi</strong>
+                                                <small class="text-muted">3 saat önce</small>
+                                            </div>
+                                            <p class="mb-0">
+                                                Doç. Dr. Ahmet Yılmaz tarafından <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0103" class="text-decoration-none">ART-2025-0103</a> numaralı yeni bir makale gönderildi.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-danger">
+                                            <i class="bi bi-x-circle"></i>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>Makale Reddedildi</strong>
+                                                <small class="text-muted">1 gün önce</small>
+                                            </div>
+                                            <p class="mb-0">
+                                                <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0098" class="text-decoration-none">ART-2025-0098</a> numaralı makale editör tarafından reddedildi.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <a href="#" class="text-decoration-none">Tüm Aktiviteleri Görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kategoriler ve Son İşlemler -->
+                <div class="row mb-4">
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <div class="card h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0"><i class="bi bi-tags"></i> Kategori Dağılımı</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="categoryChart" width="100%" height="260"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-clock-history"></i> Son İşlemler</h5>
+                                <a href="dergi-yonetici-tum-makaleler.html" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-eye"></i> Tüm Makaleleri Gör
+                                </a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Makale ID</th>
+                                                <th>Başlık</th>
+                                                <th>Yazar</th>
+                                                <th>Durum</th>
+                                                <th>Son İşlem</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><small>ART-2025-0103</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0103" class="text-decoration-none">Yapay Zeka ve Eğitim</a>
+                                                </td>
+                                                <td>Ahmet Yılmaz</td>
+                                                <td><span class="badge bg-warning text-dark">Değerlendirmede</span></td>
+                                                <td><small>Hakem ataması yapıldı</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0103" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><small>ART-2025-0102</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0102" class="text-decoration-none">Meme Kanseri Teşhisinde Derin Öğrenme...</a>
+                                                </td>
+                                                <td>Zeynep Kaya</td>
+                                                <td><span class="badge bg-success">Kabul Edildi</span></td>
+                                                <td><small>Editör kararı verildi</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0102" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><small>ART-2025-0101</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0101" class="text-decoration-none">Modern Eğitim Yöntemlerinin Öğrenci...</a>
+                                                </td>
+                                                <td>Murat Demir</td>
+                                                <td><span class="badge bg-info">Revizyon Gerekli</span></td>
+                                                <td><small>Yazara bildirim gönderildi</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0101" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><small>ART-2025-0098</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0098" class="text-decoration-none">Çocuklarda Sosyal Medya Kullanımının...</a>
+                                                </td>
+                                                <td>Elif Yılmaz</td>
+                                                <td><span class="badge bg-danger">Reddedildi</span></td>
+                                                <td><small>Editör kararı verildi</small></td>
+                                                <td>
+                                                    <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0098" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hakem ve Editör Performansı -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-star"></i> Hakem Performansı</h5>
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-filter"></i> Filtrele
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Hakem</th>
+                                                <th>Tamamlanan</th>
+                                                <th>Ort. Süre</th>
+                                                <th>Kalite</th>
+                                                <th>Durum</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Prof. Dr. Ali Kaya</td>
+                                                <td>12</td>
+                                                <td>14 gün</td>
+                                                <td>
+                                                    <div class="rating">
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star text-muted"></i>
+                                                    </div>
+                                                </td>
+                                                <td><span class="badge bg-success">Aktif</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Doç. Dr. Zeynep Kartal</td>
+                                                <td>8</td>
+                                                <td>18 gün</td>
+                                                <td>
+                                                    <div class="rating">
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-half text-warning"></i>
+                                                        <i class="bi bi-star text-muted"></i>
+                                                    </div>
+                                                </td>
+                                                <td><span class="badge bg-success">Aktif</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dr. Öğr. Üyesi Murat Demir</td>
+                                                <td>5</td>
+                                                <td>20 gün</td>
+                                                <td>
+                                                    <div class="rating">
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                        <i class="bi bi-star text-muted"></i>
+                                                        <i class="bi bi-star text-muted"></i>
+                                                    </div>
+                                                </td>
+                                                <td><span class="badge bg-warning text-dark">Değerlendirmede</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <a href="#" class="text-decoration-none">Tüm Hakemleri Görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-person-gear"></i> Editör Performansı</h5>
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-filter"></i> Filtrele
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Editör</th>
+                                                <th>Yönetilen</th>
+                                                <th>Ort. Karar</th>
+                                                <th>Kabul %</th>
+                                                <th>Durum</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Prof. Dr. Mehmet Aydın</td>
+                                                <td>18</td>
+                                                <td>25 gün</td>
+                                                <td>68%</td>
+                                                <td><span class="badge bg-success">Aktif</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Doç. Dr. Kemal Öztürk</td>
+                                                <td>15</td>
+                                                <td>22 gün</td>
+                                                <td>70%</td>
+                                                <td><span class="badge bg-success">Aktif</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prof. Dr. Canan Yücel</td>
+                                                <td>12</td>
+                                                <td>30 gün</td>
+                                                <td>58%</td>
+                                                <td><span class="badge bg-warning text-dark">İzinde</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <a href="#" class="text-decoration-none">Tüm Editörleri Görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dikkat Gerektiren ve Görevler -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="card h-100 border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="card-title mb-0"><i class="bi bi-exclamation-triangle"></i> Dikkat Gerektiren Durumlar</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <strong>Süre Aşımı: Hakem Değerlendirmesi</strong>
+                                            <span class="badge bg-danger">5 gün gecikme</span>
+                                        </div>
+                                        <p class="mb-2">
+                                            <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0095" class="text-decoration-none">ART-2025-0095</a> numaralı makale için Doç. Dr. Zeynep Kartal'ın değerlendirmesi gecikiyor.
+                                        </p>
+                                        <div class="d-flex">
+                                            <button class="btn btn-sm btn-warning me-2">
+                                                <i class="bi bi-bell"></i> Hatırlatma Gönder
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="bi bi-arrow-repeat"></i> Yeni Hakem Ata
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <strong>Sayı Kapasitesi Aşıldı</strong>
+                                            <span class="badge bg-warning text-dark">Uyarı</span>
+                                        </div>
+                                        <p class="mb-2">
+                                            Nisan 2025 sayısı için makale kapasitesi aşıldı. 2 makale yeni bir sayıya aktarılmalı.
+                                        </p>
+                                        <div>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="bi bi-gear"></i> Sayı Yapılandırma
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <strong>Son Tarih Yaklaşıyor: Editör Kararı</strong>
+                                            <span class="badge bg-warning text-dark">2 gün kaldı</span>
+                                        </div>
+                                        <p class="mb-2">
+                                            <a href="dergi-yoneticisi-makale-detay.htm?id=ART-2025-0101" class="text-decoration-none">ART-2025-0101</a> numaralı makale için editör kararı son tarihi yaklaşıyor.
+                                        </p>
+                                        <div>
+                                            <button class="btn btn-sm btn-warning">
+                                                <i class="bi bi-bell"></i> Editöre Hatırlat
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <a href="#" class="text-decoration-none">Tüm Uyarıları Görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-check2-square"></i> Görevlerim</h5>
+                                <button class="btn btn-light btn-sm">
+                                    <i class="bi bi-plus-circle"></i> Yeni Görev
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="task1">
+                                            <label class="form-check-label" for="task1">
+                                                <strong>Nisan 2025 sayısı için makale seçimi yapılacak</strong>
+                                                <div class="text-muted small">Son Tarih: 10.03.2025</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="task2">
+                                            <label class="form-check-label" for="task2">
+                                                <strong>Yeni hakem önerileri değerlendirilecek</strong>
+                                                <div class="text-muted small">Son Tarih: 15.03.2025</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="task3">
+                                            <label class="form-check-label" for="task3">
+                                                <strong>İntihal tarama süreci gözden geçirilecek</strong>
+                                                <div class="text-muted small">Son Tarih: 20.03.2025</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="task4">
+                                            <label class="form-check-label" for="task4">
+                                                <strong>Editörler kurulu toplantısı planlanacak</strong>
+                                                <div class="text-muted small">Son Tarih: 25.03.2025</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="task5">
+                                            <label class="form-check-label" for="task5">
+                                                <strong>Yazım kuralları güncellenecek</strong>
+                                                <div class="text-muted small">Son Tarih: 30.03.2025</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <a href="#" class="text-decoration-none">Tüm Görevleri Görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3 bg-light border-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <span class="text-muted small">Versiyon 2.5.3 | Son Güncelleme: 01.03.2025</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>

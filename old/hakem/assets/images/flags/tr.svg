@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="45.4116mm" height="31.7715mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1067.89 747.13"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#D62229;fill-rule:nonzero}
+    .fil1 {fill:url(#id0)}
+    .fil2 {fill:url(#id1)}
+   ]]>
+  </style>
+  <radialGradient id="id0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.29576 -0 -0 -1.29577 -104 878)" cx="353.12" cy="382.32" r="189.3" fx="353.12" fy="382.32">
+   <stop offset="0" style="stop-opacity:1; stop-color:#FEFEFE"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#E9D4E0"/>
+  </radialGradient>
+  <radialGradient id="id1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.92423 -0 -0 -2.92419 -679 1503)" xlink:href="#id0" cx="352.76" cy="382.95" r="83.88" fx="352.76" fy="382.95">
+  </radialGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <path class="fil0" d="M1067.89 697.42c0,27.47 -22.24,49.71 -49.69,49.71l-968.51 0c-27.45,0 -49.69,-22.24 -49.69,-49.71l0 -647.73c0,-27.43 22.24,-49.69 49.69,-49.69l968.51 0c27.45,0 49.69,22.26 49.69,49.69l0 647.73z"/>
+  <path class="fil1" d="M214.43 370.96c0,-82.47 67.97,-149.33 151.83,-149.33 35.74,0 68.58,12.17 94.53,32.52 -33.44,-44.13 -85.34,-72.49 -143.66,-72.49 -100.86,0 -182.62,84.76 -182.62,189.3 0,104.55 81.76,189.3 182.62,189.3 58.32,0 110.22,-28.36 143.66,-72.48 -25.95,20.34 -58.79,32.52 -94.53,32.52 -83.86,0 -151.83,-66.86 -151.83,-149.34z"/>
+  <polygon class="fil2" points="497.58,285.38 537.86,336.93 599.33,314.55 562.75,368.79 603.03,420.35 540.14,402.32 503.56,456.56 501.28,391.16 438.38,373.13 499.87,350.75 "/>
+ </g>
+</svg>

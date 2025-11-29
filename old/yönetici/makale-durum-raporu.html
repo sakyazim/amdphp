@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makale Durum Raporu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .report-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .report-logo {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+        
+        .report-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .report-subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin: 5px 0 0 0;
+        }
+        
+        .report-metadata {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .report-metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .metadata-label {
+            font-weight: bold;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .metadata-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .summary-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .summary-card {
+            flex-basis: 23%;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-card.blue {
+            border-left-color: #3498db;
+        }
+        
+        .summary-card.green {
+            border-left-color: #27ae60;
+        }
+        
+        .summary-card.red {
+            border-left-color: #e74c3c;
+        }
+        
+        .summary-card.orange {
+            border-left-color: #f39c12;
+        }
+        
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .card-label {
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .data-table th {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .data-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .status-review {
+            background-color: #f39c12;
+        }
+        
+        .status-accepted {
+            background-color: #27ae60;
+        }
+        
+        .status-rejected {
+            background-color: #e74c3c;
+        }
+        
+        .status-revision {
+            background-color: #3498db;
+        }
+        
+        .status-published {
+            background-color: #9b59b6;
+        }
+        
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .chart {
+            flex-basis: 48%;
+            height: 300px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        .chart img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .alert-section {
+            background-color: #ffebee;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .alert-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .alert-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .alert-table th {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .alert-table td {
+            border-bottom: 1px solid #ffcdd2;
+            padding: 8px;
+        }
+        
+        .remarks-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .remarks-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .report-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media print {
+            .report-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 15px;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        
+        .progress-box {
+            margin-bottom: 20px;
+        }
+        
+        .progress-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .progress-bar-container {
+            background-color: #ecf0f1;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #3498db;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="report-header">
+            <img src="https://via.placeholder.com/150x50/3498db/ffffff?text=X+Dergisi" alt="X Dergisi Logo" class="report-logo">
+            <h1 class="report-title">Makale Durum Raporu</h1>
+            <p class="report-subtitle">Şubat 2025 - X Dergisi Akademik Yayıncılık Sistemi</p>
+        </div>
+        
+        <div class="report-metadata">
+            <div class="report-metadata-item">
+                <span class="metadata-label">Rapor Tarihi</span>
+                <span class="metadata-value">01.03.2025</span>
+            </div>
+            <div class="report-metadata-item">
+                <span class="metadata-label">Kapsam</span>
+                <span class="metadata-value">Son 30 Gün</span>
+            </div>
+            <div class="report-metadata-item">
+                <span class="metadata-label">Oluşturan</span>
+                <span class="metadata-value">Prof. Dr. Ahmet Yılmaz</span>
+            </div>
+            <div class="report-metadata-item">
+                <span class="metadata-label">Rapor ID</span>
+                <span class="metadata-value">REP-2025-0048</span>
+            </div>
+        </div>
+        
+        <div class="summary-section">
+            <h2 class="section-title">Özet Göstergeler</h2>
+            <div class="summary-cards">
+                <div class="summary-card blue">
+                    <div class="card-value">38</div>
+                    <div class="card-label">Toplam Aktif Makale</div>
+                </div>
+                <div class="summary-card green">
+                    <div class="card-value">14</div>
+                    <div class="card-label">Kabul Edilen Makale</div>
+                </div>
+                <div class="summary-card red">
+                    <div class="card-value">8</div>
+                    <div class="card-label">Reddedilen Makale</div>
+                </div>
+                <div class="summary-card orange">
+                    <div class="card-value">16</div>
+                    <div class="card-label">Değerlendirmede</div>
+                </div>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="summary-card blue">
+                    <div class="card-value">63.6%</div>
+                    <div class="card-label">Kabul Oranı</div>
+                </div>
+                <div class="summary-card green">
+                    <div class="card-value">18.4</div>
+                    <div class="card-label">Ortalama İşlem Süresi (gün)</div>
+                </div>
+                <div class="summary-card red">
+                    <div class="card-value">12.2</div>
+                    <div class="card-label">Ort. Hakem Değerlendirme Süresi (gün)</div>
+                </div>
+                <div class="summary-card orange">
+                    <div class="card-value">87%</div>
+                    <div class="card-label">Zamanında Tamamlanan İşlemler</div>
+                </div>
+            </div>
+            
+            <div class="progress-box">
+                <div class="progress-title">Makale İşlem Durumu</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 72%;">72% Tamamlandı</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart">
+                <img src="https://via.placeholder.com/460x280/f8f9fa/333333?text=Kategori+Dağılımı+Grafiği" alt="Kategori Dağılımı Grafiği">
+            </div>
+            <div class="chart">
+                <img src="https://via.placeholder.com/460x280/f8f9fa/333333?text=Durum+Dağılımı+Grafiği" alt="Durum Dağılımı Grafiği">
+            </div>
+        </div>
+        
+        <div class="data-section">
+            <h2 class="section-title">Makale Durum Listesi</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Başlık</th>
+                        <th>Gönderim Tarihi</th>
+                        <th>Durum</th>
+                        <th>Kategori</th>
+                        <th>İşlem Süresi</th>
+                        <th>Hakem Sayısı</th>
+                        <th>Son İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ART-2025-0103</td>
+                        <td>Yapay Zeka ve Eğitim</td>
+                        <td>12.02.2025</td>
+                        <td><span class="status-badge status-review">Değerlendirmede</span></td>
+                        <td>Eğitim Bilimleri</td>
+                        <td>14 gün</td>
+                        <td>2/3</td>
+                        <td>25.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0102</td>
+                        <td>Sürdürülebilir Malzeme Araştırması</td>
+                        <td>10.02.2025</td>
+                        <td><span class="status-badge status-accepted">Kabul Edildi</span></td>
+                        <td>Mühendislik</td>
+                        <td>15 gün</td>
+                        <td>2/2</td>
+                        <td>25.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0101</td>
+                        <td>Uzaktan Eğitim Modelleri</td>
+                        <td>05.02.2025</td>
+                        <td><span class="status-badge status-rejected">Reddedildi</span></td>
+                        <td>Eğitim Bilimleri</td>
+                        <td>12 gün</td>
+                        <td>3/3</td>
+                        <td>17.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0100</td>
+                        <td>Dijital Dönüşüm ve İş Süreçleri</td>
+                        <td>01.02.2025</td>
+                        <td><span class="status-badge status-revision">Revizyon</span></td>
+                        <td>Bilgisayar Bilimleri</td>
+                        <td>18 gün</td>
+                        <td>2/2</td>
+                        <td>19.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0099</td>
+                        <td>Sağlık Bilişimi Uygulamaları</td>
+                        <td>28.01.2025</td>
+                        <td><span class="status-badge status-published">Yayınlandı</span></td>
+                        <td>Sağlık Bilimleri</td>
+                        <td>25 gün</td>
+                        <td>3/3</td>
+                        <td>22.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0098</td>
+                        <td>Nanoteknoloji Uygulamaları</td>
+                        <td>25.01.2025</td>
+                        <td><span class="status-badge status-published">Yayınlandı</span></td>
+                        <td>Mühendislik</td>
+                        <td>22 gün</td>
+                        <td>2/2</td>
+                        <td>16.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0097</td>
+                        <td>İklim Değişikliği Etkileri</td>
+                        <td>20.01.2025</td>
+                        <td><span class="status-badge status-accepted">Kabul Edildi</span></td>
+                        <td>Çevre Bilimleri</td>
+                        <td>16 gün</td>
+                        <td>3/3</td>
+                        <td>05.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0096</td>
+                        <td>Sosyal Medya ve Toplum</td>
+                        <td>15.01.2025</td>
+                        <td><span class="status-badge status-revision">Revizyon</span></td>
+                        <td>Sosyal Bilimler</td>
+                        <td>20 gün</td>
+                        <td>2/2</td>
+                        <td>04.02.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0095</td>
+                        <td>Gıda Güvenliği ve Teknoloji</td>
+                        <td>12.01.2025</td>
+                        <td><span class="status-badge status-accepted">Kabul Edildi</span></td>
+                        <td>Gıda Bilimleri</td>
+                        <td>15 gün</td>
+                        <td>2/2</td>
+                        <td>27.01.2025</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0094</td>
+                        <td>Kuantum Bilişim</td>
+                        <td>10.01.2025</td>
+                        <td><span class="status-badge status-review">Değerlendirmede</span></td>
+                        <td>Bilgisayar Bilimleri</td>
+                        <td>30 gün</td>
+                        <td>1/3</td>
+                        <td>10.02.2025</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="alert-section">
+            <h2 class="alert-title">Dikkat Gerektiren Makaleler</h2>
+            <table class="alert-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Başlık</th>
+                        <th>Sorun</th>
+                        <th>Bekleme Süresi</th>
+                        <th>Sorumlu</th>
+                        <th>Önerilen İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ART-2025-0094</td>
+                        <td>Kuantum Bilişim</td>
+                        <td>Hakem yanıtı gecikiyor</td>
+                        <td>30 gün</td>
+                        <td>Prof. Dr. Selim Kaya</td>
+                        <td>Hakem hatırlatması</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0089</td>
+                        <td>Oyunlaştırma ve Motivasyon</td>
+                        <td>Editör kararı bekleniyor</td>
+                        <td>12 gün</td>
+                        <td>Doç. Dr. Kemal Öztürk</td>
+                        <td>Editör hatırlatması</td>
+                    </tr>
+                    <tr>
+                        <td>ART-2025-0085</td>
+                        <td>Biyoteknoloji Uygulamaları</td>
+                        <td>Revizyon gecikmesi</td>
+                        <td>21 gün</td>
+                        <td>Dr. Ayşe Demir</td>
+                        <td>Yazara hatırlatma</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="remarks-section">
+            <h2 class="remarks-title">Rapor Değerlendirmesi ve Öneriler</h2>
+            <p>Şubat 2025 döneminde dergimizin performansında önemli iyileşmeler gözlemlenmiştir. Özellikle makale işlem süreleri geçen aya göre %12 oranında azalmış ve zamanında tamamlanan işlemlerin oranı %87'ye yükselmiştir.</p>
+            <p>Dikkat edilmesi gereken noktalar:</p>
+            <ul>
+                <li>Hakem değerlendirme süreleri hala hedeflenen sürenin üzerindedir. Hakem havuzunun genişletilmesi ve düzenli hatırlatma sisteminin iyileştirilmesi önerilir.</li>
+                <li>Bilgisayar Bilimleri kategorisindeki makalelerin kabul oranı diğer kategorilere göre daha düşüktür. Alan editörüyle bu konuda bir değerlendirme toplantısı yapılmalıdır.</li>
+                <li>Eğitim Bilimleri kategorisinde makale sayısında artış görülmektedir, bu alanda özel sayı planlanabilir.</li>
+            </ul>
+            <p>Sonuç olarak, dergimizin performans göstergeleri olumlu bir trend izlemekte olup, dikkat gerektiren noktalara yönelik iyileştirme çalışmaları devam etmektedir.</p>
+        </div>
+        
+        <div class="report-footer">
+            <p>Bu rapor X Dergisi Akademik Yayıncılık Sistemi tarafından otomatik olarak oluşturulmuştur.<br>
+            © 2025 AMDS - Academic Manuscript and Dergi Sistemi | Versiyon 2.5.3</p>
+        </div>
+    </div>
+</body>
+</html>

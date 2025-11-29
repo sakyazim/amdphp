@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Yeni Makale</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Sihirbaz CSS -->
+    <link href="assets/css/makale-sihirbaz.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı düzenleme -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="yazar-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Yazar olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-workspace me-2"></i>
+                        <span>Yazar</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Doç. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="yazar-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="yazar-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="yazar-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yazar-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makalelerim
+                                </a>
+                            </li>
+							<li class="nav-item">
+                                    <a href="ortak-yazarliklar.html" class="nav-link ">
+                                        <i class="bi bi-people me-2"></i> Ortak Yazarlıklar
+                                        <span class="badge bg-danger rounded-pill float-end">3</span>
+                                    </a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="yeni-makale.html" class="nav-link active">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Makale
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="yazar-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yazar-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Menü Açma/Kapama Butonu -->
+                <div class="sidebar-toggle-container">
+                    <button id="sidebarToggle" class="sidebar-toggle-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Makale Gönderim Sihirbazı -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Makale Gönderim Sihirbazı</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <!-- İlerleme Çubuğu -->
+                        <div class="container mb-4 pt-4 px-4">
+                            <div class="progress-info d-flex justify-content-between">
+                                <span class="progress-step-name">Dil Seçimi</span>
+                                <span><span id="progressText">0%</span> tamamlandı</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mx-0">
+                            <!-- Sol menü -->
+                            <div class="col-md-3 border-end">
+                                <div class="wizard-steps">
+                                    <div class="steps-list">
+                                        <a href="#" class="step-link active" data-step="0">
+                                            <i class="fas fa-language me-2"></i> <span>Dil Seçimi</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="1">
+                                            <i class="fas fa-info-circle me-2"></i> <span>Ön Bilgi</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="2">
+                                            <i class="fas fa-book me-2"></i> <span>Tür-Konu</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="3">
+                                            <i class="fas fa-heading me-2"></i> <span>Başlık</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="4">
+                                            <i class="fas fa-file-alt me-2"></i> <span>Özet</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="5">
+                                            <i class="fas fa-key me-2"></i> <span>Anahtar Kelimeler</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="6">
+                                            <i class="fas fa-quote-right me-2"></i> <span>Referanslar</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="7">
+                                            <i class="fas fa-users me-2"></i> <span>Yazarlar</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="8">
+                                            <i class="fas fa-file-upload me-2"></i> <span>Dosyalar</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="9">
+                                            <i class="fas fa-user-tie me-2"></i> <span>Hakemler</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="10">
+                                            <i class="fas fa-envelope me-2"></i> <span>Editöre Not</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="11">
+                                            <i class="fas fa-tasks me-2"></i> <span>Kontrol Listesi</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                        <a href="#" class="step-link" data-step="12">
+                                            <i class="fas fa-paper-plane me-2"></i> <span>Makaleyi Gönder</span>
+                                            <span class="step-status"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sağ içerik -->
+                            <div class="col-md-9">
+                                <!-- Hata ve Bildirim Alanı -->
+                                <div id="alertContainer" class="px-4 pt-3 mb-0"></div>
+                                
+                                <div class="wizard-content p-4">
+                                    <!-- Dil Seçimi -->
+                                    <div id="step0" class="step-content">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-language me-2"></i> Dil Seçimi
+                                        </h3>
+                                        <div class="form-group">
+                                            <label for="articleLanguage" class="form-label">Makale Dili <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="articleLanguage">
+                                                <option value="" selected disabled>Lütfen bir dil seçin</option>
+                                                <option value="tr">Türkçe</option>
+                                                <option value="en">İngilizce</option>
+                                                <option value="de">Almanca</option>
+                                                <option value="fr">Fransızca</option>
+                                                <option value="es">İspanyolca</option>
+                                            </select>
+                                            <div class="invalid-feedback">Lütfen bir dil seçin</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ön Bilgi -->
+                                    <div id="step1" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-info-circle me-2"></i> Ön Bilgi
+                                        </h3>
+                                        <div class="info-content">
+                                            <div class="alert alert-info">
+                                                <h4 class="alert-heading">Makale Gönderim Süreci Hakkında</h4>
+                                                <ul class="mb-0">
+                                                    <li>Makaleniz için uygun bir başlık belirlemelisiniz.</li>
+                                                    <li>En az 3, en fazla 5 anahtar kelime girmelisiniz.</li>
+                                                    <li>Özet kısmı 150-250 kelime arasında olmalıdır.</li>
+                                                    <li>Referanslar APA formatında olmalıdır.</li>
+                                                    <li>Makaleniz PDF formatında yüklenmelidir.</li>
+                                                    <li>Yazarların ORCID bilgileri eklenmelidir.</li>
+                                                    <li>Çıkar çatışması beyanı doldurulmalıdır.</li>
+                                                </ul>
+                                            </div>
+                                            <div class="info-checkbox">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="acceptInfo">
+                                                    <label class="form-check-label" for="acceptInfo">
+                                                        Makale Bilgilerini Girmek İstiyorum
+                                                    </label>
+                                                </div>
+                                                <div class="invalid-feedback">Devam etmek için onaylamanız gerekmektedir</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tür-Konu -->
+                                    <div id="step2" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-book me-2"></i> Tür-Konu
+                                        </h3>
+                                        <div class="form-group mb-4">
+                                            <label for="articleType" class="form-label">Makale Türü <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="articleType">
+                                                <option value="" selected disabled>Makale türü seçin</option>
+                                                <option value="research">Araştırma Makalesi</option>
+                                                <option value="review">Derleme Makale</option>
+                                                <option value="case">Vaka Çalışması</option>
+                                                <option value="technical">Teknik Not</option>
+                                                <option value="letter">Editöre Mektup</option>
+                                                <option value="short">Kısa Bildiri</option>
+                                            </select>
+                                            <div class="invalid-feedback">Lütfen makale türü seçin</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="articleSubject" class="form-label">Makale Konusu <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="articleSubject">
+                                                <option value="" selected disabled>Makale konusu seçin</option>
+                                                <option value="comp">Bilgisayar Bilimleri</option>
+                                                <option value="eng">Mühendislik</option>
+                                                <option value="med">Tıp Bilimleri</option>
+                                                <option value="soc">Sosyal Bilimler</option>
+                                                <option value="edu">Eğitim Bilimleri</option>
+                                                <option value="art">Sanat ve Beşeri Bilimler</option>
+                                                <option value="agr">Tarım ve Yaşam Bilimleri</option>
+                                                <option value="phy">Fizik Bilimleri</option>
+                                                <option value="env">Çevre Bilimleri</option>
+                                            </select>
+                                            <div class="invalid-feedback">Lütfen makale konusu seçin</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Başlık -->
+                                    <div id="step3" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-heading me-2"></i> Başlık
+                                        </h3>
+                                        <div class="form-group mb-4">
+                                            <label for="titleTR" class="form-label">Türkçe Başlık <span class="text-danger">*</span></label>
+                                            <textarea class="form-control title-input" id="titleTR" rows="3" 
+                                                    placeholder="Makalenizin Türkçe başlığını girin"></textarea>
+                                            <div class="invalid-feedback">Türkçe başlık girmelisiniz (en az 5, en fazla 200 karakter)</div>
+                                            <div class="form-text mt-1">
+                                                <span id="charCountTR">0</span>/200 karakter
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="titleEN" class="form-label">İngilizce Başlık <span class="text-danger">*</span></label>
+                                            <textarea class="form-control title-input" id="titleEN" rows="3"
+                                                    placeholder="Enter the English title of your article"></textarea>
+                                            <div class="invalid-feedback">İngilizce başlık girmelisiniz (en az 5, en fazla 200 karakter)</div>
+                                            <div class="form-text mt-1">
+                                                <span id="charCountEN">0</span>/200 karakter
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Özet -->
+                                    <div id="step4" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-file-alt me-2"></i> Özet
+                                        </h3>
+                                        <div class="alert alert-info mb-3">
+                                            <i class="fas fa-info-circle me-2"></i> Özet bölümü 150-250 kelime arasında olmalıdır.
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="abstractTR" class="form-label">Türkçe Özet <span class="text-danger">*</span></label>
+                                            <textarea class="form-control" id="abstractTR" rows="5" 
+                                                    placeholder="Makalenizin Türkçe özetini girin (150-250 kelime)"></textarea>
+                                            <div class="invalid-feedback">Geçerli bir Türkçe özet girmelisiniz (150-250 kelime)</div>
+                                            <div class="form-text mt-1">
+                                                <span id="wordCountTR">0</span> kelime
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="abstractEN" class="form-label">İngilizce Özet <span class="text-danger">*</span></label>
+                                            <textarea class="form-control" id="abstractEN" rows="5"
+                                                    placeholder="Enter the English abstract of your article (150-250 words)"></textarea>
+                                            <div class="invalid-feedback">Geçerli bir İngilizce özet girmelisiniz (150-250 kelime)</div>
+                                            <div class="form-text mt-1">
+                                                <span id="wordCountEN">0</span> kelime
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Anahtar Kelimeler -->
+                                    <div id="step5" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-key me-2"></i> Anahtar Kelimeler
+                                        </h3>
+                                        <div class="alert alert-info mb-4">
+                                            En az 3, en fazla 5 anahtar kelime giriniz. Anahtar kelimeleri virgül ile ayırınız.
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="keywordsTR" class="form-label">Türkçe Anahtar Kelimeler <span class="text-danger">*</span></label>
+                                            <textarea class="form-control" id="keywordsTR" rows="3" 
+                                                    placeholder="Örnek: yapay zeka, makine öğrenmesi, derin öğrenme"></textarea>
+                                            <div class="invalid-feedback">Geçerli sayıda anahtar kelime girmelisiniz (3-5 adet)</div>
+                                            <div class="form-text mt-1">
+                                                <span id="keywordCountTR">0</span> anahtar kelime
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="keywordsEN" class="form-label">İngilizce Anahtar Kelimeler <span class="text-danger">*</span></label>
+                                            <textarea class="form-control" id="keywordsEN" rows="3"
+                                                    placeholder="Example: artificial intelligence, machine learning, deep learning"></textarea>
+                                            <div class="invalid-feedback">Geçerli sayıda anahtar kelime girmelisiniz (3-5 adet)</div>
+                                            <div class="form-text mt-1">
+                                                <span id="keywordCountEN">0</span> anahtar kelime
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Referanslar -->
+                                    <div id="step6" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-quote-right me-2"></i> Referanslar
+                                        </h3>
+                                        <div class="alert alert-info mb-4">
+                                            Referanslarınızı APA formatında giriniz.
+                                        </div>
+                                        
+                                        <div id="referencesContainer">
+                                            <!-- İlk referans kutusu -->
+                                            <div class="reference-item mb-3">
+                                                <div class="input-group">
+                                                    <textarea class="form-control" rows="3" 
+                                                            placeholder="Örnek: Smith, J. (2023). Makale başlığı. Dergi Adı, 10(2), 100-120."></textarea>
+                                                    <button class="btn btn-danger" onclick="removeReference(this)" title="Referansı Sil">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-success mt-3" onclick="addNewReference()">
+                                            <i class="fas fa-plus me-2"></i>Yeni Referans Ekle
+                                        </button>
+                                    </div>
+
+                                    <!-- Yazarlar -->
+                                    <div id="step7" class="step-content d-none">
+                                        <h3 class="step-title mb-4">
+                                            <i class="fas fa-users me-2"></i> Yazarlar
+											 <span class="badge bg-primary ms-2 float-middle" >( en başta yazar arama kutuları, Email ve ORCID)</span>
+                                            <span class="badge bg-primary ms-2 float-end" id="authorCount">0 Yazar</span>
+                                        </h3>
+                                        
+                                        <!-- YAZAR EKLEME FORMU -->
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-primary text-white">
+                                                <h5 class="mb-0" id="authorFormTitle">Yeni Yazar Ekle</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="authorForm">
+                                                    <!-- Gizli ID alanı - düzenleme için -->
+                                                    <input type="hidden" id="authorId" value="">
+                                                    
+                                                    <!-- Kişisel Bilgiler -->
+                                                    <h6 class="form-section-title">Kişisel Bilgiler</h6>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ad <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="firstName" required>
+                                                        <div class="invalid-feedback">Lütfen yazarın adını girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">İkinci Ad</label>
+                                                        <input type="text" class="form-control" id="middleName">
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Soyad <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="lastName" required>
+                                                        <div class="invalid-feedback">Lütfen yazarın soyadını girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ünvan <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="title" required>
+                                                            <option value="">Seçiniz</option>
+                                                            <option value="prof">Prof. Dr.</option>
+                                                            <option value="assocprof">Doç. Dr.</option>
+                                                            <option value="assistprof">Dr. Öğr. Üyesi</option>
+                                                            <option value="dr">Dr.</option>
+                                                            <option value="res">Arş. Gör.</option>
+                                                            <option value="other">Diğer</option>
+                                                        </select>
+                                                        <div class="invalid-feedback">Lütfen bir ünvan seçin</div>
+                                                    </div>
+                                                    
+                                                    <!-- İletişim Bilgileri -->
+                                                    <h6 class="form-section-title mt-4">İletişim Bilgileri</h6>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Telefon <span class="text-danger">*</span></label>
+                                                        <input type="tel" class="form-control" id="phone" required>
+                                                        <div class="invalid-feedback">Lütfen telefon numarası girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Email 1 <span class="text-danger">*</span></label>
+                                                        <input type="email" class="form-control" id="email1" required>
+                                                        <div class="invalid-feedback">Lütfen geçerli bir e-posta adresi girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Email 2</label>
+                                                        <input type="email" class="form-control" id="email2">
+                                                    </div>
+                                                    
+                                                    <!-- Kurum Bilgileri -->
+                                                    <h6 class="form-section-title mt-4">Kurum Bilgileri</h6>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Departman <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="department" required>
+                                                        <div class="invalid-feedback">Lütfen departman bilgisi girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Kurum <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="institution" required>
+                                                        <div class="invalid-feedback">Lütfen kurum bilgisi girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ülke <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="country" required>
+                                                            <option value="">Seçiniz</option>
+                                                            <option value="TR">Türkiye</option>
+                                                            <option value="US">Amerika Birleşik Devletleri</option>
+                                                            <option value="GB">Birleşik Krallık</option>
+                                                            <option value="DE">Almanya</option>
+                                                            <!-- Diğer ülkeler eklenebilir -->
+                                                        </select>
+                                                        <div class="invalid-feedback">Lütfen bir ülke seçin</div>
+                                                    </div>
+                                                    
+                                                    <!-- Makale Bilgileri -->
+                                                    <h6 class="form-section-title mt-4">Makale Bilgileri</h6>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">ORCID ID <span class="text-danger">*</span></label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">https://orcid.org/</span>
+                                                            <input type="text" class="form-control" id="orcidId" required 
+                                                                pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                                                                placeholder="0000-0000-0000-0000">
+                                                            <div class="invalid-feedback">Lütfen geçerli bir ORCID ID girin (0000-0000-0000-0000 formatında)</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Yazar Sırası <span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="authorOrder" min="1" required>
+                                                        <div class="invalid-feedback">Lütfen yazar sırası girin</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Yazar Tipi <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="authorType" required>
+                                                            <option value="">Seçiniz</option>
+                                                            <option value="primary">Birincil Yazar</option>
+                                                            <option value="corresponding">Sorumlu Yazar</option>
+                                                            <option value="contributor">Katkıda Bulunan</option>
+                                                        </select>
+                                                        <div class="invalid-feedback">Lütfen yazar tipini seçin</div>
+                                                    </div>
+                                                    
+                                                    <!-- Form Butonları -->
+                                                    <div class="d-flex justify-content-between mt-4">
+                                                        <button type="submit" class="btn btn-primary" id="authorSubmitBtn">
+                                                            <i class="fas fa-plus me-2"></i>Yazar Ekle
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary d-none" id="authorCancelBtn" onclick="cancelAuthorEdit()">
+                                                            <i class="fas fa-times me-2"></i>İptal
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- YAZARLAR TABLOSU -->
+                                        <div class="card">
+                                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0">Yazarlar Listesi</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" id="authorsTable">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th width="5%">Sıra</th>
+                                                                <th width="85%">Yazar Bilgileri</th>
+                                                                <th width="10%">İşlem</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- Yazarlar JavaScript ile buraya eklenecek -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dosyalar -->
+                                    <div id="step8" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-file-upload me-2"></i> Dosyalar
+                                        </h3>
+                                        <div class="alert alert-info mb-4">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Maksimum dosya boyutu: 25MB
+                                        </div>
+
+                                        <form id="fileUploadForm">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label class="form-label">Dosya Türü <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="fileType" required>
+                                                        <option value="">Seçiniz</option>
+                                                        <option value="fullText">Tam Metin</option>
+                                                        <option value="copyright">Yayın Hakkı Devir Formu</option>
+                                                        <option value="authorContribution">Yazar Katkı Formu</option>
+                                                        <option value="icmjeCoi">ICMJE COI Form</option>
+                                                        <option value="iThenticate">iThenticate Formu</option>
+                                                        <option value="supplementary">Ek Dosya</option>
+                                                        <option value="figures">Şekiller</option>
+                                                        <option value="images">Görseller</option>
+                                                        <option value="similarity">Benzerlik Raporu</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">Lütfen bir dosya türü seçin</div>
+                                                </div>
+                                                <div class="col-md-8 mb-3">
+                                                    <label class="form-label">Dosya <span class="text-danger">*</span></label>
+                                                    <div class="input-group">
+                                                        <input type="file" class="form-control" id="fileInput" required>
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="fas fa-upload me-2"></i>Yükle
+                                                        </button>
+                                                    </div>
+                                                    <div class="form-text" id="formatHelp"></div>
+                                                    <div class="invalid-feedback">Lütfen bir dosya seçin</div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <!-- Dosya yükleme progress bar -->
+                                        <div id="fileUploadProgress" class="progress mb-3 d-none">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>
+                                        </div>
+
+                                        <!-- Dosyalar Tablosu -->
+                                        <div class="table-responsive mt-4">
+                                            <table class="table table-bordered table-hover" id="filesTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Dosya Türü</th>
+                                                        <th>Dosya Adı</th>
+                                                        <th>Boyut</th>
+                                                        <th>Format</th>
+                                                        <th>Yükleme Tarihi</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Dosyalar dinamik olarak buraya eklenecek -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hakemler -->
+                                    <div id="step9" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-user-tie me-2"></i> Hakemler
+											<span class="badge bg-primary ms-2 float-middle" >( en başta hakem arama kutuları, Email ve ORCID)</span>
+                                            <span class="badge bg-primary ms-2 float-end" id="reviewerCount">0 Hakem</span>
+                                        </h3>
+                                        
+                                        <div class="alert alert-warning mb-4" id="reviewerWarning">
+                                            <i class="fas fa-exclamation-triangle me-2"></i> En az 3 hakem eklemelisiniz.
+                                        </div>
+                                        
+                                        <!-- HAKEM EKLEME FORMU -->
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-primary text-white">
+                                                <h5 class="mb-0" id="reviewerFormTitle">Yeni Hakem Ekle</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="reviewerForm">
+                                                    <!-- Gizli ID alanı - düzenleme için -->
+                                                    <input type="hidden" id="reviewerId" value="">
+                                                    
+                                                    <!-- Hakem Rolü Bilgileri -->
+                                                    <h6 class="form-section-title">Hakem Rolü Bilgileri</h6>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-6">
+                                                            <label for="reviewerOrder" class="form-label">Sıra <span class="text-danger">*</span></label>
+                                                            <input type="number" class="form-control" id="reviewerOrder" min="1" required>
+                                                            <div class="invalid-feedback">Lütfen sıra numarası girin</div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="reviewerType" class="form-label">Hakem Tipi <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="reviewerType" required>
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="main">Ana Hakem</option>
+                                                                <option value="alternate">Yedek Hakem</option>
+                                                                <option value="external">Dış Hakem</option>
+                                                            </select>
+                                                            <div class="invalid-feedback">Lütfen hakem tipini seçin</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Kişisel Bilgiler -->
+                                                    <h6 class="form-section-title mt-4">Kişisel Bilgiler</h6>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Ünvan</label>
+                                                            <select class="form-select" id="reviewerTitle">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="prof">Prof. Dr.</option>
+                                                                <option value="assocprof">Doç. Dr.</option>
+                                                                <option value="assistprof">Dr. Öğr. Üyesi</option>
+                                                                <option value="dr">Dr.</option>
+                                                                <option value="res">Arş. Gör.</option>
+                                                                <option value="other">Diğer</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Ad <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="reviewerFirstName" required>
+                                                            <div class="invalid-feedback">Lütfen hakemin adını girin</div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">İkinci Ad</label>
+                                                            <input type="text" class="form-control" id="reviewerMiddleName">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Soyad <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="reviewerLastName" required>
+                                                            <div class="invalid-feedback">Lütfen hakemin soyadını girin</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- İletişim Bilgileri -->
+                                                    <h6 class="form-section-title mt-4">İletişim Bilgileri</h6>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">E-posta 1 <span class="text-danger">*</span></label>
+                                                            <input type="email" class="form-control" id="reviewerEmail1" required>
+                                                            <div class="invalid-feedback">Lütfen geçerli bir e-posta adresi girin</div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">E-posta 2</label>
+                                                            <input type="email" class="form-control" id="reviewerEmail2">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Telefon</label>
+                                                            <input type="tel" class="form-control" id="reviewerPhone">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Kurum Bilgileri -->
+                                                    <h6 class="form-section-title mt-4">Kurum Bilgileri</h6>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Departman</label>
+                                                            <input type="text" class="form-control" id="reviewerDepartment">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Kurum</label>
+                                                            <input type="text" class="form-control" id="reviewerInstitution">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Ülke</label>
+                                                            <select class="form-select" id="reviewerCountry">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="TR">Türkiye</option>
+                                                                <option value="US">Amerika Birleşik Devletleri</option>
+                                                                <option value="GB">Birleşik Krallık</option>
+                                                                <option value="DE">Almanya</option>
+                                                                <!-- Diğer ülkeler eklenebilir -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Akademik Kimlik -->
+                                                    <h6 class="form-section-title mt-4">Akademik Kimlik</h6>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label for="reviewerOrcidId" class="form-label">ORCID ID</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">https://orcid.org/</span>
+                                                                <input type="text" class="form-control" id="reviewerOrcidId" 
+                                                                    pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                                                                    placeholder="0000-0000-0000-0000">
+                                                                <div class="invalid-feedback">Lütfen geçerli bir ORCID ID girin (0000-0000-0000-0000 formatında)</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Form Butonları -->
+                                                    <div class="d-flex justify-content-between mt-4">
+                                                        <button type="submit" class="btn btn-primary" id="reviewerSubmitBtn">
+                                                            <i class="fas fa-plus me-2"></i>Hakem Ekle
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary d-none" id="reviewerCancelBtn" onclick="cancelReviewerEdit()">
+                                                            <i class="fas fa-times me-2"></i>İptal
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- HAKEMLER TABLOSU -->
+                                        <div class="card">
+                                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0">Hakemler Listesi</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" id="reviewersTable">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th width="5%">Sıra</th>
+                                                                <th width="85%">Hakem Bilgileri</th>
+                                                                <th width="10%">İşlem</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- Hakemler JavaScript ile buraya eklenecek -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Editöre Not -->
+                                    <div id="step10" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-envelope me-2"></i> Editöre Not
+                                        </h3>
+                                        
+                                        <div class="alert alert-info mb-4">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Makaleniz hakkında editöre iletmek istediğiniz özel notları bu alana yazabilirsiniz.
+                                        </div>
+
+                                        <div class="editor-toolbar mb-2">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatText('bold')">
+                                                <i class="fas fa-bold"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatText('italic')">
+                                                <i class="fas fa-italic"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="formatText('underline')">
+                                                <i class="fas fa-underline"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="clearFormat()">
+                                                <i class="fas fa-remove-format"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <textarea id="editorNote" class="form-control" rows="10" 
+                                                    placeholder="Editöre notunuzu buraya yazın..."></textarea>
+                                            <div class="form-text mt-2">
+                                                <span id="characterCount">0</span> karakter
+                                            </div>
+                                        </div>
+
+                                        <div class="text-end mt-3">
+                                            <button type="button" class="btn btn-primary" id="saveNoteBtn">
+                                                <i class="fas fa-save me-2"></i>Notu Kaydet
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Kontrol Listesi -->
+                                    <div id="step11" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-tasks me-2"></i> Kontrol Listesi
+                                        </h3>
+
+                                        <div class="alert alert-warning mb-4">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Makale gönderimine devam edebilmek için tüm kontrol listesi maddelerini işaretlemeniz gerekmektedir.
+                                        </div>
+
+                                        <div class="checklist-container">
+                                            <div class="card mb-4">
+                                                <div class="card-header bg-light">
+                                                    <h5 class="mb-0">Makale İçerik Kontrolleri</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check1">
+                                                        <label class="form-check-label" for="check1">
+                                                            Makalenin başlığı, özeti ve anahtar kelimeleri hem Türkçe hem de İngilizce olarak eklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check2">
+                                                        <label class="form-check-label" for="check2">
+                                                            Özet bölümü 150-250 kelime arasındadır.
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check3">
+                                                        <label class="form-check-label" for="check3">
+                                                            3-5 adet anahtar kelime eklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card mb-4">
+                                                <div class="card-header bg-light">
+                                                    <h5 class="mb-0">Yazar ve Hakem Kontrolleri</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check4">
+                                                        <label class="form-check-label" for="check4">
+                                                            Tüm yazarların ORCID ID'leri eklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check5">
+                                                        <label class="form-check-label" for="check5">
+                                                            En az 3 hakem önerisi eklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check6">
+                                                        <label class="form-check-label" for="check6">
+                                                            Yazarların kurum bilgileri eksiksiz girilmiştir.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card mb-4">
+                                                <div class="card-header bg-light">
+                                                    <h5 class="mb-0">Dosya Kontrolleri</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check7">
+                                                        <label class="form-check-label" for="check7">
+                                                            Tam metin makale dosyası yüklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check8">
+                                                        <label class="form-check-label" for="check8">
+                                                            Yayın hakkı devir formu imzalanıp yüklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="check9">
+                                                        <label class="form-check-label" for="check9">
+                                                            Tüm yazarların ICMJE COI formları yüklenmiştir.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-success" id="checkAllBtn">
+                                                    <i class="fas fa-check-double me-1"></i> Tümünü İşaretle
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-secondary ms-2" id="clearAllBtn">
+                                                    <i class="fas fa-times me-1"></i> Tümünü Temizle
+                                                </button>
+                                            </div>
+                                            <div class="text-muted">
+                                                <span id="checkProgress">0/9</span> madde tamamlandı
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Makaleyi Gönder -->
+                                    <div id="step12" class="step-content d-none">
+                                        <h3 class="step-title">
+                                            <i class="fas fa-paper-plane me-2"></i> Makale Özeti ve Gönderim
+                                        </h3>
+
+                                        <!-- Makale Temel Bilgileri -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Makale Bilgileri</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(2)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Makale Türü:</strong> <span id="summaryType">-</span></p>
+                                                <p><strong>Makale Konusu:</strong> <span id="summarySubject">-</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Başlıklar -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Başlıklar</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(3)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Türkçe Başlık:</strong> <span id="summaryTitleTR">-</span></p>
+                                                <p><strong>İngilizce Başlık:</strong> <span id="summaryTitleEN">-</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Özetler -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Özetler</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(4)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Türkçe Özet:</strong> <span id="summaryAbstractTR">-</span></p>
+                                                <p><strong>İngilizce Özet:</strong> <span id="summaryAbstractEN">-</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Anahtar Kelimeler -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Anahtar Kelimeler</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(5)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Türkçe Anahtar Kelimeler:</strong> <span id="summaryKeywordsTR">-</span></p>
+                                                <p><strong>İngilizce Anahtar Kelimeler:</strong> <span id="summaryKeywordsEN">-</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Referanslar -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Referanslar</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(6)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="summaryReferences">-</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Yazarlar -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Yazarlar</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(7)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="summaryAuthors">-</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dosyalar -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Dosyalar</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(8)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="summaryFiles">-</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Hakemler -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Hakemler</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(9)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="summaryReviewers">-</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Editör Notu -->
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                                <h5 class="mb-0">Editöre Not</h5>
+                                                <button class="btn btn-sm btn-primary" onclick="goToStep(10)">
+                                                    <i class="fas fa-edit me-1"></i>Düzenle
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="summaryEditorNote">-</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Onay Kutusu -->
+                                        <div class="alert alert-info mb-4">
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="submitConfirmation">
+                                                <label class="form-check-label" for="submitConfirmation">
+                                                    Yukarıdaki bilgilerin doğruluğunu onaylıyorum ve makaleyi göndermek istiyorum.
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Gönderme Butonu -->
+                                        <div class="text-center">
+                                            <button id="finalSubmitButton" class="btn btn-success btn-lg" disabled>
+                                                <i class="fas fa-paper-plane me-2"></i> Makaleyi Gönder
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Navigasyon Butonları -->
+                                    <div class="mt-4 d-flex justify-content-between align-items-center">
+                                        <button class="btn btn-secondary btn-navigation" id="prevBtn" disabled>
+                                            <i class="fas fa-arrow-left me-2"></i>
+                                            <span>Önceki</span>
+                                        </button>
+                                        
+                                        <div class="d-flex align-items-center">
+                                            <span id="autoSaveNotification" class="text-muted me-3 d-none">
+                                                <i class="fas fa-save me-1"></i> <span class="auto-save-text"></span>
+                                            </span>
+                                            <button class="btn btn-info save-progress" id="saveProgressBtn">
+                                                <i class="fas fa-save me-2"></i>
+                                                Kaydet
+                                            </button>
+                                        </div>
+                                        
+                                        <button class="btn btn-primary btn-navigation" id="nextBtn">
+                                            <span>Sonraki</span>
+                                            <i class="fas fa-arrow-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+    <script src="assets/js/main.js"></script>
+	<script src="assets/js/utils.js"></script>
+	<script src="assets/js/detay.js"></script>
+<!-- Sihirbaz JS -->
+<script src="assets/js/makale-sihirbaz.js"></script>
+
+</body>
+</html>

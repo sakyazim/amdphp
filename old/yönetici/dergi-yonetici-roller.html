@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Dergi Yöneticisi Rol Yönetimi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Dashboard CSS -->
+    <link href="assets/css/dashboard.css" rel="stylesheet">
+    <!-- Role Management CSS -->
+    <link href="assets/css/role-management.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="dergi-yonetici-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Dergi Yöneticisi olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal-check me-2"></i>
+                        <span>Dergi Yöneticisi</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-journal-check me-2"></i> Dergi Yöneticisi</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="dergi-yonetici-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="dergi-yonetici-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container-fluid">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Yönetim Menüsü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Ana Gösterge Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-istatistikler.html" class="nav-link">
+                                    <i class="bi bi-graph-up me-2"></i> İstatistikler & Raporlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-tum-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Tüm Makaleler
+                                    <span class="badge bg-primary rounded-pill float-end">25</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-kullanicilar.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Kullanıcı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-roller.html" class="nav-link active">
+                                    <i class="bi bi-person-badge me-2"></i> Rol Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-is-akislari.html" class="nav-link">
+                                    <i class="bi bi-diagram-3 me-2"></i> İş Akışı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-email-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> E-posta Şablonları
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-dergiler.html" class="nav-link">
+                                    <i class="bi bi-journal-richtext me-2"></i> Dergi Yapılandırması
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-sistem-ayarlari.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Sistem Ayarları
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Butonlar -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="mb-0"><i class="bi bi-person-badge me-2"></i>Rol Yönetimi</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="dergi-yonetici-panel.html">Ana Sayfa</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Rol Yönetimi</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="d-flex mt-3 mt-md-0">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createRoleModal">
+                            <i class="bi bi-plus-circle me-2"></i>Yeni Rol Oluştur
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rol Kartları -->
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 role-card">
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-journal-check me-2"></i>Dergi Yöneticisi</h5>
+                                <span class="badge bg-light text-primary">Sistem Rolü</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-muted mb-3">Tüm dergi süreçlerini ve sistemi yönetir. En yüksek yetki seviyesine sahiptir.</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-muted me-2">Kullanıcı Sayısı:</div>
+                                    <div class="fw-bold">5</div>
+                                </div>
+                                <div class="role-permissions mb-3">
+                                    <div class="text-muted mb-2">Başlıca Yetkiler:</div>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Kullanıcı yönetimi</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Rol yönetimi</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Dergi yapılandırması</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>İş akışı yönetimi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white d-flex justify-content-between py-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRoleModal">
+                                    <i class="bi bi-eye me-1"></i>Detaylar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                    <i class="bi bi-pencil me-1"></i>Düzenle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 role-card">
+                            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-person-gear me-2"></i>Editör</h5>
+                                <span class="badge bg-light text-info">Sistem Rolü</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-muted mb-3">Makale süreçlerini yönetir, hakem atamalarını yapar ve yayın kararlarını verir.</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-muted me-2">Kullanıcı Sayısı:</div>
+                                    <div class="fw-bold">12</div>
+                                </div>
+                                <div class="role-permissions mb-3">
+                                    <div class="text-muted mb-2">Başlıca Yetkiler:</div>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Makale değerlendirme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Hakem atama</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Yayın kararı verme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Yazarlarla iletişim</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white d-flex justify-content-between py-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRoleModal">
+                                    <i class="bi bi-eye me-1"></i>Detaylar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                    <i class="bi bi-pencil me-1"></i>Düzenle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 role-card">
+                            <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-eyeglasses me-2"></i>Hakem</h5>
+                                <span class="badge bg-light text-warning">Sistem Rolü</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-muted mb-3">Makaleleri değerlendirir, geri bildirim sağlar ve yayınlanabilirlik önerisinde bulunur.</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-muted me-2">Kullanıcı Sayısı:</div>
+                                    <div class="fw-bold">42</div>
+                                </div>
+                                <div class="role-permissions mb-3">
+                                    <div class="text-muted mb-2">Başlıca Yetkiler:</div>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Makale inceleme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Değerlendirme formu doldurma</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Yazarlara geri bildirim</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Editöre özel notlar</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white d-flex justify-content-between py-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRoleModal">
+                                    <i class="bi bi-eye me-1"></i>Detaylar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                    <i class="bi bi-pencil me-1"></i>Düzenle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 role-card">
+                            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-person-workspace me-2"></i>Yazar</h5>
+                                <span class="badge bg-light text-success">Sistem Rolü</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-muted mb-3">Makale gönderir, revizyon yapar ve yayın sürecini takip eder.</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-muted me-2">Kullanıcı Sayısı:</div>
+                                    <div class="fw-bold">378</div>
+                                </div>
+                                <div class="role-permissions mb-3">
+                                    <div class="text-muted mb-2">Başlıca Yetkiler:</div>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Makale gönderimi</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Revizyon yükleme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Süreç takibi</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Editörle iletişim</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white d-flex justify-content-between py-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRoleModal">
+                                    <i class="bi bi-eye me-1"></i>Detaylar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                    <i class="bi bi-pencil me-1"></i>Düzenle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 role-card">
+                            <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-person-check me-2"></i>Baş Editör</h5>
+                                <span class="badge bg-light text-secondary">Özel Rol</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-muted mb-3">Tüm editörleri yönetir, yayın politikalarını belirler ve editörlük süreçlerini denetler.</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-muted me-2">Kullanıcı Sayısı:</div>
+                                    <div class="fw-bold">2</div>
+                                </div>
+                                <div class="role-permissions mb-3">
+                                    <div class="text-muted mb-2">Başlıca Yetkiler:</div>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Editör yönetimi</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Yayın politikası belirleme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Özel sayı planlama</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Editör ataması</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white d-flex justify-content-between py-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRoleModal">
+                                    <i class="bi bi-eye me-1"></i>Detaylar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                    <i class="bi bi-pencil me-1"></i>Düzenle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 role-card">
+                            <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><i class="bi bi-person-badge me-2"></i>Alan Editörü</h5>
+                                <span class="badge bg-light text-secondary">Özel Rol</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-muted mb-3">Belirli bir konu alanındaki makaleleri değerlendirir ve o alandaki hakemleri yönetir.</p>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-muted me-2">Kullanıcı Sayısı:</div>
+                                    <div class="fw-bold">8</div>
+                                </div>
+                                <div class="role-permissions mb-3">
+                                    <div class="text-muted mb-2">Başlıca Yetkiler:</div>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Alan makalelerini değerlendirme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Alan hakemlerini yönetme</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Alan özel sayıları planlama</li>
+                                        <li><i class="bi bi-check-circle text-success me-2"></i>Baş editöre rapor verme</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white d-flex justify-content-between py-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewRoleModal">
+                                    <i class="bi bi-eye me-1"></i>Detaylar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                    <i class="bi bi-pencil me-1"></i>Düzenle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rol Yönetimi Tablosu -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <h5 class="card-title mb-0">Tüm Roller ve İzinler</h5>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-download me-1"></i>Dışa Aktar
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-printer me-1"></i>Yazdır
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle role-permissions-table mb-0" id="rolesTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Rol</th>
+                                        <th>Tür</th>
+                                        <th>Kullanıcılar</th>
+                                        <th>Makale İşlemleri</th>
+                                        <th>Kullanıcı Yönetimi</th>
+                                        <th>Sistem Yönetimi</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-journal-check text-primary fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">Dergi Yöneticisi</div>
+                                                    <div class="text-muted small">ID: ROLE-001</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Sistem Rolü</span></td>
+                                        <td>5</td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewRoleModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Kullanıcıları Gör</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-person-gear text-info fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">Editör</div>
+                                                    <div class="text-muted small">ID: ROLE-002</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-info">Sistem Rolü</span></td>
+                                        <td>12</td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-warning permission-badge" data-bs-toggle="tooltip" title="Kısmi Yetki">
+                                                <i class="bi bi-dash-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger permission-badge" data-bs-toggle="tooltip" title="Yetki Yok">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewRoleModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Kullanıcıları Gör</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-eyeglasses text-warning fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">Hakem</div>
+                                                    <div class="text-muted small">ID: ROLE-003</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-warning text-dark">Sistem Rolü</span></td>
+                                        <td>42</td>
+                                        <td>
+                                            <span class="badge bg-warning permission-badge" data-bs-toggle="tooltip" title="Kısmi Yetki">
+                                                <i class="bi bi-dash-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger permission-badge" data-bs-toggle="tooltip" title="Yetki Yok">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger permission-badge" data-bs-toggle="tooltip" title="Yetki Yok">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewRoleModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Kullanıcıları Gör</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-person-workspace text-success fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">Yazar</div>
+                                                    <div class="text-muted small">ID: ROLE-004</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-success">Sistem Rolü</span></td>
+                                        <td>378</td>
+                                        <td>
+                                            <span class="badge bg-warning permission-badge" data-bs-toggle="tooltip" title="Kısmi Yetki">
+                                                <i class="bi bi-dash-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger permission-badge" data-bs-toggle="tooltip" title="Yetki Yok">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger permission-badge" data-bs-toggle="tooltip" title="Yetki Yok">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewRoleModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Kullanıcıları Gör</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-person-check text-secondary fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">Baş Editör</div>
+                                                    <div class="text-muted small">ID: ROLE-005</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-secondary">Özel Rol</span></td>
+                                        <td>2</td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-warning permission-badge" data-bs-toggle="tooltip" title="Kısmi Yetki">
+                                                <i class="bi bi-dash-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewRoleModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Kullanıcıları Gör</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deactivateRoleModal"><i class="bi bi-x-circle me-2"></i>Devre Dışı Bırak</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-person-badge text-secondary fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">Alan Editörü</div>
+                                                    <div class="text-muted small">ID: ROLE-006</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-secondary">Özel Rol</span></td>
+                                        <td>8</td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-warning permission-badge" data-bs-toggle="tooltip" title="Kısmi Yetki">
+                                                <i class="bi bi-dash-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger permission-badge" data-bs-toggle="tooltip" title="Yetki Yok">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </span>
+                                        </td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    İşlemler
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewRoleModal"><i class="bi bi-eye me-2"></i>Görüntüle</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editRoleModal"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Kullanıcıları Gör</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deactivateRoleModal"><i class="bi bi-x-circle me-2"></i>Devre Dışı Bırak</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white py-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 text-md-start text-center mb-2 mb-md-0">
+                                <div class="text-muted">Toplamda 6 rol bulunmaktadır</div>
+                            </div>
+                            <div class="col-md-6 text-md-end text-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-key me-1"></i>İzin Şemalarını Yönet
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary ms-2">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Varsayılan Rollere Sıfırla
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rol Hiyerarşisi -->
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <h5 class="card-title mb-0">Rol Hiyerarşisi</h5>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-arrows-fullscreen me-1"></i>Genişlet
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-download me-1"></i>Dışa Aktar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="role-hierarchy-chart">
+                            <img src="assets/images/role-hierarchy.png" alt="Rol Hiyerarşisi" class="img-fluid">
+                            <!-- Gerçek uygulamada bu bir SVG veya dinamik JavaScript grafiği olabilir -->
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white py-3">
+                        <div class="text-muted">
+                            <i class="bi bi-info-circle me-2"></i>Rol hiyerarşisi, rollerin birbirleriyle olan ilişkilerini ve yetki devrini gösterir. Üst roller, alt rollerin tüm yetkilerine sahiptir.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Modaller -->
+<!-- Rol Görüntüle Modal -->
+<div class="modal fade" id="viewRoleModal" tabindex="-1" aria-labelledby="viewRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRoleModalLabel"><i class="bi bi-person-badge me-2"></i>Rol Detayları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <div class="col-md-3 text-center">
+                        <div class="role-icon-large bg-primary-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
+                            <i class="bi bi-journal-check text-primary fs-1"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary mb-2">Sistem Rolü</span>
+                            <div class="text-muted small">ID: ROLE-001</div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h4>Dergi Yöneticisi</h4>
+                        <p>Tüm dergi süreçlerini ve sistemi yönetir. En yüksek yetki seviyesine sahiptir.</p>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="text-muted">Oluşturulma Tarihi:</div>
+                                <div>01.01.2023</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">Son Güncelleme:</div>
+                                <div>15.02.2025</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="text-muted">Kullanıcı Sayısı:</div>
+                                <div>5 kullanıcı</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">Durum:</div>
+                                <div><span class="badge bg-success">Aktif</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs" id="roleInfoTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="permissions-tab" data-bs-toggle="tab" data-bs-target="#permissions" type="button" role="tab">İzinler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">Kullanıcılar</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">Değişiklik Geçmişi</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-3" id="roleInfoTabsContent">
+                    <div class="tab-pane fade show active" id="permissions" role="tabpanel" aria-labelledby="permissions-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>İzin Kategorisi</th>
+                                        <th>İzin</th>
+                                        <th>Erişim Seviyesi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="4" class="align-middle">Makale Yönetimi</td>
+                                        <td>Makale Görüntüleme</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Makale Düzenleme</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hakem Atama</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Yayın Kararı Verme</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4" class="align-middle">Kullanıcı Yönetimi</td>
+                                        <td>Kullanıcı Görüntüleme</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kullanıcı Ekleme/Düzenleme</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rol Atama</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kullanıcı Silme/Pasifleştirme</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4" class="align-middle">Sistem Yönetimi</td>
+                                        <td>Sistem Ayarları</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rol Yönetimi</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>İş Akışı Yapılandırma</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dergi Yapılandırması</td>
+                                        <td><span class="badge bg-success">Tam Erişim</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Kullanıcı</th>
+                                        <th>E-posta</th>
+                                        <th>Diğer Roller</th>
+                                        <th>Rol Atanma Tarihi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatar.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>Prof. Dr. Ahmet Yılmaz</div>
+                                            </div>
+                                        </td>
+                                        <td>ahmet.yilmaz@xdergisi.edu.tr</td>
+                                        <td>-</td>
+                                        <td>10.06.2023</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatars/avatar-5.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>Prof. Dr. Mehmet Aydın</div>
+                                            </div>
+                                        </td>
+                                        <td>mehmet.aydin@xuni.edu.tr</td>
+                                        <td>Baş Editör</td>
+                                        <td>15.08.2023</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="assets/images/avatars/avatar-8.png" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                                                <div>Prof. Dr. Ali Kaya</div>
+                                            </div>
+                                        </td>
+                                        <td>ali.kaya@xdergisi.edu.tr</td>
+                                        <td>-</td>
+                                        <td>22.10.2023</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                        <div class="role-history-timeline">
+                            <div class="role-history-item">
+                                <div class="role-history-date">15.02.2025</div>
+                                <div class="role-history-content">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-info me-2">İzin Güncelleme</span>
+                                        <span class="text-muted">Prof. Dr. Ahmet Yılmaz tarafından</span>
+                                    </div>
+                                    <p class="mb-0">İş akışı yönetimi izinleri tam erişim olarak güncellendi.</p>
+                                </div>
+                            </div>
+                            <div class="role-history-item">
+                                <div class="role-history-date">10.12.2024</div>
+                                <div class="role-history-content">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-warning me-2">Açıklama Güncelleme</span>
+                                        <span class="text-muted">Prof. Dr. Mehmet Aydın tarafından</span>
+                                    </div>
+                                    <p class="mb-0">Rol açıklaması güncellendi.</p>
+                                </div>
+                            </div>
+                            <div class="role-history-item">
+                                <div class="role-history-date">01.01.2023</div>
+                                <div class="role-history-content">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-success me-2">Rol Oluşturma</span>
+                                        <span class="text-muted">Sistem tarafından</span>
+                                    </div>
+                                    <p class="mb-0">Rol varsayılan izinlerle oluşturuldu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editRoleModal">Düzenle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rol Düzenle Modal -->
+<div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRoleModalLabel"><i class="bi bi-pencil me-2"></i>Rol Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editRoleForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="roleName" class="form-label">Rol Adı <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="roleName" value="Dergi Yöneticisi" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="roleType" class="form-label">Rol Tipi <span class="text-danger">*</span></label>
+                            <select class="form-select" id="roleType" disabled>
+                                <option value="system" selected>Sistem Rolü</option>
+                                <option value="custom">Özel Rol</option>
+                            </select>
+                            <div class="form-text">Sistem rolleri silinemez veya tür değiştirilemez.</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roleDescription" class="form-label">Rol Açıklaması</label>
+                        <textarea class="form-control" id="roleDescription" rows="2">Tüm dergi süreçlerini ve sistemi yönetir. En yüksek yetki seviyesine sahiptir.</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roleIcon" class="form-label">Rol İkonu</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-journal-check"></i></span>
+                            <select class="form-select" id="roleIcon">
+                                <option value="bi-journal-check" selected>journal-check</option>
+                                <option value="bi-person-gear">person-gear</option>
+                                <option value="bi-eyeglasses">eyeglasses</option>
+                                <option value="bi-person-workspace">person-workspace</option>
+                                <option value="bi-person-check">person-check</option>
+                                <option value="bi-person-badge">person-badge</option>
+                                <option value="bi-person-plus">person-plus</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol Rengi</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorPrimary" value="primary" checked>
+                                <label class="form-check-label" for="colorPrimary"><span class="badge bg-primary">Mavi</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorInfo" value="info">
+                                <label class="form-check-label" for="colorInfo"><span class="badge bg-info">Açık Mavi</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorSuccess" value="success">
+                                <label class="form-check-label" for="colorSuccess"><span class="badge bg-success">Yeşil</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorWarning" value="warning">
+                                <label class="form-check-label" for="colorWarning"><span class="badge bg-warning text-dark">Sarı</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorDanger" value="danger">
+                                <label class="form-check-label" for="colorDanger"><span class="badge bg-danger">Kırmızı</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorSecondary" value="secondary">
+                                <label class="form-check-label" for="colorSecondary"><span class="badge bg-secondary">Gri</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="roleColor" id="colorDark" value="dark">
+                                <label class="form-check-label" for="colorDark"><span class="badge bg-dark">Siyah</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="rolePermissions" class="form-label">İzinler</label>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>İzin Kategorisi</th>
+                                        <th>İzin</th>
+                                        <th class="text-center">İzin Seviyesi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Makale Yönetimi İzinleri -->
+                                    <tr>
+                                        <td rowspan="4" class="align-middle fw-bold">Makale Yönetimi</td>
+                                        <td>Makale Görüntüleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Makale Düzenleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hakem Atama</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Yayın Kararı Verme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <!-- Kullanıcı Yönetimi İzinleri -->
+                                    <tr>
+                                        <td rowspan="4" class="align-middle fw-bold">Kullanıcı Yönetimi</td>
+                                        <td>Kullanıcı Görüntüleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kullanıcı Ekleme/Düzenleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rol Atama</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kullanıcı Silme/Pasifleştirme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <!-- Sistem Yönetimi İzinleri -->
+                                    <tr>
+                                        <td rowspan="4" class="align-middle fw-bold">Sistem Yönetimi</td>
+                                        <td>Sistem Ayarları</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rol Yönetimi</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>İş Akışı Yapılandırma</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dergi Yapılandırması</td>
+                                        <td>
+                                            <select class="form-select form-select-sm">
+                                                <option value="full" selected>Tam Erişim</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="none">Erişim Yok</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="notifyUsers">
+                            <label class="form-check-label" for="notifyUsers">Rol değişikliği hakkında kullanıcıları bilgilendir</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveRoleChanges">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yeni Rol Oluştur Modal -->
+<div class="modal fade" id="createRoleModal" tabindex="-1" aria-labelledby="createRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createRoleModalLabel"><i class="bi bi-plus-circle me-2"></i>Yeni Rol Oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createRoleForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="newRoleName" class="form-label">Rol Adı <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="newRoleName" placeholder="Yeni rol adı" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="newRoleType" class="form-label">Rol Tipi <span class="text-danger">*</span></label>
+                            <select class="form-select" id="newRoleType" required>
+                                <option value="" selected disabled>Seçiniz</option>
+                                <option value="custom">Özel Rol</option>
+                                <option value="template">Şablondan Oluştur</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3" id="templateSelection" style="display: none;">
+                        <label for="roleTemplate" class="form-label">Şablon Seçiniz</label>
+                        <select class="form-select" id="roleTemplate">
+                            <option value="" selected disabled>Şablon seçiniz</option>
+                            <option value="editor">Editör Benzeri</option>
+                            <option value="reviewer">Hakem Benzeri</option>
+                            <option value="author">Yazar Benzeri</option>
+                            <option value="empty">Boş Şablon (Tüm izinler kapalı)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newRoleDescription" class="form-label">Rol Açıklaması</label>
+                        <textarea class="form-control" id="newRoleDescription" rows="2" placeholder="Rolün amacını ve sorumluluklarını açıklayın"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newRoleIcon" class="form-label">Rol İkonu</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                            <select class="form-select" id="newRoleIcon">
+                                <option value="bi-person-badge" selected>person-badge</option>
+                                <option value="bi-journal-check">journal-check</option>
+                                <option value="bi-person-gear">person-gear</option>
+                                <option value="bi-eyeglasses">eyeglasses</option>
+                                <option value="bi-person-workspace">person-workspace</option>
+                                <option value="bi-person-check">person-check</option>
+                                <option value="bi-person-plus">person-plus</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol Rengi</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorPrimary" value="primary" checked>
+                                <label class="form-check-label" for="newColorPrimary"><span class="badge bg-primary">Mavi</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorInfo" value="info">
+                                <label class="form-check-label" for="newColorInfo"><span class="badge bg-info">Açık Mavi</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorSuccess" value="success">
+                                <label class="form-check-label" for="newColorSuccess"><span class="badge bg-success">Yeşil</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorWarning" value="warning">
+                                <label class="form-check-label" for="newColorWarning"><span class="badge bg-warning text-dark">Sarı</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorDanger" value="danger">
+                                <label class="form-check-label" for="newColorDanger"><span class="badge bg-danger">Kırmızı</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorSecondary" value="secondary">
+                                <label class="form-check-label" for="newColorSecondary"><span class="badge bg-secondary">Gri</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="newRoleColor" id="newColorDark" value="dark">
+                                <label class="form-check-label" for="newColorDark"><span class="badge bg-dark">Siyah</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newRolePermissions" class="form-label">İzinler</label>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>İzin Kategorisi</th>
+                                        <th>İzin</th>
+                                        <th class="text-center">İzin Seviyesi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Makale Yönetimi İzinleri -->
+                                    <tr>
+                                        <td rowspan="4" class="align-middle fw-bold">Makale Yönetimi</td>
+                                        <td>Makale Görüntüleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Makale Düzenleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hakem Atama</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Yayın Kararı Verme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <!-- Kullanıcı Yönetimi İzinleri -->
+                                    <tr>
+                                        <td rowspan="4" class="align-middle fw-bold">Kullanıcı Yönetimi</td>
+                                        <td>Kullanıcı Görüntüleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kullanıcı Ekleme/Düzenleme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rol Atama</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kullanıcı Silme/Pasifleştirme</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <!-- Sistem Yönetimi İzinleri -->
+                                    <tr>
+                                        <td rowspan="4" class="align-middle fw-bold">Sistem Yönetimi</td>
+                                        <td>Sistem Ayarları</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rol Yönetimi</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>İş Akışı Yapılandırma</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dergi Yapılandırması</td>
+                                        <td>
+                                            <select class="form-select form-select-sm permission-select">
+                                                <option value="none">Erişim Yok</option>
+                                                <option value="partial">Kısmi Erişim</option>
+                                                <option value="full">Tam Erişim</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveNewRole">Rol Oluştur</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rol Devre Dışı Bırak Modal -->
+<div class="modal fade" id="deactivateRoleModal" tabindex="-1" aria-labelledby="deactivateRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deactivateRoleModalLabel"><i class="bi bi-x-circle me-2"></i>Rolü Devre Dışı Bırak</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Dikkat:</strong> Bu işlem rolü devre dışı bırakacak ve bu role sahip kullanıcılar artık bu rolün izinlerini kullanamayacaklar.
+                </div>
+                <p>Aşağıdaki rolü devre dışı bırakmak istediğinize emin misiniz?</p>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="role-icon-medium bg-secondary-light rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="bi bi-person-check text-secondary fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">Baş Editör</div>
+                        <div class="text-muted small">Özel Rol - 2 kullanıcı tarafından kullanılıyor</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="deactivateRoleReason" class="form-label">Devre Dışı Bırakma Nedeni</label>
+                    <select class="form-select" id="deactivateRoleReason">
+                        <option value="restructure">Rol yapısı yeniden düzenleniyor</option>
+                        <option value="duplicate">Benzer rol ile birleştiriliyor</option>
+                        <option value="obsolete">Artık kullanılmıyor</option>
+                        <option value="other">Diğer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="deactivateRoleNotes" class="form-label">Ek Açıklama</label>
+                    <textarea class="form-control" id="deactivateRoleNotes" rows="3" placeholder="İsteğe bağlı açıklama..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kullanıcılar İçin Alternatif Rol</label>
+                    <select class="form-select" id="alternativeRole">
+                        <option value="">-- Alternatif rol seçin --</option>
+                        <option value="ROLE-002">Editör</option>
+                        <option value="ROLE-006">Alan Editörü</option>
+                    </select>
+                    <div class="form-text">Bu role sahip kullanıcılara otomatik olarak atanacak alternatif rol.</div>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="notifyDeactivation" checked>
+                    <label class="form-check-label" for="notifyDeactivation">
+                        Etkilenen kullanıcılara bildirim e-postası gönder
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeactivate">Devre Dışı Bırak</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3 bg-light border-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <span class="text-muted small">Versiyon 2.5.3 | Son Güncelleme: 01.03.2025</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js"></script>
+<script>
+    // Tooltip'leri etkinleştir
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Rol tipi değiştiğinde şablon seçim alanının görünürlüğünü kontrol et
+    document.getElementById('newRoleType').addEventListener('change', function() {
+        var templateSelection = document.getElementById('templateSelection');
+        if (this.value === 'template') {
+            templateSelection.style.display = 'block';
+        } else {
+            templateSelection.style.display = 'none';
+        }
+    });
+
+    // Şablon değiştiğinde izinleri otomatik doldur
+    document.getElementById('roleTemplate').addEventListener('change', function() {
+        var permissionSelects = document.querySelectorAll('.permission-select');
+        
+        // Şablona göre izinleri ayarla
+        if (this.value === 'editor') {
+            // Editör şablonu
+            permissionSelects.forEach(function(select, index) {
+                if (index < 4) {
+                    // Makale yönetimi - tam erişim
+                    select.value = 'full';
+                } else if (index < 8) {
+                    // Kullanıcı yönetimi - kısmi erişim
+                    select.value = 'partial';
+                } else {
+                    // Sistem yönetimi - erişim yok
+                    select.value = 'none';
+                }
+            });
+        } else if (this.value === 'reviewer') {
+            // Hakem şablonu
+            permissionSelects.forEach(function(select, index) {
+                if (index < 4) {
+                    // Makale yönetimi - kısmi erişim
+                    select.value = index === 0 ? 'partial' : 'none';
+                } else {
+                    // Diğer tüm izinler - erişim yok
+                    select.value = 'none';
+                }
+            });
+        } else if (this.value === 'author') {
+            // Yazar şablonu
+            permissionSelects.forEach(function(select, index) {
+                if (index < 2) {
+                    // Makale görüntüleme ve düzenleme - kısmi erişim
+                    select.value = 'partial';
+                } else {
+                    // Diğer tüm izinler - erişim yok
+                    select.value = 'none';
+                }
+            });
+        } else if (this.value === 'empty') {
+            // Boş şablon - tüm izinler kapalı
+            permissionSelects.forEach(function(select) {
+                select.value = 'none';
+            });
+        }
+    });
+
+    // Kaydet butonları işlevselliği
+    document.getElementById('saveNewRole').addEventListener('click', function() {
+        // Burada AJAX ile veritabanına yeni rol kaydetme işlemi yapılabilir
+        alert('Yeni rol başarıyla oluşturuldu!');
+        bootstrap.Modal.getInstance(document.getElementById('createRoleModal')).hide();
+        // Sayfa yenilenerek yeni rol listeye eklenebilir
+        // window.location.reload();
+    });
+
+    document.getElementById('saveRoleChanges').addEventListener('click', function() {
+        // Burada AJAX ile rol güncelleme işlemi yapılabilir
+        alert('Rol değişiklikleri başarıyla kaydedildi!');
+        bootstrap.Modal.getInstance(document.getElementById('editRoleModal')).hide();
+    });
+
+    document.getElementById('confirmDeactivate').addEventListener('click', function() {
+        // Burada AJAX ile rol devre dışı bırakma işlemi yapılabilir
+        alert('Rol başarıyla devre dışı bırakıldı!');
+        bootstrap.Modal.getInstance(document.getElementById('deactivateRoleModal')).hide();
+        // Sayfa yenilenerek rol durumu güncellenebilir
+        // window.location.reload();
+    });
+</script>
+</body>
+</html></span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success permission-badge" data-bs-toggle="tooltip" title="Tam Yetki">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                            

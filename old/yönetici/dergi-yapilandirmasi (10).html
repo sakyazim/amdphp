@@ -1,0 +1,2442 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Dergi Yapılandırması</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- Dashboard CSS -->
+    <link href="assets/css/dashboard.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header kısmı -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Ana logo - hem mobil hem masaüstü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="dergi-yonetici-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi - rol değiştirme butonunun solunda -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Dergi Yöneticisi olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-journal-check me-2"></i>
+                        <span>Dergi Yöneticisi</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-journal-check me-2"></i> Dergi Yöneticisi</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Prof. Dr. Ahmet Yılmaz</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="dergi-yonetici-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="dergi-yonetici-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container-fluid">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Yönetim Menüsü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Ana Gösterge Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-istatistikler.html" class="nav-link">
+                                    <i class="bi bi-graph-up me-2"></i> İstatistikler & Raporlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-tum-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Tüm Makaleler
+                                    <span class="badge bg-primary rounded-pill float-end">25</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-kullanicilar.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Kullanıcı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-roller.html" class="nav-link">
+                                    <i class="bi bi-person-badge me-2"></i> Rol Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-is-akislari.html" class="nav-link">
+                                    <i class="bi bi-diagram-3 me-2"></i> İş Akışı Yönetimi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-email-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-envelope me-2"></i> E-posta Şablonları
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-dergiler.html" class="nav-link active">
+                                    <i class="bi bi-journal-richtext me-2"></i> Dergi Yapılandırması
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-sistem-ayarlari.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Sistem Ayarları
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dergi-yonetici-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Aksiyon Butonları -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h2 mb-0"><i class="bi bi-journal-richtext me-2"></i>Dergi Yapılandırması</h1>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i> Varsayılana Döndür
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i> Değişiklikleri Kaydet
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigasyon Sekmeleri -->
+                <ul class="nav nav-tabs mb-4" id="configTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">
+                            <i class="bi bi-gear me-1"></i> Genel Bilgiler
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="publishing-tab" data-bs-toggle="tab" data-bs-target="#publishing" type="button" role="tab" aria-controls="publishing" aria-selected="false">
+                            <i class="bi bi-calendar3 me-1"></i> Yayın Politikaları
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="issues-tab" data-bs-toggle="tab" data-bs-target="#issues" type="button" role="tab" aria-controls="issues" aria-selected="false">
+                            <i class="bi bi-journals me-1"></i> Sayı Yönetimi
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="appearance-tab" data-bs-toggle="tab" data-bs-target="#appearance" type="button" role="tab" aria-controls="appearance" aria-selected="false">
+                            <i class="bi bi-palette me-1"></i> Görünüm
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="workflow-tab" data-bs-toggle="tab" data-bs-target="#workflow" type="button" role="tab" aria-controls="workflow" aria-selected="false">
+                            <i class="bi bi-diagram-3 me-1"></i> İş Akışı
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo" type="button" role="tab" aria-controls="seo" aria-selected="false">
+                            <i class="bi bi-globe me-1"></i> Web ve SEO
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab İçerikleri -->
+                <div class="tab-content" id="configTabsContent">
+                    <!-- Genel Bilgiler Sekmesi -->
+                    <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Dergi Temel Bilgileri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="journalTitle" class="form-label">Dergi Adı</label>
+                                                    <input type="text" class="form-control" id="journalTitle" value="X Dergisi">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="journalShortTitle" class="form-label">Kısa Ad</label>
+                                                    <input type="text" class="form-control" id="journalShortTitle" value="XD">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="issn" class="form-label">ISSN</label>
+                                                    <input type="text" class="form-control" id="issn" value="1234-5678">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="eissn" class="form-label">e-ISSN</label>
+                                                    <input type="text" class="form-control" id="eissn" value="2345-6789">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="languages" class="form-label">Desteklenen Diller</label>
+                                                <select class="form-select" id="languages" multiple>
+                                                    <option value="tr" selected>Türkçe</option>
+                                                    <option value="en" selected>İngilizce</option>
+                                                    <option value="fr">Fransızca</option>
+                                                    <option value="de">Almanca</option>
+                                                    <option value="es">İspanyolca</option>
+                                                </select>
+                                                <div class="form-text">Birden fazla dil seçmek için CTRL tuşuna basılı tutarak seçim yapın.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="primaryLanguage" class="form-label">Birincil Dil</label>
+                                                <select class="form-select" id="primaryLanguage">
+                                                    <option value="tr" selected>Türkçe</option>
+                                                    <option value="en">İngilizce</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="journalDescription" class="form-label">Dergi Açıklaması</label>
+                                                <textarea class="form-control" id="journalDescription" rows="4">X Dergisi, bilim ve teknoloji alanında yayınlanan hakemli bir dergidir. Dergi, bilimsel araştırmaların yayınlanması ve paylaşılması için bir platform sağlamaktadır.</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="journalScope" class="form-label">Dergi Kapsamı ve Odak Alanları</label>
+                                                <textarea class="form-control" id="journalScope" rows="4">Bilgisayar Bilimleri, Yapay Zeka, Makine Öğrenmesi, Veri Bilimi, Yazılım Mühendisliği, Bilgi Güvenliği, Bilişim Sistemleri, İnsan-Bilgisayar Etkileşimi.</textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">İletişim Bilgileri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="contactName" class="form-label">İletişim Kişisi</label>
+                                                    <input type="text" class="form-control" id="contactName" value="Prof. Dr. Ahmet Yılmaz">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="contactEmail" class="form-label">İletişim E-posta</label>
+                                                    <input type="email" class="form-control" id="contactEmail" value="editor@xdergisi.edu.tr">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="contactPhone" class="form-label">Telefon</label>
+                                                    <input type="tel" class="form-control" id="contactPhone" value="+90 212 123 4567">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="contactFax" class="form-label">Faks</label>
+                                                    <input type="tel" class="form-control" id="contactFax" value="+90 212 123 4568">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Adres</label>
+                                                <textarea class="form-control" id="address" rows="3">X Üniversitesi, Y Fakültesi, Z Bölümü, İstanbul, Türkiye</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="technicalContactEmail" class="form-label">Teknik Destek E-posta</label>
+                                                <input type="email" class="form-control" id="technicalContactEmail" value="support@xdergisi.edu.tr">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Dergi Görselleri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Dergi Logosu</label>
+                                            <div class="text-center p-3 border rounded mb-2">
+                                                <img src="assets/images/logo.svg" alt="Dergi Logosu" class="img-fluid" style="max-height: 100px;">
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <button class="btn btn-outline-primary" type="button">
+                                                    <i class="bi bi-upload me-1"></i> Logo Yükle
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">Önerilen boyut: 400x200px, PNG veya SVG formatı</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Kapak Görseli</label>
+                                            <div class="text-center p-3 border rounded mb-2">
+                                                <img src="assets/images/cover.jpg" alt="Kapak Görseli" class="img-fluid" style="max-height: 200px;">
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <button class="btn btn-outline-primary" type="button">
+                                                    <i class="bi bi-upload me-1"></i> Kapak Görseli Yükle
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">Önerilen boyut: 1200x1600px, JPG veya PNG formatı</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Favicon</label>
+                                            <div class="text-center p-3 border rounded mb-2">
+                                                <img src="assets/images/favicon.ico" alt="Favicon" class="img-fluid" style="max-height: 64px;">
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <button class="btn btn-outline-primary" type="button">
+                                                    <i class="bi bi-upload me-1"></i> Favicon Yükle
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">Önerilen boyut: 32x32px, ICO formatı</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Yayıncı Bilgileri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="publisherName" class="form-label">Yayıncı</label>
+                                                <input type="text" class="form-control" id="publisherName" value="X Üniversitesi Yayınları">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="publisherCountry" class="form-label">Yayıncı Ülkesi</label>
+                                                <select class="form-select" id="publisherCountry">
+                                                    <option value="TR" selected>Türkiye</option>
+                                                    <option value="US">Amerika Birleşik Devletleri</option>
+                                                    <option value="GB">Birleşik Krallık</option>
+                                                    <option value="DE">Almanya</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="publisherUrl" class="form-label">Yayıncı Web Sitesi</label>
+                                                <input type="url" class="form-control" id="publisherUrl" value="https://www.xuniversitesi.edu.tr">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yayın Politikaları Sekmesi -->
+                    <div class="tab-pane fade" id="publishing" role="tabpanel" aria-labelledby="publishing-tab">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Yayın Ayarları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="pubFrequency" class="form-label">Yayın Sıklığı</label>
+                                                    <select class="form-select" id="pubFrequency">
+                                                        <option value="1">Aylık</option>
+                                                        <option value="2">İki Aylık</option>
+                                                        <option value="3" selected>Üç Aylık</option>
+                                                        <option value="4">Dört Aylık</option>
+                                                        <option value="6">Altı Aylık</option>
+                                                        <option value="12">Yıllık</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="volumesPerYear" class="form-label">Yıllık Cilt Sayısı</label>
+                                                    <input type="number" class="form-control" id="volumesPerYear" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="issuesPerVolume" class="form-label">Cilt Başına Sayı</label>
+                                                    <input type="number" class="form-control" id="issuesPerVolume" value="4">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="articlesPerIssue" class="form-label">Sayı Başına Maks. Makale</label>
+                                                    <input type="number" class="form-control" id="articlesPerIssue" value="10">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="publicationDates" class="form-label">Yayın Tarihleri</label>
+                                                <input type="text" class="form-control" id="publicationDates" value="Mart, Haziran, Eylül, Aralık">
+                                                <div class="form-text">Virgülle ayırarak birden fazla tarih belirtin</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="allowOnlineFirst" checked>
+                                                <label class="form-check-label" for="allowOnlineFirst">Online First (Erken Görünüm) Yayın</label>
+                                                <div class="form-text">Sayıya eklenmeden önce makalelerin online yayınlanmasına izin verir</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="allowPreprint" checked>
+                                                <label class="form-check-label" for="allowPreprint">Preprint/Ön Baskı Kabul</label>
+                                                <div class="form-text">Daha önce preprint olarak yayınlanmış makaleleri kabul eder</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="printedCopies" class="form-label">Basılı Kopya Sayısı</label>
+                                                <input type="number" class="form-control" id="printedCopies" value="100">
+                                                <div class="form-text">0 girilirse sadece elektronik yayın yapılır</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Hakemlik Süreci Ayarları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="peerReviewType" class="form-label">Hakemlik Tipi</label>
+                                                    <select class="form-select" id="peerReviewType">
+                                                        <option value="double-blind" selected>Çift Kör Hakemlik</option>
+                                                        <option value="single-blind">Tek Kör Hakemlik</option>
+                                                        <option value="open">Açık Hakemlik</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="reviewerCount" class="form-label">Hakem Sayısı</label>
+                                                    <input type="number" class="form-control" id="reviewerCount" value="2">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="reviewDeadline" class="form-label">Değerlendirme Süresi (gün)</label>
+                                                    <input type="number" class="form-control" id="reviewDeadline" value="21">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="revisionDeadline" class="form-label">Revizyon Süresi (gün)</label>
+                                                    <input type="number" class="form-control" id="revisionDeadline" value="14">
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="authorRecommendReviewers" checked>
+                                                <label class="form-check-label" for="authorRecommendReviewers">Yazarların Hakem Önerisi</label>
+                                                <div class="form-text">Yazarların hakem önerebilmesine izin verir</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="authorExcludeReviewers" checked>
+                                                <label class="form-check-label" for="authorExcludeReviewers">Yazarların Hakem Hariç Tutması</label>
+                                                <div class="form-text">Yazarların belirli hakemleri değerlendirme dışında tutmasına izin verir</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="autoReminder" class="form-label">Otomatik Hatırlatma (gün)</label>
+                                                <input type="number" class="form-control" id="autoReminder" value="7">
+                                                <div class="form-text">Son tarihten önce gönderilecek hatırlatma e-postası süresi</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Yayın Etiği ve Standartlar</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="ethicalStandard" class="form-label">Etik Standartları</label>
+                                                <select class="form-select" id="ethicalStandard" multiple>
+                                                    <option value="cope" selected>COPE (Committee on Publication Ethics)</option>
+                                                    <option value="icmje" selected>ICMJE (International Committee of Medical Journal Editors)</option>
+                                                    <option value="doaj">DOAJ (Directory of Open Access Journals)</option>
+                                                    <option value="oaspa">OASPA (Open Access Scholarly Publishers Association)</option>
+                                                    <option value="wame">WAME (World Association of Medical Editors)</option>
+                                                </select>
+                                                <div class="form-text">Birden fazla seçim yapabilirsiniz</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="licensingModel" class="form-label">Lisanslama Modeli</label>
+                                                <select class="form-select" id="licensingModel">
+                                                    <option value="cc-by" selected>CC BY (Attribution)</option>
+                                                    <option value="cc-by-sa">CC BY-SA (Attribution-ShareAlike)</option>
+                                                    <option value="cc-by-nd">CC BY-ND (Attribution-NoDerivs)</option>
+                                                    <option value="cc-by-nc">CC BY-NC (Attribution-NonCommercial)</option>
+                                                    <option value="cc-by-nc-sa">CC BY-NC-SA (Attribution-NonCommercial-ShareAlike)</option>
+                                                    <option value="cc-by-nc-nd">CC BY-NC-ND (Attribution-NonCommercial-NoDerivs)</option>
+                                                    <option value="publisher-specific">Yayıncıya Özel Telif Hakkı</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="copyrightHolder" class="form-label">Telif Hakkı Sahibi</label>
+                                                <select class="form-select" id="copyrightHolder">
+                                                    <option value="author">Yazar</option>
+                                                    <option value="publisher" selected>Yayıncı</option>
+                                                    <option value="journal">Dergi</option>
+                                                    <option value="shared">Paylaşımlı (Yazar ve Yayıncı)</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="plagiarismTool" class="form-label">İntihal Tarama Aracı</label>
+                                                <select class="form-select" id="plagiarismTool">
+                                                    <option value="ithenticate" selected>iThenticate</option>
+                                                    <option value="turnitin">Turnitin</option>
+                                                    <option value="crossref">Crossref Similarity Check</option>
+                                                    <option value="other">Diğer</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="plagiarismThreshold" class="form-label">İntihal Eşik Değeri (%)</label>
+                                                <input type="number" class="form-control" id="plagiarismThreshold" value="20">
+                                                <div class="form-text">Benzerlik oranı bu değeri aşarsa makale reddedilir veya ek inceleme gerektirir</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="requireEthicsStatement" checked>
+                                                <label class="form-check-label" for="requireEthicsStatement">Etik Kurul İzni Zorunlu</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="requireCOI" checked>
+                                                <label class="form-check-label" for="requireCOI">Çıkar Çatışması Bildirimi Zorunlu</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="requireFunding" checked>
+                                                <label class="form-check-label" for="requireFunding">Finansman Bildirimi Zorunlu</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Erişim ve Arşivleme</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="accessModel" class="form-label">Erişim Modeli</label>
+                                                <select class="form-select" id="accessModel">
+                                                    <option value="open" selected>Açık Erişim</option>
+                                                    <option value="delayed">Gecikmeli Açık Erişim</option>
+                                                    <option value="hybrid">Hibrit (Ücretli/Açık)</option>
+                                                    <option value="subscription">Abonelik Bazlı</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="embargoTime" class="form-label">Ambargo Süresi (ay)</label>
+                                                <input type="number" class="form-control" id="embargoTime" value="0">
+                                                <div class="form-text">Gecikmeli Açık Erişim için</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="apcFee" class="form-label">Makale İşlem Ücreti (APC) (TL)</label>
+                                                <input type="number" class="form-control" id="apcFee" value="0">
+                                                <div class="form-text">0 girilirse ücret alınmaz</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="archiving" class="form-label">Arşivleme Hizmetleri</label>
+                                                <select class="form-select" id="archiving" multiple>
+                                                    <option value="lockss" selected>LOCKSS</option>
+                                                    <option value="clockss">CLOCKSS</option>
+                                                    <option value="portico">Portico</option>
+                                                    <option value="pmc">PubMed Central</option>
+                                                    <option value="institutional" selected>Kurumsal Arşiv</option>
+                                                </select>
+                                                <div class="form-text">Birden fazla seçim yapabilirsiniz</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="allowSelfArchiving" checked>
+                                                <label class="form-check-label" for="allowSelfArchiving">Kişisel Arşivlemeye İzin Ver</label>
+                                                <div class="form-text">Yazarların makalelerini kişisel web sitelerinde veya kurumsal arşivlerde yayınlamasına izin verir</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sayı Yönetimi Sekmesi -->
+                    <div class="tab-pane fade" id="issues" role="tabpanel" aria-labelledby="issues-tab">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">Planlanan Sayılar</h5>
+                                        <button class="btn btn-sm btn-primary">
+                                            <i class="bi bi-plus-circle me-1"></i> Yeni Sayı Planla
+                                        </button>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Sayı Adı</th>
+                                                        <th>Cilt / Sayı</th>
+                                                        <th>Planlanan Tarih</th>
+                                                        <th>Durum</th>
+                                                        <th>Makale Sayısı</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Mart 2025</td>
+                                                        <td>C.8 / S.1</td>
+                                                        <td>15.03.2025</td>
+                                                        <td><span class="badge bg-warning text-dark">Hazırlanıyor</span></td>
+                                                        <td>7 / 10</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" checked>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">8</span>
+                                                        <span>Yayın</span>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" checked>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-2">
+                                                <button class="btn btn-sm btn-outline-primary me-2">
+                                                    <i class="bi bi-plus-circle me-1"></i> Adım Ekle
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-arrow-left-right me-1"></i> Sıralamayı Değiştir
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">İntihal Kontrolü</label>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="plagiarismCheckInitial" checked>
+                                                <label class="form-check-label" for="plagiarismCheckInitial">İlk gönderimde intihal kontrolü</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="plagiarismCheckRevision" checked>
+                                                <label class="form-check-label" for="plagiarismCheckRevision">Revizyon sonrası intihal kontrolü</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="plagiarismReportToAuthor">
+                                                <label class="form-check-label" for="plagiarismReportToAuthor">İntihal raporunun yazara gönderilmesi</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Otomatik Bildirimler</label>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyAllStatusChanges" checked>
+                                                <label class="form-check-label" for="notifyAllStatusChanges">Tüm durum değişikliklerinde yazarı bilgilendir</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyEditorOnRevision" checked>
+                                                <label class="form-check-label" for="notifyEditorOnRevision">Revizyon gönderiminde editörü bilgilendir</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyReviewerReminder" checked>
+                                                <label class="form-check-label" for="notifyReviewerReminder">Otomatik hakem hatırlatmaları</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Değerlendirme Formları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive mb-3">
+                                            <table class="table table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Form Adı</th>
+                                                        <th>Kullanım Yeri</th>
+                                                        <th>Son Güncelleme</th>
+                                                        <th>Durum</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Standart Hakem Değerlendirme Formu</td>
+                                                        <td>Hakem Değerlendirmesi</td>
+                                                        <td>15.02.2025</td>
+                                                        <td><span class="badge bg-success">Aktif</span></td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Editör Ön Değerlendirme Formu</td>
+                                                        <td>Editör Değerlendirmesi</td>
+                                                        <td>10.01.2025</td>
+                                                        <td><span class="badge bg-success">Aktif</span></td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Revizyon Kontrol Formu</td>
+                                                        <td>Revizyon Süreci</td>
+                                                        <td>20.01.2025</td>
+                                                        <td><span class="badge bg-success">Aktif</span></td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <button class="btn btn-outline-primary">
+                                            <i class="bi bi-plus-circle me-1"></i> Yeni Form Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Süreç Zaman Limitleri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="editorAssignmentLimit" class="form-label">Editör Atama Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="editorAssignmentLimit" value="3">
+                                                <div class="form-text">Baş editörün alan editörü ataması için hedef süre</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="initialCheckLimit" class="form-label">Ön Kontrol Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="initialCheckLimit" value="5">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="reviewerInvitationLimit" class="form-label">Hakem Davet Kabul Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="reviewerInvitationLimit" value="7">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="reviewCompletionLimit" class="form-label">Hakem Değerlendirme Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="reviewCompletionLimit" value="21">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="editorDecisionLimit" class="form-label">Editör Karar Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="editorDecisionLimit" value="7">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="authorRevisionLimit" class="form-label">Yazar Revizyon Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="authorRevisionLimit" value="30">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="copyeditLimit" class="form-label">Redaksiyon Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="copyeditLimit" value="14">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="proofreadingLimit" class="form-label">Düzeltme Okuma Süresi (gün)</label>
+                                                <input type="number" class="form-control" id="proofreadingLimit" value="7">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Otomatik İşlemler</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="autoReminderEnabled" checked>
+                                            <label class="form-check-label" for="autoReminderEnabled">Otomatik Hatırlatmalar</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="reminderDays" class="form-label">Hatırlatma Günleri (Son tarihten önce)</label>
+                                            <select class="form-select" id="reminderDays" multiple>
+                                                <option value="1" selected>1 gün</option>
+                                                <option value="3" selected>3 gün</option>
+                                                <option value="7" selected>7 gün</option>
+                                                <option value="14">14 gün</option>
+                                            </select>
+                                            <div class="form-text">Birden fazla seçim yapabilirsiniz</div>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="autoReassignReviewer">
+                                            <label class="form-check-label" for="autoReassignReviewer">Yanıt Vermeyen Hakemleri Otomatik Değiştir</label>
+                                            <div class="form-text">Davet sonrası belirli bir süre yanıt vermeyen hakemleri otomatik olarak değiştirir</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="autoReassignDays" class="form-label">Otomatik Değiştirme Süresi (gün)</label>
+                                            <input type="number" class="form-control" id="autoReassignDays" value="10">
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="autoArchiveDrafts" checked>
+                                            <label class="form-check-label" for="autoArchiveDrafts">Tamamlanmayan Taslakları Arşivle</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="autoArchiveDays" class="form-label">Arşivleme Süresi (gün)</label>
+                                            <input type="number" class="form-control" id="autoArchiveDays" value="60">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">İş Akışı İntegrasyonları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="orcidIntegration" checked>
+                                            <label class="form-check-label" for="orcidIntegration">ORCID Entegrasyonu</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="crossrefIntegration" checked>
+                                            <label class="form-check-label" for="crossrefIntegration">Crossref Entegrasyonu</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="publonsIntegration">
+                                            <label class="form-check-label" for="publonsIntegration">Publons Entegrasyonu</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="ithenticateIntegration" checked>
+                                            <label class="form-check-label" for="ithenticateIntegration">iThenticate İntihal Kontrolü</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="googleScholarIndexing" checked>
+                                            <label class="form-check-label" for="googleScholarIndexing">Google Scholar İndeksleme</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Web ve SEO Sekmesi -->
+                    <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">SEO Ayarları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="metaTitle" class="form-label">Meta Başlık</label>
+                                                <input type="text" class="form-control" id="metaTitle" value="X Dergisi - Bilim ve Teknoloji Alanında Hakemli Akademik Dergi">
+                                                <div class="form-text">60-70 karakter önerilir</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="metaDescription" class="form-label">Meta Açıklama</label>
+                                                <textarea class="form-control" id="metaDescription" rows="3">X Dergisi, bilgisayar bilimleri, yapay zeka ve bilişim teknolojileri alanında özgün bilimsel çalışmaları yayınlayan uluslararası hakemli bir dergidir.</textarea>
+                                                <div class="form-text">150-160 karakter önerilir</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="metaKeywords" class="form-label">Meta Anahtar Kelimeler</label>
+                                                <input type="text" class="form-control" id="metaKeywords" value="bilimsel dergi, akademik yayın, bilgisayar bilimleri, yapay zeka, bilişim teknolojileri, hakemli dergi">
+                                                <div class="form-text">Virgülle ayırarak yazın</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="canonicalUrl" class="form-label">Canonical URL</label>
+                                                <input type="url" class="form-control" id="canonicalUrl" value="https://www.xdergisi.edu.tr">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="robotsTxt" class="form-label">Robots.txt İçeriği</label>
+                                                <textarea class="form-control font-monospace" id="robotsTxt" rows="5">User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /temp/
+Sitemap: https://www.xdergisi.edu.tr/sitemap.xml</textarea>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="enableSitemap" checked>
+                                                <label class="form-check-label" for="enableSitemap">Otomatik Sitemap Oluştur</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="enableStructuredData" checked>
+                                                <label class="form-check-label" for="enableStructuredData">Yapılandırılmış Veri (Schema.org) Ekle</label>
+                                                <div class="form-text">Google Arama Sonuçlarında zengin kartlar görüntülenmesini sağlar</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Sosyal Medya ve Paylaşım</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="ogTitle" class="form-label">Open Graph Başlık</label>
+                                                <input type="text" class="form-control" id="ogTitle" value="X Dergisi - Bilim ve Teknoloji">
+                                                <div class="form-text">Sosyal medyada paylaşıldığında görünecek başlık</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="ogDescription" class="form-label">Open Graph Açıklama</label>
+                                                <textarea class="form-control" id="ogDescription" rows="2">X Dergisi'nde en son bilimsel makaleleri keşfedin. Bilgisayar bilimleri ve yapay zeka alanında güncel araştırmalar.</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="ogImage" class="form-label">Open Graph Görseli</label>
+                                                <input type="file" class="form-control" id="ogImage">
+                                                <div class="form-text">Önerilen boyut: 1200x630 piksel</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="twitterUsername" class="form-label">Twitter Kullanıcı Adı</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">@</span>
+                                                    <input type="text" class="form-control" id="twitterUsername" value="XDergisi">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6 mb-3 mb-md-0">
+                                                    <label for="facebookPage" class="form-label">Facebook Sayfası</label>
+                                                    <input type="url" class="form-control" id="facebookPage" value="https://www.facebook.com/xdergisi">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="linkedinPage" class="form-label">LinkedIn Sayfası</label>
+                                                    <input type="url" class="form-control" id="linkedinPage" value="https://www.linkedin.com/company/xdergisi">
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="enableSocialShare" checked>
+                                                <label class="form-check-label" for="enableSocialShare">Makale Sayfalarında Sosyal Paylaşım Butonları</label>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="socialPlatforms" class="form-label">Aktif Paylaşım Platformları</label>
+                                                <select class="form-select" id="socialPlatforms" multiple>
+                                                    <option value="twitter" selected>Twitter</option>
+                                                    <option value="facebook" selected>Facebook</option>
+                                                    <option value="linkedin" selected>LinkedIn</option>
+                                                    <option value="whatsapp">WhatsApp</option>
+                                                    <option value="email" selected>E-posta</option>
+                                                    <option value="telegram">Telegram</option>
+                                                </select>
+                                                <div class="form-text">Paylaş butonlarının görüneceği platformlar</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">URL Yapılandırması</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="urlFormat" class="form-label">URL Formatı</label>
+                                                <select class="form-select" id="urlFormat">
+                                                    <option value="pretty" selected>SEO Dostu URL</option>
+                                                    <option value="query">Sorgu Parametreli URL</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="issueUrlPattern" class="form-label">Sayı URL Deseni</label>
+                                                <input type="text" class="form-control" id="issueUrlPattern" value="/dergi/cilt/{volume}/sayi/{issue}">
+                                                <div class="form-text">{volume}, {issue}, {year} değişkenleri kullanılabilir</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="articleUrlPattern" class="form-label">Makale URL Deseni</label>
+                                                <input type="text" class="form-control" id="articleUrlPattern" value="/makale/{article-id}/{slug}">
+                                                <div class="form-text">{article-id}, {slug}, {author}, {year} değişkenleri kullanılabilir</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="useTurkishCharacters">
+                                                <label class="form-check-label" for="useTurkishCharacters">URL'lerde Türkçe Karakter Kullan</label>
+                                                <div class="form-text">Kapalıyken Türkçe karakterler Latin eşdeğerleriyle değiştirilir</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="redirectOldUrls" checked>
+                                                <label class="form-check-label" for="redirectOldUrls">Eski URL'leri Yönlendir</label>
+                                                <div class="form-text">URL yapısı değiştiğinde 301 yönlendirmesi yapar</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Analitik & Takip</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="googleAnalyticsId" class="form-label">Google Analytics ID</label>
+                                                <input type="text" class="form-control" id="googleAnalyticsId" value="UA-12345678-1">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="googleSearchConsole" class="form-label">Google Search Console Doğrulama</label>
+                                                <input type="text" class="form-control" id="googleSearchConsole" placeholder="meta-tag içeriği">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="facebookPixel" class="form-label">Facebook Pixel ID</label>
+                                                <input type="text" class="form-control" id="facebookPixel" placeholder="Örn: 123456789012345">
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="enableCustomAnalytics">
+                                                <label class="form-check-label" for="enableCustomAnalytics">Özel Analitik Kodu Ekle</label>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="customAnalyticsCode" class="form-label">Özel Analitik Kodu</label>
+                                                <textarea class="form-control font-monospace" id="customAnalyticsCode" rows="4" placeholder="<!-- Özel analitik takip kodlarını buraya yapıştırın -->"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">İndeksleme & Arşivleme</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label class="form-label">Aktif İndeksler</label>
+                                                <div class="list-group">
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <span>DOAJ</span>
+                                                        </div>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" checked>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <span>Web of Science</span>
+                                                        </div>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" checked>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <span>Scopus</span>
+                                                        </div>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" checked>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <span>TR Dizin</span>
+                                                        </div>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" checked>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <span>PubMed</span>
+                                                        </div>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="dublinCore" class="form-label">Dublin Core Meta Verileri</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="dublinCore" checked>
+                                                    <label class="form-check-label" for="dublinCore">Dublin Core Meta Tag'larını Ekle</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="oaiPmh" class="form-label">OAI-PMH Protokolü</label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="oaiPmh" checked>
+                                                    <label class="form-check-label" for="oaiPmh">OAI-PMH'yi Etkinleştir</label>
+                                                    <div class="form-text">Metadata Hasat Protokolü</div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3 bg-light border-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <span class="text-muted small">Versiyon 2.5.3 | Son Güncelleme: 01.03.2025</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.min.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Haziran 2025</td>
+                                                        <td>C.8 / S.2</td>
+                                                        <td>15.06.2025</td>
+                                                        <td><span class="badge bg-info">Planlama</span></td>
+                                                        <td>3 / 10</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Eylül 2025</td>
+                                                        <td>C.8 / S.3</td>
+                                                        <td>15.09.2025</td>
+                                                        <td><span class="badge bg-info">Planlama</span></td>
+                                                        <td>0 / 10</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Aralık 2025</td>
+                                                        <td>C.8 / S.4</td>
+                                                        <td>15.12.2025</td>
+                                                        <td><span class="badge bg-info">Planlama</span></td>
+                                                        <td>0 / 10</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">Yayınlanmış Sayılar</h5>
+                                        <div class="input-group" style="width: 250px;">
+                                            <input type="text" class="form-control form-control-sm" placeholder="Ara...">
+                                            <button class="btn btn-sm btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Sayı Adı</th>
+                                                        <th>Cilt / Sayı</th>
+                                                        <th>Yayın Tarihi</th>
+                                                        <th>Makale Sayısı</th>
+                                                        <th>İşlemler</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Aralık 2024</td>
+                                                        <td>C.7 / S.4</td>
+                                                        <td>15.12.2024</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Eylül 2024</td>
+                                                        <td>C.7 / S.3</td>
+                                                        <td>15.09.2024</td>
+                                                        <td>8</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Yapay Zeka Özel Sayısı</td>
+                                                        <td>C.7 / S.2S</td>
+                                                        <td>30.06.2024</td>
+                                                        <td>12</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Haziran 2024</td>
+                                                        <td>C.7 / S.2</td>
+                                                        <td>15.06.2024</td>
+                                                        <td>9</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center py-2">
+                                        <a href="#" class="text-decoration-none">Tüm Sayıları Görüntüle</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Özel Sayı Planlama</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="specialIssueTitle" class="form-label">Özel Sayı Başlığı</label>
+                                                <input type="text" class="form-control" id="specialIssueTitle" placeholder="Örn. Büyük Veri ve Yapay Zeka Özel Sayısı">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="specialIssueEditor" class="form-label">Konuk Editör</label>
+                                                <input type="text" class="form-control" id="specialIssueEditor" placeholder="Örn. Prof. Dr. Mehmet Yılmaz">
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="specialIssueVolume" class="form-label">Cilt</label>
+                                                    <input type="number" class="form-control" id="specialIssueVolume" placeholder="8">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="specialIssueNumber" class="form-label">Sayı</label>
+                                                    <input type="text" class="form-control" id="specialIssueNumber" placeholder="1S">
+                                                    <small class="text-muted">S harfi özel sayıyı belirtir</small>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="specialIssueDate" class="form-label">Yayın Tarihi</label>
+                                                <input type="date" class="form-control" id="specialIssueDate">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="specialIssueDescription" class="form-label">Açıklama ve Kapsam</label>
+                                                <textarea class="form-control" id="specialIssueDescription" rows="4" placeholder="Özel sayının kapsamı ve amacı hakkında bilgi..."></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="specialIssueDeadline" class="form-label">Makale Gönderim Son Tarihi</label>
+                                                <input type="date" class="form-control" id="specialIssueDeadline">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="specialIssueMaxArticles" class="form-label">Maksimum Makale Sayısı</label>
+                                                <input type="number" class="form-control" id="specialIssueMaxArticles" placeholder="12">
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <button class="btn btn-primary" type="button">
+                                                    <i class="bi bi-plus-circle me-1"></i> Özel Sayı Oluştur
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Arşiv Ayarları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="archiveDisplay" class="form-label">Arşiv Görünümü</label>
+                                                <select class="form-select" id="archiveDisplay">
+                                                    <option value="yearly" selected>Yıllara Göre Grupla</option>
+                                                    <option value="volume">Ciltlere Göre Grupla</option>
+                                                    <option value="chronological">Kronolojik Sıralama</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="itemsPerPage" class="form-label">Sayfa Başına Öğe Sayısı</label>
+                                                <input type="number" class="form-control" id="itemsPerPage" value="10">
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="showAbstractInArchive" checked>
+                                                <label class="form-check-label" for="showAbstractInArchive">Arşivde Özetleri Göster</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="showIssueCovers" checked>
+                                                <label class="form-check-label" for="showIssueCovers">Sayı Kapaklarını Göster</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="showKeywords" checked>
+                                                <label class="form-check-label" for="showKeywords">Anahtar Kelimeleri Göster</label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="enableSearch" checked>
+                                                <label class="form-check-label" for="enableSearch">Arşiv Aramasını Etkinleştir</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Görünüm Sekmesi -->
+                    <div class="tab-pane fade" id="appearance" role="tabpanel" aria-labelledby="appearance-tab">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Tema Ayarları</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-4">
+                                            <div class="col-lg-4 mb-3">
+                                                <div class="card h-100 border">
+                                                    <div class="card-body p-2 text-center">
+                                                        <img src="assets/images/theme-classic.jpg" alt="Klasik Tema" class="img-fluid mb-2 rounded">
+                                                        <h6 class="mb-0">Klasik Tema</h6>
+                                                    </div>
+                                                    <div class="card-footer p-2 text-center bg-success">
+                                                        <span class="text-white small"><i class="bi bi-check-circle-fill me-1"></i> Aktif</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mb-3">
+                                                <div class="card h-100 border">
+                                                    <div class="card-body p-2 text-center">
+                                                        <img src="assets/images/theme-modern.jpg" alt="Modern Tema" class="img-fluid mb-2 rounded">
+                                                        <h6 class="mb-0">Modern Tema</h6>
+                                                    </div>
+                                                    <div class="card-footer p-2 text-center">
+                                                        <button class="btn btn-sm btn-outline-primary">Aktifleştir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mb-3">
+                                                <div class="card h-100 border">
+                                                    <div class="card-body p-2 text-center">
+                                                        <img src="assets/images/theme-minimal.jpg" alt="Minimal Tema" class="img-fluid mb-2 rounded">
+                                                        <h6 class="mb-0">Minimal Tema</h6>
+                                                    </div>
+                                                    <div class="card-footer p-2 text-center">
+                                                        <button class="btn btn-sm btn-outline-primary">Aktifleştir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Renk Şeması</label>
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <div class="color-option active" style="background-color: #007bff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid #333;"></div>
+                                                <div class="color-option" style="background-color: #28a745; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <div class="color-option" style="background-color: #dc3545; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <div class="color-option" style="background-color: #6f42c1; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <div class="color-option" style="background-color: #fd7e14; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <div class="color-option" style="background-color: #20c997; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <div class="color-option" style="background-color: #6c757d; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <div class="color-option" style="background-color: #17a2b8; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"></div>
+                                                <button class="btn btn-sm btn-outline-secondary">Özel Renk</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="headerLayout" class="form-label">Başlık Düzeni</label>
+                                                <select class="form-select" id="headerLayout">
+                                                    <option value="logo-left" selected>Logo Solda</option>
+                                                    <option value="logo-center">Logo Ortada</option>
+                                                    <option value="full-width">Tam Genişlik</option>
+                                                    <option value="minimal">Minimal</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="footerLayout" class="form-label">Alt Bilgi Düzeni</label>
+                                                <select class="form-select" id="footerLayout">
+                                                    <option value="standard" selected>Standart</option>
+                                                    <option value="minimal">Minimal</option>
+                                                    <option value="detailed">Detaylı</option>
+                                                    <option value="centered">Ortalanmış</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="font" class="form-label">Yazı Tipi</label>
+                                                <select class="form-select" id="font">
+                                                    <option value="system-ui" selected>Sistem Varsayılanı</option>
+                                                    <option value="roboto">Roboto</option>
+                                                    <option value="open-sans">Open Sans</option>
+                                                    <option value="lato">Lato</option>
+                                                    <option value="nunito">Nunito</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="fontSize" class="form-label">Yazı Boyutu</label>
+                                                <select class="form-select" id="fontSize">
+                                                    <option value="small">Küçük</option>
+                                                    <option value="medium" selected>Orta</option>
+                                                    <option value="large">Büyük</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="darkModeSupport">
+                                            <label class="form-check-label" for="darkModeSupport">Karanlık Mod Desteği</label>
+                                            <div class="form-text">Kullanıcıların karanlık mod seçimini etkinleştir</div>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="responsiveDesign" checked>
+                                            <label class="form-check-label" for="responsiveDesign">Responsive Tasarım</label>
+                                            <div class="form-text">Mobil cihazlara uyumlu görünüm</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Sayfa Düzeni ve İçerik</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="homepageLayout" class="form-label">Ana Sayfa Düzeni</label>
+                                            <select class="form-select" id="homepageLayout">
+                                                <option value="current-issue" selected>Güncel Sayı Odaklı</option>
+                                                <option value="featured-articles">Öne Çıkan Makaleler</option>
+                                                <option value="news-first">Haberler Öncelikli</option>
+                                                <option value="journal-info">Dergi Bilgisi Öncelikli</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="articleLayout" class="form-label">Makale Sayfa Düzeni</label>
+                                            <select class="form-select" id="articleLayout">
+                                                <option value="standard" selected>Standart</option>
+                                                <option value="wide">Geniş Format</option>
+                                                <option value="sidebar">Kenar Çubuklu</option>
+                                                <option value="minimal">Minimal</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Ana Sayfa İçerik Sıralaması</label>
+                                            <div class="list-group" id="homepageContentOrder">
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <i class="bi bi-grip-vertical me-2"></i>
+                                                        <span>Güncel Sayı</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <i class="bi bi-grip-vertical me-2"></i>
+                                                        <span>Dergi Duyuruları</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <i class="bi bi-grip-vertical me-2"></i>
+                                                        <span>Öne Çıkan Makaleler</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <i class="bi bi-grip-vertical me-2"></i>
+                                                        <span>Dergi Hakkında</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <i class="bi bi-grip-vertical me-2"></i>
+                                                        <span>Dergi İstatistikleri</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-text">Öğeleri sürükleyerek sıralamayı değiştirebilirsiniz</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Makale Sayfası Bileşenleri</label>
+                                            <div class="list-group">
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span>Özet</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span>Anahtar Kelimeler</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span>Yazar Bilgileri</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span>Alıntılama Bilgisi</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span>Metrik ve İstatistikler</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span>Sosyal Medya Paylaşım Butonları</span>
+                                                    </div>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" checked>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Özelleştirme</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Özel CSS Ekle</label>
+                                            <textarea class="form-control font-monospace" rows="5" placeholder="/* Özel CSS kodlarınızı buraya ekleyin */"></textarea>
+                                            <div class="form-text">Dergi web sitesine özel stil tanımları ekleyin</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="customFavicon" class="form-label">Favicon</label>
+                                            <input type="file" class="form-control" id="customFavicon">
+                                            <div class="form-text">32x32 px boyutunda .ico formatında olmalıdır</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="customHeader" class="form-label">Özel Sayfa Başlığı (Header)</label>
+                                            <input type="file" class="form-control" id="customHeader">
+                                            <div class="form-text">1200x200 px boyutunda önerilir</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="customFooter" class="form-label">Özel Sayfa Alt Bilgisi (Footer)</label>
+                                            <input type="file" class="form-control" id="customFooter">
+                                            <div class="form-text">1200x150 px boyutunda önerilir</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="customFont" class="form-label">Özel Yazı Tipi</label>
+                                            <input type="file" class="form-control" id="customFont">
+                                            <div class="form-text">WOFF veya WOFF2 formatında olmalıdır</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">PDF Görünümü</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="pdfTemplate" class="form-label">PDF Şablonu</label>
+                                            <select class="form-select" id="pdfTemplate">
+                                                <option value="standard" selected>Standart</option>
+                                                <option value="academic">Akademik</option>
+                                                <option value="modern">Modern</option>
+                                                <option value="minimal">Minimal</option>
+                                                <option value="custom">Özel</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="pdfLogo" class="form-label">PDF Logo</label>
+                                            <input type="file" class="form-control" id="pdfLogo">
+                                            <div class="form-text">PDF üst kısmında görünecek logo</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="pdfHeaderText" class="form-label">PDF Üst Bilgi Metni</label>
+                                            <input type="text" class="form-control" id="pdfHeaderText" value="X Dergisi - Bilim ve Teknoloji">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="pdfFooterText" class="form-label">PDF Alt Bilgi Metni</label>
+                                            <input type="text" class="form-control" id="pdfFooterText" value="X Dergisi, Cilt: {volume}, Sayı: {issue}, {year}">
+                                            <div class="form-text">{volume}, {issue}, {year}, {pages} değişkenleri kullanılabilir</div>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="pdfShowPageNumbers" checked>
+                                            <label class="form-check-label" for="pdfShowPageNumbers">Sayfa Numaraları</label>
+                                        </div>
+                                        
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="pdfAddWatermark" checked>
+                                            <label class="form-check-label" for="pdfAddWatermark">Filigran Ekle</label>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="pdfWatermarkText" class="form-label">Filigran Metni</label>
+                                            <input type="text" class="form-control" id="pdfWatermarkText" value="X Dergisi">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header bg-white">
+                                        <h5 class="card-title mb-0">Gösterim Önizleme</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="preview-container p-3 border rounded mb-3" style="min-height: 150px; background-color: #f8f9fa;">
+                                            <p class="text-muted">Seçilen temaya göre önizleme burada görünecektir.</p>
+                                        </div>
+                                        <button class="btn btn-outline-primary">
+                                            <i class="bi bi-eye me-1"></i> Önizleme Oluştur
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+ <!-- İş Akışı Sekmesi -->
+<div class="tab-pane fade" id="workflow" role="tabpanel" aria-labelledby="workflow-tab">
+    <div class="row">
+        <!-- Sol sütun - Temel iş akışı yapılandırması -->
+        <div class="col-lg-8">
+            <!-- İş Akışı İstatistik Göstergeleri -->
+            <div class="row mb-4" id="dashboardStats">
+                <!-- Burada istatistik kartları JavaScript ile eklenir -->
+            </div>
+
+            <!-- Makale Değerlendirme Süreci Kartı -->
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Makale Değerlendirme Süreci</h5>
+                </div>
+                <div class="card-body">
+                    <div class="workflow-diagram mb-4 p-3 border rounded" style="min-height: 300px;">
+                        <!-- İş akışı görselleştirmesi JavaScript ile eklenir -->
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="workflowTemplate" class="form-label">İş Akışı Şablonu</label>
+                        <select class="form-select" id="workflowTemplate">
+                            <option value="standard" selected>Standart Hakem Değerlendirmesi</option>
+                            <option value="expanded">Genişletilmiş Değerlendirme</option>
+                            <option value="quick">Hızlı Değerlendirme</option>
+                            <option value="desk-review">Editör Ön Değerlendirmesi Ağırlıklı</option>
+                            <option value="custom">Özel Tanımlı Akış</option>
+                        </select>
+                        <div class="form-text">Değerlendirme sürecinin temel yapısını belirler</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Aktif Süreç Adımları</label>
+                        <div class="list-group" id="workflowSteps">
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">1</span>
+                                    <span>Ön Kontrol</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">2</span>
+                                    <span>Editör Değerlendirmesi</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">3</span>
+                                    <span>Hakem Değerlendirmesi</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">4</span>
+                                    <span>Editör Kararı</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">5</span>
+                                    <span>Revizyon Süreci</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">6</span>
+                                    <span>Son Düzeltme</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">7</span>
+                                    <span>Yayın Öncesi Kontrol</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">8</span>
+                                    <span>Yayın</span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex mt-2">
+                            <button class="btn btn-sm btn-outline-primary me-2">
+                                <i class="bi bi-plus-circle me-1"></i> Adım Ekle
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-arrow-left-right me-1"></i> Sıralamayı Değiştir
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">İntihal Kontrolü</label>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="plagiarismCheckInitial" checked>
+                            <label class="form-check-label" for="plagiarismCheckInitial">İlk gönderimde intihal kontrolü</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="plagiarismCheckRevision" checked>
+                            <label class="form-check-label" for="plagiarismCheckRevision">Revizyon sonrası intihal kontrolü</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="plagiarismReportToAuthor">
+                            <label class="form-check-label" for="plagiarismReportToAuthor">İntihal raporunun yazara gönderilmesi</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Otomatik Bildirimler</label>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="notifyAllStatusChanges" checked>
+                            <label class="form-check-label" for="notifyAllStatusChanges">Tüm durum değişikliklerinde yazarı bilgilendir</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="notifyEditorOnRevision" checked>
+                            <label class="form-check-label" for="notifyEditorOnRevision">Revizyon gönderiminde editörü bilgilendir</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="notifyReviewerReminder" checked>
+                            <label class="form-check-label" for="notifyReviewerReminder">Otomatik hakem hatırlatmaları</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hakem İlkeleri ve Atama Stratejileri Kartı -->
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Hakem İlkeleri ve Atama Stratejileri</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="reviewerSelectionStrategy" class="form-label">Hakem Seçim Stratejisi</label>
+                        <select class="form-select" id="reviewerSelectionStrategy">
+                            <option value="editor-select" selected>Editör Seçimi</option>
+                            <option value="auto-suggest">Otomatik Öneri ve Editör Onayı</option>
+                            <option value="expertise-matching">Uzmanlık Eşleştirme</option>
+                            <option value="author-suggest">Yazar Önerisi + Editör Onayı</option>
+                            <option value="hybrid">Karma Yaklaşım</option>
+                        </select>
+                        <div class="form-text">Hakemlerin nasıl seçileceğini belirler</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="reviewerCriteria" class="form-label">Hakem Seçim Kriterleri</label>
+                        <select class="form-select" id="reviewerCriteria" multiple>
+                            <option value="expertise" selected>Konu Uzmanlığı</option>
+                            <option value="availability" selected>Uygunluk Durumu</option>
+                            <option value="past-performance" selected>Geçmiş Performans</option>
+                            <option value="response-time">Yanıt Süresi</option>
+                            <option value="completion-rate">Tamamlama Oranı</option>
+                            <option value="review-quality">Değerlendirme Kalitesi</option>
+                        </select>
+                        <div class="form-text">Hakemleri seçerken hangi kriterlerin dikkate alınacağı</div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="maxReviewsPerReviewer" class="form-label">Hakem Başına Maksimum Değerlendirme</label>
+                            <input type="number" class="form-control" id="maxReviewsPerReviewer" value="3">
+                            <div class="form-text">Bir hakem aynı anda en fazla kaç değerlendirme alabilir</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="minReviewerQualification" class="form-label">Minimum Hakem Niteliği</label>
+                            <select class="form-select" id="minReviewerQualification">
+                                <option value="phd" selected>Doktora</option>
+                                <option value="associate-prof">Doçent</option>
+                                <option value="professor">Profesör</option>
+                                <option value="any">Herhangi Bir Akademik Seviye</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="allowReviewerRecusation" checked>
+                        <label class="form-check-label" for="allowReviewerRecusation">Hakem Reddetme Hakkı</label>
+                        <div class="form-text">Hakemlerin değerlendirme talebini reddetme imkanı</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="enforceDisclosures" checked>
+                        <label class="form-check-label" for="enforceDisclosures">Çıkar Çatışması Bildirimi Zorunluluğu</label>
+                        <div class="form-text">Hakemlerin değerlendirme öncesi çıkar çatışması olmadığını beyan etmesi gerekir</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="enforceConfidentiality" checked>
+                        <label class="form-check-label" for="enforceConfidentiality">Gizlilik Anlaşması Zorunluluğu</label>
+                        <div class="form-text">Hakemlerin değerlendirme öncesi gizlilik anlaşmasını kabul etmesi gerekir</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revizyon İlkeleri ve Kontroller Kartı -->
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Revizyon İlkeleri ve Kontroller</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="maxRevisionRounds" class="form-label">Maksimum Revizyon Sayısı</label>
+                        <input type="number" class="form-control" id="maxRevisionRounds" value="3">
+                        <div class="form-text">Bir makale için izin verilen maksimum revizyon turu</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="revisionTypes" class="form-label">Revizyon Türleri</label>
+                        <select class="form-select" id="revisionTypes" multiple>
+                            <option value="minor" selected>Küçük Revizyon</option>
+                            <option value="major" selected>Büyük Revizyon</option>
+                            <option value="conditional" selected>Koşullu Kabul</option>
+                            <option value="reject-resubmit">Reddet ve Yeniden Gönder</option>
+                        </select>
+                        <div class="form-text">Editörün verebileceği revizyon türleri</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="revisionDeadlinePolicy" class="form-label">Revizyon Süre Politikası</label>
+                        <select class="form-select" id="revisionDeadlinePolicy">
+                            <option value="fixed" selected>Sabit Süre (Revizyon Türüne Bağlı)</option>
+                            <option value="editor-decide">Editör Tarafından Belirlenen</option>
+                            <option value="adaptive">Revizyon Kapsamına Göre Otomatik</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="minorRevisionDays" class="form-label">Küçük Revizyon Süresi (gün)</label>
+                            <input type="number" class="form-control" id="minorRevisionDays" value="14">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="majorRevisionDays" class="form-label">Büyük Revizyon Süresi (gün)</label>
+                            <input type="number" class="form-control" id="majorRevisionDays" value="30">
+                        </div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="requireRevisionLetterAuthors" checked>
+                        <label class="form-check-label" for="requireRevisionLetterAuthors">Yazarlardan Revizyon Mektubu İste</label>
+                        <div class="form-text">Yazarların yaptıkları değişiklikleri açıklayan bir mektup göndermesi gerekir</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="trackChangesRevision" checked>
+                        <label class="form-check-label" for="trackChangesRevision">Değişiklikleri İşaretle Zorunluluğu</label>
+                        <div class="form-text">Yazarların revize edilen metinde değişiklikleri işaretlemesi gerekir</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="revisionSameReviewers" checked>
+                        <label class="form-check-label" for="revisionSameReviewers">Revizyonları Aynı Hakemlere Gönder</label>
+                        <div class="form-text">Revize edilmiş makaleleri değerlendiren orijinal hakemlere gönder</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yaklaşan Sayılar İstatistikleri Kartı (İstatistik grafikleri için) -->
+            <div id="upcoming-issues-container">
+                <!-- Bu alan JavaScript ile doldurulacak -->
+            </div>
+
+            <!-- Karar Şablonları ve Metinleri Kartı -->
+            <div class="card mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Karar Şablonları ve Metinleri</h5>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i> Yeni Şablon Ekle
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive mb-3">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Karar Türü</th>
+                                    <th>Açıklama</th>
+                                    <th>Son Düzenleme</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Kabul</td>
+                                    <td>Makalenin kabul edilmesi durumunda</td>
+                                    <td>02.03.2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Küçük Revizyon</td>
+                                    <td>Küçük düzeltmeler gerektiren makaleler için</td>
+                                    <td>01.03.2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Büyük Revizyon</td>
+                                    <td>Önemli değişiklikler gerektiren makaleler için</td>
+                                    <td>01.03.2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ret</td>
+                                    <td>Reddedilen makaleler için standart gerekçe</td>
+                                    <td>28.02.2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kapsam Dışı</td>
+                                    <td>Dergi kapsamı dışında olan makaleler için</td>
+                                    <td>25.02.2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="decisionAuthority" class="form-label">Karar Verme Yetkisi</label>
+                        <select class="form-select" id="decisionAuthority">
+                            <option value="editor-in-chief" selected>Sadece Baş Editör</option>
+                            <option value="section-editors">Alan Editörleri (Baş Editör Onayı Gerekli)</option>
+                            <option value="all-editors">Tüm Editörler</option>
+                            <option value="hierarchical">Hiyerarşik (Alan Editörü Önerir, Baş Editör Onaylar)</option>
+                        </select>
+                        <div class="form-text">Hangi editörlerin makaleler hakkında nihai karar verebileceğini belirler</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="requireDecisionRationale" checked>
+                        <label class="form-check-label" for="requireDecisionRationale">Karar Gerekçesi Zorunlu</label>
+                        <div class="form-text">Editörlerin kararlarını gerekçelendirmesi gerekir</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="allowEditorOverride" checked>
+                        <label class="form-check-label" for="allowEditorOverride">Baş Editör Geçersiz Kılma Yetkisi</label>
+                        <div class="form-text">Baş editörün hakem kararlarını geçersiz kılma yetkisi</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Üretim Süreci ve Yayın Entegrasyonu Kartı -->
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Üretim Süreci ve Yayın Entegrasyonu</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="productionWorkflow" class="form-label">Üretim İş Akışı</label>
+                        <select class="form-select" id="productionWorkflow">
+                            <option value="standard" selected>Standart (Düzeltme, Mizanpaj, Düzeltme Okuma, Yayın)</option>
+                            <option value="minimal">Minimal (Mizanpaj, Yayın)</option>
+                            <option value="full">Tam Süreç (Detaylı Adımlar)</option>
+                            <option value="custom">Özel Tanımlı</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="layoutTemplate" class="form-label">Mizanpaj Şablonu</label>
+                        <select class="form-select" id="layoutTemplate">
+                            <option value="standard" selected>Standart Dergi Şablonu</option>
+                            <option value="two-column">İki Sütunlu Akademik</option>
+                            <option value="modern">Modern Tasarım</option>
+                            <option value="custom">Özel Şablon</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="galleyFormats" class="form-label">Dizgi Formatları</label>
+                        <select class="form-select" id="galleyFormats" multiple>
+                            <option value="pdf" selected>PDF</option>
+                            <option value="html" selected>HTML</option>
+                            <option value="xml">XML</option>
+                            <option value="epub">EPUB</option>
+                            <option value="mobile">Mobil Görünüm</option>
+                        </select>
+                        <div class="form-text">Makalelerin hangi formatlarda sunulacağı</div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="copyeditingEnabled" class="form-label">Redaksiyon Süreci</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="copyeditingEnabled" checked>
+                                <label class="form-check-label" for="copyeditingEnabled">Redaksiyon Adımını Etkinleştir</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="proofreadingEnabled" class="form-label">Düzeltme Okuma Süreci</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="proofreadingEnabled" checked>
+                                <label class="form-check-label" for="proofreadingEnabled">Düzeltme Okuma Adımını Etkinleştir</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="authorProofReview" checked>
+                        <label class="form-check-label" for="authorProofReview">Yazar Düzeltme İncelemesi</label>
+                        <div class="form-text">Yazarlara yayın öncesi son kontrol için dizgi gönderilir</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="autoGenerateMetadata" checked>
+                        <label class="form-check-label" for="autoGenerateMetadata">Otomatik Metadata Oluşturma</label>
+                        <div class="form-text">Makalelerden otomatik olarak metadata oluşturulur</div>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="enableDOIAssignment" checked>
+                        <label class="form-check-label" for="enableDOIAssignment">DOI Atama</label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="doiPrefix" class="form-label">DOI Öneki</label>
+                        <input type="text" class="form-control" id="doiPrefix" value="10.xxxx">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="doiSuffixPattern" class="form-label">DOI Son Ek Deseni</label>
+                        <input type="text" class="form-control" id="doiSuffixPattern" value="journal.xdergisi.{year}.{volume}.{issue}.{articleId}">
+                        <div class="form-text">{year}, {volume}, {issue}, {articleId} değişkenleri kullanılabilir</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sağ sütun - Ek özellikler ve istatistikler -->
+        <div class="col-lg-4">
+            <!-- İstatistik grafikleri ve ek bilgi panelleri için yer tutucu -->
+            <div id="reviewer-stats-container">
+                <!-- Bu alan JavaScript ile doldurulacak -->
+            </div>
+            
+            <!-- İleri Düzey Yapılandırma Kartı -->
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">İleri Düzey Yapılandırma</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Özel Veri Alanları</label>
+                        <div class="table-responsive mb-2">
+                            <table class="table table-hover table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Alan Adı</th>
+                                        <th>Tür</th>
+                                        <th>Zorunlu</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Finansman Bilgisi</td>
+                                        <td>Metin</td>
+                                        <td><span class="badge bg-success">Evet</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Veri Kullanılabilirliği Bildirimi</td>
+                                        <td>Metin</td>
+                                        <td><span class="badge bg-success">Evet</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Yazar Katkıları</td>
+                                        <td>Metin Alanı</td>
+                                        <td><span class="badge bg-secondary">Hayır</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-plus-circle me-1"></i> Yeni Alan Ekle
+                        </button>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Webhook Entegrasyonları</label>
+                        <div class="list-group mb-2">
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Makale Kabul Bildirimi</h6>
+                                    <small class="text-muted">https://api.xuniversitesi.edu.tr/publications/webhook</small>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="form-check form-switch me-2">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Yayın Bildirimi</h6>
+                                    <small class="text-muted">https://knowledge-base.xuniversitesi.edu.tr/api/update</small>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="form-check form-switch me-2">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-plus-circle me-1"></i> Yeni Webhook Ekle
+                        </button>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Makale Türleri ve Gereksinimleri</label>
+                        <div class="table-responsive mb-2">
+                            <table class="table table-hover table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Makale Türü</th>
+                                        <th>Sayfa Limiti</th>
+                                        <th>Değerlendirme Süreci</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Araştırma Makalesi</td>
+                                        <td>18-25</td>
+                                        <td>Tam Değerlendirme</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>İnceleme Makalesi</td>
+                                        <td>20-30</td>
+                                        <td>Tam Değerlendirme</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kısa Bildiri</td>
+                                        <td>5-8</td>
+                                        <td>Hızlı Değerlendirme</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Teknik Not</td>
+                                        <td>3-6</td>
+                                        <td>Editör Değerlendirmesi</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-plus-circle me-1"></i> Yeni Makale Türü Ekle
+                        </button>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="javascriptHooks" class="form-label">Özel JavaScript Olay İşleyicileri</label>
+                        <textarea class="form-control font-monospace" id="javascriptHooks" rows="4" placeholder="// Özel iş akışı olayları için JavaScript kodları">// Makale kabul edildiğinde çalışacak fonksiyon
+onArticleAccepted = function(articleData) {
+  console.log("Makale kabul edildi:", articleData);
+  // Özel işlemler burada
+};</textarea>
+                        <div class="form-text">İş akışı olayları için özel kod ekleyin</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Entegrasyonları Kartı (Yeni) -->
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">API Entegrasyonları</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="apiEnabled" class="form-label">API Erişimi</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="apiEnabled" checked>
+                            <label class="form-check-label" for="apiEnabled">API Erişimini Etkinleştir</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apiAuthType" class="form-label">API Kimlik Doğrulama Yöntemi</label>
+                        <select class="form-select" id="apiAuthType">
+                            <option value="oauth2" selected>OAuth 2.0</option>
+                            <option value="token">API Anahtarı</option>
+                            <option value="basic">Temel Kimlik Doğrulama</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apiEndpoints" class="form-label">Açık API Uç Noktaları</label>
+                        <select class="form-select" id="apiEndpoints" multiple>
+                            <option value="articles" selected>Makaleler</option>
+                            <option value="issues" selected>Sayılar</option>
+                            <option value="authors">Yazarlar</option>
+                            <option value="reviews">Değerlendirmeler</option>
+                            <option value="statistics">İstatistikler</option>
+                        </select>
+                        <div class="form-text">Hangi API uç noktalarının erişilebilir olacağını seçin</div>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="apiRateLimit" checked>
+                        <label class="form-check-label" for="apiRateLimit">API Hız Sınırı Uygula</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apiRateLimitValue" class="form-label">Maksimum İstek (saat başı)</label>
+                        <input type="number" class="form-control" id="apiRateLimitValue" value="1000">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	<script src="/1.js"></script>
+	<script src="/2.js"></script>
+	<script src="/3.js"></script>
+</body>
+</html>

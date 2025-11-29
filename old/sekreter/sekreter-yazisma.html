@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>AMDS - Sekreter Yazışmalar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --secondary: #6c757d;
+            --info: #0dcaf0;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-header {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .role-alert {
+            background-color: rgba(13, 110, 253, 0.1);
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .role-alert .alert-icon {
+            color: var(--primary);
+        }
+        
+        .content-wrapper {
+            margin-top: 2rem;
+        }
+        
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 1rem;
+        }
+        
+        .sidebar-heading {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-link {
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .nav-link.active {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .dashboard-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon-bg {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            border-left: 4px solid;
+            border-radius: 0.25rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .table {
+            font-size: 0.9rem;
+        }
+        
+        .task-item {
+            border-left: 3px solid var(--primary);
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
+            background-color: #fff;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .task-item.high-priority {
+            border-left-color: var(--danger);
+        }
+        
+        .task-item.medium-priority {
+            border-left-color: var(--warning);
+        }
+        
+        .task-item.low-priority {
+            border-left-color: var(--success);
+        }
+        
+        .task-due {
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+        
+        .task-due.overdue {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        .progress {
+            height: 8px;
+            margin-top: 0.5rem;
+        }
+        
+        .chart-container {
+            height: 240px;
+            position: relative;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar-container {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                height: 100vh;
+                width: 280px;
+                z-index: 1030;
+                transition: left 0.3s;
+                background-color: #fff;
+            }
+            
+            .sidebar-container.show {
+                left: 0;
+            }
+            
+            .sidebar-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1020;
+                display: none;
+            }
+            
+            .sidebar-backdrop.show {
+                display: block;
+            }
+            
+            .mobile-menu-toggle {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--primary);
+                padding: 0.25rem;
+            }
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+        
+        .notification-circle {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            line-height: 18px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Yazışma sayfası için özel stiller */
+        .message-preview {
+            max-height: 45px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .message-item {
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .message-item:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        
+        .message-item.unread {
+            border-left-color: var(--primary);
+            background-color: rgba(13, 110, 253, 0.05);
+            font-weight: 500;
+        }
+        
+        .message-item.important {
+            border-left-color: var(--danger);
+        }
+        
+        .correspondence-detail-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .correspondence-header {
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .correspondence-body {
+            padding: 1rem 0;
+        }
+        
+        .correspondence-footer {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .attachment-item {
+            background-color: var(--gray-100);
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .conversation-thread {
+            margin-left: 2rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--gray-300);
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<!-- Header -->
+<header class="main-header fixed-top bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+            <!-- Logo ve mobil menü -->
+            <div class="d-flex align-items-center">
+                <!-- Mobil Menü Butonu -->
+                <button id="mobileMenuToggle" class="mobile-menu-toggle d-lg-none me-2">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="sekreter-panel.html" class="d-flex align-items-center text-decoration-none">
+                    <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                    <span class="logo-text">X Dergisi</span>
+                </a>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Rol bildirimi -->
+                <div class="role-alert d-flex align-items-center me-3" role="alert">
+                    <i class="bi bi-info-circle alert-icon me-2"></i>
+                    <div>Sekreter olarak giriş yaptınız</div>
+                </div>
+                
+                <!-- Rol Değiştirme -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-badge me-2"></i>
+                        <span>Sekreter</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="roleDropdown" aria-labelledby="roleDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-badge me-2"></i> Sekreter</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-workspace me-2"></i> Yazar</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-eyeglasses me-2"></i> Hakem</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person-gear me-2"></i> Editör</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Dil Seçimi -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2">
+                        <span>TR</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdownBtn">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/tr.svg" alt="Türkçe" width="24" height="18" class="me-2"> Türkçe</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="assets/images/flags/en.svg" alt="English" width="24" height="18" class="me-2"> English</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Bildirimler -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary position-relative" type="button" id="notificationsDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-circle">5</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdownBtn" style="width: 300px;">
+                        <li><h6 class="dropdown-header">Bildirimler</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-file-earmark-plus me-2 text-success"></i>
+                            <div class="small">
+                                <div>Yeni makale gönderimi: "Yapay Zeka ve Etiği"</div>
+                                <div class="text-muted">10 dakika önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-clock me-2 text-warning"></i>
+                            <div class="small">
+                                <div>Değerlendirme süresi dolan makale: ART-2025-0097</div>
+                                <div class="text-muted">2 saat önce</div>
+                            </div>
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-envelope me-2 text-info"></i>
+                            <div class="small">
+                                <div>Yeni yazışma: Makale ART-2025-0103 için yanıt</div>
+                                <div class="text-muted">Dün</div>
+                            </div>
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center small text-primary" href="#">Tüm bildirimleri görüntüle</a></li>
+                    </ul>
+                </div>
+                    
+                <!-- Kullanıcı Menüsü -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="assets/images/avatar.png" alt="User Avatar" width="32" height="32" class="rounded-circle me-2">
+                        <span>Ayşe Yıldız</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownBtn">
+                        <li><a class="dropdown-item" href="sekreter-profil.html"><i class="bi bi-person me-2"></i> Profilim</a></li>
+                        <li><a class="dropdown-item" href="sekreter-ayarlar.html"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Ana İçerik -->
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="content-wrapper d-flex">
+            <!-- Sidebar -->
+            <aside class="sidebar-container me-lg-4">
+                <div class="sidebar p-3 bg-white rounded shadow-sm">
+                    <div class="mb-4">
+                        <h6 class="sidebar-heading text-uppercase text-muted">Ana Menü</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-panel.html" class="nav-link">
+                                    <i class="bi bi-house me-2"></i> Kontrol Paneli
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yeni-gonderimler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Yeni Gönderimler
+                                    <span class="badge bg-danger rounded-pill float-end">7</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-makaleler.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Makaleler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yazisma.html" class="nav-link active">
+                                    <i class="bi bi-envelope me-2"></i> Yazışmalar
+                                    <span class="badge bg-warning rounded-pill float-end">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yayinlar.html" class="nav-link">
+                                    <i class="bi bi-journal-check me-2"></i> Yayın Programı
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-hakem-havuzu.html" class="nav-link">
+                                    <i class="bi bi-people me-2"></i> Hakem Havuzu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-sablonlar.html" class="nav-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i> Şablonlar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6 class="sidebar-heading text-uppercase text-muted">Hesap</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="sekreter-profil.html" class="nav-link">
+                                    <i class="bi bi-person me-2"></i> Profilim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-ayarlar.html" class="nav-link">
+                                    <i class="bi bi-gear me-2"></i> Ayarlar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sekreter-yardim.html" class="nav-link">
+                                    <i class="bi bi-question-circle me-2"></i> Yardım
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Ana İçerik Alanı -->
+            <section class="content-area flex-grow-1">
+                <!-- Başlık ve Açıklama -->
+                <div class="mb-4">
+                    <div class="d-sm-flex justify-content-between align-items-center">
+                        <h3><i class="bi bi-envelope me-2 text-primary"></i> Yazışmalar</h3>
+                        <div class="text-muted">7 Mart 2025, Cuma</div>
+                    </div>
+                    <p class="text-muted">Tüm makale yazışmalarını bu sayfadan yönetebilir ve takip edebilirsiniz.</p>
+                </div>
+                
+                <!-- Filtre ve Arama Satırı -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Arama yapın...">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-md-end gap-2">
+                                    <select class="form-select" style="max-width: 150px;">
+                                        <option selected>Tüm Tipler</option>
+                                        <option>Editöre Mesaj</option>
+                                        <option>Hakem Daveti</option>
+                                        <option>Revizyon Talebi</option>
+                                        <option>Reddetme</option>
+                                        <option>Kabul</option>
+                                        <option>Genel</option>
+                                    </select>
+                                    <select class="form-select" style="max-width: 150px;">
+                                        <option selected>Tüm Durumlar</option>
+                                        <option>Okunmamış</option>
+                                        <option>Okunmuş</option>
+                                        <option>Yanıtlandı</option>
+                                        <option>Beklemede</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-funnel"></i> Filtrele
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yazışma Görünümü -->
+                <div class="row g-4">
+                    <!-- Yazışma Listesi -->
+                    <div class="col-md-5">
+                        <div class="card h-100">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Tüm Yazışmalar</h5>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-envelope-plus"></i> Yeni
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-arrow-clockwise"></i> Yenile
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action message-item unread important p-3" data-message-id="1">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Prof. Dr. Ali Kaya</h6>
+                                            <span class="badge bg-danger">Acil</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Değerlendirme Yanıtı - ART-2025-0097</div>
+                                            <small>2 saat önce</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Merhaba, makale değerlendirmesi için süremin uzatılmasını talep ediyorum. İlave bir hafta daha...
+                                        </div>
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item list-group-item-action message-item unread p-3" data-message-id="2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Doç. Dr. Zeynep Kartal</h6>
+                                            <span class="badge bg-success">Onay</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Hakem Daveti Kabulü - ART-2025-0103</div>
+                                            <small>Dün</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Değerli Editör, göndermiş olduğunuz makaleyi değerlendirme davetinizi kabul ediyorum. Makaleyi...
+                                        </div>
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item list-group-item-action message-item unread p-3" data-message-id="3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Dr. Ahmet Yılmaz</h6>
+                                            <span class="badge bg-primary">Revizyon</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Revizyon Teslimi - ART-2025-0105</div>
+                                            <small>2 gün önce</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Sayın Editör, makalemdeki revizyon isteklerinizi tamamladım. Değişiklikler şunları içeriyor...
+                                        </div>
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item list-group-item-action message-item p-3" data-message-id="4">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Prof. Dr. Mehmet Öztürk</h6>
+                                            <span class="badge bg-warning text-dark">Yanıt Bekliyor</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Hakem Daveti - ART-2025-0109</div>
+                                            <small>3 gün önce</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Sayın Prof. Dr. Öztürk, dergimize gönderilen "Dijital Dönüşüm ve Sosyal Etkileri" başlıklı...
+                                        </div>
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item list-group-item-action message-item p-3" data-message-id="5">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Dr. Elif Demir</h6>
+                                            <span class="badge bg-secondary">Tamamlandı</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Değerlendirme Tamamlandı - ART-2025-0098</div>
+                                            <small>4 gün önce</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Sayın Editör, tarafıma gönderilen "Tarihsel Anlatılarda Modernizm Etkileri" başlıklı makale...
+                                        </div>
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item list-group-item-action message-item p-3" data-message-id="6">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Doç. Dr. Serkan Ak</h6>
+                                            <span class="badge bg-danger">Red</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Hakem Daveti Reddi - ART-2025-0112</div>
+                                            <small>5 gün önce</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Değerli Editör, yoğun akademik programım nedeniyle, bu dönemde değerlendirme yapmam maalesef...
+                                        </div>
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item list-group-item-action message-item p-3" data-message-id="7">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0">Yrd. Doç. Dr. Sinem Yıldız</h6>
+                                            <span class="badge bg-info">Bilgi</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div class="text-primary">Makale Durumu - ART-2025-0107</div>
+                                            <small>6 gün önce</small>
+                                        </div>
+                                        <div class="message-preview text-muted small">
+                                            Sayın Editör, 15 Şubat'ta göndermiş olduğum makalenin değerlendirme sürecinde hangi aşamada...
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white py-2">
+                                <nav aria-label="Yazışma sayfaları">
+                                    <ul class="pagination pagination-sm justify-content-center mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+                                        </li>
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Sonraki</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Yazışma Detayı -->
+                    <div class="col-md-7">
+                        <div class="card correspondence-detail-card h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0">Yazışma Detayı</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Seçilmiş mesajı göster -->
+                                <div id="selectedMessage">
+                                    <div class="correspondence-header">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="mb-0">Değerlendirme Yanıtı - ART-2025-0097</h5>
+                                            <span class="badge bg-danger">Acil</span>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="d-flex">
+                                                    <div class="fw-bold me-2">Gönderen:</div>
+                                                    <div>Prof. Dr. Ali Kaya <span class="text-muted">(a.kaya@email.com)</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex">
+                                                    <div class="fw-bold me-2">Alıcı:</div>
+                                                    <div>Ayşe Yıldız <span class="text-muted">(sekreter@xdergisi.com)</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex">
+                                                    <div class="fw-bold me-2">Tarih:</div>
+                                                    <div>7 Mart 2025, 10:15</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex">
+                                                    <div class="fw-bold me-2">İlgili Makale:</div>
+                                                    <div>
+                                                        <a href="sekreter-makale-detay.html?id=ART-2025-0097">ART-2025-0097: "Tarihsel Semantik Analizler"</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="correspondence-body">
+                                        <p>Değerli Editör,</p>
+                                        
+                                        <p>Merhaba, makale değerlendirmesi için süremin uzatılmasını talep ediyorum. İlave bir hafta daha süreye ihtiyacım olacak. Şu anda uluslararası bir konferans için hazırlık yapmaktayım ve bu nedenle değerlendirmeyi zamanında tamamlayamayacağım.</p>
+                                        
+                                        <p>Makalenin konusu olan "Tarihsel Semantik Analizler" alanında daha detaylı bir inceleme yapmak istiyorum. Bununla birlikte, makale oldukça kapsamlı ve titiz bir değerlendirme gerektiriyor.</p>
+                                        
+                                        <p>Anlayışınız için teşekkür ederim.</p>
+                                        
+                                        <p>Saygılarımla,<br>
+                                        Prof. Dr. Ali Kaya<br>
+                                        Dil Bilimleri Bölümü<br>
+                                        İstanbul Üniversitesi</p>
+                                    </div>
+                                    
+                                    <div class="correspondence-footer">
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary me-2">
+                                                    <i class="bi bi-reply"></i> Yanıtla
+                                                </button>
+                                                <button class="btn btn-outline-secondary me-2">
+                                                    <i class="bi bi-arrow-right"></i> Yönlendir
+                                                </button>
+                                                <button class="btn btn-outline-success me-2">
+                                                    <i class="bi bi-check2-circle"></i> Süre Uzatımını Onayla
+                                                </button>
+                                                <button class="btn btn-outline-danger me-2">
+                                                    <i class="bi bi-x-circle"></i> Reddet
+                                                </button>
+                                                <div class="float-end">
+                                                    <button class="btn btn-outline-secondary me-2">
+                                                        <i class="bi bi-printer"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary">
+                                                        <i class="bi bi-archive"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card bg-light">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">Hızlı Yanıt</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <form>
+                                                    <div class="mb-3">
+                                                        <select class="form-select mb-3">
+                                                            <option selected>Şablon Seçin...</option>
+                                                            <option>Süre Uzatımı Onayı</option>
+                                                            <option>Süre Uzatımı Reddi</option>
+                                                            <option>Değerlendirme Hatırlatması</option>
+                                                            <option>Genel Bilgilendirme</option>
+                                                        </select>
+                                                        <textarea class="form-control" rows="3" placeholder="Yanıtınızı yazın..."></textarea>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <button type="button" class="btn btn-outline-secondary btn-sm me-2">
+                                                                <i class="bi bi-paperclip"></i> Dosya Ekle
+                                                            </button>
+                                                            <button type="button" class="btn btn-outline-secondary btn-sm">
+                                                                <i class="bi bi-emoji-smile"></i>
+                                                            </button>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Gönder</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
+                                        <hr>
+                                        
+                                        <div class="conversation-thread mt-4">
+                                            <h6 class="text-muted mb-3">Önceki Yazışmalar</h6>
+                                            
+                                            <div class="card mb-3">
+                                                <div class="card-header bg-light py-2">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <strong>Değerlendirme Hatırlatması</strong>
+                                                            <span class="text-muted ms-2">Ayşe Yıldız → Prof. Dr. Ali Kaya</span>
+                                                        </div>
+                                                        <small>5 Mart 2025, 09:30</small>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body py-2">
+                                                    <p class="mb-0">Sayın Prof. Dr. Kaya, <br><br>
+                                                    "Tarihsel Semantik Analizler" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.<br><br>
+                                                    Saygılarımızla,<br>
+                                                    Ayşe Yıldız<br>
+                                                    X Dergisi Sekreterliği</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card mb-3">
+                                                <div class="card-header bg-light py-2">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <strong>Hakem Daveti Kabulü</strong>
+                                                            <span class="text-muted ms-2">Prof. Dr. Ali Kaya → Editör</span>
+                                                        </div>
+                                                        <small>15 Şubat, 2025, 14:45</small>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body py-2">
+                                                    <p class="mb-0">Değerli Editör, <br><br>
+                                                    "Tarihsel Semantik Analizler" başlıklı makale için hakemlik davetinizi kabul ediyorum. Değerlendirmemi 15 gün içerisinde tamamlamaya çalışacağım.<br><br>
+                                                    Saygılarımla,<br>
+                                                    Prof. Dr. Ali Kaya</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card">
+                                                <div class="card-header bg-light py-2">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <strong>Hakem Daveti</strong>
+                                                            <span class="text-muted ms-2">Editör → Prof. Dr. Ali Kaya</span>
+                                                        </div>
+                                                        <small>14 Şubat, 2025, 10:15</small>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body py-2">
+                                                    <p class="mb-0">Sayın Prof. Dr. Kaya, <br><br>
+                                                    X Dergisi'ne gönderilen "Tarihsel Semantik Analizler" başlıklı makaleyi değerlendirmeniz için davet ediyoruz. Uzmanlık alanınıza uygun olduğunu düşündüğümüz bu çalışmayı değerlendirmeyi kabul ederseniz memnun oluruz.<br><br>
+                                                    Değerlendirme için son tarih: 1 Mart 2025<br><br>
+                                                    Saygılarımızla,<br>
+                                                    Prof. Dr. Hakan Tekin<br>
+                                                    X Dergisi Baş Editörü</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Mesaj seçilmediğinde gösterilecek -->
+                                <div id="noMessageSelected" style="display: none;">
+                                    <div class="text-center my-5 py-5">
+                                        <i class="bi bi-envelope-open text-muted" style="font-size: 4rem;"></i>
+                                        <h4 class="mt-3">Detayları görüntülemek için bir yazışma seçin</h4>
+                                        <p class="text-muted">Soldaki listeden bir yazışma seçerek içeriğini görüntüleyebilirsiniz.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer mt-5 py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="assets/images/logo.svg" alt="AMDS Logo" height="40" class="me-2">
+                <span class="text-muted">© 2025 AMDS</span>
+            </div>
+            <div class="col-md-4 text-center my-2 my-md-0">
+                <a href="#" class="text-decoration-none text-muted mx-2">Hakkında</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Gizlilik</a>
+                <a href="#" class="text-decoration-none text-muted mx-2">Yardım</a>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="text-decoration-none text-muted mx-2"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobil menü toggle işlevi
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+        
+        if (mobileMenuToggle && sidebarContainer) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebarContainer.classList.toggle('show');
+                
+                // Backdrop oluştur veya kaldır
+                let backdrop = document.querySelector('.sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Backdrop'a tıklandığında sidebar'ı kapat
+                    backdrop.addEventListener('click', function() {
+                        sidebarContainer.classList.remove('show');
+                        backdrop.classList.remove('show');
+                    });
+                }
+                
+                backdrop.classList.toggle('show');
+            });
+        }
+        
+        // Mesaj seçimi
+        const messageItems = document.querySelectorAll('.message-item');
+        const selectedMessage = document.getElementById('selectedMessage');
+        const noMessageSelected = document.getElementById('noMessageSelected');
+        
+        messageItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Tüm mesajlardaki aktif sınıfları kaldır
+                messageItems.forEach(msg => {
+                    msg.classList.remove('active');
+                });
+                
+                // Tıklanan mesaja aktif sınıfı ekle
+                this.classList.add('active');
+                
+                // Tıklanan mesajdaki okunmamış işaretini kaldır
+                this.classList.remove('unread');
+                
+                // Mesaj detaylarını göster
+                if (selectedMessage && noMessageSelected) {
+                    selectedMessage.style.display = 'block';
+                    noMessageSelected.style.display = 'none';
+                }
+                
+                // Mesaj ID'si ve detayları
+                const messageId = this.getAttribute('data-message-id');
+                console.log('Seçilen mesaj ID:', messageId);
+                
+                // Gerçek uygulamada burada AJAX ile mesaj detaylarını çekersiniz
+                // Bu demo için sadece bazı verileri değiştiriyoruz
+                const messageTitle = this.querySelector('.text-primary').textContent;
+                const senderName = this.querySelector('h6').textContent;
+                const messageTime = this.querySelector('small').textContent;
+                const badgeText = this.querySelector('.badge').textContent;
+                const badgeClass = this.querySelector('.badge').className;
+                
+                // Mesaj detaylarını güncelle
+                if (selectedMessage) {
+                    selectedMessage.querySelector('h5').textContent = messageTitle;
+                    const badge = selectedMessage.querySelector('.correspondence-header .badge');
+                    badge.textContent = badgeText;
+                    badge.className = badgeClass;
+                    
+                    // Gönderen bilgilerini güncelle
+                    const senderInfo = selectedMessage.querySelector('.correspondence-header .row div:first-child div:last-child');
+                    senderInfo.innerHTML = senderName + ' <span class="text-muted">(gönderen@email.com)</span>';
+                    
+                    // Tarih bilgisini güncelle
+                    const dateInfo = selectedMessage.querySelectorAll('.correspondence-header .row div')[2].querySelector('div:last-child');
+                    dateInfo.textContent = '7 Mart 2025, ' + messageTime.replace(' önce', '');
+                }
+            });
+        });
+        
+        // Yanıtla butonu işlevi
+        const replyBtn = document.querySelector('button[class*="btn-primary"][class*="me-2"]');
+        if (replyBtn) {
+            replyBtn.addEventListener('click', function() {
+                const quickReplyCard = document.querySelector('.card.bg-light');
+                quickReplyCard.scrollIntoView({ behavior: 'smooth' });
+                
+                // Textarea'ya odaklan
+                const textarea = quickReplyCard.querySelector('textarea');
+                textarea.focus();
+                
+                // Yanıt öneki ekle
+                textarea.value = "Sayın Prof. Dr. Ali Kaya,\n\nYanıtınız için teşekkür ederim. ";
+                
+                // Bildirim göster
+                showNotification('Yanıt formu hazırlandı', 'success');
+            });
+        }
+        
+        // Yönlendir butonu işlevi
+        const forwardBtn = document.querySelector('button[class*="btn-outline-secondary"][class*="me-2"]');
+        if (forwardBtn) {
+            forwardBtn.addEventListener('click', function() {
+                const modal = createModal(
+                    'Yazışmayı Yönlendir',
+                    `
+                    <form>
+                        <div class="mb-3">
+                            <label for="forwardTo" class="form-label">Alıcı:</label>
+                            <select class="form-select" id="forwardTo">
+                                <option selected>Seçiniz...</option>
+                                <option>Baş Editör - Prof. Dr. Hakan Tekin</option>
+                                <option>Yardımcı Editör - Doç. Dr. Sevgi Yılmaz</option>
+                                <option>Teknik Editör - Dr. Kemal Demir</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="forwardNote" class="form-label">Not Ekleyin:</label>
+                            <textarea class="form-control" id="forwardNote" rows="3" placeholder="İsteğe bağlı not..."></textarea>
+                        </div>
+                    </form>
+                    `,
+                    `
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" id="confirmForward">Yönlendir</button>
+                    `
+                );
+                
+                // Yönlendirme işlevi
+                const confirmForwardBtn = document.getElementById('confirmForward');
+                if (confirmForwardBtn) {
+                    confirmForwardBtn.addEventListener('click', function() {
+                        const recipient = document.getElementById('forwardTo').value;
+                        if (recipient === 'Seçiniz...') {
+                            showNotification('Lütfen bir alıcı seçin', 'warning');
+                            return;
+                        }
+                        
+                        modal.hide();
+                        showNotification(`Yazışma ${recipient.split(' - ')[1]}'e yönlendirildi`, 'success');
+                    });
+                }
+            });
+        }
+        
+        // Süre Uzatımını Onayla butonu işlevi
+        const approveBtn = document.querySelector('button[class*="btn-outline-success"]');
+        if (approveBtn) {
+            approveBtn.addEventListener('click', function() {
+                const modal = createModal(
+                    'Süre Uzatımını Onayla',
+                    `
+                    <p>Prof. Dr. Ali Kaya'nın değerlendirme süresi uzatım talebini onaylamak istediğinize emin misiniz?</p>
+                    <div class="mb-3">
+                        <label for="newDeadline" class="form-label">Yeni Son Tarih:</label>
+                        <input type="date" class="form-control" id="newDeadline" value="2025-03-15">
+                    </div>
+                    `,
+                    `
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-success" id="confirmApprove">Onayla</button>
+                    `
+                );
+                
+                // Onaylama işlevi
+                const confirmApproveBtn = document.getElementById('confirmApprove');
+                if (confirmApproveBtn) {
+                    confirmApproveBtn.addEventListener('click', function() {
+                        const newDate = document.getElementById('newDeadline').value;
+                        modal.hide();
+                        
+                        // E-posta bildirimi göster
+                        const emailModal = createModal(
+                            'Onay E-postası',
+                            `
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Kime:</strong> a.kaya@email.com</p>
+                                    <p><strong>Konu:</strong> Değerlendirme Süresi Uzatım Talebi Onayı</p>
+                                    <hr>
+                                    <p>Sayın Prof. Dr. Ali Kaya,</p>
+                                    <p>"Tarihsel Semantik Analizler" başlıklı makale için değerlendirme süresi uzatım talebiniz onaylanmıştır.</p>
+                                    <p>Yeni değerlendirme son tarihi: ${formatDate(newDate)}</p>
+                                    <p>Anlayışınız ve katkılarınız için teşekkür ederiz.</p>
+                                    <p>Saygılarımızla,<br>Ayşe Yıldız<br>X Dergisi Sekreterliği</p>
+                                </div>
+                            </div>
+                            `,
+                            `
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                            <button type="button" class="btn btn-primary" id="sendApprovalEmail">Gönder</button>
+                            `
+                        );
+                        
+                        const sendApprovalEmailBtn = document.getElementById('sendApprovalEmail');
+                        if (sendApprovalEmailBtn) {
+                            sendApprovalEmailBtn.addEventListener('click', function() {
+                                emailModal.hide();
+                                showNotification('Süre uzatımı onaylandı ve bildirim e-postası gönderildi', 'success');
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Reddet butonu işlevi
+        const rejectBtn = document.querySelector('button[class*="btn-outline-danger"]');
+        if (rejectBtn) {
+            rejectBtn.addEventListener('click', function() {
+                const modal = createModal(
+                    'Süre Uzatımını Reddet',
+                    `
+                    <p>Prof. Dr. Ali Kaya'nın değerlendirme süresi uzatım talebini reddetmek istediğinize emin misiniz?</p>
+                    <div class="mb-3">
+                        <label for="rejectReason" class="form-label">Ret Nedeni:</label>
+                        <textarea class="form-control" id="rejectReason" rows="3" placeholder="İsteğe bağlı açıklama..."></textarea>
+                    </div>
+                    `,
+                    `
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-danger" id="confirmReject">Reddet</button>
+                    `
+                );
+                
+                const confirmRejectBtn = document.getElementById('confirmReject');
+                if (confirmRejectBtn) {
+                    confirmRejectBtn.addEventListener('click', function() {
+                        const reason = document.getElementById('rejectReason').value;
+                        modal.hide();
+                        showNotification('Süre uzatımı talebi reddedildi ve hakeme bildirildi', 'warning');
+                    });
+                }
+            });
+        }
+        
+        // Yazdır butonu işlevi
+        const printBtn = document.querySelector('button[class*="btn-outline-secondary"] i.bi-printer').parentNode;
+        if (printBtn) {
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+        }
+        
+        // Arşivle butonu işlevi
+        const archiveBtn = document.querySelector('button[class*="btn-outline-secondary"] i.bi-archive').parentNode;
+        if (archiveBtn) {
+            archiveBtn.addEventListener('click', function() {
+                showNotification('Yazışma arşivlendi', 'info');
+                
+                // Mesajı listeden kaldır (gerçek uygulamada bu şekilde değil AJAX ile yapılır)
+                const activeMessage = document.querySelector('.message-item.active');
+                if (activeMessage) {
+                    activeMessage.style.opacity = '0.5';
+                    setTimeout(() => {
+                        activeMessage.remove();
+                    }, 1000);
+                }
+            });
+        }
+        
+        // Şablon seçimi işlevi
+        const templateSelect = document.querySelector('select.form-select:not([id])');
+        const textarea = document.querySelector('textarea[placeholder="Yanıtınızı yazın..."]');
+        
+        if (templateSelect && textarea) {
+            templateSelect.addEventListener('change', function() {
+                const selectedTemplate = this.value;
+                let templateText = "";
+                
+                switch(selectedTemplate) {
+                    case 'Süre Uzatımı Onayı':
+                        templateText = "Sayın Prof. Dr. Ali Kaya,\n\nDeğerlendirme süresi uzatım talebiniz onaylanmıştır. Yeni değerlendirme son tarihiniz 15 Mart 2025'tir.\n\nAnlayışınız ve katkılarınız için teşekkür ederiz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                        break;
+                    case 'Süre Uzatımı Reddi':
+                        templateText = "Sayın Prof. Dr. Ali Kaya,\n\nDeğerlendirme süresi uzatım talebiniz değerlendirilmiş olup, maalesef yayın takvimimiz nedeniyle onaylanamamıştır. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz.\n\nAnlayışınız için teşekkür ederiz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                        break;
+                    case 'Değerlendirme Hatırlatması':
+                        templateText = "Sayın Prof. Dr. Ali Kaya,\n\n\"Tarihsel Semantik Analizler\" başlıklı makale için değerlendirmenizin son teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                        break;
+                    case 'Genel Bilgilendirme':
+                        templateText = "Sayın Prof. Dr. Ali Kaya,\n\nMesajınız alınmıştır. Talebinizle ilgili gereken işlemler yapılacaktır.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                        break;
+                    default:
+                        templateText = "";
+                }
+                
+                textarea.value = templateText;
+            });
+        }
+        
+        // Dosya Ekle butonu işlevi
+        const fileAttachBtn = document.querySelector('button[class*="btn-outline-secondary"] i.bi-paperclip').parentNode;
+        if (fileAttachBtn) {
+            fileAttachBtn.addEventListener('click', function() {
+                // Dosya input oluştur ve tıklat
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.multiple = true;
+                fileInput.style.display = 'none';
+                document.body.appendChild(fileInput);
+                
+                fileInput.click();
+                
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        let fileNames = '';
+                        for (let i = 0; i < this.files.length; i++) {
+                            fileNames += this.files[i].name + (i < this.files.length - 1 ? ', ' : '');
+                        }
+                        showNotification(`${this.files.length} dosya eklendi: ${fileNames}`, 'info');
+                        
+                        // Dosya eklendiğini göster
+                        const form = textarea.closest('form');
+                        let attachmentDiv = form.querySelector('.attachment-list');
+                        
+                        if (!attachmentDiv) {
+                            attachmentDiv = document.createElement('div');
+                            attachmentDiv.className = 'attachment-list mt-2';
+                            form.querySelector('.mb-3').appendChild(attachmentDiv);
+                        }
+                        
+                        // Dosya ekle
+                        for (let i = 0; i < this.files.length; i++) {
+                            const file = this.files[i];
+                            const attachItem = document.createElement('div');
+                            attachItem.className = 'attachment-item';
+                            attachItem.innerHTML = `
+                                <i class="bi bi-paperclip me-1"></i>
+                                ${file.name}
+                                <button type="button" class="btn btn-sm text-danger" style="padding: 0 5px;">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            `;
+                            
+                            // Dosya silme fonksiyonu
+                            const removeBtn = attachItem.querySelector('button');
+                            removeBtn.addEventListener('click', function() {
+                                attachItem.remove();
+                                showNotification('Dosya eki kaldırıldı', 'info');
+                            });
+                            
+                            attachmentDiv.appendChild(attachItem);
+                        }
+                    }
+                    
+                    // Input elementini kaldır
+                    document.body.removeChild(fileInput);
+                });
+            });
+        }
+        
+        // Emoji butonu işlevi
+        const emojiBtn = document.querySelector('button[class*="btn-outline-secondary"] i.bi-emoji-smile').parentNode;
+        if (emojiBtn) {
+            emojiBtn.addEventListener('click', function() {
+                const emojiList = ['😊', '👍', '🙏', '👋', '🔍', '📝', '📎', '📅', '⏰', '✉️'];
+                
+                const popover = document.createElement('div');
+                popover.className = 'card position-absolute';
+                popover.style.zIndex = '1050';
+                popover.style.width = '150px';
+                
+                let emojiContent = '<div class="card-body p-1 d-flex flex-wrap">';
+                emojiList.forEach(emoji => {
+                    emojiContent += `<button class="btn btn-sm m-1" style="font-size: 1.2rem;">${emoji}</button>`;
+                });
+                emojiContent += '</div>';
+                
+                popover.innerHTML = emojiContent;
+                
+                this.parentNode.appendChild(popover);
+                
+                // Emoji tıklama 
+                const emojiButtons = popover.querySelectorAll('button');
+                emojiButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        textarea.value += this.textContent;
+                        popover.remove();
+                    });
+                });
+                
+                // Dışarı tıklandığında kapat
+                document.addEventListener('click', function removePopover(e) {
+                    if (!popover.contains(e.target) && e.target !== emojiBtn) {
+                        popover.remove();
+                        document.removeEventListener('click', removePopover);
+                    }
+                });
+            });
+        }
+        
+        // Gönder butonu işlevi
+        const sendBtn = document.querySelector('button[type="submit"]');
+        if (sendBtn) {
+            sendBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (!textarea.value.trim()) {
+                    showNotification('Lütfen bir mesaj yazın', 'warning');
+                    return;
+                }
+                
+                // Yanıt gönderme animasyonu
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Gönderiliyor...';
+                
+                setTimeout(() => {
+                    showNotification('Yanıtınız başarıyla gönderildi', 'success');
+                    
+                    // Formu temizle
+                    textarea.value = '';
+                    const attachmentList = document.querySelector('.attachment-list');
+                    if (attachmentList) {
+                        attachmentList.innerHTML = '';
+                    }
+                    
+                    // Yanıtı konuşmaya ekle
+                    const conversationThread = document.querySelector('.conversation-thread');
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'card mb-3';
+                    newMessage.innerHTML = `
+                        <div class="card-header bg-light py-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>Süre Uzatımı Onayı</strong>
+                                    <span class="text-muted ms-2">Ayşe Yıldız → Prof. Dr. Ali Kaya</span>
+                                </div>
+                                <small>Şimdi</small>
+                            </div>
+                        </div>
+                        <div class="card-body py-2">
+                            <p class="mb-0">Sayın Prof. Dr. Ali Kaya, <br><br>
+                            Değerlendirme süresi uzatım talebiniz onaylanmıştır. Yeni değerlendirme son tarihiniz 15 Mart 2025'tir.<br><br>
+                            Anlayışınız ve katkılarınız için teşekkür ederiz.<br><br>
+                            Saygılarımızla,<br>
+                            Ayşe Yıldız<br>
+                            X Dergisi Sekreterliği</p>
+                        </div>
+                    `;
+                    
+                    conversationThread.insertBefore(newMessage, conversationThread.firstChild);
+                    
+                    // Butonu eski haline getir
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = 'Gönder';
+                    
+                    // Yazışma listesindeki durumu güncelle
+                    const activeMessage = document.querySelector('.message-item.active');
+                    if (activeMessage) {
+                        const badge = activeMessage.querySelector('.badge');
+                        badge.className = 'badge bg-success';
+                        badge.textContent = 'Yanıtlandı';
+                    }
+                }, 1500);
+            });
+        }
+        
+        // Yeni yazışma butonu 
+        const newCorrespondenceBtn = document.querySelector('.btn-outline-primary i.bi-envelope-plus').parentNode;
+        if (newCorrespondenceBtn) {
+            newCorrespondenceBtn.addEventListener('click', function() {
+                const modal = createModal(
+                    'Yeni Yazışma Oluştur',
+                    `
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipientType" class="form-label">Alıcı Tipi:</label>
+                            <select class="form-select" id="recipientType">
+                                <option selected>Seçiniz...</option>
+                                <option>Editör</option>
+                                <option>Hakem</option>
+                                <option>Yazar</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient" class="form-label">Alıcı:</label>
+                            <select class="form-select" id="recipient" disabled>
+                                <option selected>Önce alıcı tipi seçiniz...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="articleSelect" class="form-label">İlgili Makale:</label>
+                            <select class="form-select" id="articleSelect">
+                                <option selected>Seçiniz...</option>
+                                <option>ART-2025-0123: Eğitimde Uzaktan Öğrenme Teknolojileri</option>
+                                <option>ART-2025-0122: Doğal Dil İşleme Algoritmaları</option>
+                                <option>ART-2025-0121: Türkiye'de Göç Politikaları</option>
+                                <option>ART-2025-0120: Yeni Nesil Öğrenme Teknolojileri</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="messageType" class="form-label">Mesaj Tipi:</label>
+                            <select class="form-select" id="messageType">
+                                <option selected>Seçiniz...</option>
+                                <option>Hakem Daveti</option>
+                                <option>Revizyon Talebi</option>
+                                <option>Değerlendirme Hatırlatması</option>
+                                <option>Bilgilendirme</option>
+                                <option>Kabul Bildirimi</option>
+                                <option>Red Bildirimi</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="messageSubject" class="form-label">Konu:</label>
+                            <input type="text" class="form-control" id="messageSubject">
+                        </div>
+                        <div class="mb-3">
+                            <label for="messageContent" class="form-label">Mesaj:</label>
+                            <textarea class="form-control" id="messageContent" rows="5"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="attachments" class="form-label">Ekler:</label>
+                            <input type="file" class="form-control" id="attachments" multiple>
+                        </div>
+                    </form>
+                    `,
+                    `
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" id="sendNewMessage">Gönder</button>
+                    `
+                );
+                
+                // Alıcı tipi değiştiğinde ilgili alıcıları yükle
+                const recipientTypeSelect = document.getElementById('recipientType');
+                const recipientSelect = document.getElementById('recipient');
+                
+                if (recipientTypeSelect && recipientSelect) {
+                    recipientTypeSelect.addEventListener('change', function() {
+                        recipientSelect.disabled = false;
+                        recipientSelect.innerHTML = '';
+                        
+                        let options = '<option selected>Seçiniz...</option>';
+                        
+                        if (this.value === 'Editör') {
+                            options += `
+                                <option>Prof. Dr. Hakan Tekin (Baş Editör)</option>
+                                <option>Doç. Dr. Sevgi Yılmaz (Yardımcı Editör)</option>
+                                <option>Dr. Kemal Demir (Alan Editörü - Teknoloji)</option>
+                            `;
+                        } else if (this.value === 'Hakem') {
+                            options += `
+                                <option>Prof. Dr. Ali Kaya</option>
+                                <option>Doç. Dr. Zeynep Kartal</option>
+                                <option>Dr. Elif Demir</option>
+                                <option>Prof. Dr. Mehmet Öztürk</option>
+                            `;
+                        } else if (this.value === 'Yazar') {
+                            options += `
+                                <option>Dr. Ahmet Yılmaz</option>
+                                <option>Yrd. Doç. Dr. Sinem Yıldız</option>
+                                <option>Prof. Dr. Canan Özdemir</option>
+                            `;
+                        }
+                        
+                        recipientSelect.innerHTML = options;
+                    });
+                }
+                
+                // Mesaj tipi değiştiğinde şablon yükle
+                const messageTypeSelect = document.getElementById('messageType');
+                const messageContentTextarea = document.getElementById('messageContent');
+                const messageSubjectInput = document.getElementById('messageSubject');
+                
+                if (messageTypeSelect && messageContentTextarea && messageSubjectInput) {
+                    messageTypeSelect.addEventListener('change', function() {
+                        let templateText = '';
+                        let subjectText = '';
+                        
+                        switch(this.value) {
+                            case 'Hakem Daveti':
+                                subjectText = 'Hakemlik Daveti';
+                                templateText = "Sayın [Hakem Adı],\n\nX Dergisi'ne gönderilen \"[Makale Başlığı]\" başlıklı makaleyi değerlendirmeniz için davet ediyoruz. Uzmanlık alanınıza uygun olduğunu düşündüğümüz bu çalışmayı değerlendirmeyi kabul ederseniz memnun oluruz.\n\nDeğerlendirme için son tarih: [Tarih]\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                                break;
+                            case 'Revizyon Talebi':
+                                subjectText = 'Makale Revizyon Talebi';
+                                templateText = "Sayın [Yazar Adı],\n\nDergimize göndermiş olduğunuz \"[Makale Başlığı]\" başlıklı makalenizin hakem değerlendirmeleri tamamlanmıştır. Hakemlerimizin önerileri doğrultusunda makalenizde revizyon yapmanız gerekmektedir.\n\nRevizyon için son tarih: [Tarih]\n\nHakem raporlarına çevrimiçi sistemden erişebilirsiniz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                                break;
+                            case 'Değerlendirme Hatırlatması':
+                                subjectText = 'Değerlendirme Hatırlatması';
+                                templateText = "Sayın [Hakem Adı],\n\n\"[Makale Başlığı]\" başlıklı makale değerlendirmenizin teslim tarihi geçmiştir. Değerlendirmenizi en kısa sürede tamamlamanızı rica ederiz. Herhangi bir sorunuz veya ek süre talebiniz varsa lütfen bize bildiriniz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                                break;
+                            case 'Kabul Bildirimi':
+                                subjectText = 'Makale Kabul Bildirimi';
+                                templateText = "Sayın [Yazar Adı],\n\nDergimize göndermiş olduğunuz \"[Makale Başlığı]\" başlıklı makaleniz değerlendirme sürecini başarıyla tamamlamış ve yayın için kabul edilmiştir. Makaleniz [Cilt] [Sayı] ([Tarih])'de yayınlanacaktır.\n\nTeşekkür eder, çalışmalarınızda başarılar dileriz.\n\nSaygılarımızla,\nAyşe Yıldız\nX Dergisi Sekreterliği";
+                                break;
+                            default:
+                                subjectText = '';
+                                templateText = '';
+                        }
+                        
+                        messageSubjectInput.value = subjectText;
+                        messageContentTextarea.value = templateText;
+                    });
+                }
+                
+                // Yeni mesaj gönderme
+                const sendNewMessageBtn = document.getElementById('sendNewMessage');
+                if (sendNewMessageBtn) {
+                    sendNewMessageBtn.addEventListener('click', function() {
+                        // Form doğrulaması
+                        const recipientType = document.getElementById('recipientType').value;
+                        const recipient = document.getElementById('recipient').value;
+                        const article = document.getElementById('articleSelect').value;
+                        const messageType = document.getElementById('messageType').value;
+                        const subject = document.getElementById('messageSubject').value;
+                        const content = document.getElementById('messageContent').value;
+                        
+                        if (recipientType === 'Seçiniz...' || recipient === 'Seçiniz...' || article === 'Seçiniz...' || 
+                            messageType === 'Seçiniz...' || !subject.trim() || !content.trim()) {
+                            showNotification('Lütfen tüm alanları doldurun', 'warning');
+                            return;
+                        }
+                        
+                        // Mesaj gönderildi bildirimi
+                        modal.hide();
+                        showNotification('Yeni yazışma başarıyla oluşturuldu ve gönderildi', 'success');
+                        
+                        // Yazışma listesine ekle
+                        const messageList = document.querySelector('.list-group');
+                        const newMessageItem = document.createElement('a');
+                        newMessageItem.href = '#';
+                        newMessageItem.className = 'list-group-item list-group-item-action message-item unread p-3';
+                        newMessageItem.setAttribute('data-message-id', '8');
+                        
+                        const badge = messageType === 'Hakem Daveti' ? 'primary' : 
+                                    messageType === 'Revizyon Talebi' ? 'warning' : 
+                                    messageType === 'Kabul Bildirimi' ? 'success' : 'info';
+                        
+                        newMessageItem.innerHTML = `
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="mb-0">${recipient}</h6>
+                                <span class="badge bg-${badge}">${messageType}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="text-primary">${subject} - ${article.split(':')[0]}</div>
+                                <small>Şimdi</small>
+                            </div>
+                            <div class="message-preview text-muted small">
+                                ${content.substring(0, 80)}...
+                            </div>
+                        `;
+                        
+                        // Yeni mesajı listenin başına ekle
+                        messageList.insertBefore(newMessageItem, messageList.firstChild);
+                        
+                        // Mesaj öğesine tıklama işlevi ekle
+                        newMessageItem.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            
+                            // Tüm mesajlardaki aktif sınıfları kaldır
+                            document.querySelectorAll('.message-item').forEach(msg => {
+                                msg.classList.remove('active');
+                            });
+                            
+                            // Tıklanan mesaja aktif sınıfı ekle
+                            this.classList.add('active');
+                            
+                            // Tıklanan mesajdaki okunmamış işaretini kaldır
+                            this.classList.remove('unread');
+                            
+                            // Mesaj detaylarını güncelle
+                            const selectedMessage = document.getElementById('selectedMessage');
+                            const noMessageSelected = document.getElementById('noMessageSelected');
+                            
+                            if (selectedMessage && noMessageSelected) {
+                                selectedMessage.style.display = 'block';
+                                noMessageSelected.style.display = 'none';
+                                
+                                // Mesaj başlığını ve diğer detayları güncelle
+                                selectedMessage.querySelector('h5').textContent = subject;
+                                
+                                const badge = selectedMessage.querySelector('.correspondence-header .badge');
+                                badge.textContent = messageType;
+                                badge.className = `badge bg-${badge}`;
+                                
+                                // Gönderen bilgilerini güncelle
+                                const senderInfo = selectedMessage.querySelector('.correspondence-header .row div:first-child div:last-child');
+                                senderInfo.innerHTML = 'Ayşe Yıldız <span class="text-muted">(sekreter@xdergisi.com)</span>';
+                                
+                                // Alıcı bilgilerini güncelle
+                                const recipientInfo = selectedMessage.querySelectorAll('.correspondence-header .row div')[1].querySelector('div:last-child');
+                                recipientInfo.innerHTML = `${recipient} <span class="text-muted">(alici@email.com)</span>`;
+                                
+                                // Tarih bilgisini güncelle
+                                const dateInfo = selectedMessage.querySelectorAll('.correspondence-header .row div')[2].querySelector('div:last-child');
+                                dateInfo.textContent = '7 Mart 2025, Şimdi';
+                                
+                                // Makale bilgisini güncelle
+                                const articleInfo = selectedMessage.querySelectorAll('.correspondence-header .row div')[3].querySelector('div:last-child');
+                                articleInfo.innerHTML = `<a href="sekreter-makale-detay.html?id=${article.split(':')[0]}">${article}</a>`;
+                                
+                                // Mesaj içeriğini güncelle
+                                const messageBody = selectedMessage.querySelector('.correspondence-body');
+                                messageBody.innerHTML = `<p>Sayın ${recipient},</p>${content.split('\n').map(p => `<p>${p}</p>`).join('')}`;
+                                
+                                // Konuşma geçmişini temizle
+                                const conversationThread = selectedMessage.querySelector('.conversation-thread');
+                                conversationThread.innerHTML = `<h6 class="text-muted mb-3">Önceki Yazışmalar</h6><p class="text-muted">Bu yazışma için önceki mesaj bulunmamaktadır.</p>`;
+                            }
+                        });
+                    });
+                }
+            });
+        }
+        
+        // Yenile butonu 
+        const refreshBtn = document.querySelector('.btn-outline-secondary i.bi-arrow-clockwise').parentNode;
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                showNotification('Yazışmalar yenileniyor...', 'info');
+                
+                // Yenileme animasyonu
+                this.disabled = true;
+                const icon = this.querySelector('i');
+                icon.classList.add('rotating');
+                
+                setTimeout(() => {
+                    this.disabled = false;
+                    icon.classList.remove('rotating');
+                    showNotification('Yazışmalar güncellendi', 'success');
+                }, 1500);
+            });
+        }
+        
+        // Filtreleme işlevi
+        const filterBtn = document.querySelector('button.btn-outline-secondary i.bi-funnel').parentNode;
+        if (filterBtn) {
+            filterBtn.addEventListener('click', function() {
+                const typeSelect = document.querySelector('select.form-select option:checked').textContent;
+                const statusSelect = document.querySelectorAll('select.form-select')[1].options[document.querySelectorAll('select.form-select')[1].selectedIndex].textContent;
+                
+                showNotification(`Filtre uygulandı: ${typeSelect}, ${statusSelect}`, 'info');
+            });
+        }
+        
+        // CSS animasyonu için stil ekle
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rotating {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            .rotating {
+                animation: rotating 2s linear infinite;
+            }
+            .notification {
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                max-width: 350px;
+                z-index: 1060;
+                transition: all 0.3s ease-in-out;
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            .notification.show {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            @media print {
+                header, footer, .sidebar-container, .card-footer, .correspondence-footer, 
+                button:not([type="submit"]), .btn-group, input[type="file"] {
+                    display: none !important;
+                }
+                body {
+                    background-color: white !important;
+                }
+                .container {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                }
+                .content-area {
+                    width: 100% !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    });
+    
+    // Yardımcı fonksiyonlar
+    
+    // Bildirim gösterme
+    function showNotification(message, type) {
+        const notificationDiv = document.createElement('div');
+        notificationDiv.className = `notification toast align-items-center text-white bg-${type} border-0`;
+        notificationDiv.setAttribute('role', 'alert');
+        notificationDiv.setAttribute('aria-live', 'assertive');
+        notificationDiv.setAttribute('aria-atomic', 'true');
+        
+        notificationDiv.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Kapat"></button>
+            </div>
+        `;
+        
+        document.body.appendChild(notificationDiv);
+        
+        // Bildirim animasyonu
+        setTimeout(() => {
+            notificationDiv.classList.add('show');
+        }, 10);
+        
+        // Bildirim kapatma
+        const closeBtn = notificationDiv.querySelector('.btn-close');
+        closeBtn.addEventListener('click', function() {
+            notificationDiv.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(notificationDiv);
+            }, 300);
+        });
+        
+        // Otomatik kapanma
+        setTimeout(() => {
+            notificationDiv.classList.remove('show');
+            setTimeout(() => {
+                if (document.body.contains(notificationDiv)) {
+                    document.body.removeChild(notificationDiv);
+                }
+            }, 300);
+        }, 5000);
+    }
+    
+    // Modal oluşturma
+    function createModal(title, body, footer) {
+        const modalDiv = document.createElement('div');
+        modalDiv.className = 'modal fade';
+        modalDiv.id = 'dynamicModal';
+        modalDiv.setAttribute('tabindex', '-1');
+        modalDiv.setAttribute('aria-labelledby', 'dynamicModalLabel');
+        modalDiv.setAttribute('aria-hidden', 'true');
+        
+        modalDiv.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dynamicModalLabel">${title}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                    </div>
+                    <div class="modal-body">
+                        ${body}
+                    </div>
+                    <div class="modal-footer">
+                        ${footer}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modalDiv);
+        
+        const modal = new bootstrap.Modal(modalDiv);
+        modal.show();
+        
+        // Modal kapandığında DOM'dan kaldır
+        modalDiv.addEventListener('hidden.bs.modal', function() {
+            document.body.removeChild(modalDiv);
+        });
+        
+        return modal;
+    }
+    
+    // Tarih formatı
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('tr-TR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
+</script>
+</body>
+</html>
