@@ -45,7 +45,7 @@ class AuthorManager {
     }
 
     /**
-     * Yeni yazar ekle
+     * Yeni yazar ekle veya güncelle
      */
     async addAuthor() {
         if (this.isLoading) return;
@@ -83,37 +83,63 @@ class AuthorManager {
             return;
         }
 
-        // Draft mode - local array'e ekle
+        // Draft mode
         if (this.articleId === 'draft') {
-            const author = {
-                id: Date.now(),
-                title: title,
-                firstName: firstName,
-                middleName: middleName,
-                lastName: lastName,
-                phone: phone,
-                email1: email1,
-                email2: email2,
-                department: department,
-                institution: institution,
-                country: country,
-                orcidId: orcidId,
-                order: parseInt(order),
-                type: type
-            };
+            // Güncelleme modunda mı?
+            if (this.editingAuthorId !== null) {
+                // Mevcut yazarı bul ve güncelle
+                const index = this.authors.findIndex(a => a.id === this.editingAuthorId);
+                if (index !== -1) {
+                    this.authors[index] = {
+                        ...this.authors[index],
+                        title: title,
+                        firstName: firstName,
+                        middleName: middleName,
+                        lastName: lastName,
+                        phone: phone,
+                        email1: email1,
+                        email2: email2,
+                        department: department,
+                        institution: institution,
+                        country: country,
+                        orcidId: orcidId,
+                        order: parseInt(order),
+                        type: type
+                    };
+                    this.showSuccess('Yazar başarıyla güncellendi');
+                }
+            } else {
+                // Yeni yazar ekle
+                const author = {
+                    id: Date.now(),
+                    title: title,
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName,
+                    phone: phone,
+                    email1: email1,
+                    email2: email2,
+                    department: department,
+                    institution: institution,
+                    country: country,
+                    orcidId: orcidId,
+                    order: parseInt(order),
+                    type: type
+                };
 
-            this.authors.push(author);
+                this.authors.push(author);
+                this.showSuccess('Yazar başarıyla eklendi');
+            }
+
             this.renderAuthors();
             this.updateStatus();
             this.updateHiddenInputs();
             this.clearForm();
-            this.showSuccess('Yazar başarıyla eklendi');
             return;
         }
 
         // Normal mode - API'ye gönder
         this.isLoading = true;
-        this.showLoading('Yazar ekleniyor...');
 
         // FormData oluştur
         const formData = new FormData();
@@ -132,22 +158,37 @@ class AuthorManager {
         formData.append('type', type);
 
         try {
-            const response = await fetch(`${this.apiBaseUrl}/articles/${this.articleId}/authors`, {
-                method: 'POST',
+            let url, method, successMessage;
+
+            // Güncelleme mi ekleme mi?
+            if (this.editingAuthorId !== null) {
+                url = `${this.apiBaseUrl}/authors/${this.editingAuthorId}`;
+                method = 'PUT';
+                successMessage = 'Yazar başarıyla güncellendi';
+                this.showLoading('Yazar güncelleniyor...');
+            } else {
+                url = `${this.apiBaseUrl}/articles/${this.articleId}/authors`;
+                method = 'POST';
+                successMessage = 'Yazar başarıyla eklendi';
+                this.showLoading('Yazar ekleniyor...');
+            }
+
+            const response = await fetch(url, {
+                method: method,
                 body: formData
             });
 
             const result = await response.json();
 
             if (result.success) {
-                this.showSuccess('Yazar başarıyla eklendi');
+                this.showSuccess(successMessage);
                 this.clearForm();
                 await this.loadAuthors();
             } else {
-                this.showError(result.error || 'Yazar eklenirken hata oluştu');
+                this.showError(result.error || 'İşlem sırasında hata oluştu');
             }
         } catch (error) {
-            console.error('Yazar ekleme hatası:', error);
+            console.error('Yazar işlem hatası:', error);
             this.showError('Sunucu hatası oluştu');
         } finally {
             this.isLoading = false;
