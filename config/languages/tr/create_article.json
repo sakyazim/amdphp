@@ -1,0 +1,102 @@
+{
+  "page_title": "Yeni Makale Başvurusu",
+  "step_labels": {
+    "1": "Makale Bilgileri",
+    "2": "Yazar Bilgileri",
+    "3": "Referanslar",
+    "4": "Hakem Önerileri",
+    "5": "Dosya Yükleme",
+    "6": "Editöre Not",
+    "7": "Kontrol Listesi",
+    "8": "Önizleme ve Gönder"
+  },
+  "form": {
+    "article_type": "Makale Türü",
+    "article_type_placeholder": "Seçiniz...",
+    "article_subject": "Makale Konusu",
+    "article_language": "Makale Dili",
+    "article_title": "Makale Başlığı",
+    "article_title_placeholder": "Makale başlığını giriniz",
+    "article_title_en": "Makale Başlığı (İngilizce)",
+    "abstract": "Özet",
+    "abstract_placeholder": "Makale özetini giriniz (en az 150 kelime)",
+    "abstract_en": "Özet (İngilizce)",
+    "keywords": "Anahtar Kelimeler",
+    "keywords_placeholder": "Virgül ile ayırarak giriniz (en az 3 anahtar kelime)",
+    "keywords_en": "Anahtar Kelimeler (İngilizce)",
+    "author": {
+      "title": "Yazar Bilgileri",
+      "add": "Yazar Ekle",
+      "name": "Ad",
+      "surname": "Soyad",
+      "email": "Email",
+      "institution": "Kurum",
+      "department": "Departman",
+      "country": "Ülke",
+      "orcid": "ORCID",
+      "corresponding": "Sorumlu Yazar",
+      "order": "Sıra"
+    },
+    "reference": {
+      "title": "Referanslar",
+      "add": "Referans Ekle",
+      "add_multiple": "Toplu Ekle",
+      "mode_single": "Tek Tek Ekle",
+      "mode_bulk": "Toplu Ekle",
+      "paste_here": "Referansları buraya yapıştırın (Her satır bir referans)",
+      "parse": "Referansları İşle",
+      "found": "Bulunan Referanslar"
+    },
+    "reviewer": {
+      "title": "Önerilen Hakemler",
+      "add": "Hakem Ekle",
+      "min_required": "En az {count} hakem önermeniz gerekmektedir",
+      "name": "Ad",
+      "surname": "Soyad",
+      "email": "Email",
+      "institution": "Kurum",
+      "expertise": "Uzmanlık Alanı",
+      "notes": "Notlar (Neden bu hakemi öneriyorsunuz?)"
+    },
+    "file": {
+      "title": "Dosya Yükleme",
+      "manuscript": "Tam Metin (PDF)",
+      "manuscript_desc": "En fazla 10 MB",
+      "form": "Yayın Hakkı Devir Formu",
+      "form_desc": "En fazla 5 MB",
+      "supplements": "Ek Dosyalar (Opsiyonel)",
+      "supplements_desc": "En fazla 20 MB (her dosya)",
+      "uploaded": "Yüklenen Dosyalar",
+      "no_files": "Henüz dosya yüklenmedi"
+    },
+    "editor_note": {
+      "title": "Editöre Not (Opsiyonel)",
+      "placeholder": "Makaleniz ile ilgili editöre iletmek istediğiniz özel notlar veya açıklamalar...",
+      "char_count": "{count} / 1000 karakter"
+    },
+    "checklist": {
+      "title": "Gönderim Öncesi Kontrol Listesi",
+      "progress": "İlerleme",
+      "check_all": "Tümünü İşaretle",
+      "category_1": "Makale Bilgileri",
+      "category_2": "Yazar Bilgileri",
+      "category_3": "Etik ve Telif Hakları"
+    }
+  },
+  "buttons": {
+    "save_draft": "Taslak Kaydet",
+    "auto_save": "Otomatik kayıt aktif (30 saniye)",
+    "continue": "Devam Et",
+    "submit": "Makaleyi Gönder"
+  },
+  "messages": {
+    "draft_saved": "Taslak kaydedildi",
+    "draft_loaded": "Taslak yüklendi",
+    "author_added": "Yazar eklendi",
+    "reference_added": "Referans eklendi",
+    "reviewer_added": "Hakem eklendi",
+    "file_uploaded": "Dosya yüklendi",
+    "submit_success": "Makale başarıyla gönderildi",
+    "submit_error": "Makale gönderilemedi, lütfen kontrol edin"
+  }
+}

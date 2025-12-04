@@ -144,7 +144,7 @@ class ArticleController
             'anahtar_kelimeler_en' => trim($_POST['anahtar_kelimeler_en'] ?? ''),
             'makale_turu' => $_POST['makale_turu'] ?? '',
             'makale_konusu' => $_POST['makale_konusu'] ?? '',
-            'referanslar' => trim($_POST['referanslar'] ?? ''),
+            'referanslar' => $_POST['referanslar'] ?? [],
         ];
 
         // Validasyon
@@ -266,7 +266,7 @@ class ArticleController
             'anahtar_kelimeler_en' => trim($_POST['anahtar_kelimeler_en'] ?? ''),
             'makale_turu' => $_POST['makale_turu'] ?? '',
             'makale_konusu' => $_POST['makale_konusu'] ?? '',
-            'referanslar' => trim($_POST['referanslar'] ?? ''),
+            'referanslar' => $_POST['referanslar'] ?? [],
         ];
 
         // Validasyon

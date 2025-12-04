@@ -1,0 +1,79 @@
+{
+  "buttons": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "submit": "Gönder",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "add": "Ekle",
+    "remove": "Kaldır",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "clear": "Temizle",
+    "close": "Kapat",
+    "back": "Geri",
+    "next": "İleri",
+    "previous": "Önceki",
+    "confirm": "Onayla",
+    "view": "Görüntüle",
+    "download": "İndir",
+    "upload": "Yükle"
+  },
+  "messages": {
+    "success": "İşlem başarılı",
+    "error": "Bir hata oluştu",
+    "warning": "Uyarı",
+    "info": "Bilgi",
+    "confirm_delete": "Silmek istediğinize emin misiniz?",
+    "no_data": "Veri bulunamadı",
+    "loading": "Yükleniyor...",
+    "saving": "Kaydediliyor...",
+    "please_wait": "Lütfen bekleyin...",
+    "required_field": "Bu alan zorunludur",
+    "invalid_email": "Geçersiz email adresi",
+    "invalid_format": "Geçersiz format"
+  },
+  "validation": {
+    "required": "Bu alan zorunludur",
+    "email": "Geçerli bir email adresi giriniz",
+    "min_length": "En az {min} karakter olmalıdır",
+    "max_length": "En fazla {max} karakter olabilir",
+    "number": "Sayı olmalıdır",
+    "url": "Geçerli bir URL giriniz"
+  },
+  "pagination": {
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "first": "İlk",
+    "last": "Son",
+    "showing": "Gösterilen: {start} - {end} / {total}"
+  },
+  "datetime": {
+    "today": "Bugün",
+    "yesterday": "Dün",
+    "tomorrow": "Yarın",
+    "months": {
+      "1": "Ocak",
+      "2": "Şubat",
+      "3": "Mart",
+      "4": "Nisan",
+      "5": "Mayıs",
+      "6": "Haziran",
+      "7": "Temmuz",
+      "8": "Ağustos",
+      "9": "Eylül",
+      "10": "Ekim",
+      "11": "Kasım",
+      "12": "Aralık"
+    },
+    "days": {
+      "0": "Pazar",
+      "1": "Pazartesi",
+      "2": "Salı",
+      "3": "Çarşamba",
+      "4": "Perşembe",
+      "5": "Cuma",
+      "6": "Cumartesi"
+    }
+  }
+}

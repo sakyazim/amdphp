@@ -122,6 +122,28 @@ class YazarController
     }
 
     /**
+     * Taslak makaleler listesi
+     */
+    public function taslaklar(): void
+    {
+        AuthMiddleware::requireAuth();
+
+        $user = AuthMiddleware::user();
+
+        // Yazar rolü kontrolü
+        if (!in_array('Yazar', $user['roles'])) {
+            $_SESSION['error'] = 'Bu sayfaya erişim yetkiniz yok';
+            redirect(base_url('dashboard'));
+            return;
+        }
+
+        $this->view('author/drafts', [
+            'title' => 'Taslak Makalelerim',
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * View render helper
      */
     private function view(string $view, array $data = []): void

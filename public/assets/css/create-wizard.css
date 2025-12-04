@@ -1,0 +1,115 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+.wizard-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.progress-info {
+    margin-bottom: 1rem;
+}
+.wizard-steps {
+    background: #f8f9fa;
+    padding: 1.5rem 1rem;
+    border-radius: 8px 0 0 8px;
+    height: 100%;
+}
+.step-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: all 0.3s;
+    position: relative;
+}
+.step-link:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+.step-link.active {
+    background: #667eea;
+    color: white;
+}
+.step-link.completed {
+    background: #d4edda;
+    color: #155724;
+}
+.step-link .step-status {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.step-link.completed .step-status::before {
+    content: "\f058";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #28a745;
+}
+.step-content {
+    padding: 2rem;
+}
+.step-title {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+.form-section-title {
+    color: #495057;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+.btn-navigation {
+    min-width: 120px;
+}
+.char-counter {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* Method seçim kartları */
+.method-option {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.method-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.method-option.border-primary {
+    border-width: 2px !important;
+}
+/* Auto-resize textarea */
+.auto-resize, .reference-input {
+    resize: none;
+    overflow: hidden;
+    min-height: 38px;
+}
+.reference-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+/* Referans limit uyarısı */
+.reference-input.is-invalid, #bulkReferences.is-invalid {
+    border-color: #dc3545;
+}
+/* Yazar ve hakem tabloları */
+.table th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+}
+.author-badge, .reviewer-badge {
+    font-size: 0.8rem;
+}

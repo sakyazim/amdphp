@@ -92,6 +92,71 @@ $router->post('/makaleler/{id}/durum', 'ArticleController@updateStatus');
 $router->get('/yazar/dashboard', 'YazarController@dashboard');
 $router->get('/yazar/makalelerim', 'YazarController@makalelerim');
 $router->get('/yazar/yeni-makale', 'YazarController@yeniMakale');
+$router->get('/yazar/taslaklar', 'YazarController@taslaklar');
+
+// ============================================
+// AUTHOR API ROUTES
+// ============================================
+
+// Email ile yazar arama
+$router->get('/api/authors/search-by-email', 'AuthorController@searchByEmail');
+
+// ORCID ile yazar arama
+$router->get('/api/authors/search-by-orcid', 'AuthorController@searchByOrcid');
+
+// Yazar profili oluştur/güncelle
+$router->post('/api/authors/profile', 'AuthorController@updateProfile');
+
+// Yazar bilgilerini getir
+$router->get('/api/authors/{id}', 'AuthorController@getAuthor');
+
+// Makaleye co-author ekle
+$router->post('/api/articles/{id}/authors', 'AuthorController@addCoAuthor');
+
+// ============================================
+// REFERENCE API ROUTES
+// ============================================
+
+// Toplu referans parse et
+$router->post('/api/references/parse-bulk', 'ReferenceController@parseBulk');
+
+// Tek referans validate et
+$router->post('/api/references/validate', 'ReferenceController@validate');
+
+// Sadece geçerli referansları filtrele
+$router->post('/api/references/filter-valid', 'ReferenceController@filterValid');
+
+// ============================================
+// DRAFT (TASLAK) API ROUTES
+// ============================================
+
+// Taslak kaydet (otomatik/manuel)
+$router->post('/api/drafts/save', 'TaslakController@save');
+
+// Taslak listesi
+$router->get('/api/drafts', 'TaslakController@listDrafts');
+
+// Taslak yükle
+$router->get('/api/drafts/{id}', 'TaslakController@load');
+
+// Taslak sil
+$router->post('/api/drafts/{id}/delete', 'TaslakController@delete');
+
+// ============================================
+// REVIEWER (HAKEM) API ROUTES
+// ============================================
+
+// Hakem ekle
+$router->post('/api/articles/{id}/reviewers', 'ReviewerController@addReviewer');
+
+// Hakem listesi
+$router->get('/api/articles/{id}/reviewers', 'ReviewerController@listReviewers');
+
+// Hakem sil
+$router->delete('/api/reviewers/{id}', 'ReviewerController@deleteReviewer');
+
+// Hakem sayısı kontrolü (validasyon)
+$router->get('/api/articles/{id}/reviewers/validate', 'ReviewerController@validate');
 
 // ============================================
 // DATABASE TEST ENDPOINTS

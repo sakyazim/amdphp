@@ -1,0 +1,212 @@
+/**
+ * Yazar Arama UI Stilleri
+ * author-search.js modülü için CSS
+ */
+
+/* Ana container */
+.author-search-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Sonuç container */
+.author-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+/* Tek bir sonuç kartı */
+.author-search-result {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 1rem;
+}
+
+/* Bulunan sonuç */
+.author-search-result.found {
+    border-color: #28a745;
+}
+
+/* Bulunamadı */
+.author-search-result.not-found {
+    border-color: #ffc107;
+    background: #fff3cd;
+}
+
+/* Hata */
+.author-search-result.error {
+    border-color: #dc3545;
+    background: #f8d7da;
+}
+
+/* Loading */
+.author-search-result.loading {
+    border-color: #17a2b8;
+    background: #d1ecf1;
+}
+
+/* Sonuç başlığı */
+.author-search-result .result-header {
+    margin-bottom: 0.5rem;
+}
+
+/* Sonuç içeriği */
+.author-search-result .result-body {
+    margin-bottom: 0.75rem;
+}
+
+.author-search-result .result-body strong {
+    font-size: 1.1rem;
+    color: #212529;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.author-search-result .result-body p {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Sonuç footer */
+.author-search-result .result-footer {
+    border-top: 1px solid #e9ecef;
+    padding-top: 0.75rem;
+    text-align: right;
+}
+
+/* Badge stilleri */
+.author-search-result .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Buton stilleri */
+.author-search-result .btn {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Loading spinner animasyonu */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spinner.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .author-search-result {
+        padding: 0.75rem;
+    }
+
+    .author-search-result .result-body strong {
+        font-size: 1rem;
+    }
+
+    .author-search-result .result-body p {
+        font-size: 0.8125rem;
+    }
+
+    .author-search-result .btn {
+        font-size: 0.8125rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .author-search-result {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+
+    .author-search-result.found {
+        border-color: #48bb78;
+    }
+
+    .author-search-result.not-found {
+        background: #744210;
+        border-color: #d69e2e;
+    }
+
+    .author-search-result.error {
+        background: #742a2a;
+        border-color: #fc8181;
+    }
+
+    .author-search-result.loading {
+        background: #2c5282;
+        border-color: #63b3ed;
+    }
+
+    .author-search-result .result-body strong {
+        color: #f7fafc;
+    }
+
+    .author-search-result .result-footer {
+        border-top-color: #4a5568;
+    }
+}
+
+/* Input highlight on search */
+.author-search-container input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* ORCID input özel stil */
+input[name="author_orcid"],
+input#author-orcid {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05em;
+}
+
+/* Email input özel stil */
+input[name="author_email"],
+input#author-email {
+    text-transform: lowercase;
+}
+
+/* Hover effects */
+.author-search-result .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.author-search-result .btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Icon styles */
+.author-search-result i.fas {
+    margin-right: 0.25rem;
+}
+
+/* Transition effects */
+.author-search-results {
+    animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

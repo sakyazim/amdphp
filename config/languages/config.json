@@ -1,0 +1,93 @@
+{
+  "available_languages": [
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "native_name": "Türkçe",
+      "direction": "ltr",
+      "enabled": true,
+      "default": true,
+      "flag": "🇹🇷"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "native_name": "English",
+      "direction": "ltr",
+      "enabled": true,
+      "default": false,
+      "flag": "🇬🇧"
+    },
+    {
+      "code": "ar",
+      "name": "Arabic",
+      "native_name": "العربية",
+      "direction": "rtl",
+      "enabled": false,
+      "default": false,
+      "flag": "🇸🇦",
+      "note": "RTL (Right-to-Left) dil desteği"
+    },
+    {
+      "code": "ja",
+      "name": "Japanese",
+      "native_name": "日本語",
+      "direction": "ltr",
+      "enabled": false,
+      "default": false,
+      "flag": "🇯🇵",
+      "note": "UTF-8mb4 ile tam destek"
+    },
+    {
+      "code": "ru",
+      "name": "Russian",
+      "native_name": "Русский",
+      "direction": "ltr",
+      "enabled": false,
+      "default": false,
+      "flag": "🇷🇺",
+      "note": "Kril alfabesi desteği"
+    },
+    {
+      "code": "zh",
+      "name": "Chinese",
+      "native_name": "中文",
+      "direction": "ltr",
+      "enabled": false,
+      "default": false,
+      "flag": "🇨🇳",
+      "note": "Basitleştirilmiş Çince"
+    },
+    {
+      "code": "de",
+      "name": "German",
+      "native_name": "Deutsch",
+      "direction": "ltr",
+      "enabled": false,
+      "default": false,
+      "flag": "🇩🇪"
+    },
+    {
+      "code": "fr",
+      "name": "French",
+      "native_name": "Français",
+      "direction": "ltr",
+      "enabled": false,
+      "default": false,
+      "flag": "🇫🇷"
+    },
+    {
+      "code": "ko",
+      "name": "Korean",
+      "native_name": "한국어",
+      "direction": "ltr",
+      "enabled": false,
+      "default": false,
+      "flag": "🇰🇷"
+    }
+  ],
+  "fallback_language": "en",
+  "cache_enabled": true,
+  "cache_ttl": 3600,
+  "auto_detect_browser_language": true
+}

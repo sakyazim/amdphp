@@ -1,0 +1,102 @@
+{
+  "page_title": "New Article Submission",
+  "step_labels": {
+    "1": "Article Information",
+    "2": "Author Information",
+    "3": "References",
+    "4": "Suggested Reviewers",
+    "5": "File Upload",
+    "6": "Note to Editor",
+    "7": "Checklist",
+    "8": "Preview and Submit"
+  },
+  "form": {
+    "article_type": "Article Type",
+    "article_type_placeholder": "Select...",
+    "article_subject": "Article Subject",
+    "article_language": "Article Language",
+    "article_title": "Article Title",
+    "article_title_placeholder": "Enter article title",
+    "article_title_en": "Article Title (English)",
+    "abstract": "Abstract",
+    "abstract_placeholder": "Enter article abstract (minimum 150 words)",
+    "abstract_en": "Abstract (English)",
+    "keywords": "Keywords",
+    "keywords_placeholder": "Separate with commas (minimum 3 keywords)",
+    "keywords_en": "Keywords (English)",
+    "author": {
+      "title": "Author Information",
+      "add": "Add Author",
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "institution": "Institution",
+      "department": "Department",
+      "country": "Country",
+      "orcid": "ORCID",
+      "corresponding": "Corresponding Author",
+      "order": "Order"
+    },
+    "reference": {
+      "title": "References",
+      "add": "Add Reference",
+      "add_multiple": "Add Multiple",
+      "mode_single": "Add One by One",
+      "mode_bulk": "Add Multiple",
+      "paste_here": "Paste references here (One reference per line)",
+      "parse": "Process References",
+      "found": "Found References"
+    },
+    "reviewer": {
+      "title": "Suggested Reviewers",
+      "add": "Add Reviewer",
+      "min_required": "You must suggest at least {count} reviewers",
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "institution": "Institution",
+      "expertise": "Area of Expertise",
+      "notes": "Notes (Why do you suggest this reviewer?)"
+    },
+    "file": {
+      "title": "File Upload",
+      "manuscript": "Full Text (PDF)",
+      "manuscript_desc": "Maximum 10 MB",
+      "form": "Copyright Transfer Form",
+      "form_desc": "Maximum 5 MB",
+      "supplements": "Supplementary Files (Optional)",
+      "supplements_desc": "Maximum 20 MB (per file)",
+      "uploaded": "Uploaded Files",
+      "no_files": "No files uploaded yet"
+    },
+    "editor_note": {
+      "title": "Note to Editor (Optional)",
+      "placeholder": "Any special notes or comments you would like to share with the editor...",
+      "char_count": "{count} / 1000 characters"
+    },
+    "checklist": {
+      "title": "Submission Checklist",
+      "progress": "Progress",
+      "check_all": "Check All",
+      "category_1": "Article Information",
+      "category_2": "Author Information",
+      "category_3": "Ethics and Copyright"
+    }
+  },
+  "buttons": {
+    "save_draft": "Save Draft",
+    "auto_save": "Auto-save active (30 seconds)",
+    "continue": "Continue",
+    "submit": "Submit Article"
+  },
+  "messages": {
+    "draft_saved": "Draft saved",
+    "draft_loaded": "Draft loaded",
+    "author_added": "Author added",
+    "reference_added": "Reference added",
+    "reviewer_added": "Reviewer added",
+    "file_uploaded": "File uploaded",
+    "submit_success": "Article submitted successfully",
+    "submit_error": "Article could not be submitted, please check"
+  }
+}

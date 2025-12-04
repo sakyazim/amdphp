@@ -104,11 +104,23 @@ class AuthMiddleware
      */
     public static function requireCsrfToken(): void
     {
+        // GET isteklerinde CSRF kontrolü yapma
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            return;
+        }
+
         if (!self::verifyCsrfToken()) {
             http_response_code(403);
+            header('Content-Type: application/json; charset=utf-8');
             echo json_encode([
                 'error' => true,
-                'message' => 'Geçersiz CSRF token'
+                'message' => 'Geçersiz CSRF token',
+                'debug' => [
+                    'method' => $_SERVER['REQUEST_METHOD'],
+                    'has_post_token' => isset($_POST['_csrf_token']),
+                    'has_header_token' => isset($_SERVER['HTTP_X_CSRF_TOKEN']),
+                    'session_token_exists' => isset($_SESSION['_csrf_token'])
+                ]
             ]);
             exit;
         }

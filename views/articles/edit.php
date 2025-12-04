@@ -91,7 +91,7 @@
             <div class="card-body p-4">
                 <form method="POST" action="<?= base_url('/makaleler/' . $makale['id']) ?>">
                     <!-- CSRF Token -->
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+                    <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token'] ?? '' ?>">
 
                     <!-- Makale Türü -->
                     <h5 class="form-section-title">

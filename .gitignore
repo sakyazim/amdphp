@@ -37,4 +37,20 @@ composer.phar
 
 # Backup
 *.sql
+!database-setup.sql
+!database-reviewer-table.sql
+!eksik.sql
+!database-form-completion.sql
 *.backup
+
+# Temporary files
+nul
+*.tmp
+*~
+
+# Old versions / Archive
+/old/
+
+# Personal notes (optional - uncomment if you don't want to commit)
+# deepseek.md
+# taslak-ayarla.md

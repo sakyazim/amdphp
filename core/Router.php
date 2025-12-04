@@ -126,7 +126,28 @@ class Router
             $controllerClass = "App\\Controllers\\{$controller}";
 
             if (class_exists($controllerClass)) {
-                $instance = new $controllerClass();
+                // Controller'a tenant database connection'ı geç
+                try {
+                    $db = null;
+                    if ($this->tenant) {
+                        $db = \Core\Database::getTenantConnection($this->tenant->database_name);
+                    }
+
+                    // Constructor parametresi olup olmadığını kontrol et
+                    $reflection = new \ReflectionClass($controllerClass);
+                    $constructor = $reflection->getConstructor();
+
+                    if ($constructor && $constructor->getNumberOfParameters() > 0) {
+                        // Constructor parametre alıyorsa db'yi geç
+                        $instance = new $controllerClass($db);
+                    } else {
+                        // Constructor parametre almıyorsa normal oluştur
+                        $instance = new $controllerClass();
+                    }
+                } catch (\Exception $e) {
+                    // Hata durumunda parametresiz dene
+                    $instance = new $controllerClass();
+                }
 
                 if (method_exists($instance, $method)) {
                     call_user_func_array([$instance, $method], $params);
