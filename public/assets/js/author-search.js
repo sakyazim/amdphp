@@ -177,7 +177,7 @@ class AuthorSearch {
                         <span class="badge badge-success">${source}</span>
                     </div>
                     <div class="result-body">
-                        <strong>${this.escapeHtml(author.name || 'İsimsiz')}</strong>
+                        <strong>${this.escapeHtml(author.name || author.first_name + ' ' + author.last_name || 'İsimsiz')}</strong>
                         <p class="text-muted mb-1">
                             ${author.title ? this.escapeHtml(author.title) + ' - ' : ''}
                             ${this.escapeHtml(author.institution || 'Kurum belirtilmemiş')}
@@ -187,13 +187,23 @@ class AuthorSearch {
                         ${author.orcid ? `<p class="text-muted mb-1">ORCID: ${this.escapeHtml(author.orcid)}</p>` : ''}
                     </div>
                     <div class="result-footer">
-                        <button type="button" class="btn btn-sm btn-primary" onclick="authorSearch.fillForm(${this.escapeHtml(JSON.stringify(author))})">
+                        <button type="button" class="btn btn-sm btn-primary use-author-btn">
                             <i class="fas fa-check"></i> Bu Yazarı Kullan
                         </button>
                     </div>
                 </div>
             `;
             this.emailResultContainer.style.display = 'block';
+
+            // Event listener ekle (onclick yerine)
+            const useBtn = this.emailResultContainer.querySelector('.use-author-btn');
+            if (useBtn) {
+                useBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.fillForm(author);
+                });
+            }
         } else {
             this.emailResultContainer.innerHTML = `
                 <div class="author-search-result not-found">
@@ -222,7 +232,7 @@ class AuthorSearch {
                         <span class="badge ${data.source === 'internal' ? 'badge-success' : 'badge-info'}">${source}</span>
                     </div>
                     <div class="result-body">
-                        <strong>${this.escapeHtml(author.name || 'İsimsiz')}</strong>
+                        <strong>${this.escapeHtml(author.name || author.first_name + ' ' + author.last_name || 'İsimsiz')}</strong>
                         <p class="text-muted mb-1">
                             ${author.title ? this.escapeHtml(author.title) + ' - ' : ''}
                             ${this.escapeHtml(author.institution || 'Kurum belirtilmemiş')}
@@ -233,13 +243,23 @@ class AuthorSearch {
                         <p class="text-muted mb-1">ORCID: ${this.escapeHtml(author.orcid)}</p>
                     </div>
                     <div class="result-footer">
-                        <button type="button" class="btn btn-sm btn-primary" onclick="authorSearch.fillForm(${this.escapeHtml(JSON.stringify(author))})">
+                        <button type="button" class="btn btn-sm btn-primary use-author-btn">
                             <i class="fas fa-check"></i> Bu Yazarı Kullan
                         </button>
                     </div>
                 </div>
             `;
             this.orcidResultContainer.style.display = 'block';
+
+            // Event listener ekle (onclick yerine)
+            const useBtn = this.orcidResultContainer.querySelector('.use-author-btn');
+            if (useBtn) {
+                useBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.fillForm(author);
+                });
+            }
         } else {
             this.orcidResultContainer.innerHTML = `
                 <div class="author-search-result not-found">
